@@ -10,7 +10,7 @@ const SplashScreen = () => {
 	useEffect( () => {
 		const dissappear = setTimeout(() => {
 			setAnimate(false);
-		}, 5000)
+		}, 3500)
 
 		return () => clearInterval(dissappear);
 	}, []);
