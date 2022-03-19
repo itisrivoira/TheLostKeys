@@ -1,7 +1,8 @@
-// Bottoni
+// Bottoni del menu Principale
+
 import { useEffect, useState } from "react";
 import { Button, Image } from "react-bootstrap";
-import { BiMicrophoneOff, BiMicrophone } from "react-icons/bi";
+import { MdMusicNote, MdMusicOff } from "react-icons/md";
 
 import '../style/App.css';
 
@@ -18,7 +19,7 @@ import penPlayWhite from "../assets/img/penPlayWhite.png";
 import penOptionsWhite from "../assets/img/penOptionsWhite.png";
 import penLoginWhite from "../assets/img/penLoginWhite.png";
 
-export const BtnPlay = () => {
+export const BtnPlay = ({callback}) => {
 	const [state, setState] = useState(false);	// stato per la transizione
 
 	const enter = () => setState(true);
@@ -31,13 +32,13 @@ export const BtnPlay = () => {
 			onMouseLeave={leave}
 			height={175}
 			width={325}
-			onClick={() => alert('Il gioco inizierà da qui')}
+			onClick={callback}
 			fluid
 		/>
 	)
 }
 
-export const BtnOptions = () => {
+export const BtnOptions = ({callback}) => {
 	const [state, setState] = useState(false);
 
 	const enter = () => setState(true);
@@ -50,13 +51,13 @@ export const BtnOptions = () => {
 			onMouseLeave={leave}
 			height={175}
 			width={325}
-			onClick={() => alert('Opzioni')}
+			onClick={callback}
 			fluid
 		/>
 	)
 }
 
-export const BtnLogin = () => {
+export const BtnLogin = ({callback}) => {
 	const [state, setState] = useState(false);
 
 	const enter = () => setState(true);
@@ -69,7 +70,7 @@ export const BtnLogin = () => {
 			onMouseLeave={leave}
 			height={175}
 			width={325}
-			onClick={() => alert('Login')}
+			onClick={callback}
 			fluid
 		/>
 	)
@@ -79,8 +80,8 @@ export const BtnMusic = () => {
 	const [playing, toggle] = useAudio(rainSound, true);
 	const [thunder, setThunder] = useAudio(thunderSound, false);
 	const [thunder2, setThunder2] = useAudio(thunderSound2, false);
-	const [delay1, setDelay1] = useState([12000, 14000]);
-	const [delay2, setDelay2] = useState([7000, 9000]);
+	const [delay1, setDelay1] = useState([8000, 13000]);
+	const [delay2, setDelay2] = useState([4000, 8000]);
 
 	useRandomInterval(() => setThunder(), ...delay1);
 	useRandomInterval(() => setThunder2(), ...delay2);
@@ -92,13 +93,13 @@ export const BtnMusic = () => {
 	}
 
 	useEffect( () => {
-		setDelay1([12000, playing ? 14000 : null]);
-		setDelay2([7000, playing ? 9000 : null]);
+		setDelay1([8000, playing ? 13000 : null]);
+		setDelay2([4000, playing ? 8000 : null]);
 	}, [playing])
 
 	return(
 		<Button variant="secondary" onClick={toggleAudio}>
-			{ playing ? <BiMicrophone size={55} /> : <BiMicrophoneOff size={55} />}
+			{ playing ? <MdMusicNote size={55} /> : <MdMusicOff size={55} />}
 		</Button>
 	)
 }

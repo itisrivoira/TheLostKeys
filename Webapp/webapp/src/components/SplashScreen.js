@@ -1,3 +1,5 @@
+// Splashscreen della Web App (work in progress)
+
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Image } from "react-bootstrap";
 
