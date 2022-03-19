@@ -2,7 +2,7 @@
 
 import { Col } from "react-bootstrap";
 
-export default () => (
+const Footer = () => (
 	<>
 		<Col className="mt-5">
 			<p className="text-center text-white fs-1 txt-pixel">
@@ -16,3 +16,5 @@ export default () => (
 		</Col>
 	</>
 )
+
+export default Footer;
