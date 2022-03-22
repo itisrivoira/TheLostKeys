@@ -1,15 +1,19 @@
 // Componente root della Web App
 
 import { Col, Container, Row } from "react-bootstrap";
+import { useState } from "react";
 
 import SplashScreen from "./components/SplashScreen";
 import Title from "./components/Title";
 import Footer from "./components/Footer";
+import Options from "./components/Options";
 import { BtnPlay, BtnOptions, BtnLogin, BtnMusic} from "./components/Buttons";
 
 import './style/App.css';
 
+
 const App = () => {
+	const [optionState, setOptionState] = useState(false);
 
 	return (
 		<>
@@ -19,7 +23,7 @@ const App = () => {
 				</Row>
 				<Row className="p-3 w-75 position-absolute top-50 start-50 translate-middle">
 					<Col className="d-flex justify-content-start" xxl={4}>
-						<BtnOptions callback={() => alert('Opzioni')} />
+						<BtnOptions callback={() => setOptionState(true)} />
 					</Col>
 					<Col className="d-flex justify-content-center" xxl={4}>
 						<BtnPlay callback={() => alert('Play!')} />
@@ -37,6 +41,7 @@ const App = () => {
 					</Col>
 				</Row>
 			</Container>
+			<Options show={optionState} onHide={() => setOptionState(false)} />
 			<SplashScreen />
 		</>
 	);

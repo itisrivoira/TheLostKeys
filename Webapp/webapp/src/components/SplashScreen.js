@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Container, Row, Col, Image } from "react-bootstrap";
 
 import '../style/App.css';
-import denina from '../img/denina.png';
+import denina from '../assets/img/denina.png';
 
 const SplashScreen = () => {
 	const [animate, setAnimate] = useState(true);
@@ -12,7 +12,7 @@ const SplashScreen = () => {
 	useEffect( () => {
 		const dissappear = setTimeout(() => {
 			setAnimate(false);
-		}, 3500)
+		}, 4200)
 
 		return () => clearInterval(dissappear);
 	}, []);
@@ -34,7 +34,8 @@ const SplashScreen = () => {
 				</Row>
 			</Container>
 			)
-		}</>
+		}
+		</>
 	)
 }
 
