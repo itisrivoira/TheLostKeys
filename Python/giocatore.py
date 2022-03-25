@@ -26,7 +26,7 @@ class Player(pygame.sprite.Sprite):
         self.Name_animationWVD = 'Characters'+self.Player_selected+"/WalkVerticalD"
         self.Name_animationWVU = 'Characters'+self.Player_selected+"/WalkVerticalU"
 
-        self.ombra = pygame.image.load("assets/ombra.png")
+        self.ombra = pygame.image.load("assets/ombra.png").convert_alpha()
         self.ombra = pygame.transform.scale(self.ombra, (self.ombra.get_width()*GLOB.MULT/GLOB.Player_proportion,self.ombra.get_height()*GLOB.MULT/GLOB.Player_proportion))
 
         #indicazione posizione (dinamica)
@@ -56,7 +56,7 @@ class Player(pygame.sprite.Sprite):
         
         # setta a video l'immagine del giocatore
         self.character = pygame.image.load(
-        os.path.join(self.Name_animationWVD,char_image[0][0]))
+        os.path.join(self.Name_animationWVD,char_image[0][0])).convert_alpha()
 
         # animazione di walking
         self.animationWO = char_image[2]
@@ -184,19 +184,19 @@ class Player(pygame.sprite.Sprite):
 
             if var==0:
                 self.character = pygame.image.load(
-                os.path.join(self.Name_animationWVD,self.image))
+                os.path.join(self.Name_animationWVD,self.image)).convert_alpha()
 
             if var==1:
                 self.character = pygame.image.load(
-                os.path.join(self.Name_animationWVU,self.image))
+                os.path.join(self.Name_animationWVU,self.image)).convert_alpha()
 
             if var==2:
                 self.character = pygame.image.load(
-                os.path.join(self.Name_animationWO,self.image)) # carica l'immagine presa dalla cartella Walk
+                os.path.join(self.Name_animationWO,self.image)).convert_alpha() # carica l'immagine presa dalla cartella Walk
 
             if var==3:
                 immagine = pygame.image.load(
-                os.path.join(self.Name_animationWO,self.image))
+                os.path.join(self.Name_animationWO,self.image)).convert_alpha()
                 self.character = pygame.transform.flip(immagine, True, False) # specchia l'immagine dalle assi x
             
             #print("Sprite WO corrente: "+str(self.current_spriteWO)+" | Sprite WVD corrente: "+str(self.current_spriteWVD)+" | Sprite WVU corrente: "+str(int(self.current_spriteWVU)))
@@ -396,4 +396,4 @@ class Player(pygame.sprite.Sprite):
         # imposta un'animazione di default dopo aver eseguito l'ultima
         self.image = self.animationWO[int(self.current_spriteWO)]
         self.character = pygame.image.load(
-            os.path.join(self.Name_animationWVD,'Walk0.png'))
+            os.path.join(self.Name_animationWVD,'Walk0.png')).convert_alpha()

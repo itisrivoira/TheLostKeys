@@ -79,7 +79,7 @@ class Bar():
 		elif div < 1:
 			self.div = 1
 
-		self.image = pygame.image.load("assets/BarraCompletamento.png")
+		self.image = pygame.image.load("assets/BarraCompletamento.png").convert_alpha()
 		self.image = pygame.transform.scale(self.image, (self.image.get_width()*GLOB.MULT/self.div, self.image.get_height()*GLOB.MULT/self.div))
 		
 		self.rect = self.image.get_rect(center=(self.x_pos, self.y_pos))

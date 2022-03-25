@@ -38,7 +38,7 @@ def options():
         else:
             TEXT_FULLSCREEN = "FULLSCREEN OFF"
 
-        BG_Option = pygame.image.load("assets/Menu.png")
+        BG_Option = pygame.image.load("assets/Menu.png").convert()
         BG_Option = pygame.transform.scale(BG_Option, (GLOB.screen_width, GLOB.screen_height))
 
         if GLOB.Scelta==0:
@@ -74,7 +74,7 @@ def options():
         # OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(GLOB.screen_width/2, 20*GLOB.MULT))
         # screen.blit(OPTIONS_TEXT, OPTIONS_RECT)
 
-        CHARACTER = pygame.image.load(os.path.join("Characters_Image",char))
+        CHARACTER = pygame.image.load(os.path.join("Characters_Image",char)).convert_alpha()
 
         Scala = 2.5 * GLOB.MULT
 
@@ -255,33 +255,33 @@ def options():
         MUSICLESS_BUTTON.update(screen)
 
 
-        Screen_960x540 = Button(image=pygame.image.load("assets/Select Rect.png"), pos=(50*GLOB.MULT, GLOB.screen_height/2+75*GLOB.MULT), 
+        Screen_960x540 = Button(image=pygame.image.load("assets/Select Rect.png").convert_alpha(), pos=(50*GLOB.MULT, GLOB.screen_height/2+75*GLOB.MULT), 
                     text_input="960 x 540", font=get_font(4*int(GLOB.MULT)), base_color="White", hovering_color="#2f3131", scale=4)
 
         Screen_960x540.changeColor(OPTIONS_MOUSE_POS)
         Screen_960x540.update(screen)
 
-        Screen_1440x810 = Button(image=pygame.image.load("assets/Select Rect.png"), pos=(110*GLOB.MULT, GLOB.screen_height/2+75*GLOB.MULT), 
+        Screen_1440x810 = Button(image=pygame.image.load("assets/Select Rect.png").convert_alpha(), pos=(110*GLOB.MULT, GLOB.screen_height/2+75*GLOB.MULT), 
                     text_input="1440 x 810", font=get_font(4*int(GLOB.MULT)), base_color="White", hovering_color="#2f3131", scale=4)
 
         Screen_1440x810.changeColor(OPTIONS_MOUSE_POS)
         Screen_1440x810.update(screen)
 
-        Screen_1920x1080 = Button(image=pygame.image.load("assets/Select Rect.png"), pos=(50*GLOB.MULT, GLOB.screen_height/2+90*GLOB.MULT), 
+        Screen_1920x1080 = Button(image=pygame.image.load("assets/Select Rect.png").convert_alpha(), pos=(50*GLOB.MULT, GLOB.screen_height/2+90*GLOB.MULT), 
                     text_input="1920 x 1080", font=get_font(4*int(GLOB.MULT)), base_color="White", hovering_color="#2f3131", scale=4)
 
         Screen_1920x1080.changeColor(OPTIONS_MOUSE_POS)
         Screen_1920x1080.update(screen)
 
 
-        Screen_3840x2160 = Button(image=pygame.image.load("assets/Select Rect.png"), pos=(110*GLOB.MULT, GLOB.screen_height/2+90*GLOB.MULT), 
+        Screen_3840x2160 = Button(image=pygame.image.load("assets/Select Rect.png").convert_alpha(), pos=(110*GLOB.MULT, GLOB.screen_height/2+90*GLOB.MULT), 
                     text_input="3840 x 2160", font=get_font(4*int(GLOB.MULT)), base_color="White", hovering_color="#2f3131", scale=4)
 
         Screen_3840x2160.changeColor(OPTIONS_MOUSE_POS)
         Screen_3840x2160.update(screen)
 
 
-        Screen_FULL = Button(image=pygame.image.load("assets/Select Rect.png"), pos=(80*GLOB.MULT, GLOB.screen_height/2+110*GLOB.MULT), 
+        Screen_FULL = Button(image=pygame.image.load("assets/Select Rect.png").convert_alpha(), pos=(80*GLOB.MULT, GLOB.screen_height/2+110*GLOB.MULT), 
                     text_input=TEXT_FULLSCREEN, font=get_font(8*int(GLOB.MULT)), base_color="White", hovering_color="#2f3131", scale=2)
 
         Screen_FULL.changeColor(OPTIONS_MOUSE_POS)
@@ -432,7 +432,7 @@ def main_menu():
     BG_School = pygame.image.load("assets/ScuolaHorror.png").convert()
     BG_School = pygame.transform.scale(BG_School, (BG_School.get_width()*GLOB.MULT/4,BG_School.get_height()*GLOB.MULT/4))
 
-    BG_Cloud = pygame.image.load("assets/Nuvola.png")
+    BG_Cloud = pygame.image.load("assets/Nuvola.png").convert_alpha()
     BG_Cloud = pygame.transform.scale(BG_Cloud, (BG_Cloud.get_width()*GLOB.MULT/4,BG_Cloud.get_height()*GLOB.MULT/4))
     
     rain = Rain(screen, height = 60 * GLOB.MULT, speed = 12 * GLOB.MULT / GLOB.Delta_Time, color = (152, 164, 184, 255), numdrops = 270)
@@ -444,7 +444,7 @@ def main_menu():
 
         #time.sleep(.01)
 
-        BG_Menu = pygame.image.load("assets/sfondo.png")
+        BG_Menu = pygame.image.load("assets/sfondo.png").convert()
         BG_Menu = pygame.transform.scale(BG_Menu, (GLOB.screen_width, GLOB.screen_height))
 
         screen.blit(BG_Menu, (0, 0))
@@ -454,13 +454,13 @@ def main_menu():
         MENU_TEXT = get_font(12*int(GLOB.MULT)).render("THE LOST KEY", True, "#e9eef7")
         MENU_RECT = MENU_TEXT.get_rect(center=(GLOB.screen_width/6, 70*GLOB.MULT))
 
-        PLAY_BUTTON = Button(image=pygame.image.load("assets/Play Rect.png"), pos=(GLOB.screen_width/6, 110*GLOB.MULT), 
+        PLAY_BUTTON = Button(image=pygame.image.load("assets/Play Rect.png").convert_alpha(), pos=(GLOB.screen_width/6, 110*GLOB.MULT), 
                             text_input="", font=get_font(10*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=1.5)
         
-        OPTIONS_BUTTON = Button(image=pygame.image.load("assets/Options Rect.png"), pos=(GLOB.screen_width/6, 150*GLOB.MULT), 
+        OPTIONS_BUTTON = Button(image=pygame.image.load("assets/Options Rect.png").convert_alpha(), pos=(GLOB.screen_width/6, 150*GLOB.MULT), 
                             text_input="", font=get_font(10*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=1.5)
         
-        QUIT_BUTTON = Button(image=pygame.image.load("assets/Quit Rect.png"), pos=(GLOB.screen_width/6, 190*GLOB.MULT), 
+        QUIT_BUTTON = Button(image=pygame.image.load("assets/Quit Rect.png").convert_alpha(), pos=(GLOB.screen_width/6, 190*GLOB.MULT), 
                             text_input="", font=get_font(10*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=1.5)
 
         screen.blit(MENU_TEXT, MENU_RECT)

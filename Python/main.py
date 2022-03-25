@@ -127,7 +127,7 @@ def options_audio():
 
     indietro = False
 
-    BG_Seimi = pygame.image.load("assets/BG_semitransparent.png")
+    BG_Seimi = pygame.image.load("assets/BG_semitransparent.png").convert_alpha()
     BG_Seimi = pygame.transform.scale(BG_Seimi, (GLOB.screen_width, GLOB.screen_height))
 
     while not indietro:
@@ -246,7 +246,7 @@ def pausa():
 
     ricominciamo = False
 
-    BG_Seimi = pygame.image.load("assets/BG_semitransparent.png")
+    BG_Seimi = pygame.image.load("assets/BG_semitransparent.png").convert_alpha()
     BG_Seimi = pygame.transform.scale(BG_Seimi, (GLOB.screen_width, GLOB.screen_height))
 	
     while not ricominciamo:
