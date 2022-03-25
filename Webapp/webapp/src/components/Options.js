@@ -1,12 +1,18 @@
 // Pannello delle Opzioni
 
-import { Col, Button, Modal, Row } from "react-bootstrap";
+import { useState } from "react";
+import { Col, Button, Modal, Row, ProgressBar, Container } from "react-bootstrap";
+import { BsPlusLg, BsDashLg } from "react-icons/bs";
+
 import useFullScreen from "../utils/useFullScreen";
 
 import '../style/App.css';
 
 const Options = props => {
 	const { fullScreen, toggle } = useFullScreen();
+	const [primo, setPrimo] = useState(50);
+	const [secondo, setSecondo] = useState(50);
+
 
 	return(
 		<Modal
@@ -17,7 +23,7 @@ const Options = props => {
 		>
 			<Modal.Header
 				closeButton
-				className="bg-secondary border border-dark border-4"
+				className="bg-secondary"
 			>
 				<Modal.Title className="w-100">
 					<p className="txt-pixel text-center fs-2 m-0">
@@ -26,21 +32,67 @@ const Options = props => {
 				</Modal.Title>
 			</Modal.Header>
 			<Modal.Body className="bg-secondary">
-				<Row className="text-center">
-					<Col>
-						<p>
-							Queste sono le opzioni
-						</p>
-					</Col>
-				</Row>
-				<Row className="text-center">
-					<Col>
-						<Button onClick={toggle} size='lg' variant="dark" >
-							{fullScreen ? 'Exit FullScreen' : 'Toggle FullScreen'}
-						</Button>
-					</Col>
-				</Row>
-
+				<Container fluid>
+					<Row className="text-center">
+						<Col>
+							<p className="txt-pixel fs-3">
+								Musica
+							</p>
+						</Col>
+					</Row>
+					<Row className="mb-3 text-center d-flex justify-content-center">
+							<Row className="w-75 mb-3">
+								<Col>
+									<ProgressBar striped variant="dark" now={primo} min={0} max={100} />
+								</Col>
+							</Row>
+							<Row className="w-75">
+								<Col>
+									<Button variant="dark" onClick={() => setPrimo(prev => prev - 10)}>
+										<BsDashLg size={20} />
+									</Button>
+								</Col>
+								<Col>
+									<Button variant="dark" onClick={() => setPrimo(prev => prev + 10)}>
+										<BsPlusLg size={20} />
+									</Button>
+								</Col>
+							</Row>
+					</Row>
+					<Row className="text-center">
+						<Col>
+							<p className="txt-pixel fs-3">
+								Effetti Audio
+							</p>
+						</Col>
+					</Row>
+					<Row className="mb-3 text-center d-flex justify-content-center">
+							<Row className="w-75 mb-3">
+								<Col>
+									<ProgressBar striped variant="dark" now={secondo} min={0} max={100} />
+								</Col>
+							</Row>
+							<Row className="w-75">
+								<Col>
+									<Button variant="dark" onClick={() => setSecondo(prev => prev -10)}>
+										<BsDashLg size={20} />
+									</Button>
+								</Col>
+								<Col>
+									<Button variant="dark" onClick={() => setSecondo(prev => prev +10 )}>
+										<BsPlusLg size={20} />
+									</Button>
+								</Col>
+							</Row>
+					</Row>
+					<Row className="text-center">
+						<Col>
+							<Button className="txt-pixel" onClick={toggle} variant="dark" >
+								{fullScreen ? ' FullScreen Off' : 'FullScreen On'}
+							</Button>
+						</Col>
+					</Row>
+				</Container>
 			</Modal.Body>
 		</Modal>
 	)
