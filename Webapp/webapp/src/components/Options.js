@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Col, Button, Modal, Row, ProgressBar, Container } from "react-bootstrap";
 import { BsPlusLg, BsDashLg } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 import useFullScreen from "../utils/useFullScreen";
 
@@ -12,7 +13,12 @@ const Options = props => {
 	const { fullScreen, toggle } = useFullScreen();
 	const [primo, setPrimo] = useState(50);
 	const [secondo, setSecondo] = useState(50);
+	let navigate = useNavigate();
 
+	const backToMenu = () => {
+		navigate('../menu', {replace: true});
+		props.onHide();
+	}
 
 	return(
 		<Modal
@@ -91,6 +97,15 @@ const Options = props => {
 								{fullScreen ? ' FullScreen Off' : 'FullScreen On'}
 							</Button>
 						</Col>
+						{
+							props.exit
+							&&
+							<Col className="">
+								<Button className="txt-pixel" onClick={backToMenu} variant='danger'>
+									Exit The Game
+								</Button>
+							</Col>
+						}
 					</Row>
 				</Container>
 			</Modal.Body>

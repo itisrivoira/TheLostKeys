@@ -1,28 +1,30 @@
 // Pagina di Gioco
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { GameEngine } from 'react-game-engine';
-import { useNavigate } from 'react-router-dom';
 
 import Box from '../entities/Box';
 import Loop from '../system/Loop';
+import Options from '../components/Options';
+import { Pausa } from '../components/GlobalProvider';
 
 import '../style/Play.css';
 
 const Play = () => {
-	let navigate = useNavigate();
 	const [x] = useState(850);
 	const [y] = useState(300);
+	const {pause, setPause} = useContext(Pausa);
+	const [run, setRun] = useState(true);
 
-	const backToMenu = useCallback( ev => {
+	const togglePause = useCallback( ev => {
 		if ( ev.key === "Escape")
-			navigate('../menu', {replace: true});
+			setPause(true);
 	}, [])
 
 	useEffect( () => {
-		document.addEventListener("keydown", backToMenu, false);
+		document.addEventListener("keydown", togglePause, false);
 		return () => {
-			document.removeEventListener("keydown", backToMenu, false);
+			document.removeEventListener("keydown", togglePause, false);
 		}
 	}, []);
 
@@ -31,9 +33,10 @@ const Play = () => {
 			className='Stage'
 			systems={[Loop]}
 			entities={{
-				box1: {x: x, y: y, speed: 100, renderer: <Box x={x} y={y} />}
+				box1: {x: x, y: y, speed: 5, renderer: <Box x={x} y={y} />}
 			}}
-		>
+		>\
+			<Options show={pause} onHide={() => setPause(false)} exit={true} />
 		</GameEngine>
 	)
 }

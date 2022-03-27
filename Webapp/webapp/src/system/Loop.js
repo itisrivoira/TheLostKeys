@@ -1,8 +1,7 @@
 // Loop del Gioco
 
 const Loop = (entities, { input }) => {
-
-	const { payload } = input.find( x => x.name === "onKeyDown") || {};
+	const { payload } = input.find(x => x.name === "onKeyDown") || {};
 
 	if (payload) {
 		const box1 = entities["box1"];
@@ -23,9 +22,6 @@ const Loop = (entities, { input }) => {
 
 			case "ArrowRight":
 				box1.x += box1.speed;
-				break;
-
-			default:
 				break;
 		}
 	}
