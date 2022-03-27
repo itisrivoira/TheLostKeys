@@ -1,6 +1,6 @@
 // Pagina di Gioco
 
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useRef, useCallback, useContext, useEffect, useState } from 'react';
 import { GameEngine } from 'react-game-engine';
 
 import Box from '../entities/Box';
@@ -15,10 +15,14 @@ const Play = () => {
 	const [y] = useState(300);
 	const {pause, setPause} = useContext(Pausa);
 	const [run, setRun] = useState(true);
+	const engine = useRef();
 
 	const togglePause = useCallback( ev => {
-		if ( ev.key === "Escape")
+		if ( ev.key === "Escape") {
 			setPause(true);
+			engine.current.stop();
+		}
+
 	}, [])
 
 	useEffect( () => {
@@ -30,13 +34,14 @@ const Play = () => {
 
 	return(
 		<GameEngine
+			ref={engine}
 			className='Stage'
 			systems={[Loop]}
 			entities={{
 				box1: {x: x, y: y, speed: 5, renderer: <Box x={x} y={y} />}
 			}}
-		>\
-			<Options show={pause} onHide={() => setPause(false)} exit={true} />
+		>
+			<Options show={pause} onHide={() => setPause(false)} exit={true} restart={engine.current.start()} />
 		</GameEngine>
 	)
 }

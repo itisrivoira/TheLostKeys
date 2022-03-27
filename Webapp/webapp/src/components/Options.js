@@ -18,6 +18,7 @@ const Options = props => {
 	const backToMenu = () => {
 		navigate('../menu', {replace: true});
 		props.onHide();
+		props.restart();
 	}
 
 	return(
