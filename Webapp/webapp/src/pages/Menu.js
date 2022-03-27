@@ -1,8 +1,7 @@
-// Pagina del Menu Principale
-
-// Componente root della Web App
+// Pagina Menu Principale
 
 import { Col, Container, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 import SplashScreen from "../components/SplashScreen";
@@ -16,6 +15,7 @@ import '../style/App.css';
 
 const Menu = () => {
 	const [optionState, setOptionState] = useState(false);
+	let navigate = useNavigate();
 
 	return (
 		<>
@@ -28,10 +28,10 @@ const Menu = () => {
 						<BtnOptions callback={() => setOptionState(true)} />
 					</Col>
 					<Col className="d-flex justify-content-center" xxl={4}>
-						<BtnPlay callback={() => alert('Play!')} />
+						<BtnPlay callback={() => navigate('../play', {replace: true})} />
 					</Col>
 					<Col className="d-flex justify-content-end" xxl={4}>
-						<BtnLogin callback={() => alert('Play')} />
+						<BtnLogin callback={() => alert('Opzioni')} />
 					</Col>
 				</Row>
 				<Row className="mb-5 w-100 position-absolute bottom-0 start-50 translate-middle-x ">
