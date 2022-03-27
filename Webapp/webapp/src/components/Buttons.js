@@ -6,7 +6,7 @@ import { MdMusicNote, MdMusicOff } from "react-icons/md";
 
 import '../style/App.css';
 
-import { useAudio } from "../utils/useAudio";
+import useAudio from "../utils/useAudio";
 import useRandomInterval from "../utils/useRandomTimer";
 
 import rainSound from "../assets/sounds/Rain-sound.mp3";
@@ -77,9 +77,9 @@ export const BtnLogin = ({callback}) => {
 }
 
 export const BtnMusic = () => {
-	const [playing, toggle] = useAudio(rainSound, true);
-	const [thunder, setThunder] = useAudio(thunderSound, false);
-	const [thunder2, setThunder2] = useAudio(thunderSound2, false);
+	const [playing, toggle, pause] = useAudio(rainSound, true);
+	const [thunder, setThunder, pause1] = useAudio(thunderSound, false);
+	const [thunder2, setThunder2, pause2] = useAudio(thunderSound2, false);
 	const [delay1, setDelay1] = useState([8000, 13000]);
 	const [delay2, setDelay2] = useState([4000, 8000]);
 
@@ -96,6 +96,14 @@ export const BtnMusic = () => {
 		setDelay1([8000, playing ? 13000 : null]);
 		setDelay2([4000, playing ? 8000 : null]);
 	}, [playing])
+
+	useEffect( () => {
+		return () => {
+			pause();
+			pause1();
+			pause2();
+		}
+	}, [])
 
 	return(
 		<Button variant="secondary" onClick={toggleAudio}>

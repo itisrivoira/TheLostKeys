@@ -2,14 +2,14 @@
 
 import { Col, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 
 import SplashScreen from "../components/SplashScreen";
 import Title from "../components/Title";
 import Footer from "../components/Footer";
 import Options from "../components/Options";
 import { BtnPlay, BtnOptions, BtnLogin, BtnMusic} from "../components/Buttons";
-import { Pausa } from "../components/GlobalProvider";
+import { Pausa, Location } from "../components/GlobalProvider";
 
 import '../style/App.css';
 

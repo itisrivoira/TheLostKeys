@@ -10,12 +10,11 @@ import './style/index.css';
 
 ReactDOM.render(
 	<React.StrictMode>
-		<GlobalProvider>
-			<BrowserRouter>
+		<BrowserRouter>
+			<GlobalProvider>
 				<App />
-			</BrowserRouter>
-		</GlobalProvider>
-
+			</GlobalProvider>
+		</BrowserRouter>
 	</React.StrictMode>,
 	document.getElementById('root')
 );

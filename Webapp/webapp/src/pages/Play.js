@@ -14,15 +14,11 @@ const Play = () => {
 	const [x] = useState(850);
 	const [y] = useState(300);
 	const {pause, setPause} = useContext(Pausa);
-	const [run, setRun] = useState(true);
 	const engine = useRef();
 
 	const togglePause = useCallback( ev => {
-		if ( ev.key === "Escape") {
+		if ( ev.key === "Escape")
 			setPause(true);
-			engine.current.stop();
-		}
-
 	}, [])
 
 	useEffect( () => {
@@ -37,11 +33,16 @@ const Play = () => {
 			ref={engine}
 			className='Stage'
 			systems={[Loop]}
+			running={!pause}
 			entities={{
 				box1: {x: x, y: y, speed: 5, renderer: <Box x={x} y={y} />}
 			}}
 		>
-			<Options show={pause} onHide={() => setPause(false)} exit={true} restart={engine.current.start()} />
+			<Options
+				show={pause}
+				onHide={() => setPause(false)}
+				exit={true}
+			/>
 		</GameEngine>
 	)
 }

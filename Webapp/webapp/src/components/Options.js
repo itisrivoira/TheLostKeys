@@ -1,29 +1,30 @@
 // Pannello delle Opzioni
 
-import { useState } from "react";
-import { Col, Button, Modal, Row, ProgressBar, Container } from "react-bootstrap";
-import { BsPlusLg, BsDashLg } from "react-icons/bs";
+import { useContext } from "react";
+import { Col, Button, Modal, Row,  Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 import useFullScreen from "../utils/useFullScreen";
+import Audio from "./Audio";
+import { Music, Sfx } from "./GlobalProvider";
 
 import '../style/App.css';
 
 const Options = props => {
 	const { fullScreen, toggle } = useFullScreen();
-	const [primo, setPrimo] = useState(50);
-	const [secondo, setSecondo] = useState(50);
+	const { music, setMusic } = useContext(Music);
+	const { sfx, setSfx } = useContext(Sfx);
 	let navigate = useNavigate();
 
 	const backToMenu = () => {
 		navigate('../menu', {replace: true});
 		props.onHide();
-		props.restart();
 	}
 
 	return(
 		<Modal
-			{...props}
+			show={props.show}
+			onHide={props.onHide}
 			size="lg"
 			centered
 			keyboard
@@ -40,58 +41,16 @@ const Options = props => {
 			</Modal.Header>
 			<Modal.Body className="bg-secondary">
 				<Container fluid>
-					<Row className="text-center">
-						<Col>
-							<p className="txt-pixel fs-3">
-								Musica
-							</p>
-						</Col>
-					</Row>
-					<Row className="mb-3 text-center d-flex justify-content-center">
-							<Row className="w-75 mb-3">
-								<Col>
-									<ProgressBar striped variant="dark" now={primo} min={0} max={100} />
-								</Col>
-							</Row>
-							<Row className="w-75">
-								<Col>
-									<Button variant="dark" onClick={() => setPrimo(prev => prev - 10)}>
-										<BsDashLg size={20} />
-									</Button>
-								</Col>
-								<Col>
-									<Button variant="dark" onClick={() => setPrimo(prev => prev + 10)}>
-										<BsPlusLg size={20} />
-									</Button>
-								</Col>
-							</Row>
-					</Row>
-					<Row className="text-center">
-						<Col>
-							<p className="txt-pixel fs-3">
-								Effetti Audio
-							</p>
-						</Col>
-					</Row>
-					<Row className="mb-3 text-center d-flex justify-content-center">
-							<Row className="w-75 mb-3">
-								<Col>
-									<ProgressBar striped variant="dark" now={secondo} min={0} max={100} />
-								</Col>
-							</Row>
-							<Row className="w-75">
-								<Col>
-									<Button variant="dark" onClick={() => setSecondo(prev => prev -10)}>
-										<BsDashLg size={20} />
-									</Button>
-								</Col>
-								<Col>
-									<Button variant="dark" onClick={() => setSecondo(prev => prev +10 )}>
-										<BsPlusLg size={20} />
-									</Button>
-								</Col>
-							</Row>
-					</Row>
+					<Audio
+						title='Musica'
+						volume={music}
+						changer={setMusic}
+					/>
+					<Audio
+						title='Effetti Sonori'
+						volume={sfx}
+						changer={setSfx}
+					/>
 					<Row className="text-center">
 						<Col>
 							<Button className="txt-pixel" onClick={toggle} variant="dark" >
