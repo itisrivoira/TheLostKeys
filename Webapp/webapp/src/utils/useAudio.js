@@ -1,12 +1,17 @@
 // hooks per la gestione degli audio
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { Music, Sfx } from "../components/GlobalProvider";
 
-export const useAudio = (url, loop) => {
+const useAudio = (url, loop) => {
 	const [audio] = useState(new Audio(url));
 	const [playing, setPlaying] = useState(false);
 
+	const { music } = useContext(Music);
+	const { sfx } = useContext(Sfx);
+
 	const toggle = () => setPlaying(!playing);
+	const pause = () => audio.pause();
 
 	useEffect(() => {
 		playing ? audio.play() : audio.pause();
@@ -20,5 +25,11 @@ export const useAudio = (url, loop) => {
 	 	};
 	}, []);
 
-	return [playing, toggle];
- };
+	useEffect( () => {
+		audio.volume = loop ? music : sfx;
+	}, [music, sfx])
+
+	return [playing, toggle, pause];
+};
+
+export default useAudio;

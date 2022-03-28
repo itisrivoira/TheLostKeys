@@ -1,19 +1,30 @@
 // Pannello delle Opzioni
-import { useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+
+import { useContext } from "react";
+import { Col, Button, Modal, Row,  Container } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+
+import useFullScreen from "../utils/useFullScreen";
+import Audio from "./Audio";
+import { Music, Sfx } from "./GlobalProvider";
 
 import '../style/App.css';
 
 const Options = props => {
-	const [full, setFull] = useState(false);
-	// vero --> schermo intero attivo
-	// falso --> schermo intero spento
-	// https://github.com/Darth-Knoppix/example-react-fullscreen/blob/master/src/utils/useFullscreenStatus.js
-	// da modificare
+	const { fullScreen, toggle } = useFullScreen();
+	const { music, setMusic } = useContext(Music);
+	const { sfx, setSfx } = useContext(Sfx);
+	let navigate = useNavigate();
+
+	const backToMenu = () => {
+		navigate('../menu', {replace: true});
+		props.onHide();
+	}
 
 	return(
 		<Modal
-			{...props}
+			show={props.show}
+			onHide={props.onHide}
 			size="lg"
 			centered
 			keyboard
@@ -29,13 +40,34 @@ const Options = props => {
 				</Modal.Title>
 			</Modal.Header>
 			<Modal.Body className="bg-secondary">
-				<p>
-					Queste sono le opzioni
-				</p>
-
-				<Button variant="outline-secondary">
-					Toggle FullScreen
-				</Button>
+				<Container fluid>
+					<Audio
+						title='Musica'
+						volume={music}
+						changer={setMusic}
+					/>
+					<Audio
+						title='Effetti Sonori'
+						volume={sfx}
+						changer={setSfx}
+					/>
+					<Row className="text-center">
+						<Col>
+							<Button className="txt-pixel" onClick={toggle} variant="dark" >
+								{fullScreen ? ' FullScreen Off' : 'FullScreen On'}
+							</Button>
+						</Col>
+						{
+							props.exit
+							&&
+							<Col className="">
+								<Button className="txt-pixel" onClick={backToMenu} variant='danger'>
+									Exit The Game
+								</Button>
+							</Col>
+						}
+					</Row>
+				</Container>
 			</Modal.Body>
 		</Modal>
 	)
