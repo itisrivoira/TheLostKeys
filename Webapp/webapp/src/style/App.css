@@ -32,3 +32,7 @@
 .splash {
 	animation: fadeTitle 3000ms ease-in-out forwards ;
 }
+
+.btn-close {
+	margin-right: 5px !important;
+}
