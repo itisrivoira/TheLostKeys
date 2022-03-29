@@ -1,0 +1,158 @@
+html, body { height: 100%; }
+
+#principale {
+    border-radius: 1px;
+    background-color: #000000;
+}
+
+/* Formattazione scritte navbar li-a */
+.navbar-brand, .navbar-nav > li > a {
+    height: 56px;
+    line-height: 40px;
+}
+
+/* Function a */
+a:hover { color: white }
+
+/* HomePage index.html */
+#nn1 { margin-left: 100px; }
+
+/* cover */
+.cover {
+    height: 100%;
+    background-image: url(img/escapeRoom.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+}
+
+.cards {
+    max-width: 1200px;
+    margin: 40px auto;
+}
+
+.card {
+    width: 30%;
+    margin: 0 1.5%;
+    background-color: #fff;
+    float: left;
+    border-radius: 5%;
+}
+
+.card2 {
+    width: 30%;
+    margin: 0 1.5%;
+    background-color: #fff;
+    float: left;
+    border-radius: 5%;
+}
+
+.card-image {
+    width: 100%;
+    height: auto;
+    border-radius: 20%;
+    padding: 50px;
+    margin-bottom: -30px;
+}
+
+.card__copy {
+    padding: 20px 30px;
+}
+
+.card__copy h3 {
+    padding: 5px;
+    margin-bottom: 0px;
+    text-align: center;
+}
+
+.banner {
+    background-color: #fff;
+    height: 50%;
+}
+
+.banner__image {
+    width: 30%;
+    float: left;
+    height: 100%;
+}
+
+.banner__copy {
+    width: 70%;
+    float: left;
+    height: 100%;
+    display: table;
+}
+
+.banner__copy__text {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 30px;
+}
+
+.banner__copy__text h3 {
+    font-size: 36px;
+    margin-bottom: 0;
+}
+
+.banner__copy__text h4 {
+    font-size: 22px;
+    margin-bottom: 5px 0;
+}
+
+/* Iphone SE e Samsung Galaxy S8+ */
+@media only screen and (max-width: 385px) {
+    /* Cards */
+    .card {
+        width: 90%;
+        margin: 5%;
+    }
+    .banner { height: 100%; }
+    .banner__image,
+    .banner__copy { width: 100%; height: 50%; }
+}
+
+/* Iphone 12 pro e Pixel 5 */
+@media only screen and (min-width: 386px) and (max-width: 399px) {
+    /* Cards */
+    .card {
+        width: 90%;
+        margin: 5%;
+    }
+    .banner { height: 100%; }
+    .banner__image,
+    .banner__copy { width: 100%; height: 50%; }
+}
+
+/* Iphone XR e Samsung Galaxy S20 Ultra e Samsung Galaxy A51/71*/
+@media only screen and (min-width: 400px) and (max-width: 767px) {
+    /* Cards */
+    .card {
+        width: 90%;
+        margin: 5%;
+    }
+    .banner { height: 100%; }
+    .banner__image,
+    .banner__copy { width: 100%; height: 50%; }
+}
+
+/* Ipad Air */
+@media only screen and (min-width: 791px) and (max-width: 991px) {
+    
+}
+
+/* Ipad Mini */
+@media only screen and (min-width: 768px) and (max-width: 790px) {
+
+}
+
+/* Nest Hub */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+   
+}
+
+/* Nest Hub Max */
+@media only screen and (min-width: 1200px) and (max-width: 1280px) {
+    
+}
