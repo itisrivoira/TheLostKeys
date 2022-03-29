@@ -53,7 +53,7 @@ const Options = props => {
 					/>
 					<Row className="text-center">
 						<Col>
-							<Button className="txt-pixel" onClick={toggle} variant="dark" >
+							<Button className="txt-pixel p-3 my-3" onClick={toggle} variant="dark" >
 								{fullScreen ? ' FullScreen Off' : 'FullScreen On'}
 							</Button>
 						</Col>
@@ -61,7 +61,7 @@ const Options = props => {
 							props.exit
 							&&
 							<Col className="">
-								<Button className="txt-pixel" onClick={backToMenu} variant='danger'>
+								<Button className="txt-pixel p-3 my-3" onClick={backToMenu} variant='danger'>
 									Exit The Game
 								</Button>
 							</Col>

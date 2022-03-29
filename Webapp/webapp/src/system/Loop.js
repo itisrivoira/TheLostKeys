@@ -1,27 +1,51 @@
 // Loop del Gioco
 
+var [ u, d, l, r ] = [ 0, 0, 0, 0 ]
+const frames = [
+	'Walk0.png',
+	'Walk1.png',
+	'Walk2.png',
+	'Walk3.png',
+	'Walk4.png',
+	'Walk5.png',
+];
+
 const Loop = (entities, { input }) => {
 	const { payload } = input.find(x => x.name === "onKeyDown") || {};
+	const player = entities["player"];
 
 	if (payload) {
-		const box1 = entities["box1"];
 		const key = payload.code;
 
 		switch (key) {
 			case "ArrowUp":
-				box1.y -= box1.speed;
+				player.y -= player.speed;
+				if (u === 5) u = 0;
+				player.src = require('../assets/characters/up/' + frames[u]);
+				u++;
 				break;
 
 			case "ArrowDown":
-				box1.y += box1.speed;
+				player.y += player.speed;
+				if (d === 5) d = 0;
+				player.src = require('../assets/characters/down/' + frames[d]);
+				d++;
 				break;
 
 			case "ArrowLeft":
-				box1.x -= box1.speed;
+				player.x -= player.speed;
+				if (l === 5) l = 0;
+				player.src = require('../assets/characters/left/' + frames[l]);
+				l++;
 				break;
 
 			case "ArrowRight":
-				box1.x += box1.speed;
+				player.x += player.speed;
+
+				if (r === 5) r = 0;
+				player.src = require('../assets/characters/right/' + frames[r]);
+				r++;
+
 				break;
 		}
 	}
