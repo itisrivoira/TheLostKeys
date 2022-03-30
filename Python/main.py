@@ -114,8 +114,7 @@ def disegna():
 
     player.update() # richiama la funzione di aggiornamento del giocatore
 
-    obstacle = pygame.Rect(90 * GLOB.MULT + cam.getPositionX(), 160 * GLOB.MULT + cam.getPositionY(), 100 * GLOB.MULT, 100 * GLOB.MULT)
-    pygame.draw.rect(GLOB.screen, (0,120,255), obstacle)
+    obstacle = pygame.Rect(70 * GLOB.MULT + cam.getPositionX(), 195 * GLOB.MULT + cam.getPositionY(), 155 * GLOB.MULT, 130 * GLOB.MULT)
     player.HasCollision(obstacle)
 
     if GLOB.Debug:
