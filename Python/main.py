@@ -110,7 +110,7 @@ def disegna():
     GLOB.screen.fill(GLOB.Background_Color)
 
     GLOB.screen.blit(mappa, (cam.getPositionX(), cam.getPositionY()))
-    cam.update(False)
+    cam.update(GLOB.Cam_visible)
 
     player.update() # richiama la funzione di aggiornamento del giocatore
 
