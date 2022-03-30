@@ -103,15 +103,18 @@ def inizializza():
 
 #Funzione che disegna i vari elementi a schermo
 def disegna():
+
+    mappa = pygame.image.load("assets/Mappa.png").convert()
+    mappa = pygame.transform.scale(mappa, (mappa.get_width() * GLOB.MULT, mappa.get_height() * GLOB.MULT))
         
     GLOB.screen.fill(GLOB.Background_Color)
 
-    cam.ShowBackground()
-    cam.update(GLOB.Cam_visible)
+    GLOB.screen.blit(mappa, (cam.getPositionX(), cam.getPositionY()))
+    cam.update(False)
 
     player.update() # richiama la funzione di aggiornamento del giocatore
 
-    obstacle = pygame.Rect(90 * GLOB.MULT + cam.getPositionX(), 70 * GLOB.MULT + cam.getPositionY(), 100 * GLOB.MULT, 100 * GLOB.MULT)
+    obstacle = pygame.Rect(90 * GLOB.MULT + cam.getPositionX(), 160 * GLOB.MULT + cam.getPositionY(), 100 * GLOB.MULT, 100 * GLOB.MULT)
     pygame.draw.rect(GLOB.screen, (0,120,255), obstacle)
     player.HasCollision(obstacle)
 
