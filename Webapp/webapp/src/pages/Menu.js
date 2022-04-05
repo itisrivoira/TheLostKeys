@@ -2,14 +2,14 @@
 
 import { Col, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { useContext, useState, useEffect } from "react";
+import { useContext } from "react";
 
 import SplashScreen from "../components/SplashScreen";
 import Title from "../components/Title";
 import Footer from "../components/Footer";
 import Options from "../components/Options";
 import { BtnPlay, BtnOptions, BtnLogin, BtnMusic} from "../components/Buttons";
-import { Pausa, Location } from "../components/GlobalProvider";
+import { Pausa } from "../components/GlobalProvider";
 
 import '../style/App.css';
 
@@ -31,7 +31,7 @@ const Menu = () => {
 						<BtnPlay callback={() => navigate('../play', {replace: true})} />
 					</Col>
 					<Col className="d-flex justify-content-end" xxl={4}>
-						<BtnLogin callback={() => alert('Opzioni')} />
+						<BtnLogin />
 					</Col>
 				</Row>
 				<Row className="mb-5 w-100 position-absolute bottom-0 start-50 translate-middle-x ">
