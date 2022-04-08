@@ -1,4 +1,5 @@
 // Loop del Gioco
+import Prova from '../assets/prova/Prova.json';
 
 var [ u, d, l, r ] = [ 0, 0, 0, 0 ]
 const frames = [
@@ -13,39 +14,52 @@ const frames = [
 const Loop = (entities, { input }) => {
 	const { payload } = input.find(x => x.name === "onKeyDown") || {};
 	const player = entities["player"];
+	var { x, y, speed } = player;
+
+	const motion = (i, direct) => {
+		if (i === 5) i = 0;
+		player.src = require(`../assets/characters/${direct}/${frames[parseInt(i)]}`);
+		i += 0.5;
+
+		return i;
+	}
+
+	const collisionUp = () => {
+		Prova.layers[1].objects.forEach( el => {
+			if (y >= el.y && y <= (el.y + el.width) && x == parseInt(el.x)) {
+				console.log('Collisione');
+			}
+
+		});
+
+	}
+
+
 
 	if (payload) {
 		const key = payload.code;
+		console.log('x: ' + x);
+		console.log('y: ' + y);
 
 		switch (key) {
 			case "ArrowUp":
-				player.y -= player.speed;
-				if (u === 5) u = 0;
-				player.src = require('../assets/characters/up/' + frames[u]);
-				u++;
+				player.y -= speed;
+				u = motion(u, 'up');
 				break;
 
 			case "ArrowDown":
-				player.y += player.speed;
-				if (d === 5) d = 0;
-				player.src = require('../assets/characters/down/' + frames[d]);
-				d++;
+				player.y += speed;
+				d = motion(d, 'down');
 				break;
 
 			case "ArrowLeft":
-				player.x -= player.speed;
-				if (l === 5) l = 0;
-				player.src = require('../assets/characters/left/' + frames[l]);
-				l++;
+				player.x -= speed;
+				l = motion(l, 'left');
 				break;
 
 			case "ArrowRight":
-				player.x += player.speed;
-
-				if (r === 5) r = 0;
-				player.src = require('../assets/characters/right/' + frames[r]);
-				r++;
-
+				player.x += speed;
+				r = motion(r, 'right');
 				break;
 		}
 	}

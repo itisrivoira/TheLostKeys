@@ -33,7 +33,7 @@ const Play = () => {
 			systems={[Loop]}
 			running={!pause}
 			entities={{
-				player: { x: 1000, y: 400, speed: 10, src: require('../assets/characters/Seima.png'), renderer: <Player /> }
+				player: { x: 1000, y: 400, speed: 5, src: require('../assets/characters/Seima.png'), renderer: <Player /> }
 			}}
 		>
 			<Options

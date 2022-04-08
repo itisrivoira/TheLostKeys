@@ -1,7 +1,7 @@
 .Stage {
 	height: 100%;
 	width: 100%;
-	background: url('../assets/img/Room2.png') no-repeat;
-	background-size: cover;
+	background: url('../assets/prova/Prova.png');
+	background-size: auto;
 	cursor: none;
 }
