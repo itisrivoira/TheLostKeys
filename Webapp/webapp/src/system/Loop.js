@@ -1,8 +1,7 @@
 // Loop del Gioco
-import { useEffect } from 'react';
 import Prova from '../assets/prova/Prova.json';
 
-var [ u, d, l, r ] = [ 0, 0, 0, 0 ]
+var [ u, d, l, r ] = [ 0, 0, 0, 0 ];
 const frames = [
 	'Walk0.png',
 	'Walk1.png',
@@ -27,9 +26,14 @@ const Loop = (entities, { input }) => {
 		return i;
 	}
 
-	const collisionUp = () => {
+	const collision = () => {
 		Prova.layers[1].objects.forEach( el => {
-			if ( x >= el.x && x <= (el.x + el.width) && y <= el.y && y >= (el.y - el.height)) {
+			if (
+				x >= (el.x - 10) &&
+				x <= (el.x + el.width + 10) &&
+				y <= (el.y + 20) &&
+				y >= (el.y - el.height - 20)
+			) {
 				console.log('Collisione');
 			}
 		});
@@ -42,25 +46,25 @@ const Loop = (entities, { input }) => {
 			case "ArrowUp":
 				player.y -= speed;
 				u = motion(u, 'up');
-				collisionUp();
+				collision();
 				break;
 
 			case "ArrowDown":
 				player.y += speed;
 				d = motion(d, 'down');
-				collisionUp();
+				collision();
 				break;
 
 			case "ArrowLeft":
 				player.x -= speed;
 				l = motion(l, 'left');
-				collisionUp();
+				collision();
 				break;
 
 			case "ArrowRight":
 				player.x += speed;
 				r = motion(r, 'right');
-				collisionUp();
+				collision();
 				break;
 		}
 	}

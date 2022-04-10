@@ -6,17 +6,21 @@ import { GameEngine } from 'react-game-engine';
 import Player from '../entities/Player';
 import Loop from '../system/Loop';
 import Options from '../components/Options';
-import { Pausa } from '../components/GlobalProvider';
+import Dialog from '../components/Dialog';
+import { Pausa, DialogOpen } from '../components/GlobalProvider';
 
 import '../style/Play.css';
 
 const Play = () => {
 	const { pause, setPause } = useContext(Pausa);
+	const { dialog, setDialog } = useContext(DialogOpen);
 	const engine = useRef();
 
 	const togglePause = useCallback(ev => {
 		if (ev.key === "e")
 			setPause(true);
+		else if (ev.key === 'q')
+			setDialog(true);
 	}, [])
 
 	useEffect(() => {
@@ -41,6 +45,7 @@ const Play = () => {
 				onHide={() => setPause(false)}
 				exit={true}
 			/>
+			<Dialog />
 		</GameEngine>
 	)
 }
