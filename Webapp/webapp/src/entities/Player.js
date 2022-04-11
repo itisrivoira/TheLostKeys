@@ -5,17 +5,19 @@ import { Image } from "react-bootstrap";
 
 const Player = ({x, y, src}) => {
 
-	//useEffect( () => console.log('x: ' + parseInt(x + 27)));
-	//useEffect( () => console.log('y: ' + parseInt(y + 34)));
+	useEffect( () => console.log('x: ' + x), [x]);
+	useEffect( () => console.log('y: ' + y), [y]);
 
 	return(
 		<Image
 			style={{
+				imageRendering: "pixelated",
 				position: "absolute",
 				left: x,
 				top: y,
-				border: '1px solid black',
 			}}
+			width={150}
+			height={212}
 			src={src}
 		/>
 	)

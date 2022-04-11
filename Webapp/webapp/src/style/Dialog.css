@@ -1,6 +1,4 @@
-.dialogo {
-   position:fixed;
-   right:0;
-   left:0;
-   bottom:0;
+.customw {
+   min-width: 80%;
+   max-height: 250px;
 }

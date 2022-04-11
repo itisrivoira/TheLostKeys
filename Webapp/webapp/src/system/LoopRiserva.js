@@ -1,4 +1,5 @@
 // Loop del Gioco
+import collision from "./collision";
 
 var [ u, d, l, r ] = [ 0, 0, 0, 0 ];
 const frames = [
@@ -30,26 +31,38 @@ const Loop = (entities, { input }) => {
 
 		switch (key) {
 			case "ArrowUp":
-				player.y -= speed;
-				u = motion(u, 'up');
+				if (collision(x,y) != 'up') {
+					player.y -= speed;
+					u = motion(u, 'up');
+				} else
+					player.src = require(`../assets/characters/up/${frames[0]}`);
 
 				break;
 
 			case "ArrowDown":
-				player.y += speed;
-				d = motion(d, 'down');
+				if (collision(x,y) != 'down') {
+					player.y += speed;
+					d = motion(d, 'down');
+				}	else
+					player.src = require(`../assets/characters/down/${frames[0]}`);
 
 				break;
 
 			case "ArrowLeft":
-				player.x -= speed;
-				l = motion(l, 'left');
+				if (collision(x,y) != 'left') {
+					player.x -= speed;
+					l = motion(l, 'left');
+				} else
+					player.src = require(`../assets/characters/left/${frames[0]}`);
 
 				break;
 
 			case "ArrowRight":
-				player.x += speed;
-				r = motion(r, 'right');
+				if (collision(x,y) != 'right') {
+					player.x += speed;
+					r = motion(r, 'right');
+				} else
+					player.src = require(`../assets/characters/right/${frames[0]}`);
 
 				break;
 		}
