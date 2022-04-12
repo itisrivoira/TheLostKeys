@@ -12,7 +12,8 @@ const frames = [
 
 const Loop = (entities, { input }) => {
 	const { payload } = input.find(x => x.name === "onKeyDown") || {};
-	const player = entities["player"];
+	const { player } = entities;
+
 	var { x, y, speed } = player;
 	x += 27;
 	y += 34;

@@ -2,8 +2,9 @@
 
 import { useRef, useCallback, useContext, useEffect } from 'react';
 import { GameEngine } from 'react-game-engine';
+import useEntities from '../entities/useEntities';
 
-import Player from '../entities/Player';
+import Timer from '../system/Timer';
 import Loop from '../system/Loop';
 import Options from '../components/Options';
 import Dialog from '../components/Dialog';
@@ -34,11 +35,9 @@ const Play = () => {
 		<GameEngine
 			ref={engine}
 			className='Stage'
-			systems={[Loop]}
+			systems={[Loop, Timer]}
 			running={!pause}
-			entities={{
-				player: { x: 1100, y: 400, speed: 8, src: require('../assets/characters/Seima.png'), renderer: <Player /> }
-			}}
+			entities={useEntities()}
 		>
 			<Options
 				show={pause}
