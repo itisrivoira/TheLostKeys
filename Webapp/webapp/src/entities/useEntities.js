@@ -10,7 +10,7 @@ const useEntities = () => {
 		player: {
 			x: 1100,
 			y: 400,
-			speed: 8,
+			speed: 4,
 			src: require('../assets/characters/Seima.png'),
 			renderer: <Player />
 		},

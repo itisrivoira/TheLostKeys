@@ -6,6 +6,7 @@ import useEntities from '../entities/useEntities';
 
 import Timer from '../system/Timer';
 import Loop from '../system/Loop';
+import LoopRiserva from '../system/LoopRiserva';
 import Options from '../components/Options';
 import Dialog from '../components/Dialog';
 import { Pausa, DialogOpen } from '../components/GlobalProvider';
@@ -14,7 +15,7 @@ import '../style/Play.css';
 
 const Play = () => {
 	const { pause, setPause } = useContext(Pausa);
-	const { dialog, setDialog } = useContext(DialogOpen);
+	const { setDialog } = useContext(DialogOpen);
 	const engine = useRef();
 
 	const togglePause = useCallback(ev => {
@@ -22,12 +23,18 @@ const Play = () => {
 			setPause(true);
 		else if (ev.key === 'q')
 			setDialog(true);
-	}, [])
+	}, []);
+
+	const click = ({x,y}) => {
+		console.log('click x: ' + x + ' click y: ' + y);
+	}
 
 	useEffect(() => {
 		document.addEventListener("keydown", togglePause, false);
+		document.addEventListener('click', click, false);
 		return () => {
 			document.removeEventListener("keydown", togglePause, false);
+			document.removeEventListener('click', click, false);
 		}
 	}, []);
 
@@ -35,7 +42,7 @@ const Play = () => {
 		<GameEngine
 			ref={engine}
 			className='Stage'
-			systems={[Loop, Timer]}
+			systems={[LoopRiserva, Timer]}
 			running={!pause}
 			entities={useEntities()}
 		>

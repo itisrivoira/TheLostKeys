@@ -11,7 +11,7 @@ const frames = [
 	'Walk5.png',
 ];
 
-const Loop = (entities, { input }) => {
+const LoopRiserva = (entities, { input }) => {
 	const { payload } = input.find(x => x.name === "onKeyDown") || {};
 	const player = entities["player"];
 	var { x, y, speed } = player;
@@ -34,8 +34,9 @@ const Loop = (entities, { input }) => {
 				if (collision(x,y) != 'up') {
 					player.y -= speed;
 					u = motion(u, 'up');
-				} else
-					player.src = require(`../assets/characters/up/${frames[0]}`);
+				} else{
+					console.log('up')
+					player.src = require(`../assets/characters/up/${frames[0]}`);}
 
 				break;
 
@@ -44,7 +45,8 @@ const Loop = (entities, { input }) => {
 					player.y += speed;
 					d = motion(d, 'down');
 				}	else
-					player.src = require(`../assets/characters/down/${frames[0]}`);
+			{	console.log('down')
+					player.src = require(`../assets/characters/down/${frames[0]}`);}
 
 				break;
 
@@ -52,8 +54,9 @@ const Loop = (entities, { input }) => {
 				if (collision(x,y) != 'left') {
 					player.x -= speed;
 					l = motion(l, 'left');
-				} else
-					player.src = require(`../assets/characters/left/${frames[0]}`);
+				} else{
+				console.log('left')
+					player.src = require(`../assets/characters/left/${frames[0]}`);}
 
 				break;
 
@@ -62,7 +65,8 @@ const Loop = (entities, { input }) => {
 					player.x += speed;
 					r = motion(r, 'right');
 				} else
-					player.src = require(`../assets/characters/right/${frames[0]}`);
+				{console.log('right')
+					player.src = require(`../assets/characters/right/${frames[0]}`);}
 
 				break;
 		}
@@ -71,4 +75,4 @@ const Loop = (entities, { input }) => {
 	return entities;
 }
 
-export default Loop;
+export default LoopRiserva;
