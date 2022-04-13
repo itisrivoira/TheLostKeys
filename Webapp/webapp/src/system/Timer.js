@@ -9,7 +9,7 @@ const Timer = (entities) => {
 
 	if (n == 62.5) {
 		countdown.sec -= 1;
-		n = 0.5;
+		n = 0.5;;
 
 		if (countdown.sec <= 0) {
 			countdown.min -= 1;
