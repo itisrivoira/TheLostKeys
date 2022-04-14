@@ -1,9 +1,9 @@
-import Prova from '../assets/prova/Prova.json';
+import ChimicaProva from '../assets/prova/ChimicaProva.json';
 
 export default (x, y) => {
 	let direction = '';
 
-	Prova.layers[1].objects.forEach( el => {
+	ChimicaProva.layers[2].objects.forEach( el => {
 		if (
 			x >= (el.x - 10) &&
 			x <= (el.x + el.width + 10) &&

@@ -5,8 +5,8 @@ import { Image } from "react-bootstrap";
 
 const Player = ({x, y, src}) => {
 
-	useEffect( () => console.log('x: ' + x), [x]);
-	useEffect( () => console.log('y: ' + y), [y]);
+	useEffect( () => console.log('x: ' + parseInt(x + 27)), [x]);
+	useEffect( () => console.log('y: ' + parseInt(y + 34)), [y]);
 
 	return(
 		<Image
