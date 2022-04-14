@@ -48,10 +48,11 @@ const Dialog = () => {
 						primo.map( (val, index) => {
 							return(
 							<DialogText
+								key={index}
 								i={index}
 								now={n}
 								text={val.text}
-								key={index}
+								people={val.people}
 							/>
 
 						)})

@@ -2,20 +2,19 @@
 
 import { Col, Row } from "react-bootstrap";
 
-const DialogText = ({i, now, text}) => {
+const DialogText = ({i, now, text, people}) => {
 
 	return( i === now && (
 		<Row className="px-3">
 			<Col
 				xxl={3}
-				className='bg-secondary bg-gradient rounded-pill d-flex align-items-center'
+				className='bg-secondary bg-gradient rounded-pill'
 			>
-				<Row>
-
+				<Row className="h-75 bg-white rounded-pill" xxl={12}>
 				</Row>
-				<Row>
-					<p>
-						Narratore
+				<Row className="" xxl={12}>
+					<p className="text-center fs-3 text-white">
+						{people}
 					</p>
 				</Row>
 			</Col>
