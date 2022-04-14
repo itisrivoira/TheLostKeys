@@ -4,9 +4,8 @@ import { useContext } from "react";
 import { Col, Button, Modal, Row,  Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-import useFullScreen from "../utils/useFullScreen";
-import Audio from "./Audio";
-import { Music, Sfx } from "./GlobalProvider";
+import { useFullScreen } from "../utils/utils";
+import { Audio, Music, Sfx } from './components';
 
 import '../style/App.css';
 

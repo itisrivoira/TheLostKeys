@@ -4,12 +4,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 
-import SplashScreen from "../components/SplashScreen";
-import Title from "../components/Title";
-import Footer from "../components/Footer";
-import Options from "../components/Options";
-import { BtnPlay, BtnOptions, BtnLogin, BtnMusic} from "../components/Buttons";
-import { Pausa } from "../components/GlobalProvider";
+import { SplashScreen, Title, Footer, Options, BtnPlay, BtnOptions, BtnLogin, BtnMusic, Pausa } from '../components/components';
 
 import '../style/App.css';
 

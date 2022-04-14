@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
-import GlobalProvider from './components/GlobalProvider';
+import { GlobalProvider } from './components/components';
 import App from './App';
 
 import 'bootstrap/dist/css/bootstrap.min.css';

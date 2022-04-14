@@ -4,20 +4,11 @@ import { useEffect, useState } from "react";
 import { Button, Image } from "react-bootstrap";
 import { MdMusicNote, MdMusicOff } from "react-icons/md";
 
+import {useAudio, useRandomInterval} from '../utils/utils';
+import { penPlay, penOptions, penLogin, penPlayWhite, penLoginWhite, penOptionsWhite } from '../assets/img/img';
+import { rainSound, thunderSound, thunderSound2 } from '../assets/sounds/sounds';
+
 import '../style/App.css';
-
-import useAudio from "../utils/useAudio";
-import useRandomInterval from "../utils/useRandomTimer";
-
-import rainSound from "../assets/sounds/Rain-sound.mp3";
-import thunderSound from "../assets/sounds/thunder-sound.mp3";
-import thunderSound2 from "../assets/sounds/thunder-sound2.mp3";
-import penPlay from "../assets/img/penPlay.png";
-import penOptions from "../assets/img/penOptions.png";
-import penLogin from "../assets/img/penLogin.png";
-import penPlayWhite from "../assets/img/penPlayWhite.png";
-import penOptionsWhite from "../assets/img/penOptionsWhite.png";
-import penLoginWhite from "../assets/img/penLoginWhite.png";
 
 export const BtnPlay = ({callback}) => {
 	const [state, setState] = useState(false);	// stato per la transizione

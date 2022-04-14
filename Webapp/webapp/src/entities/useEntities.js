@@ -1,6 +1,5 @@
 // tutte entita di gioco
 
-import { useEffect, useState } from 'react';
 import CountDown from './CountDown';
 import Player from './Player';
 

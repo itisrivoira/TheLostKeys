@@ -4,7 +4,7 @@ import { Col, Row } from "react-bootstrap";
 
 const DialogText = ({i, now, text}) => {
 
-	return(i === now && (
+	return( i === now && (
 		<Row className="px-3">
 			<Col
 				xxl={3}
@@ -20,18 +20,12 @@ const DialogText = ({i, now, text}) => {
 				</Row>
 			</Col>
 			<Col xxl={9}>
-
-					<p
-						className="text-white fs-4 ms-4"
-					>
-						{text}
-					</p>
-
+				<p className="text-white fs-4 ms-4">
+					{text}
+				</p>
 			</Col>
-
 		</Row>
-		)
-	)
+	))
 }
 
 export default DialogText;

@@ -2,12 +2,6 @@
 
 import { useState, useEffect } from 'react';
 
-const isClient = !!(
-	typeof window !== 'undefined'
-	&& window.document
-	&& window.document.createElement
-);
-
 export function isFullScreenElement(el) {
 	if (el && el.current) {
 		return Boolean(
@@ -30,7 +24,7 @@ export function isFullScreenElement(el) {
 }
 
 function useFullScreen(element) {
-	const initialState = !isClient ? false : isFullScreenElement(element);
+	const initialState = isFullScreenElement(element);
 	const [fullScreen, setFullScreen] = useState(initialState);
 
 	// access various open fullscreen methods

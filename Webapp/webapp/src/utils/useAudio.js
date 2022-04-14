@@ -1,7 +1,7 @@
 // hooks per la gestione degli audio
 
 import { useState, useEffect, useContext } from "react";
-import { Music, Sfx } from "../components/GlobalProvider";
+import { Music, Sfx } from "../components/components";
 
 const useAudio = (url, loop) => {
 	const [audio] = useState(new Audio(url));

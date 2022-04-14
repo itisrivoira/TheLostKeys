@@ -1,10 +1,10 @@
 // Componente root della Web App
 
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
-import Menu from "./pages/Menu";
-import Play from "./pages/Play";
+import { useEventListener } from "./utils/utils";
+import { Menu, Play } from './pages/pages';
 
 const App = () => {
 
@@ -13,9 +13,7 @@ const App = () => {
 			e.preventDefault();
 	})
 
-	useEffect( () => {
-		document.addEventListener('keydown', prevent, false);
-	}, []);
+	useEventListener('keydown', prevent);
 
 	return (
 		<Routes>
