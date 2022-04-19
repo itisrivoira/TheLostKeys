@@ -1,6 +1,6 @@
 // Pagina di Gioco
 
-import { useRef, useCallback, useContext, useEffect } from 'react';
+import { useRef, useCallback, useContext } from 'react';
 import { GameEngine } from 'react-game-engine';
 import useEntities from '../entities/useEntities';
 
@@ -10,6 +10,7 @@ import Timer from '../system/Timer';
 import LoopRiserva from '../system/LoopRiserva';
 
 import '../style/Play.css';
+import '../style/Font.css';
 
 const Play = () => {
 	const { setting, setSetting } = useContext(Opzioni);
@@ -17,17 +18,15 @@ const Play = () => {
 	const { run, setRun } = useContext(Run);
 	const engine = useRef();
 
-	const togglePause = useCallback(ev => {
+	const togglePause = useCallback( ev => {
 		if (ev.key === "e"){
 			setSetting(true);
 			setRun(false);
-		}
-		else if (ev.key === 'q') {
+		} else if (ev.key === 'q') {
 			setDialog(true);
 			setRun(false);
 		}
-
-	}, []);
+	}, [setDialog, setRun, setSetting]);
 
 	const click = ({x,y}) => {
 		console.log('click x: ' + x + ' click y: ' + y);

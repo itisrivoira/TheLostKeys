@@ -7,10 +7,14 @@ import { useContext } from "react";
 import { SplashScreen, Title, Footer, Options, BtnPlay, BtnOptions, BtnLogin, BtnMusic, Opzioni } from '../components/components';
 
 import '../style/App.css';
+import '../style/Font.css';
 
 const Menu = () => {
 	const { setSetting } = useContext(Opzioni);
 	let navigate = useNavigate();
+
+	const openSettings = () => setSetting(true);
+	const play = () => navigate('../play', {replace: true});
 
 	return (
 		<>
@@ -20,10 +24,10 @@ const Menu = () => {
 				</Row>
 				<Row className="p-3 w-75 position-absolute top-50 start-50 translate-middle">
 					<Col className="d-flex justify-content-start" xxl={4}>
-						<BtnOptions callback={() => setSetting(true)} />
+						<BtnOptions callback={openSettings} />
 					</Col>
 					<Col className="d-flex justify-content-center" xxl={4}>
-						<BtnPlay callback={() => navigate('../play', {replace: true})} />
+						<BtnPlay callback={play} />
 					</Col>
 					<Col className="d-flex justify-content-end" xxl={4}>
 						<BtnLogin />
