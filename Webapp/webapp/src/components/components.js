@@ -3,7 +3,7 @@ import { BtnPlay, BtnOptions, BtnLogin, BtnMusic } from "./Buttons";
 import Dialog from './Dialog';
 import DialogText from './DialogText';
 import Footer from "./Footer";
-import GlobalProvider, { Pausa, Music, Sfx, DialogOpen } from './GlobalProvider';
+import GlobalProvider, { Run, Music, Sfx, DialogOpen, Opzioni } from './GlobalProvider';
 import Options from "./Options";
 import SplashScreen from "./SplashScreen";
 import Title from "./Title";
@@ -18,9 +18,10 @@ export {
 	DialogText,
 	Footer,
 	GlobalProvider,
-	Pausa,
+	Run,
 	Music,
 	Sfx,
+	Opzioni,
 	DialogOpen,
 	Options,
 	SplashScreen,

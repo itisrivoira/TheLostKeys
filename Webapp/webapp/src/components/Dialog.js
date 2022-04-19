@@ -3,7 +3,7 @@
 import { Modal } from "react-bootstrap";
 import { useState, useContext, useEffect } from "react";
 
-import { DialogOpen, DialogText } from "./components";
+import { DialogOpen, DialogText, Run } from "./components";
 import { useEventListener } from '../utils/utils';
 import primo from '../assets/dialogs/primo.json';
 
@@ -12,22 +12,23 @@ import '../style/Dialog.css';
 const Dialog = () => {
 	const [ n, setN ] = useState(0);
 	const { dialog, setDialog } = useContext(DialogOpen);
+	const { run, setRun } = useContext(Run);
+
+	const handleClose = () => {
+		setDialog(false);
+		if ( !run ) setRun(true);
+		setN(0);
+	};
 
 	useEffect( () => {
 		if (n == primo.length) {
-			setDialog(false);
-			setN(0);
+			handleClose();
 		}
 	}, [n]);
 
 	const next = e => {
 		if (e.key === 'Enter')
 			setN(prev => prev + 1);
-	};
-
-	const handleClose = () => {
-		setDialog(false);
-		setN(0);
 	};
 
 	useEventListener('keydown', next);
@@ -40,6 +41,7 @@ const Dialog = () => {
 				animation={false}
 				size='lg'
 				dialogClassName="position-absolute bottom-0 start-50 translate-middle-x customw"
+				backdrop="static"
 			>
 				<Modal.Body
 					className="bg-secondary"

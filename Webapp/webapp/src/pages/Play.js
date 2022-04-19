@@ -1,10 +1,10 @@
 // Pagina di Gioco
 
-import { useRef, useCallback, useContext } from 'react';
+import { useRef, useCallback, useContext, useEffect } from 'react';
 import { GameEngine } from 'react-game-engine';
 import useEntities from '../entities/useEntities';
 
-import { Options , Dialog, Pausa, DialogOpen, } from '../components/components';
+import { Options , Dialog, DialogOpen, Opzioni, Run } from '../components/components';
 import { useEventListener } from '../utils/utils';
 import Timer from '../system/Timer';
 import LoopRiserva from '../system/LoopRiserva';
@@ -12,15 +12,21 @@ import LoopRiserva from '../system/LoopRiserva';
 import '../style/Play.css';
 
 const Play = () => {
-	const { pause, setPause } = useContext(Pausa);
+	const { setting, setSetting } = useContext(Opzioni);
 	const { setDialog } = useContext(DialogOpen);
+	const { run, setRun } = useContext(Run);
 	const engine = useRef();
 
 	const togglePause = useCallback(ev => {
-		if (ev.key === "e")
-			setPause(true);
-		else if (ev.key === 'q')
+		if (ev.key === "e"){
+			setSetting(true);
+			setRun(false);
+		}
+		else if (ev.key === 'q') {
 			setDialog(true);
+			setRun(false);
+		}
+
 	}, []);
 
 	const click = ({x,y}) => {
@@ -35,12 +41,10 @@ const Play = () => {
 			ref={engine}
 			className='Stage'
 			systems={[LoopRiserva, Timer]}
-			running={!pause}
+			running={run}
 			entities={useEntities()}
 		>
 			<Options
-				show={pause}
-				onHide={() => setPause(false)}
 				exit={true}
 			/>
 			<Dialog />
