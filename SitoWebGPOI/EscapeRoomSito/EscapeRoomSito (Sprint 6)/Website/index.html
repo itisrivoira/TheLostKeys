@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomePage</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="homepage.css">
+
+    <script>
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl)
+        })
+        var popover = new bootstrap.Popover(document.querySelector('.example-popover'), {
+            container: 'body'
+        })
+    </script>
+
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg" id="principale">
+            <div class="container">
+                <a class="navbar-brand" href="./index.html">
+                    <img src="./img/Logo.png" alt="" width="50" height="44" class="d-inline-block align-text-top" style="position: absolute; margin-left: 32px; border-radius: 12%;">
+                </a>
+                
+                <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+			 	</button>
+
+                <div class="collapse navbar-collapse w-100" id="navbarNavDropdown">
+                    <ul class="nav navbar-nav navbar-right">
+                        <div class="navbar-buttons">
+                            <a id="nn1" href="index.html" style="text-decoration: none; color: #fff;">Home</a>
+                            <a id="nn2" href="about_us.html" style="text-decoration: none; color: #fff; margin-left: 20px;">About Us</a>
+                            <a id="nn3" href="contacts.html" style="text-decoration: none; color: #fff; margin-left: 20px;">Contacts</a>
+                        </div>            
+                    </ul>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-text d-flex justify-content-end" id="navbarNavDropdown">
+                    <a href="./login.html" class="nav-link" id="btn_login" style="color: #fff;">
+                        Login
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="cover">
+        <h3 style="color: #fff; background-color: black; text-align: center;"><b>TheLostKeys</b></h3>
+    </section>
+    
+    <div class="banner">
+        <div class="content">
+            <h2>Introduzione</h2>
+            <p style="font-size: large;"> 
+                Siamo nel 2022, e sono passati ormai 4 anni dall'ultima volta che gli studenti
+                hanno messo piede nella loro sede principale il quale è ancora in piedi nel centro
+                paese, ma non agibile a causa della sua costruzione instabile ... stiamo parlando del
+                vecchio e ormai abbandonato "ITIS Rivoira" di Verzuolo
+            </p>
+            <a target="new" href="https://www.lastampa.it/cuneo/2018/02/02/news/locali-non-agibili-confermata-la-chiusura-dell-itis-rivoira-di-verzuolo-1.33975259/" style="color: rgb(56, 56, 99); text-decoration: none;">Read More</a>
+        </div>
+        <img src="./img/ITIS.png" alt="" class="image">
+    </div>
+
+    <div class="banner2">
+        <img src="./img/personaggi/keeper.png" alt="" class="image2">
+        <div class="content">
+            <p style="font-size: large;"> 
+                La costruzione ha un lato nascosto al suo interno, ovvero una presenza occulta: il custode.
+                Si dice egli abbia maledetto quel luogo, non potrà far uscire il giocatore e dunque il tuo
+                obiettivo è quello di ritrovare la chiavetta corretta per trovare la via di fuga prima che
+                scada il tempo e che il custode faccia crollare la scuola rinchiudendoti all'interno
+            </p>
+        </div>
+    </div>
+
+    <div class="banner3">
+        <div class="content">
+            <p style="font-size: large;"> 
+                Potrai scegliere tra 5 personaggi differenti in base alle loro diverse capacità, ed esplorare 
+                diverse stanze in cui gli alunni svolgevano le loro abituali lezioni, grazie alle mappe che 
+                troverai sui piani di evacuazione di alcune classi, ma disponibili solo con l'avanzare della
+                partita. Ma attenzione! Dovrai essere in grado di risolvere differenti enigmi o domande per
+                recuperare le chiavette disperse. Avrai anche qualche suggerimento da parte di qualcuno di 
+                inaspettato, se ne avrai bisogno... <br>
+                Non farti ingannare e buona fortuna!
+            </p>
+        </div>
+        <img src="./img/chiave.png" alt="" class="image3">
+    </div>
+
+    <div class="container-fluid" id="accord" style="background-color: #cac6c6;">
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="background-color: #cac6c6;">
+                  Epilogo
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body" style="background-color: #cac6c6;">
+                    <div class="banner4">
+                        <div class="content">
+                            <p style="font-size: large;"> 
+                                Tutto ha inizio con un'innocente scommessa a scuola. <br>
+                                Qualcuno ha bisogno di alcune informazioni contenute in vecchie pen-drive
+                                all'interno del vecchio ITIS. Nessuno ha il coraggio di addentrarsi all'interno
+                                di quel luogo dopo scosse sospette avvenutasi negli anni scorsi. Cinque compagni
+                                di classe decidono di accettare la sfida e tentare di recuperare le chiavette perdute
+                            </p>
+                        </div>
+                        <img src="./img/immagine_storia1.png" alt="" class="image4">
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" style="background-color: #cac6c6;">
+                  Nella Scuola...
+                </button>
+              </h2>
+              <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div class="accordion-body" style="background-color: #cac6c6;">
+                    <div class="banner4">
+                        <div class="content">
+                            <p style="font-size: large;"> 
+                                I ragazzi saranno sottoposti immediatamente ad un enigma per trovare la chiave per
+                                aprire il portone principale e una volta addentrati si confronteranno per capire la
+                                miglior strategia da usare per trovare le chiavette USB. Il giocatore principale noterà 
+                                strani avvenimenti (urla, rumori, oggetti che si spostano da sole...). Dunque inizia ad 
+                                insospettirsi e seguendo il richiamo dei compagni, inizia ad esplorare corridoi e classi, 
+                                notando enigmi vari da risolvere che non sa dove lo porteranno. 
+                                Inoltre i nostri protagonisti man mano spariranno e verranno rapiti dal Custode
+                            </p>
+                        </div>
+                        <img src="./img/ITIS.png" alt="" class="image5">
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" style="background-color: #cac6c6;">
+                  Il Mostro...
+                </button>
+              </h2>
+              <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                <div class="accordion-body" style="background-color: #cac6c6;">
+                    <div class="banner4">
+                        <div class="content">
+                            <p style="font-size: large;"> 
+                                La leggenda narra che costui nasce dalle vecchie fondamenta della scuola causando strani
+                                avvenimenti che hanno allontanato gli studenti. Egli si presenta come uno spettro umanoide
+                                con un lucchetto al posto della testa, che se sbloccato, farà cessare la sua esistenza.
+                                Il Custode ha la possibilità di aprire tutte le porte, grazie alla mano sinistra che è sostituita
+                                da una chiave dorata, per non parlare del fatto che può camminare più velocemente rispetto agli altri 
+                                giocatori. Nel caso in cui il protagonista venga catturato dal mostro, la partita terminerà con l'avviso
+                                GAME OVER. Per proteggersi dal mostro ci si può nascondere in luoghi come l'armadietto, in bagno ecc
+                            </p>
+                        </div>
+                        <img src="./img/angry-mostro_sito.png" alt="" class="image4">
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <br><br><br>
+        <br><br><br>
+
+        <div class="popovers">
+            
+            <div class="popover1 d-flex justify-content-start">
+                <button type="button" class="btn btn-dark" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-html="true" data-bs-content="<h6><b>Gli enigmi saranno sparsi nell'edificio e alle volte saranno inerenti alla materia insegnata in quella determinata classe. La risoluzione dei problemi ti guiderà verso le chiavette da recuperare o in altri luoghi magici</b></h6>">
+                    Gestione Enigmi...
+                </button>
+            </div>
+            <br>
+            <div class="popover2 d-flex justify-content-center">
+                <button type="button" class="btn btn-dark" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="left" data-bs-html="true" data-bs-content="<h6><b>Il tempo stimato per una partita è di 25 minuti circa e, durante l'enigma proposto, il tempo si fermerà come per magia, dandoti il tempo per rifletterci. Una volta data la risposta, esso riprenderà dal punto precedente, sempre se la risposta data è corretta, sennò, in base alla difficoltà dell'enigma, saranno diminuiti un tot. di secondi necessario ad uscire in tempo dalla scuola</b></h6>">
+                    Tempo e Punteggio...
+                </button>
+            </div>
+            <br>
+            <div class="popover3 d-flex justify-content-end">
+                <button type="button" class="btn btn-dark" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="left" data-bs-html="true" data-bs-content="<h6><b>Facile (20 * N enigmi) <br><br> Medio (30 * N enigmi) <br><br> Difficile (50 * N enigmi) <br> <h5> + </h5> Finale Normale => 300 <br> Finale Perfetto => 500 <br> <h5> + </h5> Tempo che ti rimane [s] </b></h6>">
+                    Calcolo Punteggio...
+                </button>
+            </div>
+
+        </div>
+
+
+        <br><br><br>
+        <br><br><br>
+
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="d-block w-100" id="carousel1">
+                        <h3 style="text-align: center; text-decoration: underline;"><b>MATEMATICA [1]</b></h3>
+                        <br>
+                        <h4 style="font-style: oblique; text-align: center; font-weight: 400;">Enigma medio:</h4>
+                        <p style="text-align: center; margin-left: 20%; margin-right: 20%;">
+                            La somma della superficie di 3 piscine misura 1200 m². Se la prima è il 
+                            doppio della seconda e questa è il triplo della terza, quanto misura in m² 
+                            ogni piscina?
+                            <br>
+                            <h5 style="font-style: oblique; font-weight: lighter; margin-left: 10%; margin-right: 10%;">Suggerimento: [mostrata equazione]</h5>
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="d-block w-100" id="carousel2">
+                        <h3 style="text-align: center; text-decoration: underline;"><b>MATEMATICA [2]</b></h3>
+                        <br>
+                        <h4 style="font-style: oblique; text-align: center; font-weight: 400;">Enigma medio-difficile:</h4>
+                        <p style="text-align: center; margin-left: 20%; margin-right: 20%;">
+                            Il doppio aumentato di 9 del prodotto di un numero naturale, con un altro
+                            che lo supera di 4, è uguale a 3 volte il quadrato del primo. Determinare
+                            i 2 numeri.
+                            <br>
+                            <h5 style="font-style: oblique; font-weight: lighter; margin-left: 10%; margin-right: 10%;">Suggerimento: [mostrata equazione]</h5>
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="d-block w-100" id="carousel3">
+                        <h3 style="text-align: center; text-decoration: underline;"><b>INFORMATICA [1]</b></h3>
+                        <br>
+                        <h4 style="font-style: oblique; text-align: center; font-weight: 400;">Enigma medio:</h4>
+                        <p style="text-align: center; margin-left: 20%; margin-right: 20%;">
+                            Determinare il valore di B a fine esecuzione.
+                            <br><br>
+                            <img src="./img/enigmaInfo1.jpg" class="image-responsive" alt="" style="width: 100%; border-radius: 5%;">
+                            <br>
+                            <h5 style="font-style: oblique; font-weight: lighter; margin-left: 10%; margin-right: 10%;">Suggerimento: [mostrato valore di B in alcune fasi del programma]</h5>
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="d-block w-100" id="carousel4">
+                        <h3 style="text-align: center; text-decoration: underline;"><b>INFORMATICA [2]</b></h3>
+                        <br>
+                        <h4 style="font-style: oblique; text-align: center; font-weight: 400;">Enigma facile:</h4>
+                        <p style="text-align: center; margin-left: 20%; margin-right: 20%;">
+                            Determinare il valore di A a fine esecuzione.
+                            <br><br>
+                            <img src="./img/enigmaInfo2.jpg" class="image-responsive" alt="" style="width: 100%; border-radius: 5%;">
+                            <br>
+                            <h5 style="font-style: oblique; font-weight: lighter; margin-left: 10%; margin-right: 10%;">Suggerimento: [mostrato valore di A in alcune fasi del programma]</h5>
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="d-block w-100" id="carousel5">
+                        <h3 style="text-align: center; text-decoration: underline;"><b>CHIMICA [1]</b></h3>
+                        <br>
+                        <h4 style="font-style: oblique; text-align: center; font-weight: 400;">Enigma medio:</h4>
+                        <p style="text-align: center; margin-left: 20%; margin-right: 20%;">
+                            Per trovare la chiavetta n°(?), somma il numero degli atomi di 0₂ nell'acqua, di H₂
+                            dell'acido solforico e l'ordine di grandezza della costante di avogadro. Somma le cifre
+                            e, partendo da sinistra, conta per trovare l'armadio che contiene un oggetto spesso
+                            usato dai tecnici di laboratorio. Per aprirlo, devi utilizzare un oggetto già in tuo
+                            possesso. Cosa vedi? Un oggetto che abbiamo usato per un esperimento, apri e cerca...
+                            <br>
+                            <h5 style="font-style: oblique; font-weight: lighter; margin-left: 10%; margin-right: 10%;">Suggerimento: [numero uguale alle lettere dell'alfabeto + chiave armadietto = chiave trovata inizio partita]</h5>
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="d-block w-100" id="carousel6">
+                        <h3 style="text-align: center; text-decoration: underline;"><b>CHIMICA [2]</b></h3>
+                        <br>
+                        <h4 style="font-style: oblique; text-align: center; font-weight: 400;">Enigma facile:</h4>
+                        <p style="text-align: center; margin-left: 20%; margin-right: 20%;">
+                            Risolvi lo schema per il passaggio di stato: da una sostanza solida come il ghiaccio,
+                            qual è il giusto ordine per passare allo stato gassoso, ed in seguito a quello liquido
+                            come l'H₂O e poi di nuovo allo stato solido?
+                            <br><br>
+                            <img src="./img/enigmaChimica2.jpg" class="image-responsive" alt="" style="width: 100%; border-radius: 5%;">
+                            <br>
+                            <h5 style="font-style: oblique; font-weight: lighter; margin-left: 10%; margin-right: 10%;">Suggerimento: [flashback del prof. Conte]</h5>
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="d-block w-100" id="carousel7">
+                        <h3 style="text-align: center; text-decoration: underline;"><b>STORIA</b></h3>
+                        <br>
+                        <h4 style="font-style: oblique; text-align: center; font-weight: 400;">Enigma medio:</h4>
+                        <p style="text-align: center; margin-left: 20%; margin-right: 20%;">
+                            Ricordi quando ufficialmente la scuola fu chiusa? In quel mese di 101 anni prima, si stava 
+                            si stava concludendo un duro scontro in un paese distante dal nostro...trova il libro celebre
+                            di quegli anni all'interno dell'edificio, il quale ti condurrà alla chiavetta.
+                            <br>
+                            Il giocatore dovrà recarsi poi in biblioteca e trovare il Manifesto del Partito Comunista di 
+                            Karl Marx; aprendolo, troverà un segnalibro con una cartina, che lo guiderà allo scalino X
+                            con all'interno la chiavetta.
+                            <br>
+                            <h5 style="font-style: oblique; font-weight: lighter; margin-left: 10%; margin-right: 10%;">Suggerimento: [vecchio giornale in una classe con in prima pagina la notizia della chiusura della scuola (02/02/2018)]</h5>
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="d-block w-100" id="carousel8">
+                        <h3 style="text-align: center; text-decoration: underline;"><b>ITALIANO</b></h3>
+                        <br>
+                        <h4 style="font-style: oblique; text-align: center; font-weight: 400;">Enigma facile:</h4>
+                        <p style="text-align: center; margin-left: 20%; margin-right: 20%;">
+                            Sblocchi un flashback della prima superiore, ti ricordi quando in questo ambiente 
+                            ti sembrava tutto nuovo, è come se ci fosse un fanciullino dentro di te, che autore
+                            ti ricorda?
+                            <br>
+                            <h5 style="font-style: oblique; font-weight: lighter; margin-left: 10%; margin-right: 10%;">Suggerimento: [autore di fine 800]</h5>
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="d-block w-100" id="carousel9">
+                        <h3 style="text-align: center; text-decoration: underline;"><b>SISTEMI & RETI [1]</b></h3>
+                        <br>
+                        <h4 style="font-style: oblique; text-align: center; font-weight: 400;">Enigma medio:</h4>
+                        <p style="text-align: center; margin-left: 20%; margin-right: 20%;">
+                            Trovare il testo cifrato della parola 'Porta' con chiave 'Itis' utilizzando il cifrario
+                            di Vigenère per aprire il portone principale. 
+                            <br>
+                            <h5 style="font-style: oblique; font-weight: lighter; margin-left: 10%; margin-right: 10%;">Suggerimento: [data parola al contrario]</h5>
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="d-block w-100" id="carousel10">
+                        <h3 style="text-align: center; text-decoration: underline;"><b>SISTEMI & RETI [2]</b></h3>
+                        <br>
+                        <h4 style="font-style: oblique; text-align: center; font-weight: 400;">Enigma facile:</h4>
+                        <p style="text-align: center; margin-left: 20%; margin-right: 20%;">
+                            Per accedere al PC, è necessario collegarlo alla rete, inserendo un indirizzo IP del seguente
+                            range X
+                            <br>
+                            <h5 style="font-style: oblique; font-weight: lighter; margin-left: 10%; margin-right: 10%;">Suggerimento: [post-it sotto alla tastiera]</h5>
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="d-block w-100" id="carousel11">
+                        <h3 style="text-align: center; text-decoration: underline;"><b>INGLESE [1]</b></h3>
+                        <br>
+                        <h4 style="font-style: oblique; text-align: center; font-weight: 400;">Enigma medio:</h4>
+                        <p style="text-align: center; margin-left: 20%; margin-right: 20%;">
+                            I have four legs, a back, but no head...what am I? 
+                            <br>
+                            <h5 style="font-style: oblique; font-weight: lighter; margin-left: 10%; margin-right: 10%;">Suggerimento: [immagine alla LIM della sedia della postazione della prof.ssa]</h5>
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="d-block w-100" id="carousel12">
+                        <h3 style="text-align: center; text-decoration: underline;"><b>INGLESE [2]</b></h3>
+                        <br>
+                        <h4 style="font-style: oblique; text-align: center; font-weight: 400;">Enigma medio-difficile:</h4>
+                        <p style="text-align: center; margin-left: 20%; margin-right: 20%;">
+                            Find a country for each letter of the alphabet from 'A' to 'E' (example I = 'Italy')
+                            <br>
+                            <h5 style="font-style: oblique; font-weight: lighter; margin-left: 10%; margin-right: 10%;">Suggerimento: [mostro lettera 'I' affiancata dalla penisola italiana]</h5>
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="d-block w-100" id="carousel13">
+                        <h3 style="text-align: center; text-decoration: underline;"><b>FISICA [1]</b></h3>
+                        <br>
+                        <h4 style="font-style: oblique; text-align: center; font-weight: 400;">Enigma medio-difficile:</h4>
+                        <p style="text-align: center; margin-left: 20%; margin-right: 20%;">
+                            Cosa c'è all'inizio dell'onda elletromagnetica, al centro dell'atomo, e alla fine di uno
+                            spettrometro?
+                            <br>
+                            <h5 style="font-style: oblique; font-weight: lighter; margin-left: 10%; margin-right: 10%;">Suggerimento: [immagine della lettera 'O']</h5>
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="d-block w-100" id="carousel14">
+                        <h3 style="text-align: center; text-decoration: underline;"><b>FISICA [2]</b></h3>
+                        <br>
+                        <h4 style="font-style: oblique; text-align: center; font-weight: 400;">Enigma medio-difficile:</h4>
+                        <p style="text-align: center; margin-left: 20%; margin-right: 20%;">
+                            Cosa usi per misurare la lunghezza, il tempo, la corrente e la temperatura?
+                            <br>
+                            <h5 style="font-style: oblique; font-weight: lighter; margin-left: 10%; margin-right: 10%;">Suggerimento: [mostro iniziale di tutte le unità di misura in ordine sparso]</h5>
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="d-block w-100" id="carousel15">
+                        <h3 style="text-align: center; text-decoration: underline;"><b>TPSIT [1]</b></h3>
+                        <br>
+                        <h4 style="font-style: oblique; text-align: center; font-weight: 400;">Enigma medio:</h4>
+                        <p style="text-align: center; margin-left: 20%; margin-right: 20%;">
+                            Quanto fa 2¹², sapendo che 2⁶ fa 64?
+                            <br>
+                            <h5 style="font-style: oblique; font-weight: lighter; margin-left: 10%; margin-right: 10%;">Suggerimento: [2¹² non è il doppio di 2⁶]</h5>
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="d-block w-100" id="carousel16">
+                        <h3 style="text-align: center; text-decoration: underline;"><b>TPSIT [2]</b></h3>
+                        <br>
+                        <h4 style="font-style: oblique; text-align: center; font-weight: 400;">Enigma medio:</h4>
+                        <p style="text-align: center; margin-left: 20%; margin-right: 20%;">
+                            La seguente sequenza di numeri contiene un significato molto particolare: scoprilo decodificandolo
+                            con la tabella sottostante.
+                            <br>
+                            0100 0011 &nbsp &nbsp 0110 1000 &nbsp &nbsp 0110 1001 &nbsp &nbsp 0110 0001 &nbsp &nbsp 
+                            0111 0110 &nbsp &nbsp 0110 0101         
+                            <br><br>
+                            <img src="./img/enigmaTPSIT2.jpg" class="image-responsive" alt="" style="width: 100%; border-radius: 5%;">
+                            <br>
+                            <h5 style="font-style: oblique; font-weight: lighter; margin-left: 10%; margin-right: 10%;">Suggerimento: [Prova a convertire la base dei numeri da 2 a 10]</h5>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    
+        
+
+
+
+    </div>
+    
+    <div class="footer-content">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li class="page-item"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script>
+
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl)
+        })
+        
+    </script>
+</body>
+</html>
