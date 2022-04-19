@@ -10,7 +10,7 @@ import { rainSound, thunderSound, thunderSound2 } from '../assets/sounds/sounds'
 
 import '../style/App.css';
 
-export const BtnPlay = ({callback}) => {
+const Btn = ({callback, enterSrc, leaveSrc}) => {
 	const [state, setState] = useState(false);	// stato per la transizione
 
 	const enter = () => setState(true);
@@ -18,7 +18,7 @@ export const BtnPlay = ({callback}) => {
 
 	return(
 		<Image
-			src={state ? penPlayWhite: penPlay}
+			src={state ? enterSrc : leaveSrc}
 			onMouseEnter={enter}
 			onMouseLeave={leave}
 			height={175}
@@ -27,45 +27,31 @@ export const BtnPlay = ({callback}) => {
 			fluid
 		/>
 	)
-}
+};
 
-export const BtnOptions = ({callback}) => {
-	const [state, setState] = useState(false);
+export const BtnPlay = ({callback}) => (
+	<Btn
+		callback={callback}
+		enterSrc={penPlayWhite}
+		leaveSrc={penPlay}
+	/>
+)
 
-	const enter = () => setState(true);
-	const leave = () => setState(false);
+export const BtnOptions = ({callback}) =>(
+	<Btn
+		callback={callback}
+		enterSrc={penOptionsWhite}
+		leaveSrc={penOptions}
+	/>
+)
 
-	return(
-		<Image
-			src={state ? penOptionsWhite : penOptions}
-			onMouseEnter={enter}
-			onMouseLeave={leave}
-			height={175}
-			width={325}
-			onClick={callback}
-			fluid
-		/>
-	)
-}
-
-export const BtnLogin = ({callback}) => {
-	const [state, setState] = useState(false);
-
-	const enter = () => setState(true);
-	const leave = () => setState(false);
-
-	return(
-		<Image
-			src={state ? penLoginWhite : penLogin}
-			onMouseEnter={enter}
-			onMouseLeave={leave}
-			height={175}
-			width={325}
-			onClick={callback}
-			fluid
-		/>
-	)
-}
+export const BtnLogin = ({callback}) => (
+	<Btn
+		callback={callback}
+		enterSrc={penLoginWhite}
+		leaveSrc={penLogin}
+	/>
+)
 
 export const BtnMusic = () => {
 	const [playing, toggle, pause] = useAudio(rainSound, true);

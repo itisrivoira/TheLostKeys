@@ -7,8 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { useFullScreen } from "../utils/utils";
 import { Audio, Music, Sfx, Opzioni, Run } from './components';
 
-import '../style/App.css';
-
 const Options = ({exit}) => {
 	const { fullScreen, toggle } = useFullScreen();
 	const { setting, setSetting } = useContext(Opzioni);

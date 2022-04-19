@@ -3,9 +3,7 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Image } from "react-bootstrap";
 
-import {denina} from '../assets/img/img';
-
-import '../style/App.css';
+import { denina } from '../assets/img/img';
 
 const SplashScreen = () => {
 	const [animate, setAnimate] = useState(true);
