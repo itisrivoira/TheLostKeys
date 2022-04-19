@@ -7,6 +7,7 @@ export const Music = createContext();
 export const Sfx = createContext();
 export const DialogOpen = createContext();
 export const Opzioni = createContext();
+export const Enigma = createContext();
 
 const GlobalProvider = ({children}) => {
 	const [run, setRun] = useState(true);
@@ -14,6 +15,8 @@ const GlobalProvider = ({children}) => {
 	const [sfx, setSfx] = useState(0.5);
 	const [dialog, setDialog] = useState(false);
 	const [setting, setSetting] = useState(false);
+	const [enigma, setEnigma] = useState(false);
+
 
 	return(
 		<Run.Provider value={{run, setRun}}>
@@ -21,7 +24,9 @@ const GlobalProvider = ({children}) => {
 				<Sfx.Provider value={{sfx, setSfx}}>
 					<DialogOpen.Provider value={{dialog, setDialog}}>
 						<Opzioni.Provider value={{setting, setSetting}}>
-							{children}
+							<Enigma.Provider value={{enigma, setEnigma}}>
+								{children}
+							</Enigma.Provider>
 						</Opzioni.Provider>
 					</DialogOpen.Provider>
 				</Sfx.Provider>

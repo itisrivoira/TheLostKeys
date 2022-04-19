@@ -1,4 +1,4 @@
-import ChimicaProva from '../assets/prova/ChimicaProva.json';
+import ProvaChimica from '../assets/prova2/ProvaChimica.json';
 
 export default (x, y) => {
 	let direction = '';
@@ -36,14 +36,14 @@ export default (x, y) => {
 	}
 
 
-	ChimicaProva.layers.forEach( el => {
+	ProvaChimica.layers.forEach( el => {
 		if (el.name == 'Collisioni')
 			check(el.objects, 'Collisione ');
 
-		if (el.name == 'Evento')
+		if (el.name == 'Eventi')
 			check(el.objects, 'Evento ');
 
-	})
+	});
 
 	return direction;
 }

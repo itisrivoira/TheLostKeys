@@ -1,0 +1,6 @@
+.back {
+	background: url('../assets/img/classe.png') no-repeat;
+	background-size: cover;
+	image-rendering: pixelated;
+
+}

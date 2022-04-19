@@ -1,4 +1,5 @@
 // Loop del Gioco
+import collision from "./collision";
 
 var [ u, d, l, r ] = [ 0, 0, 0, 0 ];
 const frames = [
@@ -12,7 +13,7 @@ const frames = [
 
 const Loop = (entities, { input }) => {
 	const { payload } = input.find(x => x.name === "onKeyDown") || {};
-	const { player } = entities;
+	const player = entities["player"];
 	var { x, y, speed } = player;
 	x += 27;
 	y += 34;
@@ -30,26 +31,42 @@ const Loop = (entities, { input }) => {
 
 		switch (key) {
 			case "ArrowUp":
-				player.y -= speed;
-				u = motion(u, 'up');
+				if (collision(x,y) != 'up') {
+					player.y -= speed;
+					u = motion(u, 'up');
+				} else {
+					console.log('up')
+					player.src = require(`../assets/characters/up/${frames[0]}`);}
 
 				break;
 
 			case "ArrowDown":
-				player.y += speed;
-				d = motion(d, 'down');
+				if (collision(x,y) != 'down') {
+					player.y += speed;
+					d = motion(d, 'down');
+				}	else
+			{	console.log('down')
+					player.src = require(`../assets/characters/down/${frames[0]}`);}
 
 				break;
 
 			case "ArrowLeft":
-				player.x -= speed;
-				l = motion(l, 'left');
+				if (collision(x,y) != 'left') {
+					player.x -= speed;
+					l = motion(l, 'left');
+				} else{
+				console.log('left')
+					player.src = require(`../assets/characters/left/${frames[0]}`);}
 
 				break;
 
 			case "ArrowRight":
-				player.x += speed;
-				r = motion(r, 'right');
+				if (collision(x,y) != 'right') {
+					player.x += speed;
+					r = motion(r, 'right');
+				} else
+				{console.log('right')
+					player.src = require(`../assets/characters/right/${frames[0]}`);}
 
 				break;
 		}

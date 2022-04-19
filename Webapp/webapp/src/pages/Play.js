@@ -4,16 +4,16 @@ import { useRef, useCallback, useContext } from 'react';
 import { GameEngine } from 'react-game-engine';
 import useEntities from '../entities/useEntities';
 
-import { Options , Dialog, DialogOpen, Opzioni, Run } from '../components/components';
+import { Options , Dialog, DialogOpen, Opzioni, Run, EnigmaModal } from '../components/components';
 import { useEventListener } from '../utils/utils';
 import Timer from '../system/Timer';
-import LoopRiserva from '../system/LoopRiserva';
+import Loop from '../system/Loop';
 
 import '../style/Play.css';
 import '../style/Font.css';
 
 const Play = () => {
-	const { setting, setSetting } = useContext(Opzioni);
+	const { setSetting } = useContext(Opzioni);
 	const { setDialog } = useContext(DialogOpen);
 	const { run, setRun } = useContext(Run);
 	const engine = useRef();
@@ -39,7 +39,7 @@ const Play = () => {
 		<GameEngine
 			ref={engine}
 			className='Stage'
-			systems={[LoopRiserva, Timer]}
+			systems={[Loop, Timer]}
 			running={run}
 			entities={useEntities()}
 		>
@@ -47,6 +47,7 @@ const Play = () => {
 				exit={true}
 			/>
 			<Dialog />
+			<EnigmaModal />
 		</GameEngine>
 	)
 }
