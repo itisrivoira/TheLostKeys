@@ -2,27 +2,31 @@
 
 import { createContext, useState } from "react";
 
-export const Pausa = createContext();
+export const Run = createContext();
 export const Music = createContext();
 export const Sfx = createContext();
 export const DialogOpen = createContext();
+export const Opzioni = createContext();
 
 const GlobalProvider = ({children}) => {
-	const [pause, setPause] = useState(false);
+	const [run, setRun] = useState(true);
 	const [music, setMusic] = useState(0.5);
 	const [sfx, setSfx] = useState(0.5);
 	const [dialog, setDialog] = useState(false);
+	const [setting, setSetting] = useState(false);
 
 	return(
-		<Pausa.Provider value={{pause, setPause}}>
+		<Run.Provider value={{run, setRun}}>
 			<Music.Provider value={{music, setMusic}}>
 				<Sfx.Provider value={{sfx, setSfx}}>
 					<DialogOpen.Provider value={{dialog, setDialog}}>
-						{children}
+						<Opzioni.Provider value={{setting, setSetting}}>
+							{children}
+						</Opzioni.Provider>
 					</DialogOpen.Provider>
 				</Sfx.Provider>
 			</Music.Provider>
-		</Pausa.Provider>
+		</Run.Provider>
 	)
 }
 

@@ -4,12 +4,12 @@ import { Col, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 
-import { SplashScreen, Title, Footer, Options, BtnPlay, BtnOptions, BtnLogin, BtnMusic, Pausa } from '../components/components';
+import { SplashScreen, Title, Footer, Options, BtnPlay, BtnOptions, BtnLogin, BtnMusic, Opzioni } from '../components/components';
 
 import '../style/App.css';
 
 const Menu = () => {
-	const {pause, setPause} = useContext(Pausa);
+	const { setSetting } = useContext(Opzioni);
 	let navigate = useNavigate();
 
 	return (
@@ -20,7 +20,7 @@ const Menu = () => {
 				</Row>
 				<Row className="p-3 w-75 position-absolute top-50 start-50 translate-middle">
 					<Col className="d-flex justify-content-start" xxl={4}>
-						<BtnOptions callback={() => setPause(true)} />
+						<BtnOptions callback={() => setSetting(true)} />
 					</Col>
 					<Col className="d-flex justify-content-center" xxl={4}>
 						<BtnPlay callback={() => navigate('../play', {replace: true})} />
@@ -38,7 +38,7 @@ const Menu = () => {
 					</Col>
 				</Row>
 			</Container>
-			<Options show={pause} onHide={() => setPause(false)} exit={false} />
+			<Options exit={false} />
 			<SplashScreen />
 		</>
 	);
