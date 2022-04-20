@@ -150,8 +150,10 @@ class Map():
                             if main.player.evento == "porta":
                                 main.animazione.iFinished = False
                                 main.player.evento = None
-                                main.stanze.flag_Chimica = False
-                                main.stanze.flag_Archivio = True
+                                main.stanze.setToDefault()
+                                main.stanze.flag_Fisica = True
+                                main.player.x = x -16 * GLOB.MULT
+                                main.player.y = y -2 * GLOB.MULT
 
                             if GLOB.Debug:
                                 pygame.draw.rect(GLOB.screen, (0,255,0), oggetto, int(1*GLOB.MULT))

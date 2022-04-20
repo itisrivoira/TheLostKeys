@@ -4,10 +4,19 @@ import main
 
 percorso = "../MappaGioco/Tileset/Stanze/"
 
-flag_Chimica = True
-flag_Fisica = False
-flag_Archivio = False
-flag_Corridoio = False
+def inizializza():
+    global flag_Chimica, flag_Fisica, flag_Archivio, flag_Corridoio
+    flag_Chimica = True
+    flag_Fisica = False
+    flag_Archivio = False
+    flag_Corridoio = False
+
+def setToDefault():
+    global flag_Chimica, flag_Fisica, flag_Archivio, flag_Corridoio
+    flag_Chimica = False
+    flag_Fisica = False
+    flag_Archivio = False
+    flag_Corridoio = False
 
 def Chimica():
     GLOB.Piano = "1-PianoTerra"
@@ -41,7 +50,7 @@ def Corridoio():
     GLOB.Default_object = None
 #    print(GLOB.Default_Map)
 
-
+inizializza()
 def caricaStanza():
     global flag_Chimica, flag_Fisica, flag_Archivio, flag_Corridoio
     posX = main.player.getPositionX()-main.cam.getPositionX()
@@ -51,24 +60,18 @@ def caricaStanza():
         main.collisions.load_objects(GLOB.Default_object)
         #print(660 * GLOB.MULT, 210 * GLOB.MULT)
 
+
+    print("Chimica: %s | Fisica: %s | Archivio: %s | Corridoio: %s" % (flag_Chimica, flag_Fisica, flag_Archivio, flag_Corridoio))
+
     if flag_Chimica:
         Chimica()
-        flag_Fisica = False
-        flag_Archivio = False
-        flag_Corridoio = False
-    elif flag_Fisica:
+    
+    if flag_Fisica:
         Fisica()
-        flag_Chimica = False
-        flag_Archivio = False
-        flag_Corridoio = False
-    elif flag_Archivio:
+    
+    if flag_Archivio:
         Archivio()
-        flag_Fisica = False
-        flag_Chimica = False
-        flag_Corridoio = False
-    elif flag_Corridoio:
+    
+    if flag_Corridoio:
         Corridoio()
-        flag_Fisica = False
-        flag_Archivio = False
-        flag_Chimica = False
         #print("Sono Uscito")

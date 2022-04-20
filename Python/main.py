@@ -436,6 +436,7 @@ def main():
             else:
                 player.setIsRunning(False)
                 GLOB.Player_speed = GLOB.Player_default_speed
+        
 
     """
     
