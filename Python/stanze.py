@@ -27,6 +27,13 @@ def Archivio():
     main.load_collisions("ProvaArchivio._CollisioniStefano.csv")
     GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaArchivio.png"
     GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaArchivioOggetti.png"
+
+def Corridoio():
+    GLOB.Piano = "1-PianoTerra"
+    GLOB.Stanza = "Corridoio"
+    main.load_collisions("Corridoio_Collisioni.csv")
+    GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/Corridoio.png"
+    #GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaArchivioOggetti.png"
 #    print(GLOB.Default_Map)
 
 
@@ -39,5 +46,5 @@ def caricaStanza():
         #print(660 * GLOB.MULT, 210 * GLOB.MULT)
 
     if (posX >= 0 and posY >= 0):
-        Chimica()
+        Corridoio()
         #print("Sono Uscito")

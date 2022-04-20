@@ -10,8 +10,8 @@ import global_var as GLOB
 class Debug():
     def log(self, flag):
 
-        if not flag:
-            GLOB.ShowFps = False
+        # if not flag:
+        #     GLOB.ShowFps = False
 
         if flag:
 
