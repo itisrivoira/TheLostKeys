@@ -160,7 +160,7 @@ class Transizione():
         GLOB.screen.blit(LOAD_TEXT, LOAD_RECT)
         pygame.draw.rect(GLOB.screen, "White", pygame.Rect(GLOB.screen_width/2 - (5 * GLOB.MULT * molt), GLOB.screen_height/2, 10 * GLOB.MULT * molt, 10 * GLOB.MULT))
         pygame.draw.rect(GLOB.screen, "Gray", pygame.Rect(GLOB.screen_width/2 - (5 * GLOB.MULT * molt), GLOB.screen_height/2, 10 * GLOB.MULT * molt, 10 * GLOB.MULT), 1 * GLOB.MULT)
-        pygame.draw.rect(GLOB.screen, "Green", pygame.Rect(GLOB.screen_width/2 - (5 * GLOB.MULT * molt) + GLOB.MULT, GLOB.screen_height/2 + GLOB.MULT, self.val_caricamento * GLOB.MULT * molt, 8 * GLOB.MULT))
+        pygame.draw.rect(GLOB.screen, "Green", pygame.Rect(GLOB.screen_width/2 - (5 * GLOB.MULT * molt) + GLOB.MULT, GLOB.screen_height/2 + GLOB.MULT, self.val_caricamento * GLOB.MULT * molt - 2 * GLOB.MULT, 8 * GLOB.MULT))
         GLOB.screen.blit(VALUE_TEXT, VALUE_RECT)
 
     def disegna(self):

@@ -76,6 +76,9 @@ class Player(pygame.sprite.Sprite):
         # setta l'immagine di animazione attuale di walking
         self.image = self.animationWVD[0]
 
+        # Evento Interazione Oggetti
+        self.evento = None
+
 # ---------- self.set() ----------
 
     def setPositionX(self, x):
@@ -317,6 +320,21 @@ class Player(pygame.sprite.Sprite):
                 self.collision_state["left"] = False
                 self.collision_state["right"] = False
             #self.setAllkeys(None)
+
+    def HasInteraction(self, chunk_render, object, var):
+        keys_pressed = pygame.key.get_pressed()
+
+        if chunk_render.colliderect(object):
+
+            if keys_pressed[pygame.K_e]:
+                print(var)
+
+                if var == 75:
+                    print("evento porta")
+                    self.evento = "porta"
+                    return self.evento
+                else:
+                    return None
 
     # Funzione che serve ad aggiornare la velocità attuale del giocatore la velocità da' un'impressione Smooth
     def update(self):

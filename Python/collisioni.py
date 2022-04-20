@@ -144,6 +144,15 @@ class Map():
                                 pygame.draw.rect(GLOB.screen, (255,0,0), oggetto, int(1*GLOB.MULT))
                         
                         if not hitbox:
+                            main.player.HasCollision(oggetto)
+                            main.player.HasInteraction(chunck_render, oggetto, var)
+
+                            if main.player.evento == "porta":
+                                main.animazione.iFinished = False
+                                main.player.evento = None
+                                main.stanze.flag_Chimica = False
+                                main.stanze.flag_Archivio = True
+
                             if GLOB.Debug:
                                 pygame.draw.rect(GLOB.screen, (0,255,0), oggetto, int(1*GLOB.MULT))
 
@@ -181,4 +190,5 @@ class Map():
         self.posY = pos[1]
 
     def render_objects(self, pos):
-        GLOB.screen.blit(self.tiles_mappaOggetti, (main.cam.getPositionX() + pos[0] * GLOB.MULT, main.cam.getPositionY() + pos[1] * GLOB.MULT))
+        if GLOB.Default_object != None:
+            GLOB.screen.blit(self.tiles_mappaOggetti, (main.cam.getPositionX() + pos[0] * GLOB.MULT, main.cam.getPositionY() + pos[1] * GLOB.MULT))
