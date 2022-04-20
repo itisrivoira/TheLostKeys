@@ -1,5 +1,5 @@
 // Loop del Gioco
-import collision from "./collision";
+import collision from "./useCollision";
 
 var [ u, d, l, r ] = [ 0, 0, 0, 0 ];
 const frames = [
