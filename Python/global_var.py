@@ -28,7 +28,7 @@ Scelta = 0
 Cam_visible = False
 
 Debug = False
-ShowFps = False
+ShowFps = True
 
 Dialogo = False
 Enigma = False
