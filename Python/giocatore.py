@@ -329,7 +329,7 @@ class Player(pygame.sprite.Sprite):
             if keys_pressed[pygame.K_e]:
                 print(var)
 
-                if var == 75:
+                if var == 75 or var == 78:
                     print("evento porta")
                     self.evento = "porta"
                     return self.evento

@@ -127,7 +127,7 @@ class Map():
             x = self.posX
             for valore_x in range(len(lista[valore_y])):
                 condition = lista[valore_y][valore_x] == var
-                
+
                 if condition and object != None:
                     if str(type(self.tiles_immagini_sprite[var])) == "<class 'pygame.Surface'>" and len(self.tiles_immagini_sprite) > 1:
                         GLOB.screen.blit(self.tiles_immagini_sprite[var], (main.cam.getPositionX()+x * GLOB.MULT, main.cam.getPositionY()+y * GLOB.MULT))
@@ -136,6 +136,12 @@ class Map():
                 if hitbox != None:
                     oggetto = pygame.Rect((main.cam.getPositionX()+(x+self.tiles_collisioni[var][0]) * GLOB.MULT),(main.cam.getPositionY()+(y + self.tiles_collisioni[var][1]) * GLOB.MULT), self.tiles_collisioni[var][2]/value, self.tiles_collisioni[var][3]/value)
                     
+
+                    # if main.animazione.flag_reverse and not main.animazione.flag_caricamento:
+                    #     print(main.animazione.flag_reverse)
+                    #     main.animazione.ImpostaSfondo()
+                
+
                     if condition and (oggetto.colliderect(chunck_render)):
                         #print("- Render | Collisione Oggetto Impostata!", collisione,"\n")
                         if hitbox:
@@ -148,12 +154,27 @@ class Map():
                             main.player.HasInteraction(chunck_render, oggetto, var)
 
                             if main.player.evento == "porta":
-                                main.animazione.iFinished = False
                                 main.player.evento = None
                                 main.stanze.setToDefault()
-                                main.stanze.flag_Fisica = True
-                                main.player.x = x -16 * GLOB.MULT
-                                main.player.y = y -2 * GLOB.MULT
+                                
+                                if GLOB.Stanza == "Chimica":
+                                    main.stanze.flag_Fisica = True
+                                    print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+                                    main.animazione.ImpostaSfondo()
+
+                                if GLOB.Stanza == "Fisica":
+                                    main.stanze.flag_Chimica = True
+                                    print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+                                    main.animazione.ImpostaSfondo()
+
+                                print(GLOB.Default_Map)
+
+                                main.player.x = main.stanze.pos_portaP[0] * GLOB.MULT
+                                main.player.y = main.stanze.pos_portaP[1] * GLOB.MULT
+
+                                main.cam.x = main.stanze.pos_portaC[0] * GLOB.MULT
+                                main.cam.y = main.stanze.pos_portaC[1] * GLOB.MULT
+                                main.animazione.iFinished = False
 
                             if GLOB.Debug:
                                 pygame.draw.rect(GLOB.screen, (0,255,0), oggetto, int(1*GLOB.MULT))

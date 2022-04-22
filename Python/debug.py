@@ -70,6 +70,16 @@ class Debug():
 
             GLOB.screen.blit(POS_TEXT, POS_RECT)
 
+            POSP_TEXT = main.get_font(8*int(GLOB.MULT)).render("Player - x/y: "+str(int(main.player.getPositionX()))+" | "+str(int(main.player.getPositionY())), True, "Red")
+            POSP_RECT = POS_TEXT.get_rect(center=(70*GLOB.MULT, 40*GLOB.MULT))
+
+            GLOB.screen.blit(POSP_TEXT, POSP_RECT)
+
+            POSC_TEXT = main.get_font(8*int(GLOB.MULT)).render("Cam - x/y: "+str(int(main.cam.getPositionX()))+" | "+str(int(main.cam.getPositionY())), True, "Blue")
+            POSC_RECT = POS_TEXT.get_rect(center=(70*GLOB.MULT, 60*GLOB.MULT))
+
+            GLOB.screen.blit(POSC_TEXT, POSC_RECT)
+
             main.cam.ShowCam()
 
 

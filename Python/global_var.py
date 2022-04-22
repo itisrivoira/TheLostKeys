@@ -16,10 +16,10 @@ MULT = 3
 Moff = 30
 
 # rapporto audio del gioco
-AU = 5
+AU = 0
 
 # rapporto musica del gioco
-MU = 5
+MU = 0
 
 # Timer del gioco
 Timer = 25

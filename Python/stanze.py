@@ -5,11 +5,13 @@ import main
 percorso = "../MappaGioco/Tileset/Stanze/"
 
 def inizializza():
-    global flag_Chimica, flag_Fisica, flag_Archivio, flag_Corridoio
+    global flag_Chimica, flag_Fisica, flag_Archivio, flag_Corridoio, pos_portaP, pos_portaC
     flag_Chimica = True
     flag_Fisica = False
     flag_Archivio = False
     flag_Corridoio = False
+    pos_portaP = (660, 210)
+    pos_portaC = (660, 210)
 
 def setToDefault():
     global flag_Chimica, flag_Fisica, flag_Archivio, flag_Corridoio
@@ -19,19 +21,29 @@ def setToDefault():
     flag_Corridoio = False
 
 def Chimica():
+    global pos_portaP, pos_portaC
     GLOB.Piano = "1-PianoTerra"
     GLOB.Stanza = "Chimica"
     main.load_collisions("ProvaChimica_CollisioniStefano.csv")
     GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaChimica.png"
     GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaChimicaOggetti.png"
+    pos_portaP = (224, 122)
+    pos_portaC = (-372, -111)
+    # pos_portaP = (270, 114)
+    # pos_portaC = (-372, -96)
 
 
 def Fisica():
+    global pos_portaP, pos_portaC
     GLOB.Piano = "1-PianoTerra"
     GLOB.Stanza = "Fisica"
     main.load_collisions("ProvaFisica_CollisioniStefano.csv")
     GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaFisica.png"
     GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaFisicaOggetti.png"
+    pos_portaP = (270, 114)
+    pos_portaC = (-372, -96)
+    # pos_portaP = (228, 122)
+    # pos_portaC = (-372, -111)
 #    print(GLOB.Default_Map)
 
 
@@ -61,7 +73,7 @@ def caricaStanza():
         #print(660 * GLOB.MULT, 210 * GLOB.MULT)
 
 
-    print("Chimica: %s | Fisica: %s | Archivio: %s | Corridoio: %s" % (flag_Chimica, flag_Fisica, flag_Archivio, flag_Corridoio))
+    #print("Chimica: %s | Fisica: %s | Archivio: %s | Corridoio: %s" % (flag_Chimica, flag_Fisica, flag_Archivio, flag_Corridoio))
 
     if flag_Chimica:
         Chimica()
