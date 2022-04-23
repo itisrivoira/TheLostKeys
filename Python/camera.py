@@ -1,5 +1,5 @@
 import pygame
-import main
+import main, giocatore
 import global_var as GLOB
 
 
@@ -23,9 +23,9 @@ class Cam():
         self.width = self.image.get_width()
         self.height = self.image.get_height()
 
-        self.image = pygame.transform.scale(self.image,((self.width*GLOB.MULT*2), (self.height*GLOB.MULT*2)))
+        self.image = pygame.transform.scale(self.image,((self.width*GLOB.MULT*3), (self.height*GLOB.MULT*3)))
 
-        self.Player_hitbox = [ 15 * GLOB.MULT /GLOB.Player_proportion, 17 * GLOB.MULT /GLOB.Player_proportion, 24 * GLOB.MULT /GLOB.Player_proportion, 43 * GLOB.MULT /GLOB.Player_proportion]
+        self.Player_hitbox = [ 20 * GLOB.MULT /GLOB.Player_proportion, 35 * GLOB.MULT /GLOB.Player_proportion, 15 * GLOB.MULT /GLOB.Player_proportion, 10 * GLOB.MULT /GLOB.Player_proportion]
 
 
     def setPositionX(self, x):
@@ -41,9 +41,12 @@ class Cam():
         return self.y
 
         
-    def update(self, visibility):
+    def update(self):
+        #GLOB.screen.blit(self.image, (self.x, self.y))
 
-        self.offset = (4 * GLOB.Moff * GLOB.MULT, 2.25 * GLOB.Moff * GLOB.MULT)
+        self.offset = (5 * GLOB.Moff * GLOB.MULT, 2.25 * GLOB.Moff * GLOB.MULT)
+
+        #print(GLOB.Moff)
 
         a =  main.player.getPositionX() >= GLOB.screen_width - self.offset[0] - main.player.width
         b =  main.player.getPositionX() <= self.offset[0]
@@ -93,17 +96,11 @@ class Cam():
             main.player.setPositionY(main.player.getPositionY()-main.player.getVelocitaY())
             self.y += -main.player.getVelocitaY()
             # print("D vero")
-        
-        if visibility:        
-            self.ShowCam()
 
         
         #print("Posizione x: "+str(main.player.getPositionX())+" | Posizione y: "+str(main.player.getPositionY())+" | VelocitàX: "+str(main.player.getVelocitaX()))
 
+
     def ShowCam(self):
         Offset_rect = pygame.Rect(self.offset[0] + self.Player_hitbox[0], self.offset[1] + self.Player_hitbox[1], GLOB.screen_width - self.offset[0]*2 - self.Player_hitbox[0]*2, GLOB.screen_height - self.offset[1]*2 - self.Player_hitbox[1]*2)
         pygame.draw.rect(GLOB.screen, (255,255,255), Offset_rect, int(GLOB.MULT))
-
-
-    def ShowBackground(self):
-        GLOB.screen.blit(self.image, (self.x, self.y))

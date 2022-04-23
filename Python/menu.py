@@ -4,7 +4,7 @@ from button import Bar
 from pygame import mixer
 import global_var as GLOB
 
-import main
+import main, animazione
 from global_var import screen
 from pioggia import Rain
 
@@ -25,7 +25,7 @@ def play():
     mixer.music.stop()
     main.inizializza()
     main.main()
-
+    
 def options():
     mixer.music.stop()
     global flag_Fullscreen
@@ -41,26 +41,9 @@ def options():
         BG_Option = pygame.image.load("assets/Menu.png").convert()
         BG_Option = pygame.transform.scale(BG_Option, (GLOB.screen_width, GLOB.screen_height))
 
-        if GLOB.Scelta==0:
-            char = "Senex.png"
-            name = "Senex"
-        elif GLOB.Scelta==1:
-            char = "Seima.png"
-            name = "Seima"
-        elif GLOB.Scelta==2:
-            char = "Aleks.png"
-            name = "Aleks"
-        elif GLOB.Scelta==3:
-            char = "Beppe.png"
-            name = "Beppe"
-        elif GLOB.Scelta==4:
-            char = "Giulio.png"
-            name = "Dark Angel"
-        else:
-            char = "Senex.png"
-            name = "Senex"
+        GLOB.setCharacter()
 
-        NAME_TEXT = get_font(12*int(GLOB.MULT)).render(name, True, "#e9eef7")
+        NAME_TEXT = get_font(12*int(GLOB.MULT)).render(GLOB.scelta_char, True, "#e9eef7")
         NAME_RECT = NAME_TEXT.get_rect(center=(GLOB.screen_width/2, 80*GLOB.MULT))
 
 
@@ -74,7 +57,7 @@ def options():
         # OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(GLOB.screen_width/2, 20*GLOB.MULT))
         # screen.blit(OPTIONS_TEXT, OPTIONS_RECT)
 
-        CHARACTER = pygame.image.load(os.path.join("Characters_Image",char)).convert_alpha()
+        CHARACTER = pygame.image.load(os.path.join("Characters_Image",GLOB.scelta_char+".png")).convert_alpha()
 
         Scala = 2.5 * GLOB.MULT
 
@@ -196,13 +179,13 @@ def options():
 
 
 
-        Rchange = Button(image=None, pos=(GLOB.screen_width/2+50*GLOB.MULT, GLOB.screen_height/2+15*GLOB.MULT),
+        Rchange = Button(image=None, pos=(GLOB.screen_width/2+50*GLOB.MULT, GLOB.screen_height/2+15*GLOB.MULT), 
                             text_input=">", font=get_font(20*int(GLOB.MULT)), base_color="White", hovering_color="red", scale=2)
 
         Rchange.changeColor(OPTIONS_MOUSE_POS)
         Rchange.update(screen)
 
-        Lchange = Button(image=None, pos=(GLOB.screen_width/2-50*GLOB.MULT, GLOB.screen_height/2+15*GLOB.MULT),
+        Lchange = Button(image=None, pos=(GLOB.screen_width/2-50*GLOB.MULT, GLOB.screen_height/2+15*GLOB.MULT), 
                             text_input="<", font=get_font(20*int(GLOB.MULT)), base_color="White", hovering_color="red", scale=2)
 
         Lchange.changeColor(OPTIONS_MOUSE_POS)
@@ -230,16 +213,16 @@ def options():
         GLOB.screen.blit(MUSICA_TEXT, MUSICA_RECT)
 
 
-        AUDIOPLUS_BUTTON = Button(image=None, pos=(93*GLOB.MULT, posY_tabella*1.5),
+        AUDIOPLUS_BUTTON = Button(image=None, pos=(93*GLOB.MULT, posY_tabella*1.5), 
                             text_input="+", font=get_font(8*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=1)
 
-        AUDIOLESS_BUTTON = Button(image=None, pos=(63*GLOB.MULT, posY_tabella*1.5),
+        AUDIOLESS_BUTTON = Button(image=None, pos=(63*GLOB.MULT, posY_tabella*1.5), 
                             text_input="-", font=get_font(8*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=1)
 
-        MUSICPLUS_BUTTON = Button(image=None, pos=(93*GLOB.MULT, posY_tabella*2.5),
+        MUSICPLUS_BUTTON = Button(image=None, pos=(93*GLOB.MULT, posY_tabella*2.5), 
                             text_input="+", font=get_font(8*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=1)
 
-        MUSICLESS_BUTTON = Button(image=None, pos=(63*GLOB.MULT, posY_tabella*2.5),
+        MUSICLESS_BUTTON = Button(image=None, pos=(63*GLOB.MULT, posY_tabella*2.5), 
                             text_input="-", font=get_font(8*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=1)
 
         AUDIOPLUS_BUTTON.changeColor(OPTIONS_MOUSE_POS)
@@ -255,33 +238,33 @@ def options():
         MUSICLESS_BUTTON.update(screen)
 
 
-        Screen_960x540 = Button(image=pygame.image.load("assets/Select Rect.png").convert_alpha(), pos=(50*GLOB.MULT, GLOB.screen_height/2+75*GLOB.MULT),
+        Screen_960x540 = Button(image=pygame.image.load("assets/Select Rect.png").convert_alpha(), pos=(50*GLOB.MULT, GLOB.screen_height/2+75*GLOB.MULT), 
                     text_input="960 x 540", font=get_font(4*int(GLOB.MULT)), base_color="White", hovering_color="#2f3131", scale=4)
 
         Screen_960x540.changeColor(OPTIONS_MOUSE_POS)
         Screen_960x540.update(screen)
 
-        Screen_1440x810 = Button(image=pygame.image.load("assets/Select Rect.png").convert_alpha(), pos=(110*GLOB.MULT, GLOB.screen_height/2+75*GLOB.MULT),
+        Screen_1440x810 = Button(image=pygame.image.load("assets/Select Rect.png").convert_alpha(), pos=(110*GLOB.MULT, GLOB.screen_height/2+75*GLOB.MULT), 
                     text_input="1440 x 810", font=get_font(4*int(GLOB.MULT)), base_color="White", hovering_color="#2f3131", scale=4)
 
         Screen_1440x810.changeColor(OPTIONS_MOUSE_POS)
         Screen_1440x810.update(screen)
 
-        Screen_1920x1080 = Button(image=pygame.image.load("assets/Select Rect.png").convert_alpha(), pos=(50*GLOB.MULT, GLOB.screen_height/2+90*GLOB.MULT),
+        Screen_1920x1080 = Button(image=pygame.image.load("assets/Select Rect.png").convert_alpha(), pos=(50*GLOB.MULT, GLOB.screen_height/2+90*GLOB.MULT), 
                     text_input="1920 x 1080", font=get_font(4*int(GLOB.MULT)), base_color="White", hovering_color="#2f3131", scale=4)
 
         Screen_1920x1080.changeColor(OPTIONS_MOUSE_POS)
         Screen_1920x1080.update(screen)
 
 
-        Screen_3840x2160 = Button(image=pygame.image.load("assets/Select Rect.png").convert_alpha(), pos=(110*GLOB.MULT, GLOB.screen_height/2+90*GLOB.MULT),
+        Screen_3840x2160 = Button(image=pygame.image.load("assets/Select Rect.png").convert_alpha(), pos=(110*GLOB.MULT, GLOB.screen_height/2+90*GLOB.MULT), 
                     text_input="3840 x 2160", font=get_font(4*int(GLOB.MULT)), base_color="White", hovering_color="#2f3131", scale=4)
 
         Screen_3840x2160.changeColor(OPTIONS_MOUSE_POS)
         Screen_3840x2160.update(screen)
 
 
-        Screen_FULL = Button(image=pygame.image.load("assets/Select Rect.png").convert_alpha(), pos=(80*GLOB.MULT, GLOB.screen_height/2+110*GLOB.MULT),
+        Screen_FULL = Button(image=pygame.image.load("assets/Select Rect.png").convert_alpha(), pos=(80*GLOB.MULT, GLOB.screen_height/2+110*GLOB.MULT), 
                     text_input=TEXT_FULLSCREEN, font=get_font(8*int(GLOB.MULT)), base_color="White", hovering_color="#2f3131", scale=2)
 
         Screen_FULL.changeColor(OPTIONS_MOUSE_POS)
@@ -290,7 +273,7 @@ def options():
 
 
 
-        OPTIONS_BACK = Button(image=None, pos=(GLOB.screen_width/2, 255*GLOB.MULT),
+        OPTIONS_BACK = Button(image=None, pos=(GLOB.screen_width/2, 255*GLOB.MULT), 
                             text_input="BACK", font=get_font(20*int(GLOB.MULT)), base_color="White", hovering_color="Grey", scale=2)
 
         OPTIONS_BACK.changeColor(OPTIONS_MOUSE_POS)
@@ -359,19 +342,22 @@ def options():
                 if Screen_3840x2160.checkForInput(OPTIONS_MOUSE_POS):
                     GLOB.MULT=5
                     flag_screen = True
-
+                
                 if Screen_FULL.checkForInput(OPTIONS_MOUSE_POS):
                     flag_screen = True
                     setFullScreen()
 
             if flag_screen:
+                global rain
                 GLOB.screen_width = 480*GLOB.MULT
                 GLOB.screen_height = 270*GLOB.MULT
 
                 if not flag_Fullscreen:
                     GLOB.screen = pygame.display.set_mode((GLOB.screen_width,GLOB.screen_height))
-                else:
+                else: 
                     GLOB.screen = pygame.display.set_mode((GLOB.screen_width,GLOB.screen_height),pygame.FULLSCREEN)
+
+                rain = Rain(screen, height = 60 * GLOB.MULT, speed = 12 * GLOB.MULT / GLOB.Delta_Time, color = (152, 164, 184, 255), numdrops = 270)
 
 
             button_sound = mixer.Sound("suoni/option-sound.wav")
@@ -394,7 +380,7 @@ def options():
 
                 if GLOB.AU < 0:
                     GLOB.AU = 0
-
+                
                 button_sound.set_volume(0.16*GLOB.AU)
                 button_sound.play()
 
@@ -412,29 +398,34 @@ def options():
 
                 if GLOB.MU < 0:
                     GLOB.MU = 0
-
+                
                 button_sound.set_volume(0.16*GLOB.MU)
                 button_sound.play()
 
         CHARACTER = pygame.transform.scale(CHARACTER, (character_width, character_height))
-
+                
         pygame.display.flip()
         pygame.display.update()
 
 def main_menu():
     pygame.mouse.set_visible(True)
-
+    
     # Imposto una musica di background
     mixer.music.load("suoni/Rain-sound.wav")
-    mixer.music.set_volume(0.02*GLOB.AU)
+    mixer.music.set_volume(0.01*GLOB.AU)
     mixer.music.play(-1)	# La setto a -1 che indica un loop quindi a infinito
+
+    # musica = mixer.Sound("suoni/musica1.wav")
+    # musica.set_volume(0.2*GLOB.MU)
+    # musica.stop()
+    # musica.play(-1)	# La setto a -1 che indica un loop quindi a infinito
 
     BG_School = pygame.image.load("assets/ScuolaHorror.png").convert()
     BG_School = pygame.transform.scale(BG_School, (BG_School.get_width()*GLOB.MULT/4,BG_School.get_height()*GLOB.MULT/4))
 
     BG_Cloud = pygame.image.load("assets/Nuvola.png").convert_alpha()
     BG_Cloud = pygame.transform.scale(BG_Cloud, (BG_Cloud.get_width()*GLOB.MULT/4,BG_Cloud.get_height()*GLOB.MULT/4))
-
+    
     rain = Rain(screen, height = 60 * GLOB.MULT, speed = 12 * GLOB.MULT / GLOB.Delta_Time, color = (152, 164, 184, 255), numdrops = 270)
 
     # Settaggio del Clock
@@ -454,13 +445,13 @@ def main_menu():
         MENU_TEXT = get_font(12*int(GLOB.MULT)).render("THE LOST KEY", True, "#e9eef7")
         MENU_RECT = MENU_TEXT.get_rect(center=(GLOB.screen_width/6, 70*GLOB.MULT))
 
-        PLAY_BUTTON = Button(image=pygame.image.load("assets/Play Rect.png").convert_alpha(), pos=(GLOB.screen_width/6, 110*GLOB.MULT),
+        PLAY_BUTTON = Button(image=pygame.image.load("assets/Play Rect.png").convert_alpha(), pos=(GLOB.screen_width/6, 110*GLOB.MULT), 
                             text_input="", font=get_font(10*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=1.5)
-
-        OPTIONS_BUTTON = Button(image=pygame.image.load("assets/Options Rect.png").convert_alpha(), pos=(GLOB.screen_width/6, 150*GLOB.MULT),
+        
+        OPTIONS_BUTTON = Button(image=pygame.image.load("assets/Options Rect.png").convert_alpha(), pos=(GLOB.screen_width/6, 150*GLOB.MULT), 
                             text_input="", font=get_font(10*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=1.5)
-
-        QUIT_BUTTON = Button(image=pygame.image.load("assets/Quit Rect.png").convert_alpha(), pos=(GLOB.screen_width/6, 190*GLOB.MULT),
+        
+        QUIT_BUTTON = Button(image=pygame.image.load("assets/Quit Rect.png").convert_alpha(), pos=(GLOB.screen_width/6, 190*GLOB.MULT), 
                             text_input="", font=get_font(10*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=1.5)
 
         screen.blit(MENU_TEXT, MENU_RECT)
@@ -483,7 +474,7 @@ def main_menu():
             button.changeColor(MENU_MOUSE_POS)
             button.changeScale(MENU_MOUSE_POS, 1.1)
             button.update(screen)
-
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -491,7 +482,7 @@ def main_menu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 button_sound = mixer.Sound("suoni/menu-sound.wav")
                 button_sound.set_volume(0.16*GLOB.AU)
-
+                
                 if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
                     button_sound.play()
                     play()
@@ -507,17 +498,17 @@ def main_menu():
             tuono = pygame.image.load("assets/tuono.png").convert()
             tuono = pygame.transform.scale(tuono, (tuono.get_width()*GLOB.MULT, tuono.get_height()*GLOB.MULT))
 
-            if random.randint(0, 100) >= 50:
-                tuonoSound = mixer.Sound("suoni/thunder-sound.wav")
-            else:
-                tuonoSound = mixer.Sound("suoni/thunder-sound2.wav")
+            val = 0.16 * GLOB.AU
 
-            tuonoSound.set_volume(0.16*GLOB.AU)
+            tuonoSound = [mixer.Sound("suoni/thunder-sound.wav"), mixer.Sound("suoni/thunder-sound2.wav")]
 
-            tuonoSound.play()
+            tuonoSound[0].set_volume(val)
+            tuonoSound[1].set_volume(val)
+
+            random.choice(tuonoSound).play()
 
             screen.blit(tuono, (0, 0))
-
+        
         clock.tick(GLOB.FPS) # setto i FramesPerSecond
 
         pygame.display.flip()

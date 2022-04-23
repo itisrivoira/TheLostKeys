@@ -3,8 +3,8 @@
 const CountDown = ({ x, y, min, sec}) => {
 
 	return(
-		<p className="text-white fs-1 text-end me-5">
-			{min} : {sec}
+		<p className="text-white fs-1 text-center me-5 txt-pixel">
+			{min}:{sec}
 		</p>
 	)
 }

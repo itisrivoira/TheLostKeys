@@ -2,18 +2,17 @@
 
 import { useRef, useCallback, useContext } from 'react';
 import { GameEngine } from 'react-game-engine';
-import useEntities from '../entities/useEntities';
 
-import { Options , Dialog, DialogOpen, Opzioni, Run } from '../components/components';
+import { Options , Dialog, DialogOpen, Opzioni, Run, EnigmaModal } from '../components/components';
 import { useEventListener } from '../utils/utils';
-import Timer from '../system/Timer';
-import LoopRiserva from '../system/LoopRiserva';
+import useEntities from '../entities/useEntities';
+import useSystem from '../system/useSystem';
 
 import '../style/Play.css';
 import '../style/Font.css';
 
 const Play = () => {
-	const { setting, setSetting } = useContext(Opzioni);
+	const { setSetting } = useContext(Opzioni);
 	const { setDialog } = useContext(DialogOpen);
 	const { run, setRun } = useContext(Run);
 	const engine = useRef();
@@ -38,15 +37,14 @@ const Play = () => {
 	return (
 		<GameEngine
 			ref={engine}
-			className='Stage'
-			systems={[LoopRiserva, Timer]}
 			running={run}
+			systems={useSystem()}
 			entities={useEntities()}
+			className='Stage'
 		>
-			<Options
-				exit={true}
-			/>
+			<Options	exit={true} />
 			<Dialog />
+			<EnigmaModal />
 		</GameEngine>
 	)
 }
