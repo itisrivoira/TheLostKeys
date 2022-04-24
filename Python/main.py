@@ -473,9 +473,6 @@ def main():
                     key_pressed(event,False)
                     player.Last_keyPressed = "Null"
 
-                if keys_pressed[pygame.K_l]:
-                    animazione.iFinished = False
-
             # if int(clock.get_fps())<110:
             #     print("| fps: "+str(int(clock.get_fps()))) # Per mostrare gli GLOB.FPS
                 if keys_pressed[pygame.K_F3]:
@@ -487,19 +484,26 @@ def main():
                         GLOB.Debug = False
                         GLOB.Cam_visible = False
 
-                if keys_pressed[pygame.K_k]:
-                
-                    if not GLOB.Dialogo:
-                        GLOB.Dialogo = True
-                    elif GLOB.Debug:
-                        GLOB.Dialogo = False
+                if GLOB.Debug:
+                    # | K | - | N | - | L |
 
-                if keys_pressed[pygame.K_n]:
+                    if keys_pressed[pygame.K_k]:
                     
-                    if not GLOB.Enigma:
-                        GLOB.Enigma = True
-                    elif GLOB.Debug:
-                        GLOB.Enigma = False
+                        if not GLOB.Dialogo:
+                            GLOB.Dialogo = True
+                        elif GLOB.Debug:
+                            GLOB.Dialogo = False
+
+                    if keys_pressed[pygame.K_n]:
+                        
+                        if not GLOB.Enigma:
+                            GLOB.Enigma = True
+                        elif GLOB.Debug:
+                            GLOB.Enigma = False
+
+
+                    if keys_pressed[pygame.K_l]:
+                        animazione.iFinished = False
 
         disegna()
 
@@ -526,7 +530,7 @@ def main():
         # Debugging
         console = debug.Debug()
         
-        console.log(GLOB.Debug)
+        console.log()
 
         
         pygame.display.flip() # ti permette di aggiornare una area dello schermo per evitare lag e fornire piu' ottimizzazione

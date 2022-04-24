@@ -3,20 +3,20 @@ TITLE = "The Lost Keys"
 
 # Valori di proporzione
 
-Delta_Time = 2 # Delta_Time (Congliabile 1/2)
+Delta_Time = 1.8 # Delta_Time (Congliabile 1/2)
 Player_proportion = 1 # Divisore della grandezza del giocatore
 
 #FPS
 FPS = 30 * Delta_Time
 
 # rapporto di proporzione allo schermo NON INFERIORE AD 1
-MULT = 3
+MULT = 4
 
 # rapporto offset telecamera dello schermo MAX 40
 Moff = 30
 
 # rapporto audio del gioco
-AU = 0
+AU = 5
 
 # rapporto musica del gioco
 MU = 0
@@ -69,8 +69,8 @@ Default_Character = 'Characters/Senex/WalkOrizontal/Walk0.png'
 
 Piano = "1-PianoTerra"
 Stanza = "Chimica"
-Default_Map = '../MappaGioco/Tileset/Stanze/1-PianoTerra/Chimica/png/ProvaChimica.png'
-Default_object = '../MappaGioco/Tileset/Stanze/1-PianoTerra/Chimica/png/ProvaChimicaOggetti.png'
+Default_Map = '../MappaGioco/Tileset/Stanze/1-PianoTerra/Corridoio/png/Corridoio.png'
+Default_object = '../MappaGioco/Tileset/Stanze/1-PianoTerra/Corridoio/png/CorridoioOggetti.png'
 
 PlayerCanMove = True
 

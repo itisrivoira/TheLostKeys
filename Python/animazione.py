@@ -76,6 +76,10 @@ class Transizione():
         self.___mappa = GLOB.Default_Map
         self.mappa = pygame.image.load(self.___mappa).convert()
         self.mappa = pygame.transform.scale(self.mappa, (self.mappa.get_width() * GLOB.MULT / var, self.mappa.get_height() * GLOB.MULT / var))
+
+        self.___oggetti = GLOB.Default_object
+        self.oggetti = pygame.image.load(self.___oggetti).convert_alpha()
+        self.oggetti = pygame.transform.scale(self.oggetti, (self.mappa.get_width(), self.mappa.get_height()))
         
     def sgrana(self):
         self.val_caricamento += 0.5
@@ -92,6 +96,14 @@ class Transizione():
             else:
                 self.val_sgrana -= 4
                 self.val_scurisci -= 16
+
+                if self.___mappa != GLOB.Default_Map:
+                    self.ImpostaSfondo()
+                    main.player.x = main.stanze.pos_portaP[0] * GLOB.MULT
+                    main.player.y = main.stanze.pos_portaP[1] * GLOB.MULT
+
+                    main.cam.x = main.stanze.pos_portaC[0] * GLOB.MULT
+                    main.cam.y = main.stanze.pos_portaC[1] * GLOB.MULT
 
             if self.val_sgrana >= 310 or self.val_scurisci >= 255:
                 self.__loadImagesANDconvert()
@@ -134,11 +146,15 @@ class Transizione():
         
         self.mappa = pygame.transform.scale(self.mappa, (self.mappa.get_width() / self.val_sgrana, self.mappa.get_height() / self.val_sgrana))                
         self.mappa = pygame.transform.scale(self.mappa, (self.mappa.get_width() * self.val_sgrana + self.val_sgrana, self.mappa.get_height() * self.val_sgrana + self.val_sgrana))
+
+        self.oggetti = pygame.transform.scale(self.oggetti, (self.oggetti.get_width() / self.val_sgrana, self.oggetti.get_height() / self.val_sgrana))
+        self.oggetti = pygame.transform.scale(self.oggetti, (self.oggetti.get_width() * self.val_sgrana + self.val_sgrana, self.oggetti.get_height() * self.val_sgrana + self.val_sgrana))
         
     def __loadImages(self):
         self.ombra = pygame.image.load("assets/ombra.png").convert_alpha()
         self.immagine = pygame.image.load(self.__character).convert_alpha()
         self.mappa = pygame.image.load(self.___mappa).convert()
+        self.oggetti = pygame.image.load(self.___oggetti).convert_alpha()
 
     def __loadImagesANDconvert(self):
         var = 2
@@ -146,6 +162,7 @@ class Transizione():
         self.ombra = pygame.transform.scale(self.ombra, (self.ombra.get_width()*GLOB.MULT / GLOB.Player_proportion,self.ombra.get_height()*GLOB.MULT / GLOB.Player_proportion))
         self.immagine = pygame.transform.scale(self.immagine, ( self.immagine.get_width() * GLOB.MULT / GLOB.Player_proportion, self.immagine.get_height() * GLOB.MULT / GLOB.Player_proportion))
         self.mappa = pygame.transform.scale(self.mappa, (self.mappa.get_width() * GLOB.MULT / var, self.mappa.get_height() * GLOB.MULT / var))
+        self.oggetti = pygame.transform.scale(self.oggetti, (self.mappa.get_width(), self.mappa.get_height()))
 
     def __caricamento(self):
         molt = 10
@@ -154,7 +171,7 @@ class Transizione():
         LOAD_RECT = LOAD_TEXT.get_rect(center=(GLOB.screen_width/2, GLOB.screen_height/2 - LOAD_TEXT.get_height()/2 - 10*GLOB.MULT))
 
         VALUE_TEXT = main.get_font(6*int(GLOB.MULT)).render(str(int(self.val_caricamento*10))+"%", True, "Gray")
-        VALUE_RECT = LOAD_TEXT.get_rect(center=(GLOB.screen_width/2 + 6 * GLOB.MULT * molt, GLOB.screen_height/2 - LOAD_TEXT.get_height()/2 + 14 * GLOB.MULT))
+        VALUE_RECT = LOAD_TEXT.get_rect(center=(GLOB.screen_width/2 + 7 * GLOB.MULT * molt - VALUE_TEXT.get_width()/2, GLOB.screen_height/2 - LOAD_TEXT.get_height()/2 + 14 * GLOB.MULT))
 
         GLOB.screen.fill((0,0,0))
         GLOB.screen.blit(LOAD_TEXT, LOAD_RECT)
@@ -180,6 +197,7 @@ class Transizione():
 
             self.schermo.blit(self.ombra, (main.player.getPositionX() -self.val_sgrana * GLOB.MULT + GLOB.MULT, main.player.getPositionY()-2.5*GLOB.MULT/GLOB.Player_proportion -self.val_sgrana * GLOB.MULT + GLOB.MULT))
             self.schermo.blit(self.immagine, (main.player.getPositionX() -self.val_sgrana * GLOB.MULT + GLOB.MULT, main.player.getPositionY() -self.val_sgrana * GLOB.MULT + GLOB.MULT))
+            self.schermo.blit(self.oggetti, (-self.val_sgrana * GLOB.MULT + main.cam.getPositionX() + GLOB.MULT, -self.val_sgrana * GLOB.MULT + main.cam.getPositionY() + GLOB.MULT))
 
             self.schermo.blit(self.superficie, (0, 0))
             GLOB.screen.blit(self.schermo, (0, 0))

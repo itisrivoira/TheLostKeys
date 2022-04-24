@@ -58,7 +58,7 @@ class Player(pygame.sprite.Sprite):
         self.character = pygame.image.load(
         os.path.join(self.Name_animationWVD,char_image[0][0])).convert_alpha()
 
-        self.value_surface = 40 * GLOB.MULT
+        self.value_surface = 45 * GLOB.MULT
 
         self.surface = pygame.Surface((self.width, self.value_surface), pygame.SRCALPHA)
 
@@ -329,7 +329,7 @@ class Player(pygame.sprite.Sprite):
             if keys_pressed[pygame.K_e]:
                 print(var)
 
-                if var == 75 or var == 78:
+                if var == 75 or var == 74 or var == 58 or var == 65:
                     print("evento porta")
                     self.evento = "porta"
                     return self.evento

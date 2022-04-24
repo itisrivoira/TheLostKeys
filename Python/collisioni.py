@@ -1,6 +1,6 @@
 import pygame, os
 import global_var as GLOB
-import main
+import main, eventi
 
 class Map():
     def __init__(self, risoluzione, path):
@@ -153,28 +153,7 @@ class Map():
                             main.player.HasCollision(oggetto)
                             main.player.HasInteraction(chunck_render, oggetto, var)
 
-                            if main.player.evento == "porta":
-                                main.player.evento = None
-                                main.stanze.setToDefault()
-                                
-                                if GLOB.Stanza == "Chimica":
-                                    main.stanze.flag_Fisica = True
-                                    print(main.stanze.pos_portaP, main.stanze.pos_portaC)
-                                    main.animazione.ImpostaSfondo()
-
-                                if GLOB.Stanza == "Fisica":
-                                    main.stanze.flag_Chimica = True
-                                    print(main.stanze.pos_portaP, main.stanze.pos_portaC)
-                                    main.animazione.ImpostaSfondo()
-
-                                print(GLOB.Default_Map)
-
-                                main.player.x = main.stanze.pos_portaP[0] * GLOB.MULT
-                                main.player.y = main.stanze.pos_portaP[1] * GLOB.MULT
-
-                                main.cam.x = main.stanze.pos_portaC[0] * GLOB.MULT
-                                main.cam.y = main.stanze.pos_portaC[1] * GLOB.MULT
-                                main.animazione.iFinished = False
+                            eventi.testa()
 
                             if GLOB.Debug:
                                 pygame.draw.rect(GLOB.screen, (0,255,0), oggetto, int(1*GLOB.MULT))
