@@ -3,7 +3,8 @@ import { BtnPlay, BtnOptions, BtnLogin, BtnMusic } from "./Buttons";
 import Dialog from './Dialog';
 import DialogText from './DialogText';
 import Footer from "./Footer";
-import GlobalProvider, { Run, Music, Sfx, DialogOpen, Opzioni, Enigma } from './GlobalProvider';
+import GlobalProvider, { Run, Music, Sfx, Setting } from './GlobalProvider';
+import GameProvider, { DialogOpen, Enigma } from './GameProvider';
 import Options from "./Options";
 import SplashScreen from "./SplashScreen";
 import Title from "./Title";
@@ -19,10 +20,11 @@ export {
 	DialogText,
 	Footer,
 	GlobalProvider,
+	GameProvider,
 	Run,
 	Music,
 	Sfx,
-	Opzioni,
+	Setting,
 	DialogOpen,
 	Options,
 	SplashScreen,
