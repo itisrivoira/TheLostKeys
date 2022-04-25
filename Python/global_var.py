@@ -10,7 +10,7 @@ Player_proportion = 1 # Divisore della grandezza del giocatore
 FPS = 30 * Delta_Time
 
 # rapporto di proporzione allo schermo NON INFERIORE AD 1
-MULT = 4
+MULT = 3
 
 # rapporto offset telecamera dello schermo MAX 40
 Moff = 30
@@ -68,7 +68,7 @@ screen_height = DF_height * MULT
 Default_Character = 'Characters/Senex/WalkOrizontal/Walk0.png'
 
 Piano = "1-PianoTerra"
-Stanza = "Chimica"
+Stanza = "Corridoio"
 Default_Map = '../MappaGioco/Tileset/Stanze/1-PianoTerra/Corridoio/png/Corridoio.png'
 Default_object = '../MappaGioco/Tileset/Stanze/1-PianoTerra/Corridoio/png/CorridoioOggetti.png'
 

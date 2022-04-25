@@ -332,9 +332,15 @@ class Player(pygame.sprite.Sprite):
                 if var == 75 or var == 74 or var == 58 or var == 65:
                     print("evento porta")
                     self.evento = "porta"
-                    return self.evento
+
+                elif var == 59 or var == 63 or var == 77 or var == 78:
+                    print("evento porta-1")
+                    self.evento = "porta-1"
+
                 else:
                     return None
+
+                return self.evento
 
     # Funzione che serve ad aggiornare la velocità attuale del giocatore la velocità da' un'impressione Smooth
     def update(self):

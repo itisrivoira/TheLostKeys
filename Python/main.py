@@ -70,6 +70,7 @@ def SetPlayer_sprite():
 def inizializza():
     global player, cam, timer, clock, collisions, animazione
 
+    stanze.inizializza()
     SetPlayer_speed()
 
     SetPlayer_sprite()
@@ -97,7 +98,7 @@ def inizializza():
         inizializza()
 
     timer = Timer(minutes = GLOB.Timer, molt_sec = 1, event = miaFunzione)
-    animazione = Transizione(vel = 0.05)
+    animazione = Transizione(vel = 0.02)
 
     collisions = collisioni.Map(risoluzione = 24, path = "../MappaGioco/Tileset/Stanze/"+ GLOB.Piano +"/")
 

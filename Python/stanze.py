@@ -70,12 +70,23 @@ def Archivio():
     setPosition((264, 120), (-160, -118))
 
 def Corridoio():
+
+        # PORTA ORIGINE STANZA
+
+    if GLOB.Stanza == "Chimica":
+        # Chimica
+        setPosition((270, 74), (-244, 56))
+
+    elif GLOB.Stanza == "Fisica":
+        # Fisica
+        setPosition((200, 74), (0, 54))
+
+
     GLOB.Piano = "1-PianoTerra"
     GLOB.Stanza = "Corridoio"
     main.load_collisions("Corridoio_Collisioni.csv")
     GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/Corridoio.png"
     GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/CorridoioOggetti.png"
-    # print(pos_portaP, pos_portaC)
 
 def Corridoio1():
     pass
@@ -120,6 +131,6 @@ def caricaStanza():
 
     if GLOB.Piano == "3-SecondoPiano":
         
-        if flag_Corridoio1:
-            Corridoio1()
+        if flag_Corridoio2:
+            Corridoio2()
         #print("Sono Uscito")

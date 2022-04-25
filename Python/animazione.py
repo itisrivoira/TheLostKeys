@@ -104,6 +104,8 @@ class Transizione():
 
                     main.cam.x = main.stanze.pos_portaC[0] * GLOB.MULT
                     main.cam.y = main.stanze.pos_portaC[1] * GLOB.MULT
+                    
+                    print(main.stanze.pos_portaP, main.stanze.pos_portaC)
 
             if self.val_sgrana >= 310 or self.val_scurisci >= 255:
                 self.__loadImagesANDconvert()
