@@ -1,15 +1,15 @@
-// Pannello delle Opzioni
+// Pannello delle Setting
 
 import { useContext } from "react";
 import { Col, Button, Modal, Row,  Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 import { useFullScreen } from "../utils/utils";
-import { Audio, Music, Sfx, Opzioni, Run } from './components';
+import { Audio, Music, Sfx, Setting, Run } from './components';
 
 const Options = ({exit}) => {
 	const { fullScreen, toggle } = useFullScreen();
-	const { setting, setSetting } = useContext(Opzioni);
+	const { setting, setSetting } = useContext(Setting);
 	const { run, setRun } = useContext(Run);
 	const { music, setMusic } = useContext(Music);
 	const { sfx, setSfx } = useContext(Sfx);

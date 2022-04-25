@@ -3,6 +3,7 @@
 import { useCallback } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
+import { GameProvider } from "./components/components";
 import { useEventListener } from "./utils/utils";
 import { Menu, Play } from './pages/pages';
 
@@ -19,7 +20,11 @@ const App = () => {
 		<Routes>
 			<Route path="*" element={<Navigate to="/menu" />} />
 			<Route path="/menu" element={<Menu />} />
-			<Route path="/play" element={<Play />} />
+			<Route path="/play" element={
+				<GameProvider>
+					<Play />
+				</GameProvider>
+			} />
 		</Routes>
 	);
 }

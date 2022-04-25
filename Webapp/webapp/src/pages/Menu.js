@@ -4,13 +4,13 @@ import { Col, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 
-import { SplashScreen, Title, Footer, Options, BtnPlay, BtnOptions, BtnLogin, BtnMusic, Opzioni } from '../components/components';
+import { SplashScreen, Title, Footer, Options, BtnPlay, BtnOptions, BtnLogin, BtnMusic, Setting } from '../components/components';
 
 import '../style/App.css';
 import '../style/Font.css';
 
 const Menu = () => {
-	const { setSetting } = useContext(Opzioni);
+	const { setSetting } = useContext(Setting);
 	let navigate = useNavigate();
 
 	const openSettings = () => setSetting(true);

@@ -3,7 +3,7 @@
 import { useRef, useCallback, useContext } from 'react';
 import { GameEngine } from 'react-game-engine';
 
-import { Options , Dialog, DialogOpen, Opzioni, Run, EnigmaModal } from '../components/components';
+import { Options , Dialog, DialogOpen, Setting, Run, EnigmaModal } from '../components/components';
 import { useEventListener } from '../utils/utils';
 import useEntities from '../entities/useEntities';
 import useSystem from '../system/useSystem';
@@ -12,7 +12,7 @@ import '../style/Play.css';
 import '../style/Font.css';
 
 const Play = () => {
-	const { setSetting } = useContext(Opzioni);
+	const { setSetting } = useContext(Setting);
 	const { setDialog } = useContext(DialogOpen);
 	const { run, setRun } = useContext(Run);
 	const engine = useRef();
