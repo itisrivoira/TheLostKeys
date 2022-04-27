@@ -1,7 +1,6 @@
 .Stage {
 	height: 100%;
 	width: 100%;
-	background: url('../assets/prova2/ProvaChimica.png') no-repeat black;
-	image-rendering: pixelated;
+	background: black;
 	overflow: hidden;
 }

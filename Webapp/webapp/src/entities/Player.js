@@ -1,14 +1,14 @@
 // Entita di Prova
 
-import { useContext } from "react";
+//import { useContext } from "react";
 import { Image } from "react-bootstrap";
 
-import {Enigma} from '../components/components';
-import ProvaChimica from '../assets/prova2/ProvaChimica.json';
-import useEventListener from "../utils/useEventListener";
+//import {Enigma} from '../components/components';
+//import ProvaChimica from '../assets/prova2/ProvaChimica.json';
+//import useEventListener from "../utils/useEventListener";
 
 const Player = ({x, y, src}) => {
-	const { setEnigma } = useContext(Enigma);
+	/*const { setEnigma } = useContext(Enigma);
 
 
 	const evento = e => {
@@ -21,7 +21,7 @@ const Player = ({x, y, src}) => {
 		}
 	}
 
-	useEventListener('keydown', evento);
+	useEventListener('keydown', evento);*/
 
 	return(
 		<Image
@@ -30,9 +30,10 @@ const Player = ({x, y, src}) => {
 				position: "absolute",
 				left: x,
 				top: y,
+				border: '1px solid black'
 			}}
-			width={75}
-			height={105}
+			width={85}
+			height={115}
 			src={src}
 		/>
 	)

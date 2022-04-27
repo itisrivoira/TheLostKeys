@@ -2,10 +2,16 @@
 
 import CountDown from './CountDown';
 import Player from './Player';
+import Room from './Room';
 
-const useEntities = () => {
+const Entities = () => {
 
 	return {
+		room: {
+			name: 'ProvaChimica',
+			renderer: <Room />
+		},
+
 		player: {
 			x: 1200,
 			y: 400,
@@ -15,8 +21,6 @@ const useEntities = () => {
 		},
 
 		countdown: {
-			x: 700,
-			y: 50,
 			min: 25,
 			sec: 0,
 			renderer: <CountDown />
@@ -24,4 +28,4 @@ const useEntities = () => {
 	}
 }
 
-export default useEntities;
+export default Entities;
