@@ -378,7 +378,7 @@ def main():
 
     
     # Funzione che controlla se il tasto è stato premuto
-    def key_pressed(event,IsPressed):
+    def key_pressed(event, IsPressed):
         UP = event.key == pygame.K_w or event.key == pygame.K_UP
         DOWN = event.key == pygame.K_s or event.key == pygame.K_DOWN
         LEFT = event.key == pygame.K_a or event.key == pygame.K_LEFT
@@ -500,7 +500,6 @@ def main():
                             GLOB.Enigma = False
 
                 if GLOB.Debug:
-                    # | K | - | N | - | L |
 
                     if keys_pressed[pygame.K_l]:
                         animazione.iFinished = False
