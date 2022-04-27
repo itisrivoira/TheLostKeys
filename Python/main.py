@@ -98,7 +98,7 @@ def inizializza():
         inizializza()
 
     timer = Timer(minutes = GLOB.Timer, molt_sec = 1, event = miaFunzione)
-    animazione = Transizione(vel = 0.02)
+    animazione = Transizione(vel = 0.01)
 
     collisions = collisioni.Map(risoluzione = 24, path = "../MappaGioco/Tileset/Stanze/"+ GLOB.Piano +"/")
 
@@ -485,23 +485,22 @@ def main():
                         GLOB.Debug = False
                         GLOB.Cam_visible = False
 
-                if GLOB.Debug:
-                    # | K | - | N | - | L |
-
-                    if keys_pressed[pygame.K_k]:
+                if keys_pressed[pygame.K_k]:
                     
-                        if not GLOB.Dialogo:
-                            GLOB.Dialogo = True
-                        elif GLOB.Debug:
-                            GLOB.Dialogo = False
+                    if not GLOB.Dialogo:
+                        GLOB.Dialogo = True
+                    elif GLOB.Debug:
+                        GLOB.Dialogo = False
 
-                    if keys_pressed[pygame.K_n]:
-                        
+                if keys_pressed[pygame.K_n]:
+                            
                         if not GLOB.Enigma:
                             GLOB.Enigma = True
                         elif GLOB.Debug:
                             GLOB.Enigma = False
 
+                if GLOB.Debug:
+                    # | K | - | N | - | L |
 
                     if keys_pressed[pygame.K_l]:
                         animazione.iFinished = False

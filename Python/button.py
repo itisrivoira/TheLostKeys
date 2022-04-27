@@ -414,7 +414,7 @@ class Dialoghi_Interattivi():
 	def __init__(self, oggetto, descrizione, risposte, soluzione, difficolta, text_speed):
 		self.oggetto = oggetto
 		self.difficolta = difficolta
-		self.descr = descrizione.split("\n")		
+		self.descr = descrizione.split("\n")
 		self.risposte = risposte
 		self.soluzione = soluzione
 		self.descr = "".join(self.descr)
@@ -472,8 +472,10 @@ class Dialoghi_Interattivi():
 		self.background = pygame.image.load("assets/Dialoghi-Sfondo1.png").convert()
 		self.background = pygame.transform.scale(self.background, (self.background.get_width()*GLOB.MULT, self.background.get_height()*GLOB.MULT))
 
+		val = 3
+
 		self.vignetta = pygame.image.load("Dialoghi/Characters/"+self.oggetto+".png").convert_alpha()
-		self.vignetta = pygame.transform.scale(self.vignetta, (self.vignetta.get_width()*GLOB.MULT*2, self.vignetta.get_height()*GLOB.MULT*2))
+		self.vignetta = pygame.transform.scale(self.vignetta, (self.vignetta.get_width()*GLOB.MULT*val, self.vignetta.get_height()*GLOB.MULT*val))
 
 		self.sfondo = pygame.image.load("assets/dialoghi-risposta.png").convert_alpha()
 		self.sfondo = pygame.transform.scale(self.sfondo, (self.sfondo.get_width()*GLOB.MULT, self.sfondo.get_height()*GLOB.MULT))
@@ -657,7 +659,7 @@ class Dialoghi_Interattivi():
 
 			GLOB.screen.blit(self.background, (0,0))
 			GLOB.screen.blit(self.sfondo, (0, GLOB.screen_height-self.sfondo.get_height()))
-			GLOB.screen.blit(self.vignetta, (150*GLOB.MULT, 80*GLOB.MULT))
+			GLOB.screen.blit(self.vignetta, (140*GLOB.MULT, 80*GLOB.MULT))
 			
 			if self.r0:
 				GLOB.screen.blit(self.Descrizione_TEXT, self.Descrizione_RECT)

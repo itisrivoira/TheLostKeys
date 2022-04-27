@@ -22,10 +22,11 @@ def riempi(percorso):
 
 def caricaCollisione():
     global startx, starty, endx, endy, centerx, centery
+    molt = 12
     for value in range(len(lista)):
         print(lista[value])
         cubo = pygame.image.load(path+"/"+lista[value]).convert()
-        centerx, centery = screen.get_width()/2 - cubo.get_width()/2, screen.get_height()/2 - cubo.get_height()/2
+        centerx, centery = screen.get_width()/2 - molt * val, screen.get_height()/2 - molt * val
         # cubo1 = cubo.set_colorkey((249, 80, 6))
 
         # cubo1 = cubo.get_rect(center = (screen.get_width()/2, screen.get_height()/2))
@@ -69,14 +70,14 @@ print(dizionario)
 
 # (0, 224, 1024, 480)
 #center = (screen.get_width()/2, screen.get_height()/2)
-var = 28
-cubo = pygame.image.load(path+"/"+lista[var]).convert()
+id_cubo = 21
+cubo = pygame.image.load(path+"/"+lista[id_cubo]).convert()
 cubo = pygame.transform.scale(cubo, (cubo.get_width() * val, cubo.get_height() * val))
 
 # 17, 13
 cubo2 = pygame.Rect(centerx, centery, cubo.get_width(), cubo.get_height())
 # cubo1 = pygame.Rect(centerx + startx1 - cubo.get_width()/2 - val*2, centery + starty1 + cubo.get_height()/2 + val*2, endx1 - val*4, endy2 + val)
-cubo1 = pygame.Rect(dizionario[var])
+cubo1 = pygame.Rect(dizionario[id_cubo])
 print(startx, starty)
 print(endx, endy)
 
