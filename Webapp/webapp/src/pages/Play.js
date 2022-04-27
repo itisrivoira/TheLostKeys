@@ -5,8 +5,8 @@ import { GameEngine } from 'react-game-engine';
 
 import { Options , Dialog, DialogOpen, Setting, Run, EnigmaModal } from '../components/components';
 import { useEventListener } from '../utils/utils';
-import useEntities from '../entities/useEntities';
-import useSystem from '../system/useSystem';
+import Entities from '../entities/Entities';
+import system from '../system/system';
 
 import '../style/Play.css';
 import '../style/Font.css';
@@ -38,8 +38,8 @@ const Play = () => {
 		<GameEngine
 			ref={engine}
 			running={run}
-			systems={useSystem()}
-			entities={useEntities()}
+			systems={system}
+			entities={Entities()}
 			className='Stage'
 		>
 			<Options	exit={true} />

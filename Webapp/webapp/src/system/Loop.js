@@ -1,5 +1,5 @@
 // Loop del Gioco
-import collision from "./useCollision";
+import collision from "./Collision";
 
 var [ u, d, l, r ] = [ 0, 0, 0, 0 ];
 const frames = [
@@ -14,6 +14,8 @@ const frames = [
 const Loop = (entities, { input }) => {
 	const { payload } = input.find(x => x.name === "onKeyDown") || {};
 	const player = entities["player"];
+	const room = entities["room"];
+	var { name } = room;
 	var { x, y, speed } = player;
 	x += 27;
 	y += 34;
@@ -31,7 +33,7 @@ const Loop = (entities, { input }) => {
 
 		switch (key) {
 			case "ArrowUp":
-				if (collision(x,y) != 'up') {
+				if (collision(x,y, name) != 'up') {
 					player.y -= speed;
 					u = motion(u, 'up');
 				} else {
@@ -41,7 +43,7 @@ const Loop = (entities, { input }) => {
 				break;
 
 			case "ArrowDown":
-				if (collision(x,y) != 'down') {
+				if (collision(x,y, name) != 'down') {
 					player.y += speed;
 					d = motion(d, 'down');
 				}	else
@@ -51,7 +53,7 @@ const Loop = (entities, { input }) => {
 				break;
 
 			case "ArrowLeft":
-				if (collision(x,y) != 'left') {
+				if (collision(x,y, name) != 'left') {
 					player.x -= speed;
 					l = motion(l, 'left');
 				} else{
@@ -61,7 +63,7 @@ const Loop = (entities, { input }) => {
 				break;
 
 			case "ArrowRight":
-				if (collision(x,y) != 'right') {
+				if (collision(x,y, name) != 'right') {
 					player.x += speed;
 					r = motion(r, 'right');
 				} else

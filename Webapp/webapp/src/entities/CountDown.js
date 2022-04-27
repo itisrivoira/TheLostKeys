@@ -10,13 +10,13 @@ const CountDown = ({ x, y, min, sec}) => {
 	const { run } = useContext(Run);
 
 	return(
-		<Row>
+		<Row className="position-absolute top-0 start-50 translate-middle-x">
 			<Col xxl={5} className="text-start">
 			{
 				run ?
-					<BsPauseFill size={65} className="text-white ms-4 mt-2" />
+					<BsPauseFill size={65} className="text-white ms-4 mt-1" />
 				:
-					<BsPlayFill size={65} className="text-white ms-4 mt-2" />
+					<BsPlayFill size={65} className="text-white ms-4 mt-1" />
 			}
 			</Col>
 			<Col xxl={7}>

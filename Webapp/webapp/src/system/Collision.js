@@ -1,6 +1,7 @@
-import ProvaChimica from '../assets/prova2/ProvaChimica.json';
+// collisioni
 
-export default (x, y) => {
+export default (x, y, name) => {
+	const Scheme = require(`../assets/rooms/json/${name}.json`);
 	let direction = '';
 
 	let check = (elem, msg) => {
@@ -36,7 +37,7 @@ export default (x, y) => {
 	}
 
 
-	ProvaChimica.layers.forEach( el => {
+	Scheme.layers.forEach( el => {
 		if (el.name == 'Collisioni')
 			check(el.objects, 'Collisione ');
 
