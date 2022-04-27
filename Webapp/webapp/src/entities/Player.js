@@ -30,9 +30,10 @@ const Player = ({x, y, src}) => {
 				position: "absolute",
 				left: x,
 				top: y,
+				border: '1px solid black'
 			}}
-			width={75}
-			height={105}
+			width={85}
+			height={115}
 			src={src}
 		/>
 	)

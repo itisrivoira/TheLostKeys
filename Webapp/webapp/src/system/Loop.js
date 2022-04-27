@@ -38,7 +38,8 @@ const Loop = (entities, { input }) => {
 					u = motion(u, 'up');
 				} else {
 					console.log('up')
-					player.src = require(`../assets/characters/up/${frames[0]}`);}
+					player.src = require(`../assets/characters/up/${frames[0]}`);
+				}
 
 				break;
 
@@ -46,9 +47,10 @@ const Loop = (entities, { input }) => {
 				if (collision(x,y, name) != 'down') {
 					player.y += speed;
 					d = motion(d, 'down');
-				}	else
-			{	console.log('down')
-					player.src = require(`../assets/characters/down/${frames[0]}`);}
+				}	else{
+					console.log('down')
+					player.src = require(`../assets/characters/down/${frames[0]}`);
+				}
 
 				break;
 
@@ -57,8 +59,9 @@ const Loop = (entities, { input }) => {
 					player.x -= speed;
 					l = motion(l, 'left');
 				} else{
-				console.log('left')
-					player.src = require(`../assets/characters/left/${frames[0]}`);}
+					console.log('left')
+					player.src = require(`../assets/characters/left/${frames[0]}`);
+				}
 
 				break;
 
@@ -66,9 +69,10 @@ const Loop = (entities, { input }) => {
 				if (collision(x,y, name) != 'right') {
 					player.x += speed;
 					r = motion(r, 'right');
-				} else
-				{console.log('right')
-					player.src = require(`../assets/characters/right/${frames[0]}`);}
+				} else {
+					console.log('right')
+					player.src = require(`../assets/characters/right/${frames[0]}`);
+				}
 
 				break;
 		}
