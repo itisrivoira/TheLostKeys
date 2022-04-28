@@ -3,7 +3,7 @@ TITLE = "The Lost Keys"
 
 # Valori di proporzione
 
-Delta_Time = 1.8 # Delta_Time (Congliabile 1/2)
+Delta_Time = 2 # Delta_Time (Congliabile 1/2)
 Player_proportion = 1 # Divisore della grandezza del giocatore
 
 #FPS
@@ -29,6 +29,7 @@ Cam_visible = False
 
 Debug = False
 ShowFps = True
+ShowDropFrames = True
 
 Dialogo = False
 Enigma = False

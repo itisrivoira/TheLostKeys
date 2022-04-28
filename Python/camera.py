@@ -1,5 +1,5 @@
 import pygame
-import main, giocatore
+import main
 import global_var as GLOB
 
 
@@ -48,11 +48,11 @@ class Cam():
 
         #print(GLOB.Moff)
 
-        a =  main.player.getPositionX() >= GLOB.screen_width - self.offset[0] - main.player.width
-        b =  main.player.getPositionX() <= self.offset[0]
+        a = main.player.getPositionX() >= GLOB.screen_width - self.offset[0] - main.player.width
+        b = main.player.getPositionX() <= self.offset[0]
 
-        c =  main.player.getPositionY() >= GLOB.screen_height - self.offset[1] - main.player.height
-        d =  main.player.getPositionY() <= self.offset[1]
+        c = main.player.getPositionY() >= GLOB.screen_height - self.offset[1] - main.player.height
+        d = main.player.getPositionY() <= self.offset[1]
 
         a1 = main.player.getRightPress()
         b1 = main.player.getLeftPress()
@@ -60,19 +60,19 @@ class Cam():
         c1 = main.player.getDownPress()
         d1 = main.player.getUpPress()
 
-        ln = main.player.Last_keyPressed=="Null"
+        ln = main.player.Last_keyPressed == "Null"
 
         if a and ln and not (main.player.getLeftPress() or main.player.getRightPress()):
-            main.player.x -= GLOB.Player_default_speed
+            main.player.x -= GLOB.Player_speed
 
         if b and ln and not (main.player.getLeftPress() or main.player.getRightPress()):
-            main.player.x += GLOB.Player_default_speed
+            main.player.x += GLOB.Player_speed
 
         if c and ln and not (main.player.getUpPress() or main.player.getDownPress()):
-            main.player.y -= GLOB.Player_default_speed
+            main.player.y -= GLOB.Player_speed
 
         if d and ln and not (main.player.getUpPress() or main.player.getDownPress()):
-            main.player.y += GLOB.Player_default_speed
+            main.player.y += GLOB.Player_speed
 
         if a and a1 or ln and a:
             main.player.setPositionX(main.player.getPositionX()-main.player.getVelocitaX())
@@ -103,4 +103,4 @@ class Cam():
 
     def ShowCam(self):
         Offset_rect = pygame.Rect(self.offset[0] + self.Player_hitbox[0], self.offset[1] + self.Player_hitbox[1], GLOB.screen_width - self.offset[0]*2 - self.Player_hitbox[0]*2, GLOB.screen_height - self.offset[1]*2 - self.Player_hitbox[1]*2)
-        pygame.draw.rect(GLOB.screen, (255,255,255), Offset_rect, int(GLOB.MULT))
+        pygame.draw.rect(GLOB.screen, (255,0,255), Offset_rect, int(GLOB.MULT))

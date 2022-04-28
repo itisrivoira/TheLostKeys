@@ -10,12 +10,10 @@ import global_var as GLOB
 class Debug():
     def log(self):
 
-        # if not flag:
-        #     GLOB.ShowFps = False
-
         if GLOB.Debug:
 
             GLOB.ShowFps = True
+            GLOB.ShowDropFrames = True
             
             pygame.draw.rect(GLOB.screen, (0,255,255), main.player.mesh, int(1*GLOB.MULT))
 
@@ -36,18 +34,11 @@ class Debug():
             if sprint:
                 key = "|"+key+"|"
 
-            DROP_TEXT = main.get_font(5*int(GLOB.MULT)).render("DROP "+str(100-int(main.clock.get_fps()*100/GLOB.FPS))+"%", True, "red")
-            DROP_RECT = DROP_TEXT.get_rect(center=(GLOB.screen_width-95*GLOB.MULT, 20*GLOB.MULT))
-
             KEY_TEXT = main.get_font(10*int(GLOB.MULT)).render(key, True, "blue")
             KEY_RECT = KEY_TEXT.get_rect(center=(GLOB.screen_width-140*GLOB.MULT, 20*GLOB.MULT))
 
 
             GLOB.screen.blit(KEY_TEXT, KEY_RECT)
-
-            if int(main.clock.get_fps()) <= (GLOB.FPS-(GLOB.FPS/20)):
-                #print("Gli fps sono scesi: "+str(clock.get_fps()))
-                GLOB.screen.blit(DROP_TEXT, DROP_RECT)
 
             if keys_pressed[pygame.K_o]:
                 GLOB.Moff -= 1
@@ -83,14 +74,19 @@ class Debug():
             main.cam.ShowCam()
 
 
-        if int(main.clock.get_fps()) <= (GLOB.FPS-(GLOB.FPS/20)):
-            GLOB.Drop_Frames = True
-        else:
-            GLOB.Drop_Frames = False
-
-
         if GLOB.ShowFps:
             FPS_TEXT = main.get_font(8*int(GLOB.MULT)).render("FPS: "+str(int(main.clock.get_fps())), True, "white")
             FPS_RECT = FPS_TEXT.get_rect(center=(GLOB.screen_width-40*GLOB.MULT, 20*GLOB.MULT))
 
             GLOB.screen.blit(FPS_TEXT, FPS_RECT)
+
+        if GLOB.ShowDropFrames:
+
+            DROP_TEXT = main.get_font(5*int(GLOB.MULT)).render("DROP "+str(100-int(main.clock.get_fps()*100/GLOB.FPS))+"%", True, "red")
+            DROP_RECT = DROP_TEXT.get_rect(center=(GLOB.screen_width-95*GLOB.MULT, 20*GLOB.MULT))
+
+            if int(main.clock.get_fps()) <= (GLOB.FPS-(GLOB.FPS/20)):
+                GLOB.screen.blit(DROP_TEXT, DROP_RECT)
+                GLOB.Drop_Frames = True
+            else:
+                GLOB.Drop_Frames = False
