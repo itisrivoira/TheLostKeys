@@ -108,7 +108,6 @@ def testa():
                 if event.key == pygame.K_UP:
                     id_cubo += 1
 
-                    print(id_cubo, len(lista))
                     if id_cubo > len(lista) - 1:
                         id_cubo = len(lista) - 1
                     else:
