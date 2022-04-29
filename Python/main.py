@@ -375,6 +375,7 @@ def main():
    
     run = True # funzione mainloop() principale
 
+    SetPlayer_speed()
 
     
     # Funzione che controlla se il tasto è stato premuto
