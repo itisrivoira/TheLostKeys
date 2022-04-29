@@ -1,5 +1,5 @@
 // Loop del Gioco
-import collision from "./Collision";
+import collision from "./collision";
 
 var [ u, d, l, r ] = [ 0, 0, 0, 0 ];
 const frames = [
@@ -13,12 +13,11 @@ const frames = [
 
 const Loop = (entities, { input }) => {
 	const { payload } = input.find(x => x.name === "onKeyDown") || {};
-	const player = entities["player"];
-	const room = entities["room"];
+	const { player, room } = entities;
 	var { name } = room;
 	var { x, y, speed } = player;
-	x += 27;
-	y += 34;
+	x += 40;
+	y += 58;
 
 	const motion = (i, direct) => {
 		if (i === 5) i = 0;
@@ -30,47 +29,56 @@ const Loop = (entities, { input }) => {
 
 	if (payload) {
 		const key = payload.code;
+		let [col, ev] = [{}, {}];
 
 		switch (key) {
 			case "ArrowUp":
-				if (collision(x,y, name) != 'up') {
+				col = collision(x, y, name, 'Collisioni').up;
+				ev = collision(x, y, name, 'Eventi').up;
+
+				if ( !col && !ev ) {
 					player.y -= speed;
 					u = motion(u, 'up');
 				} else {
-					console.log('up')
 					player.src = require(`../assets/characters/up/${frames[0]}`);
 				}
 
 				break;
 
 			case "ArrowDown":
-				if (collision(x,y, name) != 'down') {
+				col = collision(x, y, name, 'Collisioni').down;
+				ev = collision(x, y, name, 'Eventi').down;
+
+				if ( !col && !ev ) {
 					player.y += speed;
 					d = motion(d, 'down');
 				}	else{
-					console.log('down')
 					player.src = require(`../assets/characters/down/${frames[0]}`);
 				}
 
 				break;
 
 			case "ArrowLeft":
-				if (collision(x,y, name) != 'left') {
+				col = collision(x, y, name, 'Collisioni').left;
+				ev = collision(x, y, name, 'Eventi').left;
+
+				if ( !col && !ev ) {
 					player.x -= speed;
 					l = motion(l, 'left');
 				} else{
-					console.log('left')
 					player.src = require(`../assets/characters/left/${frames[0]}`);
 				}
 
 				break;
 
 			case "ArrowRight":
-				if (collision(x,y, name) != 'right') {
+				col = collision(x, y, name, 'Collisioni').right;
+				ev = collision(x, y, name, 'Eventi').right;
+
+				if ( !col && !ev ) {
 					player.x += speed;
 					r = motion(r, 'right');
 				} else {
-					console.log('right')
 					player.src = require(`../assets/characters/right/${frames[0]}`);
 				}
 

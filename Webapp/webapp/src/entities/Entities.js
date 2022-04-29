@@ -8,7 +8,7 @@ const Entities = () => {
 
 	return {
 		room: {
-			name: 'ProvaChimica',
+			name: 'Chimica',
 			renderer: <Room />
 		},
 
