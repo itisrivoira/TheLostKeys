@@ -30,7 +30,7 @@ class Map():
             FileNames.sort()
 
             for filename in FileNames:
-                if filename[-3] == "p" and filename[-2] == "n" and filename[-1] == "g":
+                if (filename[-3] == "p" and filename[-2] == "n" and filename[-1] == "g") and (filename[0] == "t" and filename[1] == "i" and filename[2] == "l" and filename[3] == "e"):
                     self.tiles_immagini.append(filename)
 
         def caricaCollisione():
@@ -87,8 +87,9 @@ class Map():
             FileNames.sort()
 
             for filename in FileNames:
-                if filename[-3] == "p" and filename[-2] == "n" and filename[-1] == "g":
+                if (filename[-3] == "p" and filename[-2] == "n" and filename[-1] == "g") and (filename[0] == "t" and filename[1] == "i" and filename[2] == "l" and filename[3] == "e"):
                     lista.append(filename)
+
             #print(self.path+self.tiles_oggetti[event][0]+".png")
             #print(self.tiles_immagini_sprite)
         

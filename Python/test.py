@@ -18,7 +18,7 @@ def riempi(percorso):
     FileNames.sort()
 
     for filename in FileNames:
-        if filename[-3] == "p":
+        if (filename[-3] == "p" and filename[-2] == "n" and filename[-1] == "g") and (filename[0] == "t" and filename[1] == "i" and filename[2] == "l" and filename[3] == "e"):
                 lista.append(filename)
 
 def caricaCollisione():

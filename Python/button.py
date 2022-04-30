@@ -411,19 +411,37 @@ class Dialoghi():
 
 # risposte (risposta1, risposta2, risposta3)
 class Dialoghi_Interattivi():
-	def __init__(self, oggetto, descrizione, risposte, soluzione, difficolta, text_speed):
-		self.oggetto = oggetto
-		self.difficolta = difficolta
+	def __init__(self, tipo_enigma, oggetto, descrizione, suggerimento, risposte, soluzione, difficolta, text_speed):
+		self.tipo = tipo_enigma
+		# self.oggetto = oggetto
+		self.oggetto = "Narratore"
+
+		self.full_description = descrizione
+		self.full_suggeriment = suggerimento
+
 		self.descr = descrizione.split("\n")
+		self.sugg = suggerimento.split("\n")
 		self.risposte = risposte
-		self.soluzione = soluzione
+
+		self.number_solution = soluzione - 1
+		self.number_selection = 0
+		self.number_selected = 0
+
+		self.soluzione = self.risposte[soluzione-1]
 		self.descr = "".join(self.descr)
+		self.difficolta = difficolta
 
 		self.descr = descrizione.split(" ")	
 		for var in range(len(self.descr)):
 			if self.descr[var] == "VAR":
 				self.descr[var] = GLOB.scelta_char
 		self.descr = " ".join(self.descr)
+
+		self.sugg = suggerimento.split(" ")	
+		for var in range(len(self.sugg)):
+			if self.sugg[var] == "VAR":
+				self.sugg[var] = GLOB.scelta_char
+		self.sugg = " ".join(self.sugg)
 
 		self.delay = 0
 
@@ -440,6 +458,7 @@ class Dialoghi_Interattivi():
 		self.value = 86
 		self.valore = 0
 		self.flag_capo = True
+		self.isFinished = False
 
 		self.cooldown_interm = 0
 		self.interm = 0
@@ -620,26 +639,10 @@ class Dialoghi_Interattivi():
 
 			# contatore che serve a controllare quanti caratteri sono stati inseriti
 			self.contatore += 1
-
-			"""if self.contatore >= self.value and self.descrizione[-1] != "" and self.descrizione[-1] != "=" and self.descrizione[-1] != " ":
-				self.descrizione += " ="
-				self.Descrizione_TEXT = get_font(4*int(GLOB.MULT)).render(self.descrizione, True, "White")
-
-			if self.contatore >= self.value*2 and self.descrizione1[-1] != "" and self.descrizione1[-1] != "=" and self.descrizione1[-1] != " ":
-				self.descrizione1 += " ="
-				self.Descrizione1_TEXT = get_font(4*int(GLOB.MULT)).render(self.descrizione1, True, "White")
-
-			if self.contatore >= self.value*3 and self.descrizione2[-1] != "" and self.descrizione2[-1] != "=" and self.descrizione2[-1] != " ":
-				self.descrizione2 += " ="
-				self.Descrizione2_TEXT = get_font(4*int(GLOB.MULT)).render(self.descrizione2, True, "White")
-
-			if self.contatore >= self.value*4 and self.descrizione3[-1] != "" and self.descrizione3[-1] != "=" and self.descrizione3[-1] != " ":
-				self.descrizione3 += " ="
-				self.Descrizione3_TEXT = get_font(4*int(GLOB.MULT)).render(self.descrizione3, True, "White")"""
 			
 		# Delay aggiuntivo per dei caratteri particolari indicati
 		if max and self.descr[int(round(self.delay, 1))] != "." and self.descr[int(round(self.delay, 1))] != "?" and self.descr[int(round(self.delay, 1))] != "!" or self.ritardo == 1:
-			self.delay += + self.text_speed
+			self.delay += self.text_speed
 			self.ritardo = 0
 		else:
 			self.ritardo += self.text_speed
@@ -657,6 +660,10 @@ class Dialoghi_Interattivi():
     		
 			self.__effetto_testo()
 
+			if self.contatore == len(self.descr):
+				self.isFinished = True
+
+
 			GLOB.screen.blit(self.background, (0,0))
 			GLOB.screen.blit(self.sfondo, (0, GLOB.screen_height-self.sfondo.get_height()))
 			GLOB.screen.blit(self.vignetta, (140*GLOB.MULT, 80*GLOB.MULT))
@@ -672,6 +679,42 @@ class Dialoghi_Interattivi():
 
 			if self.r3:
 				GLOB.screen.blit(self.Descrizione3_TEXT, self.Descrizione3_RECT)
+
+
+			if self.isFinished:
+        			
+				distanza_righe = 15
+				valuex, valuey = 145, 50
+
+				font_size = 3
+				# print(self.risposte)
+
+				default_color = "White"
+				selected_color = "Yellow"
+
+				def imposta_colore(num_risposta):
+					if self.number_selection == num_risposta:
+						return selected_color	
+					else:
+						return default_color
+
+
+				self.RISPOSTA_TEXT = get_font(font_size*int(GLOB.MULT)).render(self.risposte[0], True, imposta_colore(0))
+				self.RISPOSTA_RECT = self.RISPOSTA_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, (valuey+distanza_righe)*GLOB.MULT))
+
+				self.RISPOSTA1_TEXT = get_font(font_size*int(GLOB.MULT)).render(self.risposte[1], True, imposta_colore(1))
+				self.RISPOSTA1_RECT = self.RISPOSTA1_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, (valuey+distanza_righe*2)*GLOB.MULT))
+
+				self.RISPOSTA2_TEXT = get_font(font_size*int(GLOB.MULT)).render(self.risposte[2], True, imposta_colore(2))
+				self.RISPOSTA2_RECT = self.RISPOSTA2_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, (valuey+distanza_righe*3)*GLOB.MULT))
+
+				self.RISPOSTA3_TEXT = get_font(font_size*int(GLOB.MULT)).render(self.risposte[3], True, imposta_colore(3))
+				self.RISPOSTA3_RECT = self.RISPOSTA3_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, (valuey+distanza_righe*4)*GLOB.MULT))
+
+				GLOB.screen.blit(self.RISPOSTA_TEXT, self.RISPOSTA_RECT)
+				GLOB.screen.blit(self.RISPOSTA1_TEXT, self.RISPOSTA1_RECT)
+				GLOB.screen.blit(self.RISPOSTA2_TEXT, self.RISPOSTA2_RECT)
+				GLOB.screen.blit(self.RISPOSTA3_TEXT, self.RISPOSTA3_RECT)
 
 			avanza = Button(image=pygame.image.load("assets/tasello.png").convert(), pos=(80*GLOB.MULT,  GLOB.screen_height-12*GLOB.MULT), 
 								text_input="", font=pygame.font.Font("font/font.ttf", (8*int(GLOB.MULT))), base_color="White", hovering_color="#d7fcd4", scale=1.8)
@@ -694,52 +737,47 @@ class Dialoghi_Interattivi():
 					sys.exit()
 
     				
-				if event.type == pygame.MOUSEBUTTONDOWN or keys_pressed[pygame.K_SPACE]:
+				if keys_pressed[pygame.K_ESCAPE]:
 					possoIniziare = True
+
+
+				if keys_pressed[pygame.K_SPACE]:
+					if self.CanIplay_sound:
+						self.__init__(self.tipo, self.oggetto, self.full_description, self.full_suggeriment, self.risposte, self.number_solution + 1, self.difficolta, 5)
+						self.CanIplay_sound = False
+						self.isFinished = True
+
+				if keys_pressed[pygame.K_DOWN] or keys_pressed[pygame.K_RIGHT]:
+					self.number_selection += 1
+
+					if self.number_selection > len(self.risposte) - 1:
+						self.number_selection = 0
+
+
+				if keys_pressed[pygame.K_UP] or keys_pressed[pygame.K_LEFT]:
+					self.number_selection -= 1
+
+					if self.number_selection < 0:
+						self.number_selection = len(self.risposte) - 1
+
+
+				if keys_pressed[pygame.K_RETURN] and self.isFinished:
+					self.number_selected = self.number_selection
+
+					if self.number_selected == self.number_solution:
+						print("Risposta Esatta!!")
+					else:
+						print("-- Risposta Errata --")
+
+					possoIniziare = True
+					
 
 				#delay.ActualState()
 
 
 			pygame.display.flip() # ti permette di aggiornare una area dello schermo per evitare lag e fornire piu' ottimizzazione
-			pygame.display.update()
 
 			clock.tick(GLOB.FPS) # setto i FramesPerSecond
-
-
-class Delay():
-    def __init__(self, sec):
-        self.__min = 0
-        self.__max = sec * GLOB.FPS
-        self.__increment = 1
-        self.__flag = True
-
-    #print(self.min, self.max, self.increment, self.function)
-
-    def Start(self):
-        if self.__flag:
-            self.__min += self.__increment
-
-            if int(self.__min) == self.__max:
-                self.__flag = False
-                return True
-
-        return False
-
-        #print(int(self.__min))
-
-    def ReStart(self):
-        if not self.__flag:
-            self.__min = 0
-            self.__flag = True
-
-        #print(int(self.__min))
-
-    def Infinite(self):
-        self.ReStart()
-        self.Start()
-
-    def ActualState(self):
-        print("| Current Second: %d | Max Seconds: %d | Function: %s |" %(self.__min/GLOB.FPS, self.__max/GLOB.FPS, self.__function))
 
 class Timer():	
 	def __init__(self, minutes, molt_sec, event):

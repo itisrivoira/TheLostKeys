@@ -136,7 +136,7 @@ def load_collisions(path):
             CanCollide = True
         elif i >= 56 and i < 112:
             CanCollide = False
-        collisions.render_gamemapCollision(lista = l1[0], object= None, var = i, collisione = CanCollide)
+        collisions.render_gamemapCollision(lista = l1[0], object = None, var = i, collisione = CanCollide)
 
     # for i in l2[1]:
     #     collisions.render_gamemapCollision(lista = l2[0], object= True, var = i, collisione = None)
@@ -450,6 +450,8 @@ def main():
 
     df = pd.read_csv('Dialoghi/dialogo.csv')
 
+    ec = pd.read_csv('../MappaGioco/Tileset/Stanze/1-PianoTerra/Chimica/enigmi/EnigmiChimica.csv')
+
     # print(df[df['Personaggi']])
 
     while run:
@@ -519,12 +521,13 @@ def main():
 
 
         if GLOB.Enigma:
-                #print(len(df.values))
-            for row in range(len(df.values)):
-                Enigma = Dialoghi_Interattivi(oggetto = df.values[0][0], descrizione = df.values[row][1], risposte = 0,  soluzione = 0,  difficolta = 0, text_speed = 3,)
-                player.setAllkeys(False)
-                player.finish()
-                Enigma.stampa()
+
+            #print(len(df.values))
+            row = 0
+            Enigma = Dialoghi_Interattivi(tipo_enigma = ec.values[row][0], oggetto = ec.values[row][1], descrizione =  ec.values[row][2], suggerimento =  ec.values[row][3], risposte = (ec.values[row][4], ec.values[row][5], ec.values[row][6], ec.values[row][7]), soluzione = int(ec.values[row][8]), difficolta = ec.values[row][9], text_speed = 3)
+            player.setAllkeys(False)
+            player.finish()
+            Enigma.stampa()
             GLOB.Enigma = False
         
         # Debugging
