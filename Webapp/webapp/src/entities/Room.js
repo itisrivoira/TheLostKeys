@@ -2,15 +2,13 @@
 
 import { Image } from "react-bootstrap";
 
+import paths from '../paths';
+
 const Room = ({name}) => {
 
 	return(
 		<Image
-			src={require(`../assets/rooms/png/${name}.png`)}
-			style={{
-				backgroundPosition: '50%',
-				overflow: "hidden",
-			}}
+			src={paths[name].png}
 		/>
 	)
 

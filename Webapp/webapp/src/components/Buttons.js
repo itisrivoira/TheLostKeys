@@ -11,7 +11,7 @@ import { rainSound, thunderSound, thunderSound2 } from '../assets/sounds/sounds'
 import '../style/App.css';
 
 const Btn = ({callback, enterSrc, leaveSrc}) => {
-	const [state, setState] = useState(false);	// stato per la transizione
+	const [state, setState] = useState(false);	// stato per la transizione grafica
 
 	const enter = () => setState(true);
 	const leave = () => setState(false);
@@ -24,6 +24,7 @@ const Btn = ({callback, enterSrc, leaveSrc}) => {
 			height={175}
 			width={325}
 			onClick={callback}
+			style={{imageRendering: "pixelated"}}
 			fluid
 		/>
 	)

@@ -5,7 +5,7 @@ import { GameEngine } from 'react-game-engine';
 
 import { Options , Dialog, DialogOpen, Setting, Run, EnigmaModal } from '../components/components';
 import { useEventListener } from '../utils/utils';
-import Entities from '../entities/Entities';
+import entities from '../entities/entities';
 import system from '../system/system';
 
 import '../style/Play.css';
@@ -39,7 +39,7 @@ const Play = () => {
 			ref={engine}
 			running={run}
 			systems={system}
-			entities={Entities()}
+			entities={entities()}
 			className='Stage'
 		>
 			<Options	exit={true} />
