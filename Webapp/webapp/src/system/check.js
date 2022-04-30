@@ -13,40 +13,40 @@ export default (elem, x, y,msg) => {
 			x >= (el.x - 10) &&
 			x <= (el.x + el.width + 10) &&
 			y <= (el.y - el.height) &&
-			y >= (el.y - el.height - 35)
+			y >= (el.y - el.height - 40)
 		) {
 			dirs.down = true;
-			console.log(`${msg}: ${dirs.down} ${el.id} x: ${x}, y: ${y}`);
+			console.log(`${msg}: down ${el.id} x: ${x}, y: ${y}`);
 		}
 
 		if (
 			x >= (el.x - 10) &&
 			x <= (el.x + el.width + 10) &&
-			y >= (el.y - 30) &&
-			y <= (el.y - 10)
+			y >= (el.y - 40) &&
+			y <= (el.y - 15)
 		){
 			dirs.up = true;
-			console.log(`${msg}: ${dirs.up} ${el.id} x: ${x}, y: ${y}`);
+			console.log(`${msg}: up ${el.id} x: ${x}, y: ${y}`);
 		}
 
 		if (
-			x >= (el.x - 15) &&
+			x >= (el.x - 20) &&
 			x <= el.x &&
 			y >= (el.y - el.height - 30) &&
 			y <= (el.y - 30)
 		) {
 			dirs.right = true;
-			console.log(`${msg}: ${dirs.right} ${el.id} x: ${x}, y: ${y}`);
+			console.log(`${msg}: right ${el.id} x: ${x}, y: ${y}`);
 		}
 
 		if (
 			x >= (el.x + el.width) &&
-			x <= (el.x + el.width + 10) &&
+			x <= (el.x + el.width + 15) &&
 			y >= (el.y - el.height - 30) &&
 			y <= (el.y - 30)
 		) {
 			dirs.left = true;
-			console.log(`${msg}: ${dirs.left} ${el.id} x: ${x}, y: ${y}`);
+			console.log(`${msg}: left ${el.id} x: ${x}, y: ${y}`);
 		}
 	})
 

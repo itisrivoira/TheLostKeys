@@ -16,8 +16,8 @@ const Loop = (entities, { input }) => {
 	const { player, room } = entities;
 	var { name } = room;
 	var { x, y, speed } = player;
-	x += 40;
-	y += 58;
+	x += 45;
+	y += 65;
 
 	const motion = (i, direct) => {
 		if (i === 5) i = 0;

@@ -31,8 +31,8 @@ const Player = ({x, y, src}) => {
 				left: x,
 				top: y,
 			}}
-			width={81}
-			height={117}
+			width={90}
+			height={130}
 			src={src}
 		/>
 	)
