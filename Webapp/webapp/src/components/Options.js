@@ -3,9 +3,10 @@
 import { useContext } from "react";
 import { Col, Button, Modal, Row,  Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { BsKeyboard } from "react-icons/bs";
 
 import { useFullScreen } from "../utils/utils";
-import { Audio, Music, Sfx, Setting, Run } from './components';
+import { Audio, Music, Sfx, Setting, Run, Comandi } from './components';
 
 const Options = ({exit}) => {
 	const { fullScreen, toggle } = useFullScreen();
@@ -13,7 +14,10 @@ const Options = ({exit}) => {
 	const { run, setRun } = useContext(Run);
 	const { music, setMusic } = useContext(Music);
 	const { sfx, setSfx } = useContext(Sfx);
+	const { setComandi } = useContext(Comandi);
 	let navigate = useNavigate();
+
+	const handleCommands = () => setComandi(true);
 
 	const backToMenu = () => {
 		navigate('../menu', {replace: true});
@@ -56,6 +60,15 @@ const Options = ({exit}) => {
 						volume={sfx}
 						changer={setSfx}
 					/>
+					<hr/>
+					<Row className="text-center">
+						<Col>
+							<Button className="txt-pixel fs-5 p-2 px-3 my-2" onClick={handleCommands}>
+								<BsKeyboard size={45}/> Comandi
+							</Button>
+						</Col>
+					</Row>
+					<hr/>
 					<Row className="text-center">
 						<Col>
 							<Button className="txt-pixel p-3 my-3" onClick={toggle} variant="dark" >

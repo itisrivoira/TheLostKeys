@@ -3,12 +3,13 @@ import { BtnPlay, BtnOptions, BtnLogin, BtnMusic } from "./Buttons";
 import Dialog from './Dialog';
 import DialogText from './DialogText';
 import Footer from "./Footer";
-import GlobalProvider, { Run, Music, Sfx, Setting } from './GlobalProvider';
+import GlobalProvider, { Run, Music, Sfx, Setting, Comandi } from './GlobalProvider';
 import GameProvider, { DialogOpen, Enigma } from './GameProvider';
 import Options from "./Options";
 import SplashScreen from "./SplashScreen";
 import Title from "./Title";
 import EnigmaModal from './EnigmaModal';
+import Commands from './Commands';
 
 export {
 	Audio,
@@ -30,5 +31,7 @@ export {
 	SplashScreen,
 	Title,
 	EnigmaModal,
-	Enigma
+	Enigma,
+	Comandi,
+	Commands
 };
