@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { BsKeyboard } from "react-icons/bs";
 
 import { useFullScreen } from "../utils/utils";
-import { Audio, Music, Sfx, Setting, Run, Comandi } from './components';
+import { Audio, Music, Sfx, Setting, Run, Comandi, Commands } from './components';
 
 const Options = ({exit}) => {
 	const { fullScreen, toggle } = useFullScreen();
@@ -87,6 +87,7 @@ const Options = ({exit}) => {
 					</Row>
 				</Container>
 			</Modal.Body>
+			<Commands />
 		</Modal>
 	)
 }

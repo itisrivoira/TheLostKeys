@@ -66,6 +66,10 @@ const listaComandi = [
 	{
 		key: 'Q',
 		funzione: "Interagisci in giro per la mappa"
+	},
+	{
+		key: 'Enter',
+		funzione: "Continua i dialoghi"
 	}
 ];
 

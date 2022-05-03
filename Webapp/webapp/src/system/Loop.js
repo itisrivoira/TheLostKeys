@@ -43,6 +43,11 @@ const Loop = (entities, { input }) => {
 					player.src = require(`../assets/characters/up/${frames[0]}`);
 				}
 
+				if (ev) {
+					console.log('Eventooooo');
+				}
+
+
 				break;
 
 			case "ArrowDown":
@@ -55,6 +60,12 @@ const Loop = (entities, { input }) => {
 				}	else{
 					player.src = require(`../assets/characters/down/${frames[0]}`);
 				}
+
+				if (ev) {
+					console.log('Eventooooo');
+				}
+
+
 
 				break;
 
@@ -69,6 +80,12 @@ const Loop = (entities, { input }) => {
 					player.src = require(`../assets/characters/left/${frames[0]}`);
 				}
 
+				if (ev) {
+					console.log('Eventooooo');
+				}
+
+
+
 				break;
 
 			case "ArrowRight":
@@ -81,6 +98,11 @@ const Loop = (entities, { input }) => {
 				} else {
 					player.src = require(`../assets/characters/right/${frames[0]}`);
 				}
+
+				if (ev) {
+					console.log('Eventooooo');
+				}
+
 
 				break;
 		}

@@ -3,7 +3,7 @@
 import { useRef, useCallback, useContext } from 'react';
 import { GameEngine } from 'react-game-engine';
 
-import { Options , Dialog, DialogOpen, Setting, Run, EnigmaModal } from '../components/components';
+import { Options , Dialog, DialogOpen, Setting, Run, EnigmaModal, Enigma } from '../components/components';
 import { useEventListener } from '../utils/utils';
 import entities from '../entities/entities';
 import system from '../system/system';
@@ -15,6 +15,7 @@ const Play = () => {
 	const { setSetting } = useContext(Setting);
 	const { setDialog } = useContext(DialogOpen);
 	const { run, setRun } = useContext(Run);
+	const { setEnigma } = useContext(Enigma);
 	const engine = useRef();
 
 	const togglePause = useCallback( ev => {
@@ -23,6 +24,9 @@ const Play = () => {
 			setRun(false);
 		} else if (ev.key === 'q') {
 			setDialog(true);
+			setRun(false);
+		} else if (ev.key === 'z') {
+			setEnigma(true);
 			setRun(false);
 		}
 	}, [setDialog, setRun, setSetting]);

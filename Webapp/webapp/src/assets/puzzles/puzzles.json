@@ -1,15 +1,14 @@
 {
 	"Chimica":{
-		"text": "ABC",
+		"text": "Risolvi lo schema per il passaggio di stato: da una sostanza solida come il ghiaccio qual è il giusto ordine per passare allo stato gassoso, e poi a quello liquido come l’acqua e poi di nuovo allo stato solido?",
 		"img": "blablabla",
-		"A": "ABC",
-		"B": "ABC",
-		"C": "ABC",
-		"D": "ABC",
-		"right": "A"
+		"A": "Sublimazione - Liquefazione - Solidificazione",
+		"B": "Liquefazione - Sublimazione - Solidificazione",
+		"C": "Solidificazione - Liquefazione - Sublimazione",
+		"D": "Non si puo determinare",
+		"right": "A",
+		"indizio": "Esempio di Sugerrimentooooooooooooooooooooooooooooooooooooooooooo"
 	}
-
-
 
 
 }

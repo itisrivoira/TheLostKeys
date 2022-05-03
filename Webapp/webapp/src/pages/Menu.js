@@ -8,7 +8,6 @@ import { SplashScreen, Title, Footer, Options, BtnPlay, BtnOptions, BtnLogin, Bt
 
 import '../style/App.css';
 import '../style/Font.css';
-import Commands from "../components/Commands";
 
 const Menu = () => {
 	const { setSetting } = useContext(Setting);
@@ -44,7 +43,6 @@ const Menu = () => {
 				</Row>
 			</Container>
 			<Options exit={false} />
-			<Commands />
 			<SplashScreen />
 		</>
 	);

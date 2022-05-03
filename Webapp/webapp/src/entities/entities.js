@@ -4,7 +4,7 @@ import CountDown from './CountDown';
 import Player from './Player';
 import Room from './Room';
 
-const Entities = () => {
+const entities = () => {
 
 	return {
 		room: {
@@ -28,4 +28,4 @@ const Entities = () => {
 	}
 }
 
-export default Entities;
+export default entities;
