@@ -30,9 +30,10 @@ const Loop = (entities, { input }) => {
 	if (payload) {
 		const key = payload.code;
 		let [col, ev] = [{}, {}];
+		console.log(payload);
 
 		switch (key) {
-			case "ArrowUp":
+			case "KeyW":
 				col = collision(x, y, name, 'Collisioni').up;
 				ev = collision(x, y, name, 'Eventi');
 
@@ -51,7 +52,7 @@ const Loop = (entities, { input }) => {
 
 				break;
 
-			case "ArrowDown":
+			case "KeyS":
 				col = collision(x, y, name, 'Collisioni').down;
 				ev = collision(x, y, name, 'Eventi');
 
@@ -70,7 +71,7 @@ const Loop = (entities, { input }) => {
 
 				break;
 
-			case "ArrowLeft":
+			case "KeyA":
 				col = collision(x, y, name, 'Collisioni').left;
 				ev = collision(x, y, name, 'Eventi');
 
@@ -89,7 +90,7 @@ const Loop = (entities, { input }) => {
 
 				break;
 
-			case "ArrowRight":
+			case "KeyD":
 				col = collision(x, y, name, 'Collisioni').right;
 				ev = collision(x, y, name, 'Eventi');
 
