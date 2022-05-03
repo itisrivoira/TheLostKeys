@@ -74,6 +74,7 @@ def inizializza():
     SetPlayer_speed()
 
     SetPlayer_sprite()
+    GLOB.setResources()
 
     # Inizializzazione Tupla di animazioni
     character_image = (GLOB.PlayerWalkingVD,GLOB.PlayerWalkingVU,GLOB.PlayerWalkingO)
@@ -134,7 +135,7 @@ def load_collisions(path):
     for i in l1[1]:
         if i >= 0 and i < 56:
             CanCollide = True
-        elif i >= 56 and i < 112:
+        elif i >= 56 and i < 125:
             CanCollide = False
         collisions.render_gamemapCollision(lista = l1[0], object = None, var = i, collisione = CanCollide)
 
@@ -157,6 +158,9 @@ def disegna():
         SetPlayer_speed()
 
     timer.Start()
+
+    if GLOB.score_seconds:
+        timer.AddSeconds(GLOB.score_seconds)
         
     GLOB.screen.fill(GLOB.Background_Color)
 
@@ -497,10 +501,10 @@ def main():
 
                 if keys_pressed[pygame.K_n]:
                             
-                        if not GLOB.Enigma:
-                            GLOB.Enigma = True
-                        elif GLOB.Debug:
-                            GLOB.Enigma = False
+                    if not GLOB.Enigma:
+                        GLOB.Enigma = True
+                    elif GLOB.Debug:
+                        GLOB.Enigma = False
 
                 if GLOB.Debug:
 
@@ -524,11 +528,12 @@ def main():
 
             #print(len(df.values))
             row = 0
-            Enigma = Dialoghi_Interattivi(tipo_enigma = ec.values[row][0], oggetto = ec.values[row][1], descrizione =  ec.values[row][2], suggerimento =  ec.values[row][3], risposte = (ec.values[row][4], ec.values[row][5], ec.values[row][6], ec.values[row][7]), soluzione = int(ec.values[row][8]), difficolta = ec.values[row][9], text_speed = 3)
+            Enigma = Dialoghi_Interattivi(tipo_enigma = ec.values[row][0], personaggio = ec.values[row][1], oggetto = "Documento", descrizione =  ec.values[row][2], suggerimento =  ec.values[row][3], risposte = (ec.values[row][4], ec.values[row][5], ec.values[row][6], ec.values[row][7]), soluzione = int(ec.values[row][8]), difficolta = ec.values[row][9], text_speed = 3)
             player.setAllkeys(False)
             player.finish()
             Enigma.stampa()
             GLOB.Enigma = False
+            player.evento = None
         
         # Debugging
         console = debug.Debug()

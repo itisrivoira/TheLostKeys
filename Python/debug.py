@@ -73,6 +73,12 @@ class Debug():
 
             main.cam.ShowCam()
 
+        if GLOB.ShowScore:
+            SCORE_TEXT = main.get_font(6*int(GLOB.MULT)).render("score: "+str(GLOB.score), True, "white")
+            SCORE_RECT = SCORE_TEXT.get_rect(center=(50*GLOB.MULT, 20*GLOB.MULT))
+
+            GLOB.screen.blit(SCORE_TEXT, SCORE_RECT)
+
 
         if GLOB.ShowFps:
             FPS_TEXT = main.get_font(8*int(GLOB.MULT)).render("FPS: "+str(int(main.clock.get_fps())), True, "white")

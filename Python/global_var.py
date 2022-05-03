@@ -10,7 +10,7 @@ Player_proportion = 1 # Divisore della grandezza del giocatore
 FPS = 30 * Delta_Time
 
 # rapporto di proporzione allo schermo NON INFERIORE AD 1
-MULT = 3
+MULT = 4
 
 # rapporto offset telecamera dello schermo MAX 40
 Moff = 30
@@ -19,7 +19,7 @@ Moff = 30
 AU = 5
 
 # rapporto musica del gioco
-MU = 0
+MU = 1
 
 # Timer del gioco
 Timer = 25
@@ -108,3 +108,24 @@ def setCharacter():
 
 
 setCharacter()
+
+ShowScore = True
+def setResources():
+    global score, score_seconds, tentativo, enigmi_da_risolvere, enigmi_risolti, chiavette, inventario
+    # --- SCORE ---
+    score = 0
+    score_seconds = 0
+
+    # --- ENIGMI ---
+
+    tentativo = 0
+    enigmi_da_risolvere = ["Chimica", "Storia", "Inglese", "Fisica", "Matematica", "Informatica", "Italiano", "Sistemi", "TPSIT"]
+    enigmi_risolti = []
+
+
+    # --- INVENTARIO ---
+
+    chiavette = ["Chimica", "Storia", "Inglese", "Fisica", "Matematica", "Informatica", "Italiano", "Sistemi", "TPSIT"]
+    inventario = []
+
+setResources()
