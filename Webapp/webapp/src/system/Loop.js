@@ -34,75 +34,77 @@ const Loop = (entities, { input }) => {
 		switch (key) {
 			case "ArrowUp":
 				col = collision(x, y, name, 'Collisioni').up;
-				ev = collision(x, y, name, 'Eventi').up;
+				ev = collision(x, y, name, 'Eventi');
 
-				if ( !col && !ev ) {
+				if ( !col && !ev.up ) {
 					player.y -= speed;
 					u = motion(u, 'up');
+					room.event = false;
 				} else {
 					player.src = require(`../assets/characters/up/${frames[0]}`);
 				}
 
 				if (ev) {
-					console.log('Eventooooo');
+					room.event = true;
+					room.evType = ev.evType;
 				}
-
 
 				break;
 
 			case "ArrowDown":
 				col = collision(x, y, name, 'Collisioni').down;
-				ev = collision(x, y, name, 'Eventi').down;
+				ev = collision(x, y, name, 'Eventi');
 
-				if ( !col && !ev ) {
+				if ( !col && !ev.down ) {
 					player.y += speed;
 					d = motion(d, 'down');
+					room.event = false;
 				}	else{
 					player.src = require(`../assets/characters/down/${frames[0]}`);
 				}
 
 				if (ev) {
-					console.log('Eventooooo');
+					room.event = true;
+					room.evType = ev.evType;
 				}
-
-
 
 				break;
 
 			case "ArrowLeft":
 				col = collision(x, y, name, 'Collisioni').left;
-				ev = collision(x, y, name, 'Eventi').left;
+				ev = collision(x, y, name, 'Eventi');
 
-				if ( !col && !ev ) {
+				if ( !col && !ev.left ) {
 					player.x -= speed;
 					l = motion(l, 'left');
+					room.event = false;
 				} else{
 					player.src = require(`../assets/characters/left/${frames[0]}`);
 				}
 
 				if (ev) {
-					console.log('Eventooooo');
+					room.event = true;
+					room.evType = ev.evType;
 				}
-
-
 
 				break;
 
 			case "ArrowRight":
 				col = collision(x, y, name, 'Collisioni').right;
-				ev = collision(x, y, name, 'Eventi').right;
+				ev = collision(x, y, name, 'Eventi');
 
-				if ( !col && !ev ) {
+				if ( !col && !ev.right ) {
 					player.x += speed;
 					r = motion(r, 'right');
+					room.event = false;
 				} else {
 					player.src = require(`../assets/characters/right/${frames[0]}`);
 				}
 
 				if (ev) {
-					console.log('Eventooooo');
+					room.event = true;
+					room.evType = ev.evType;
 				}
-
 
 				break;
 		}

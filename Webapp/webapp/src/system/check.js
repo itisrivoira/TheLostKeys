@@ -1,11 +1,14 @@
 // collision or event checker
 
-export default (elem, x, y,msg) => {
+export default (elem, x, y, msg) => {
 	let dirs = {
 		down: false,
 		up: false,
 		right: false,
-		left: false
+		left: false,
+
+		evType: '',
+		options: {}
 	};
 
 	elem.forEach( el => {
@@ -17,6 +20,11 @@ export default (elem, x, y,msg) => {
 		) {
 			dirs.down = true;
 			console.log(`${msg}: down ${el.id} x: ${x}, y: ${y}`);
+
+			if (msg == 'Eventi') {
+				dirs.evType = el.evType;
+				dirs.options = el.options;
+			}
 		}
 
 		if (
@@ -27,6 +35,11 @@ export default (elem, x, y,msg) => {
 		){
 			dirs.up = true;
 			console.log(`${msg}: up ${el.id} x: ${x}, y: ${y}`);
+
+			if (msg == 'Eventi') {
+				dirs.evType = el.evType;
+				dirs.options = el.options;
+			}
 		}
 
 		if (
@@ -37,6 +50,11 @@ export default (elem, x, y,msg) => {
 		) {
 			dirs.right = true;
 			console.log(`${msg}: right ${el.id} x: ${x}, y: ${y}`);
+
+			if (msg == 'Eventi') {
+				dirs.evType = el.evType;
+				dirs.options = el.options;
+			}
 		}
 
 		if (
@@ -47,7 +65,14 @@ export default (elem, x, y,msg) => {
 		) {
 			dirs.left = true;
 			console.log(`${msg}: left ${el.id} x: ${x}, y: ${y}`);
+
+			if (msg == 'Eventi') {
+				dirs.evType = el.evType;
+				dirs.options = el.options;
+			}
 		}
+
+
 	})
 
 	return dirs;

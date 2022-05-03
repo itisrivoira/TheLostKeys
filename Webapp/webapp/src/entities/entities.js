@@ -9,6 +9,9 @@ const entities = () => {
 	return {
 		room: {
 			name: 'Chimica',
+			event: false,
+			evType: '',
+			evOptions: {},
 			renderer: <Room />
 		},
 

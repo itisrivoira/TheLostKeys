@@ -5,6 +5,7 @@ import penLogin from "./penLogin.png";
 import penPlayWhite from "./penPlayWhite.png";
 import penOptionsWhite from "./penOptionsWhite.png";
 import penLoginWhite from "./penLoginWhite.png";
+import narratore from './Narratore.png';
 
 export {
 	denina,
@@ -13,5 +14,6 @@ export {
 	penOptions,
 	penPlayWhite,
 	penLoginWhite,
-	penOptionsWhite
+	penOptionsWhite,
+	narratore
 };

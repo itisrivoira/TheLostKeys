@@ -1,21 +1,26 @@
 // Schermata Enigma
 
 import { useContext, useEffect, useState } from "react";
-import { Modal, Row, Col, Button } from "react-bootstrap";
+import { Modal, Row, Col, Button, Image } from "react-bootstrap";
 
-import { Enigma, Run } from './components';
+import { Enigma, Run, RoomName, Score } from './components';
 import puzzles from '../assets/puzzles/puzzles.json';
+import { narratore } from "../assets/img/img";
 
 import '../style/enigma.css';
 
 const EnimaModal = () => {
 	const { enigma, setEnigma } = useContext(Enigma);
-	const { setRun } = useContext(Run)
+	const { room } = useContext(RoomName);
+	const { setRun } = useContext(Run);
+	const { setScore } = useContext(Score);
 	const [tentativi, setTentativi] = useState(3);
 	const [indizio, setIndizio] = useState(false);		// se il suggerimento è stato attivato
 	const [text, setText] = useState(true);		// se mostrare il testo dell'enigma o il suggerimento
+	const [points, setPoints] = useState(10);
 
-	const puzzle = puzzles['Chimica'];
+	const penalita = [0,2,5]
+	const puzzle = puzzles[room];
 	const { A, B, C, D } = puzzle;
 
 	const close = () => {
@@ -25,6 +30,8 @@ const EnimaModal = () => {
 
 	const right = () => {
 		alert('giusto :)');
+		console.log(indizio);
+		setScore(prev => indizio ? prev + points/2 : prev + points);
 		close();
 	};
 
@@ -49,12 +56,14 @@ const EnimaModal = () => {
 	const changeText = () => setText(prev => !prev);
 
 	useEffect( () => {
+		if (tentativi < 3)
+			setPoints(penalita[tentativi]);
+
 		if (tentativi === 0) {
 			alert('La risposta giusta era la: ' + puzzle.right);
 			close();
 		}
 	}, [tentativi]);
-
 
 	return(
 		<Modal
@@ -72,8 +81,12 @@ const EnimaModal = () => {
 					</Col>
 				</Row>
 				<Row className="my-3">
-					<Col xxl={4}>
-						Immagine
+					<Col xxl={4} className='d-flex justify-content-center'>
+						<Image
+							src={narratore}
+							width={250}
+							height={250}
+						/>
 					</Col>
 					<Col xxl={8}>
 						{ Object.keys({A,B,C,D}).map( key => (
@@ -88,7 +101,7 @@ const EnimaModal = () => {
 						))}
 					</Col>
 				</Row>
-				<Row className="my-2 p-5">
+				<Row className="my-2 mt-4 p-5 bg-secondary rounded-pill">
 					<Col>
 						<p className="text-white txt-pixel fs-3">
 						{ text ?
