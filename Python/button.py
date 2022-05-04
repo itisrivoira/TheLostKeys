@@ -414,11 +414,14 @@ class Dialoghi_Interattivi():
 	def __init__(self, tipo_enigma, personaggio, oggetto, descrizione, suggerimento, risposte, soluzione, difficolta, text_speed):
 		self.tipo = tipo_enigma
 		self.oggetto = oggetto
-		self.personaggio = personaggio
+		# self.personaggio = personaggio
+		self.personaggio = "Verga"
 		# self.oggetto = "Narratore"
 
 		self.full_description = descrizione
 		self.full_suggeriment = suggerimento
+
+		self.testo_suggerimento = self.full_suggeriment.split("|")
 
 		self.descr = descrizione.split("\n")
 		self.sugg = suggerimento.split("\n")
@@ -512,6 +515,19 @@ class Dialoghi_Interattivi():
 		self.flag_scendi = False
 
 		self.risultato = None
+		self.suggerimento = False
+		self.flash_animazione = pygame.Surface()
+		self.sfoca = 0
+
+	def __animazione_flash(self, flag):
+		value = 50
+		for i in range(value):
+			if flag:
+				self.sfoca += 1
+			else:
+				self.sfoca -= 1
+			self.flash_animazione.fill((255,255,255))
+			self.flash_animazione.set_alpha(self.sfoca)
 
 	def __effetto_testo(self):
     		
@@ -740,38 +756,60 @@ class Dialoghi_Interattivi():
 		while not possoIniziare:
     		
 			self.__effetto_testo()
-			self.__object_animation()
+
+			if not self.suggerimento:
+				self.__object_animation()
 
 			if self.contatore == len(self.descr):
 				self.isFinished = True
-
-
+				
 			GLOB.screen.blit(self.background, (0,0))
 			GLOB.screen.blit(self.sfondo, (0, GLOB.screen_height-self.sfondo.get_height()))
-			GLOB.screen.blit(self.vignetta, (110*GLOB.MULT, 50*GLOB.MULT + self.val_oggetto))
+
+			if not self.suggerimento:
+				val = 5
+				self.vignetta = pygame.image.load("Dialoghi/Characters/"+self.oggetto+".png").convert_alpha()
+				self.vignetta = pygame.transform.scale(self.vignetta, (self.vignetta.get_width()*GLOB.MULT*val, self.vignetta.get_height()*GLOB.MULT*val))
+				GLOB.screen.blit(self.vignetta, (110*GLOB.MULT, 50*GLOB.MULT + self.val_oggetto))
+
+			if self.suggerimento:			
+				val = 4
+
+				self.vignetta = pygame.image.load("Characters_Image/"+self.personaggio+".png").convert_alpha()
+				self.vignetta = pygame.transform.scale(self.vignetta, (self.vignetta.get_width()*GLOB.MULT*val, self.vignetta.get_height()*GLOB.MULT*val))
+				GLOB.screen.blit(self.vignetta, (65*GLOB.MULT, 1*GLOB.MULT))
+
+				for suggerimento in self.testo_suggerimento:
+
+					self.dialogo_suggerimento = Dialoghi(self.personaggio, suggerimento, 3)
+					self.dialogo_suggerimento.stampa()
+					self.suggerimento = False
 
 			TRY_TEXT = get_font(6*int(GLOB.MULT)).render(str(GLOB.tentativo+1)+"° tentativo", True, "white")
 			TRY_RECT = TRY_TEXT.get_rect(center=(50*GLOB.MULT, 20*GLOB.MULT))
 
 			GLOB.screen.blit(TRY_TEXT, TRY_RECT)
 
+			if not self.suggerimento:
+
 			
-			if self.r0:
-				GLOB.screen.blit(self.Descrizione_TEXT, self.Descrizione_RECT)
+				if self.r0:
+					GLOB.screen.blit(self.Descrizione_TEXT, self.Descrizione_RECT)
 
-			if self.r1:
-				GLOB.screen.blit(self.Descrizione1_TEXT, self.Descrizione1_RECT)
+				if self.r1:
+					GLOB.screen.blit(self.Descrizione1_TEXT, self.Descrizione1_RECT)
 
-			if self.r2:
-				GLOB.screen.blit(self.Descrizione2_TEXT, self.Descrizione2_RECT)
+				if self.r2:
+					GLOB.screen.blit(self.Descrizione2_TEXT, self.Descrizione2_RECT)
 
-			if self.r3:
-				GLOB.screen.blit(self.Descrizione3_TEXT, self.Descrizione3_RECT)
+				if self.r3:
+					GLOB.screen.blit(self.Descrizione3_TEXT, self.Descrizione3_RECT)
 
 
 			if self.isFinished:
-				GLOB.screen.blit(self.scelte, (280*GLOB.MULT, 12 * GLOB.MULT))
-        			
+				if not self.suggerimento:
+					GLOB.screen.blit(self.scelte, (280*GLOB.MULT, 12 * GLOB.MULT))
+					
 				distanza_righe = 23
 				valuex, valuey = 138, 30
 
@@ -824,6 +862,10 @@ class Dialoghi_Interattivi():
 				if event.type == pygame.QUIT:
 					pygame.quit()
 					sys.exit()
+
+
+				if keys_pressed[pygame.K_i]:
+					self.suggerimento = True
 
     				
 				if keys_pressed[pygame.K_ESCAPE]:
