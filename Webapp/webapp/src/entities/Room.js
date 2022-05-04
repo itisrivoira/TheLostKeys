@@ -33,6 +33,7 @@ const Room = ({name, event, evType, evOptions}) => {
 
 	return(
 		<Image
+			draggable={false}
 			src={paths[name].png}
 		/>
 	)
