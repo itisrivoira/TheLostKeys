@@ -6,15 +6,15 @@ import { Col, Modal, Row } from "react-bootstrap";
 import { Comandi } from './components';
 
 const Commands = () => {
-	const { comandi, setComandi } = useContext(Comandi);
+	const { comandi, setComandi } = useContext(Comandi);		// Indica se il modal dei comandi è attivo oppure no
 
-	const close = () => setComandi(false);
+	const close = () => setComandi(false);		// chiudo il modal
 
 	return(
 		<Modal
-			show={comandi}
-			onHide={close}
-			centered
+			show={comandi}		// flag per l'attivazione del modal
+			onHide={close}		// callback richiamata alla chiusura della modal
+			centered				// centrato a schermo
 		>
 			<Modal.Header closeButton>
 				<Modal.Title>
@@ -22,7 +22,8 @@ const Commands = () => {
 				</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-				{listaComandi.map( (value, index) => (<>
+				{/*Qui giro il vettore ListaComandi e ritorno una riga per ogni comando*/}
+				{listaComandi.map( value => (<>
 					<Row key={value.key}>
 						<Col xxl={4}>
 							<p>
@@ -42,6 +43,7 @@ const Commands = () => {
 	)
 }
 
+// Tutti i comandi del Gioco
 const listaComandi = [
 	{
 		key: 'W',

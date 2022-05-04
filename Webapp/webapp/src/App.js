@@ -16,11 +16,12 @@ const App = () => {
 			e.preventDefault();		// Annulla le azioni eseguite di default dal Browser
 	})
 
+	// assegno la funzione prevent all'evento keydown
 	useEventListener('keydown', prevent);
 
 	return (
 		<Routes>
-			<Route path="*" element={<Navigate to="/menu" />} />
+			<Route path="*" element={<Navigate to="/menu" />} /* Qualsiasi URL scriva l'utente ritornerà al menu principale */  />
 			<Route path="/menu" element={<Menu />} />
 			<Route path="/play" element={
 				<GameProvider>

@@ -1,7 +1,7 @@
-// Pannello delle Setting
+// Pannello delle Impostazioni
 
 import { useContext } from "react";
-import { Col, Button, Modal, Row,  Container } from "react-bootstrap";
+import { Col, Button, Modal, Row, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { BsKeyboard } from "react-icons/bs";
 

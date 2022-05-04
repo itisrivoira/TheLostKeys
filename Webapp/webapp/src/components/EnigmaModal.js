@@ -1,4 +1,4 @@
-// Schermata Enigma
+// UI Enigma
 
 import { useContext, useEffect, useState } from "react";
 import { Modal, Row, Col, Button, Image } from "react-bootstrap";
