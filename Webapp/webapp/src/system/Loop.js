@@ -30,7 +30,6 @@ const Loop = (entities, { input }) => {
 	if (payload) {
 		const key = payload.code;
 		let [col, ev] = [{}, {}];
-		console.log(payload);
 
 		switch (key) {
 			case "KeyW":
