@@ -7,7 +7,9 @@
 		"C": "Solidificazione - Liquefazione - Sublimazione",
 		"D": "Non si puo determinare",
 		"right": "A",
-		"indizio": "L'ultima fase è la Solidificazione"
+		"indizio": "L'ultima fase è la Solidificazione",
+		"penalita": [0,2,5],
+		"punti": 10
 	}
 
 

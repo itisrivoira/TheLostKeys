@@ -9,21 +9,23 @@ import { useFullScreen } from "../utils/utils";
 import { Audio, Music, Sfx, Setting, Run, Comandi, Commands } from './components';
 
 const Options = ({exit}) => {
-	const { fullScreen, toggle } = useFullScreen();
-	const { setting, setSetting } = useContext(Setting);
-	const { run, setRun } = useContext(Run);
-	const { music, setMusic } = useContext(Music);
-	const { sfx, setSfx } = useContext(Sfx);
-	const { setComandi } = useContext(Comandi);
-	let navigate = useNavigate();
+	const { fullScreen, toggle } = useFullScreen();		// Hook che mi permette di attivare/disattivare il FullScreen
+	const { setting, setSetting } = useContext(Setting);		// Flag delle Opzioni
+	const { run, setRun } = useContext(Run);				// Pausa/Riprendi del Gioco
+	const { music, setMusic } = useContext(Music);		// Livello Musica
+	const { sfx, setSfx } = useContext(Sfx);				// Livello Effetti Sonori
+	const { setComandi } = useContext(Comandi);			// funzione per il Pannello delle Istruzioni
+	let navigate = useNavigate();			// Per navigare fra gli EndPoint
 
-	const handleCommands = () => setComandi(true);
+	const handleCommands = () => setComandi(true);		// Attivo Il Pannello delle Instruzioni
 
+	// Torno al Menu
 	const backToMenu = () => {
 		navigate('../menu', {replace: true});
 		setSetting(false);
 	}
 
+	// Chiudo questo Pannello
 	const HandleClose = () => {
 		setSetting(false);
 		if ( !run ) setRun(true);
@@ -33,10 +35,9 @@ const Options = ({exit}) => {
 		<Modal
 			show={setting}
 			onHide={HandleClose}
-			backdrop="static"
+			backdrop="static"		// IL pannello si chiuderà solo quando l'utente clicca la X
 			size="lg"
 			centered
-			keyboard
 		>
 			<Modal.Header
 				closeButton
@@ -50,7 +51,7 @@ const Options = ({exit}) => {
 			</Modal.Header>
 			<Modal.Body className="bg-secondary">
 				<Container fluid>
-					<Audio
+					<Audio		// Richiamo i controller per i livelli Audio
 						title='Musica'
 						volume={music}
 						changer={setMusic}
@@ -76,7 +77,7 @@ const Options = ({exit}) => {
 							</Button>
 						</Col>
 						{
-							exit
+							exit		// se exit è vero viene mostrato questo Button
 							&&
 							<Col className="">
 								<Button className="txt-pixel p-3 my-3" onClick={backToMenu} variant='danger'>

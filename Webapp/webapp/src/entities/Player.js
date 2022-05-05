@@ -1,35 +1,17 @@
-// Entita di Prova
+// Giocatore che si muove nelle stanze
 
-//import { useContext } from "react";
 import { Image } from "react-bootstrap";
 
-//import {Enigma} from '../components/components';
-//import ProvaChimica from '../assets/prova2/ProvaChimica.json';
-//import useEventListener from "../utils/useEventListener";
-
+// Queste prop vengono passate ogni 16ms dal GameEngine
 const Player = ({x, y, src}) => {
-	/*const { setEnigma } = useContext(Enigma);
-
-
-	const evento = e => {
-		if (e.key === 'z' ) {
-			ProvaChimica.layers[4].objects.forEach( el => {
-				if (el.evType == 'enigma') {
-					setEnigma(true);
-				}
-			})
-		}
-	}
-
-	useEventListener('keydown', evento);*/
 
 	return(
 		<Image
 			style={{
 				imageRendering: "pixelated",
 				position: "absolute",
-				left: x,
-				top: y,
+				left: x,		// distanza tra l'img e il lato sinistro
+				top: y,		// distanza tra l'img e il lato destro
 			}}
 			width={90}
 			height={130}

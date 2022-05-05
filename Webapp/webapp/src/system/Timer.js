@@ -1,19 +1,19 @@
-// Funzione per il countdown
+// Funzione per il countdown dell'UHD
 
 var n = 0.5;
 
 const Timer = (entities) => {
-	const { countdown } = entities;
+	const { uhd } = entities;
 
 	n++;
 
 	if (n == 62.5) {
-		countdown.sec -= 1;
+		uhd.sec -= 1;
 		n = 0.5;;
 
-		if (countdown.sec <= 0) {
-			countdown.min -= 1;
-			countdown.sec = 59;
+		if (uhd.sec <= 0) {
+			uhd.min -= 1;
+			uhd.sec = 59;
 		}
 	}
 
