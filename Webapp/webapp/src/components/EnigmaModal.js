@@ -1,5 +1,7 @@
-// UI Enigma
-// Un solo componente per visualizzare tutti gli enigmi
+/*
+	UI Enigma
+	Un solo componente per visualizzare tutti gli enigmi
+*/
 
 import { useContext, useEffect, useState } from "react";
 import { Modal, Row, Col, Button, Image } from "react-bootstrap";

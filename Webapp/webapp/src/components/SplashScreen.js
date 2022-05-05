@@ -1,6 +1,8 @@
-// Splashscreen della Web App (work in progress)
-// Probabilmente la modicherò
-// Eseguo un animazione CSS con i @keyframes e poi nascondo l'intera schermata
+/*
+	Splashscreen della Web App (work in progress)
+	Probabilmente la modicherò
+	Eseguo un animazione CSS con i @keyframes e poi nascondo l'intera schermata
+*/
 
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Image } from "react-bootstrap";

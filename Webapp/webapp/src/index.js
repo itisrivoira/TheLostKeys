@@ -1,5 +1,7 @@
-// File Root
-// Qui c'è il contenitore degli Stati Globali e degli EndPoint
+/*
+	File Root
+ 	Qui c'è il contenitore degli Stati Globali e degli EndPoint
+*/
 
 import React from 'react';
 import ReactDOM from 'react-dom';

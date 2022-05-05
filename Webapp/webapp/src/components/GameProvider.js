@@ -1,6 +1,8 @@
-// Contenitore Variabili Importanti per il gioco
-// Separate da quelle globali perchè queste servono solo alla pag Play
-// In modo da risparmiare stati inutili alla pag Menu
+/*
+	Contenitore Variabili Importanti per il gioco
+	Separate da quelle globali perchè queste servono solo alla pag Play
+	In modo da risparmiare stati inutili alla pag Menu
+*/
 
 import { createContext, useState } from "react"
 

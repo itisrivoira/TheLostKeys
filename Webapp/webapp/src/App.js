@@ -1,5 +1,7 @@
-// Componente root della Web App
-// Qui ci sono tutti gli EndPoint
+/*
+	Componente root della Web App
+	Qui ci sono tutti gli EndPoint
+*/
 
 import { useCallback } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";

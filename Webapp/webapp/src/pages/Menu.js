@@ -4,8 +4,10 @@ import { Col, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 
-// Con i File Export posso fare cose di questro tipo
-// cioè importare decine di componenti in una sola riga
+/*
+	Con i File Export posso fare cose di questro tipo
+	cioè importare decine di componenti in una sola riga
+*/
 import { SplashScreen, Title, Footer, Options, BtnPlay, BtnOptions, BtnLogin, BtnMusic, Setting } from '../components/components';
 
 import '../style/App.css';
@@ -18,8 +20,10 @@ const Menu = () => {
 	const openSettings = () => setSetting(true);		// Aprire le impostazioni
 	const play = () => navigate('../play', {replace: true});		// Passare alla pagina di gioco
 
-	// Row e Col sono dei componenti Bootstrap che permettono di suddividere le pagine in righe e colonne
-	// Le classi CSS dei componenti sono identiche a quelle di Bootstrap 5
+	/*
+		Row e Col sono dei componenti Bootstrap che permettono di suddividere le pagine in righe e colonne
+		Le classi CSS dei componenti sono identiche a quelle di Bootstrap 5
+	*/
 
 	return (
 		<>

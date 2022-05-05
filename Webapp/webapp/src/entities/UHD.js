@@ -1,4 +1,7 @@
-// Conto alla rovescia
+/*
+	UHD del gioco
+	Qui ci sono le informazioni a chermo quali conto alla rovescia e punteggio
+*/
 
 import { useContext } from "react";
 import { Col, Row } from "react-bootstrap";
@@ -14,7 +17,7 @@ const UHD = ({ min, sec }) => {
 		<Row className="position-absolute top-0 start-50 translate-middle-x w-50">
 			<Col xxl={4} className="w-30 p-0 mt-3">
 				<p className="fs-2 text-white text-center txt-pixel">
-					Score: {score}
+					Score: {score}		{/* Molto probabilmento il punteggio lo toglieremo */}
 				</p>
 			</Col>
 			<Col xxl={2} className="text-center w-25">

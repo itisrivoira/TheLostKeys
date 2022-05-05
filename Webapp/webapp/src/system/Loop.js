@@ -1,8 +1,13 @@
-// Loop del Gioco
+/*
+	Loop del Gioco
+	Funzione che fa muovere il giocatore
+*/
+
 import collision from "./collision";
 
+// Indicatori di frame nelle 4 direzioni
 var [ u, d, l, r ] = [ 0, 0, 0, 0 ];
-const frames = [
+const frames = [	// nomi degli sprite di movimento
 	'Walk0.png',
 	'Walk1.png',
 	'Walk2.png',
@@ -12,41 +17,53 @@ const frames = [
 ];
 
 const Loop = (entities, { input }) => {
+	// payload è l'oggetto ritornato quando un evento si verifica
 	const { payload } = input.find(x => x.name === "onKeyDown") || {};
+	// Estraggo le entità player e room definite nel file entities.js
 	const { player, room } = entities;
+
+	// Estraggo varie proprietà dalle entita per comodità
 	var { name } = room;
 	var { x, y, speed } = player;
+
+	// Smezzo le coordinate del giocatore per ottenere il punto medio
 	x += 45;
 	y += 65;
 
+	// funzione che anima lo sprite di movimento
+	// Questa funzione cambierà quando aggiugerò più personaggi
 	const motion = (i, direct) => {
-		if (i === 5) i = 0;
+		if (i === 5) i = 0;		// se il contatore arriva al massimo lo resetto
+		// ogni 4 click cambio immagine dove direct=direzione e frame=numero della animazione
 		player.src = require(`../assets/characters/${direct}/${frames[parseInt(i)]}`);
+		// aumento di un 1/4 per ritardare l'animazione e renderla più fluida
 		i += 0.25;
 
+		// ritorno il valore perchè il contatore viene passato alla funzione per valore
+		// quindi si modifica solo una copia
 		return i;
 	}
 
 	if (payload) {
-		const key = payload.code;
-		let [col, ev] = [{}, {}];
+		const key = payload.code;		// Lettera tasto premuto
+		let [col, ev] = [{}, {}];		// col ed ev sono Object che indicano le direzioni in cui collide il giocatore
 
 		switch (key) {
 			case "KeyW":
-				col = collision(x, y, name, 'Collisioni').up;
-				ev = collision(x, y, name, 'Eventi');
+				col = collision(x, y, name, 'Collisioni').up;		// prendo solo la proprietà up
+				ev = collision(x, y, name, 'Eventi');			// qui invece mi servono tutte le proprietà
 
-				if ( !col && !ev.up ) {
-					player.y -= speed;
-					u = motion(u, 'up');
-					room.event = false;
-				} else {
+				if ( !col && !ev.up ) {		// Se entrambi sono falsi posso andare avanti
+					player.y -= speed;		// Diminuisco perchè le Y crescono verso il basso
+					u = motion(u, 'up');		// Animazione
+					room.event = false;		// Nessun evento quindi il flag è false
+				} else {		// Se invece non posso muovermi carico lo sprite da fermo
 					player.src = require(`../assets/characters/up/${frames[0]}`);
 				}
 
-				if (ev) {
+				if (ev) {	// Se c'è l'evento
 					room.event = true;
-					room.evType = ev.evType;
+					room.evType = ev.evType;	// Mi salvo il tipo di evento
 				}
 
 				break;
@@ -110,6 +127,7 @@ const Loop = (entities, { input }) => {
 		}
 	}
 
+	// ritorno le entità per renderle disponibili ai prossimi richiami
 	return entities;
 }
 

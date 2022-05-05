@@ -1,13 +1,17 @@
-// Controller volume audio di Gioco
-// Permette di abbassare/diminuire la musica del gioco
+/*
+	Controller volume audio di Gioco
+	Permette di abbassare/diminuire la musica del gioco
+*/
 
 import { useEffect, useState } from "react";
 import { Row, Col, Button, ProgressBar } from "react-bootstrap";
 import { BsPlusLg, BsDashLg } from "react-icons/bs";		// queste sono le icone della libreria React-Icons
 
-// Title: Titolo della barra
-// Volume: Livello del volume
-// Changer: Funzione di Callback per modificare lo Stato Globale
+/*
+	Title: Titolo della barra
+	Volume: Livello del volume
+	Changer: Funzione di Callback per modificare lo Stato Globale
+*/
 
 const Audio = ({title, volume, changer}) => {
 	const [dash, setDash] = useState(false);		// flag di disabilitazione tasto +

@@ -10,9 +10,12 @@ import { rainSound, thunderSound, thunderSound2 } from '../assets/sounds/sounds'
 
 import '../style/App.css';
 
-// Questo componente fa da Bottone Generico
-// Lo utilizzo negli altri tre bottoni
-// Così evito di creare altri componenti e codice unico
+/*
+	Questo componente fa da Bottone Generico
+	Lo utilizzo negli altri tre bottoni
+	Così evito di creare altri componenti e codice unico
+*/
+
 const Btn = ({callback, enterSrc, leaveSrc}) => {
 	const [state, setState] = useState(false);	// stato per la transizione grafica
 
@@ -59,9 +62,11 @@ export const BtnLogin = ({callback}) => (
 
 // Questo Bottone Attiva o Disattiva la musica
 export const BtnMusic = () => {
-	// useAudio è un custom Hook molto utile per la gestione della musica
-	//	dato la sorgente della musica e il Boolean per il loop
-	// mi ritorna un Bool e la funzione per attivare e mettere in pausa la musica
+	/*
+		useAudio è un custom Hook molto utile per la gestione della musica
+		dato la sorgente della musica e il Boolean per il loop
+		mi ritorna un Bool e la funzione per attivare e mettere in pausa la musica
+	*/
 
 	const [playing, toggle, pause] = useAudio(rainSound, true);					// pioggia
 	const [thunder, setThunder, pause1] = useAudio(thunderSound, false);		// Primo Fulmine

@@ -1,5 +1,7 @@
-// Pagina di Gioco
-// Forse il componente più importante di tutti
+/*
+	Pagina di Gioco
+	Forse il componente più importante di tutti
+*/
 
 import { useCallback, useContext } from 'react';
 import { GameEngine } from 'react-game-engine';		// Motore di Gioco
@@ -17,9 +19,11 @@ const Play = () => {
 	const { setDialog } = useContext(DialogOpen);	// aprire dialoghi di prova
 	const { run, setRun } = useContext(Run);			// mettere in pausa il Gioco
 
-	// useCallback server per memorizzare l'esecuzione di una funzione
-	// la funzione viene ricostruita ed rieseguita al cambiamento delle variabili nell'array
-	//(Come useEffetc)
+	/*
+		useCallback server per memorizzare l'esecuzione di una funzione
+		la funzione viene ricostruita ed rieseguita al cambiamento delle variabili nell'array
+		(Come useEffetc)
+	*/
 	const togglePause = useCallback( ev => {
 		if (ev.key === "e"){		// vado in pausa
 			setSetting(true);
