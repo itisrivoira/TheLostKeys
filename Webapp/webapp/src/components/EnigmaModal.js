@@ -1,33 +1,36 @@
 // UI Enigma
+// Un solo componente per visualizzare tutti gli enigmi
 
 import { useContext, useEffect, useState } from "react";
 import { Modal, Row, Col, Button, Image } from "react-bootstrap";
 
 import { Enigma, Run, RoomName, Score } from './components';
-import puzzles from '../assets/puzzles/puzzles.json';
 import { narratore } from "../assets/img/img";
+import puzzles from '../assets/puzzles/puzzles.json';
 
 import '../style/enigma.css';
 
 const EnimaModal = () => {
-	const { enigma, setEnigma } = useContext(Enigma);
-	const { room } = useContext(RoomName);
-	const { setRun } = useContext(Run);
-	const { setScore } = useContext(Score);
+	const { enigma, setEnigma } = useContext(Enigma);		// Se la UI è attiva o meno
+	const { room } = useContext(RoomName);			// Nome della stanza in cui sono (=nome enigma)
+	const { setRun } = useContext(Run);			// per stoppare il gioco
+	const { setScore } = useContext(Score);		// per modificare il punteggio totale
 	const [tentativi, setTentativi] = useState(3);
-	const [indizio, setIndizio] = useState(false);		// se il suggerimento è stato attivato
-	const [text, setText] = useState(true);		// se mostrare il testo dell'enigma o il suggerimento
-	const [points, setPoints] = useState(10);
+	const [indizio, setIndizio] = useState(false);	// se il suggerimento è stato attivato
+	const [text, setText] = useState(true);			// se mostrare il testo dell'enigma o il suggerimento
 
-	const penalita = [0,2,5]
-	const puzzle = puzzles[room];
-	const { A, B, C, D } = puzzle;
+	const puzzle = puzzles[room];			// ottengo l'Enigma come Object Literal
+	const { A, B, C, D } = puzzle;		// Estraggo le domande per poterle girare più facilmente (map())
 
+	const [points, setPoints] = useState(puzzle.punti);			// punti locali dell'enigma
+
+	// Chiudo la UI Enigma
 	const close = () => {
 		setEnigma(false);
 		setRun(true);
 	};
 
+	// Risposta giusta
 	const right = () => {
 		alert('giusto :)');
 		console.log(indizio);
@@ -35,30 +38,34 @@ const EnimaModal = () => {
 		close();
 	};
 
+	// Risposte sbagliate
 	const wrongs = () => {
 		alert('sbagliato :(');
 		setTentativi( prev => prev - 1 );
 	};
 
+	// Controllo la risposta
 	const check = key => {
-		if (key == puzzle.right) {
+		if (key == puzzle.right)
 			right();
-		} else {
+		else
 			wrongs();
-		}
 	};
 
+	// Attivo l'indizio
 	const activeIndizio = () => {
 		setIndizio(true);
 		setText(false);
 	};
 
+	// Cambio il testo dell'Enigma con il suggerimento e viceversa
 	const changeText = () => setText(prev => !prev);
 
 	useEffect( () => {
-		if (tentativi < 3)
-			setPoints(penalita[tentativi]);
+		if (tentativi < 3)	// quando l'utente sbaglia diminuisco i punti secondo le penalità dell'Enigma
+			setPoints(puzzle.penalita[tentativi]);
 
+		// quando l'utente esaurisce i tentativi gli rivelo la risposta corretta e chiude
 		if (tentativi === 0) {
 			alert('La risposta giusta era la: ' + puzzle.right);
 			close();
@@ -89,7 +96,9 @@ const EnimaModal = () => {
 						/>
 					</Col>
 					<Col xxl={8}>
-						{ Object.keys({A,B,C,D}).map( key => (
+						{
+						// Genero per ogni domanda un bottone con funzione check e come parametro la lettera della risposta
+						Object.keys({A,B,C,D}).map( key => (
 							<Button
 								onClick={() => check(key)}
 								variant="success"
@@ -132,6 +141,7 @@ const EnimaModal = () => {
 							Rinuncia
 						</Button>
 						{
+							// se indizio diventa true viene mostrato questo Button
 							indizio &&
 							<Button
 								onClick={changeText}

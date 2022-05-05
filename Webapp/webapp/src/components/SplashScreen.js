@@ -1,4 +1,6 @@
 // Splashscreen della Web App (work in progress)
+// Probabilmente la modicherò
+// Eseguo un animazione CSS con i @keyframes e poi nascondo l'intera schermata
 
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Image } from "react-bootstrap";
@@ -8,6 +10,7 @@ import { denina } from '../assets/img/img';
 const SplashScreen = () => {
 	const [animate, setAnimate] = useState(true);
 
+	// Nascondo la schermata dopo 4,2 secondi
 	useEffect( () => {
 		const dissappear = setTimeout(() => {
 			setAnimate(false);

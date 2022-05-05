@@ -1,32 +1,32 @@
-// tutte entita di gioco
+// Tutte entita di gioco
 
-import CountDown from './CountDown';
+import UHD from './UHD';
 import Player from './Player';
 import Room from './Room';
 
 const entities = () => {
 
 	return {
-		room: {
-			name: 'Chimica',
+		room: {	// Posso inserire tutte le prop che voglio
+			name: 'Chimica',	// Nome della stanza
 			event: false,
-			evType: '',
-			evOptions: {},
-			renderer: <Room />
+			evType: '',			// Tipo di evento
+			evOptions: {},		// Opzioni dell'Evento
+			renderer: <Room />	// La prop renderer contiene il Componente da renderizzare a schermo
 		},
 
 		player: {
-			x: 1200,
-			y: 400,
-			speed: 4,
-			src: require('../assets/characters/Seima.png'),
+			x: 1200,		// coordinata X
+			y: 400,		// coordinata Y
+			speed: 4,	// velocità
+			src: require('../assets/characters/Seima.png'),		// sprite
 			renderer: <Player />
 		},
 
-		countdown: {
-			min: 25,
-			sec: 0,
-			renderer: <CountDown />
+		uhd: {
+			min: 25,		// minuti
+			sec: 0,		// secondi
+			renderer: <UHD />
 		}
 	}
 }

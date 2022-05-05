@@ -1,4 +1,7 @@
-// hooks per la gestione degli audio
+// Hooks per la gestione degli audio
+// Restuisce un Boolean che indica se è in riproduzione o meno
+// Una funzione per attivare/disattivare
+// Una funzione per metter in pausa
 
 import { useState, useEffect, useContext } from "react";
 import { Music, Sfx } from "../components/components";
@@ -7,6 +10,7 @@ const useAudio = (url, loop) => {
 	const [audio] = useState(new Audio(url));
 	const [playing, setPlaying] = useState(false);
 
+	// Ottengo i livelli della musica e SFX
 	const { music } = useContext(Music);
 	const { sfx } = useContext(Sfx);
 
@@ -25,6 +29,7 @@ const useAudio = (url, loop) => {
 	 	};
 	}, []);
 
+	// Se Loop è vero considero il volume della musica, altrimento quello dei SFX
 	useEffect( () => {
 		audio.volume = loop ? music : sfx;
 	}, [music, sfx])

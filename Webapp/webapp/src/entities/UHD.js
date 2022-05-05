@@ -1,4 +1,4 @@
-// conto alla rovescia
+// Conto alla rovescia
 
 import { useContext } from "react";
 import { Col, Row } from "react-bootstrap";
@@ -6,9 +6,9 @@ import { BsPauseFill, BsPlayFill } from "react-icons/bs";
 
 import { Run, Score } from "../components/components";
 
-const CountDown = ({ x, y, min, sec}) => {
-	const { run } = useContext(Run);
-	const { score } = useContext(Score);
+const UHD = ({ min, sec }) => {
+	const { run } = useContext(Run);		// flag esecuzione gioco
+	const { score } = useContext(Score);	// Punteggio del gioco
 
 	return(
 		<Row className="position-absolute top-0 start-50 translate-middle-x w-50">
@@ -19,7 +19,7 @@ const CountDown = ({ x, y, min, sec}) => {
 			</Col>
 			<Col xxl={2} className="text-center w-25">
 			{
-				run ?
+				run ?		// Indico se il gioco è in esecuzione o meno con delle incone
 					<BsPauseFill size={65} className="text-white ms-4 mt-1" />
 				:
 					<BsPlayFill size={65} className="text-white ms-4 mt-1" />
@@ -34,4 +34,4 @@ const CountDown = ({ x, y, min, sec}) => {
 	)
 }
 
-export default CountDown;
+export default UHD;
