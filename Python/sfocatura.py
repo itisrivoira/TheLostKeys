@@ -42,7 +42,7 @@ class Delay():
 
 
 
-class Transizione():
+class Sfoca():
     def __init__(self, vel):
         self.flag_changeBg = True 
         self.__vel = vel
@@ -94,7 +94,7 @@ def inizializza():
     global clock, animazione
     pygame.display.set_caption("Effetto")
     clock = pygame.time.Clock()
-    animazione = Transizione(vel = 0.05)
+    animazione = Sfoca(vel = 0.05)
 
 
 def disegna():

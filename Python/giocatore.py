@@ -377,7 +377,7 @@ class Player(pygame.sprite.Sprite):
 
                 # -- EVENTO --
 
-                elif var == 62:
+                elif var == 62 or var == 56:
                     self.evento = "enigma"
 
                 else:

@@ -367,6 +367,22 @@ def pausa():
         clock.tick(GLOB.FPS) # setto i FramesPerSecond
 
 
+def enigma():
+    global enigma_file
+
+    print('../MappaGioco/Tileset/Stanze/'+GLOB.Piano+'/'+GLOB.Stanza+'/enigmi/Enigmi'+GLOB.Stanza+'.csv')
+
+    try:
+        
+        print("- Stanza trovata! -")
+        enigma_file = pd.read_csv('../MappaGioco/Tileset/Stanze/'+GLOB.Piano+'/'+GLOB.Stanza+'/enigmi/Enigmi'+GLOB.Stanza+'.csv')
+
+    except FileNotFoundError:
+
+        print("Stanza non trovata!")
+        enigma_file = pd.read_csv('../MappaGioco/Tileset/Stanze/1-PianoTerra/Chimica/enigmi/EnigmiChimica.csv')
+
+
 #funzione principale
 def main():
 
@@ -454,7 +470,7 @@ def main():
 
     df = pd.read_csv('Dialoghi/dialogo.csv')
 
-    ec = pd.read_csv('../MappaGioco/Tileset/Stanze/1-PianoTerra/Chimica/enigmi/EnigmiChimica.csv')
+    enigma()
 
     # print(df[df['Personaggi']])
 
@@ -525,10 +541,13 @@ def main():
 
 
         if GLOB.Enigma:
+            global enigma_file
+
+            enigma()
 
             #print(len(df.values))
             row = 0
-            Enigma = Dialoghi_Interattivi(tipo_enigma = ec.values[row][0], personaggio = ec.values[row][1], oggetto = "Documento", descrizione =  ec.values[row][2], suggerimento =  ec.values[row][3], risposte = (ec.values[row][4], ec.values[row][5], ec.values[row][6], ec.values[row][7]), soluzione = int(ec.values[row][8]), difficolta = ec.values[row][9], text_speed = 3)
+            Enigma = Dialoghi_Interattivi(tipo_enigma = enigma_file.values[row][0], personaggio = enigma_file.values[row][1], oggetto = "Documento", descrizione =  enigma_file.values[row][2], suggerimento =  enigma_file.values[row][3], risposte = (enigma_file.values[row][4], enigma_file.values[row][5], enigma_file.values[row][6], enigma_file.values[row][7]), soluzione = int(enigma_file.values[row][8]), difficolta = enigma_file.values[row][9], text_speed = 3)
             player.setAllkeys(False)
             player.finish()
             Enigma.stampa()

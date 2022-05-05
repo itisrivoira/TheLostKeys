@@ -50,3 +50,23 @@ def testa():
 
         print(GLOB.Default_Map, GLOB.Stanza)
         main.animazione.iFinished = False
+
+
+
+    if main.player.evento == "porta-8":
+        main.player.evento = None
+        main.stanze.setToDefault()
+
+
+        if GLOB.Piano == "1-PianoTerra":
+        
+            if GLOB.Stanza == "Corridoio":
+                main.stanze.flag_Archivio = True
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
+            if GLOB.Stanza == "Archivio":
+                main.stanze.flag_Corridoio = True
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
+        print(GLOB.Default_Map, GLOB.Stanza)
+        main.animazione.iFinished = False

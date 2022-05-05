@@ -1,19 +1,2 @@
-Tipo Enigma;Personaggio;Introduzione;Suggerimento;Scelta-1;Scelta-2;Scelta-3;Scelta-4;Soluzione;Difficoltà;Risposta Esatta(punti);Risposta 2 tentativo(punti);Risposta 3 tentativo(punti);Risposta 3 tentativo(punti);Risposta 3 tentativo(punti);Risposta 3 tentativo(punti)
-Scelta Multipla;Prof. Fulchero;Cosa c’è all’inizio dell’onda elettromagnetica, al centro dell’atomo, e alla fine di uno spettrometro;immagine lettera 'O';"""La radiazione!""";"""Il vuoto"""; O ' ;"""L'atmosfera""";3;Facile;10;5;2;3;4;5
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
+Tipo Enigma,Personaggio,Introduzione,Suggerimento,Scelta-1,Scelta-2,Scelta-3,Scelta-4,Soluzione,Difficolta',Risposta Esatta(punti),Risposta 2 tentativo(punti),Risposta 3 tentativo(punti),Risposta 3 tentativo(punti),Risposta 3 tentativo(punti),Risposta 3 tentativo(punti)
+Scelta Multipla,Prof. Fulchero,"Cosa c'e' all'inizio dell'onda elettromagnetica, al centro dell'atomo, e alla fine di uno spettrometro",immagine lettera 'O',La radiazione!,Il vuoto,O',L'atmosfera,3,Facile,10,5,2,3,4,5
