@@ -1,4 +1,4 @@
-// footer della web app
+// Footer della web app
 
 import { Col } from "react-bootstrap";
 
@@ -11,7 +11,7 @@ const Footer = () => (
 		</Col>
 		<Col className="mt-5" >
 			<p className="text-center text-white fs-2 txt-pixel">
-				Pre-Alpha 0.1.1
+				Alpha 7.0
 			</p>
 		</Col>
 	</>

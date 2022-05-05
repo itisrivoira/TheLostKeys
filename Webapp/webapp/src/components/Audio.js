@@ -1,23 +1,29 @@
 // Controller volume audio di Gioco
+// Permette di abbassare/diminuire la musica del gioco
 
 import { useEffect, useState } from "react";
 import { Row, Col, Button, ProgressBar } from "react-bootstrap";
-import { BsPlusLg, BsDashLg } from "react-icons/bs";
+import { BsPlusLg, BsDashLg } from "react-icons/bs";		// queste sono le icone della libreria React-Icons
+
+// Title: Titolo della barra
+// Volume: Livello del volume
+// Changer: Funzione di Callback per modificare lo Stato Globale
 
 const Audio = ({title, volume, changer}) => {
-	const [dash, setDash] = useState(false);
-	const [plus, setPlus] = useState(false);
+	const [dash, setDash] = useState(false);		// flag di disabilitazione tasto +
+	const [plus, setPlus] = useState(false);		// flag di disabilitazione tasto -
 
-	const increase = () => {changer(prev => prev + 0.1)}
-	const reduce = () => {changer(prev => prev - 0.1)}
+	const increase = () => {changer(prev => prev + 0.1)}		// aumento il volume
+	const reduce = () => {changer(prev => prev - 0.1)}			// diminuisce il volume
 
+	// Questa funzione si esegue ogni volta che cambia il volume
 	useEffect( () => {
 		if (volume <= 0.1) {
-			setDash(true);
+			setDash(true);		// Disabilito il tasto +
 		} else if (volume >= 0.9) {
-			setPlus(true);
+			setPlus(true);		// Disabilito il tasto -
 		} else {
-			setDash(false);
+			setDash(false);	// Li attivo entrambi
 			setPlus(false);
 		}
 	}, [volume]);
@@ -39,7 +45,7 @@ const Audio = ({title, volume, changer}) => {
 				</Row>
 				<Row className="w-75">
 					<Col>
-						<Button variant="dark" onClick={reduce} disabled={dash}>
+						<Button variant="dark" onClick={reduce} disabled={dash} /*Disable se è true disabilita il button */ >
 							<BsDashLg size={20} />
 						</Button>
 					</Col>

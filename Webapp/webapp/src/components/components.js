@@ -1,3 +1,5 @@
+// File di Export dei componenti React del Gioco
+
 import Audio from './Audio';
 import { BtnPlay, BtnOptions, BtnLogin, BtnMusic } from "./Buttons";
 import Dialog from './Dialog';

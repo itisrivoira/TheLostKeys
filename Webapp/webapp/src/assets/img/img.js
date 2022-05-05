@@ -1,3 +1,5 @@
+// File di Export per le immagini
+
 import denina from './denina.png';
 import penPlay from "./penPlay.png";
 import penOptions from "./penOptions.png";

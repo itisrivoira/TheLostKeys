@@ -1,8 +1,11 @@
-// testo del dialogo con vignetta
+// Testo del dialogo con vignetta
 
 import { Col, Row } from "react-bootstrap";
 
 const DialogText = ({i, now, text, people}) => {
+
+	// Se il numero della sequenza di testo coindice con il contatore i
+	// Allora il testo compare a schermo altrimenti sparice
 
 	return( i === now && (
 		<Row className="px-3">
