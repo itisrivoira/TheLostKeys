@@ -516,18 +516,6 @@ class Dialoghi_Interattivi():
 
 		self.risultato = None
 		self.suggerimento = False
-		self.flash_animazione = pygame.Surface()
-		self.sfoca = 0
-
-	def __animazione_flash(self, flag):
-		value = 50
-		for i in range(value):
-			if flag:
-				self.sfoca += 1
-			else:
-				self.sfoca -= 1
-			self.flash_animazione.fill((255,255,255))
-			self.flash_animazione.set_alpha(self.sfoca)
 
 	def __effetto_testo(self):
     		
