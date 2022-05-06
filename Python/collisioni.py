@@ -35,7 +35,7 @@ class Map():
 
         def caricaCollisione():
             for value in range(len(self.tiles_immagini)):
-                val = 8
+                val = self.tiles_risoluzione / GLOB.MULT
                 rettangolo = pygame.image.load("Collisioni/"+self.tiles_immagini[value]).convert()
                 var = pygame.PixelArray(rettangolo)
 
@@ -66,10 +66,9 @@ class Map():
 
                     y += val
 
-                len_tileX = (self.tiles_risoluzione/2.5 - startx)
-                len_tileY = (self.tiles_risoluzione/2.5 - starty)
-                #len_tileY = 1 # da risolvere
-                self.tiles_collisioni[value] = (starty//len_tileX, startx//len_tileY, endy, endx)
+                val_res = 9.6
+
+                self.tiles_collisioni[value] = (starty//val_res, startx//val_res, endy, endx)
 
         riempi("Collisioni")
         caricaCollisione()

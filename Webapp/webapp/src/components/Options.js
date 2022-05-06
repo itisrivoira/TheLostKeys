@@ -1,29 +1,33 @@
-// Pannello delle Setting
+// Pannello delle Impostazioni
 
-import { useContext } from "react";
-import { Col, Button, Modal, Row,  Container } from "react-bootstrap";
+import { useContext, useState } from "react";
+import { Col, Button, Modal, Row, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { BsKeyboard } from "react-icons/bs";
 
 import { useFullScreen } from "../utils/utils";
-import { Audio, Music, Sfx, Setting, Run, Comandi } from './components';
+import { Audio, Music, Sfx, Setting, Run } from './components';
 
 const Options = ({exit}) => {
-	const { fullScreen, toggle } = useFullScreen();
-	const { setting, setSetting } = useContext(Setting);
-	const { run, setRun } = useContext(Run);
-	const { music, setMusic } = useContext(Music);
-	const { sfx, setSfx } = useContext(Sfx);
-	const { setComandi } = useContext(Comandi);
-	let navigate = useNavigate();
+	const { fullScreen, toggle } = useFullScreen();		// Hook che mi permette di attivare/disattivare il FullScreen
+	const { setting, setSetting } = useContext(Setting);		// Flag delle Opzioni
+	const { run, setRun } = useContext(Run);				// Pausa/Riprendi del Gioco
+	const { music, setMusic } = useContext(Music);		// Livello Musica
+	const { sfx, setSfx } = useContext(Sfx);				// Livello Effetti Sonori
 
-	const handleCommands = () => setComandi(true);
+	const [com, setCom] = useState(false);		// stato per il Pannello Comandi
+	let navigate = useNavigate();			// Per navigare fra gli EndPoint
 
+	const openCommands = () => setCom(true);		// Attivo Il Pannello delle Instruzioni
+	const closeCommands = () => setCom(false);
+
+	// Torno al Menu
 	const backToMenu = () => {
 		navigate('../menu', {replace: true});
 		setSetting(false);
 	}
 
+	// Chiudo questo Pannello
 	const HandleClose = () => {
 		setSetting(false);
 		if ( !run ) setRun(true);
@@ -33,10 +37,9 @@ const Options = ({exit}) => {
 		<Modal
 			show={setting}
 			onHide={HandleClose}
-			backdrop="static"
+			backdrop="static"		// IL pannello si chiuderà solo quando l'utente clicca la X
 			size="lg"
 			centered
-			keyboard
 		>
 			<Modal.Header
 				closeButton
@@ -50,7 +53,7 @@ const Options = ({exit}) => {
 			</Modal.Header>
 			<Modal.Body className="bg-secondary">
 				<Container fluid>
-					<Audio
+					<Audio		// Richiamo i controller per i livelli Audio
 						title='Musica'
 						volume={music}
 						changer={setMusic}
@@ -63,7 +66,7 @@ const Options = ({exit}) => {
 					<hr/>
 					<Row className="text-center">
 						<Col>
-							<Button className="txt-pixel fs-5 p-2 px-3 my-2" onClick={handleCommands}>
+							<Button className="txt-pixel fs-5 p-2 px-3 my-2" onClick={openCommands}>
 								<BsKeyboard size={45}/> Comandi
 							</Button>
 						</Col>
@@ -76,7 +79,7 @@ const Options = ({exit}) => {
 							</Button>
 						</Col>
 						{
-							exit
+							exit		// se exit è vero viene mostrato questo Button
 							&&
 							<Col className="">
 								<Button className="txt-pixel p-3 my-3" onClick={backToMenu} variant='danger'>
@@ -87,8 +90,76 @@ const Options = ({exit}) => {
 					</Row>
 				</Container>
 			</Modal.Body>
+			<Commands show={com} handleClose={closeCommands} />
 		</Modal>
 	)
 }
+
+const Commands = ({show, handleClose}) => {
+
+	return(
+		<Modal
+			show={show}			// flag per l'attivazione del modal
+			onHide={handleClose}		// callback richiamata alla chiusura della modal
+			centered					// centrato a schermo
+		>
+			<Modal.Header closeButton>
+				<Modal.Title>
+					Instruzioni
+				</Modal.Title>
+			</Modal.Header>
+			<Modal.Body>
+				{/*Qui giro il vettore ListaComandi e ritorno una riga per ogni comando*/}
+				{listaComandi.map( value => (<>
+					<Row key={value.key}>
+						<Col xxl={4}>
+							<p>
+								{value.key}
+							</p>
+						</Col>
+						<Col xxl={8}>
+							<p>
+								{value.funzione}
+							</p>
+						</Col>
+					</Row>
+					<hr/>
+				</>))}
+			</Modal.Body>
+		</Modal>
+	)
+}
+
+// Tutti i comandi del Gioco
+const listaComandi = [
+	{
+		key: 'W',
+		funzione: "Muovi il Giocatore verso l'alto"
+	},
+	{
+		key: 'A',
+		funzione: "Muovi il Giocatore verso destra"
+	},
+	{
+		key: 'S',
+		funzione: "Muovi il Giocatore verso il basso"
+	},
+	{
+		key: 'D',
+		funzione: "Muovi il Giocatore verso sinistra"
+	},
+	{
+		key: 'E',
+		funzione: "Metti in Pausa il Gioco e apri le Opzioni"
+	},
+	{
+		key: 'Q',
+		funzione: "Interagisci in giro per la mappa"
+	},
+	{
+		key: 'Enter',
+		funzione: "Continua i dialoghi"
+	}
+];
 
 export default Options;

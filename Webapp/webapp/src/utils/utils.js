@@ -1,3 +1,5 @@
+// File di export per le funzioni di supporto
+
 import useAudio from "./useAudio";
 import useEventListener from "./useEventListener";
 import useFullScreen from "./useFullScreen";

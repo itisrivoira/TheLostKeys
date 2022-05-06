@@ -19,7 +19,7 @@ Moff = 30
 AU = 5
 
 # rapporto musica del gioco
-MU = 0
+MU = 1
 
 # Timer del gioco
 Timer = 25
@@ -108,3 +108,24 @@ def setCharacter():
 
 
 setCharacter()
+
+ShowScore = True
+def setResources():
+    global score, score_seconds, tentativo, enigmi_da_risolvere, enigmi_risolti, chiavette, inventario
+    # --- SCORE ---
+    score = 0
+    score_seconds = 0
+
+    # --- ENIGMI ---
+
+    tentativo = 0
+    enigmi_da_risolvere = ["Chimica", "Storia", "Inglese", "Fisica", "Matematica", "Informatica", "Italiano", "Sistemi", "TPSIT"]
+    enigmi_risolti = []
+
+
+    # --- INVENTARIO ---
+
+    chiavette = ["Chimica", "Storia", "Inglese", "Fisica", "Matematica", "Informatica", "Italiano", "Sistemi", "TPSIT"]
+    inventario = []
+
+setResources()

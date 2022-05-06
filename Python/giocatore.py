@@ -329,18 +329,59 @@ class Player(pygame.sprite.Sprite):
             if keys_pressed[pygame.K_e]:
                 print(var)
 
-                if var == 75 or var == 74 or var == 58 or var == 65:
-                    print("evento porta")
-                    self.evento = "porta"
+                # -- PORTE --
 
-                elif var == 59 or var == 63 or var == 77 or var == 78:
-                    print("evento porta-1")
+                if var == 112:
+                    self.evento = "porta-0"
+
+                elif var == 113:
                     self.evento = "porta-1"
 
-                else:
-                    return None
+                elif var == 114:
+                    self.evento = "porta-2"
 
-                return self.evento
+                elif var == 115:
+                    self.evento = "porta-3"
+
+                elif var == 116:
+                    self.evento = "porta-4"
+
+                elif var == 117:
+                    self.evento = "porta-5"
+
+                elif var == 118:
+                    self.evento = "porta-6"
+
+                elif var == 119:
+                    self.evento = "porta-7"
+
+                elif var == 120:
+                    self.evento = "porta-8"
+
+                elif var == 121:
+                    self.evento = "porta-9"
+
+                elif var == 122:
+                    self.evento = "porta-10"
+
+                elif var == 123:
+                    self.evento = "porta-11"
+
+                elif var == 124:
+                    self.evento = "porta-12"
+
+                elif var == 125:
+                    self.evento = "porta-13"
+
+                
+
+                # -- EVENTO --
+
+                elif var == 62 or var == 56:
+                    self.evento = "enigma"
+
+                else:
+                    self.evento = None
 
     # Funzione che serve ad aggiornare la velocità attuale del giocatore la velocità da' un'impressione Smooth
     def update(self):

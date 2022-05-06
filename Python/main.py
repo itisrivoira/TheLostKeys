@@ -3,7 +3,7 @@ import pygame, os, sys
 
 #Importo i vari file e classi necessarie
 import giocatore, menu, camera, debug, collisioni
-from button import Bar, Button, Dialoghi, Dialoghi_Interattivi, Timer
+from button import Bar, Button, Dialoghi, Dialoghi_Interattivi, Risultato, Timer
 from pygame import mixer
 from animazione import Transizione
 import stanze
@@ -68,12 +68,13 @@ def SetPlayer_sprite():
 
 #funzione di default
 def inizializza():
-    global player, cam, timer, clock, collisions, animazione
+    global player, cam, timer, clock, collisions, animazione, messaggio_a_schermo
 
     stanze.inizializza()
     SetPlayer_speed()
 
     SetPlayer_sprite()
+    GLOB.setResources()
 
     # Inizializzazione Tupla di animazioni
     character_image = (GLOB.PlayerWalkingVD,GLOB.PlayerWalkingVU,GLOB.PlayerWalkingO)
@@ -92,6 +93,9 @@ def inizializza():
 
     # Faccio nascere l'oggetto "cam"
     cam = camera.Cam()
+
+    # Messaggio visualizzabile a schermo
+    messaggio_a_schermo = Risultato(text = "GIUSTO!", color = "White", size = 5, delay_scomparsa = 10)
 
     def miaFunzione():
         print("Tempo Scaduto!")
@@ -134,7 +138,7 @@ def load_collisions(path):
     for i in l1[1]:
         if i >= 0 and i < 56:
             CanCollide = True
-        elif i >= 56 and i < 112:
+        elif i >= 56 and i < 125:
             CanCollide = False
         collisions.render_gamemapCollision(lista = l1[0], object = None, var = i, collisione = CanCollide)
 
@@ -157,6 +161,9 @@ def disegna():
         SetPlayer_speed()
 
     timer.Start()
+
+    if GLOB.score_seconds:
+        timer.AddSeconds(GLOB.score_seconds)
         
     GLOB.screen.fill(GLOB.Background_Color)
 
@@ -176,6 +183,14 @@ def disegna():
 
     animazione.disegna()
 
+    try:
+
+        if Enigma.risultato != None:
+            messaggio_a_schermo.Start()
+            print("Enigma-risolto")
+    
+    except NameError:
+        pass
 #Funzione Volume e Audio del gioco
 def options_audio():
     # Setto visibile il cursore del mouse
@@ -363,6 +378,24 @@ def pausa():
         clock.tick(GLOB.FPS) # setto i FramesPerSecond
 
 
+def enigma():
+    global enigma_file
+
+    print('../MappaGioco/Tileset/Stanze/'+GLOB.Piano+'/'+GLOB.Stanza+'/enigmi/Enigmi'+GLOB.Stanza+'.csv')
+
+    try:
+        
+        print("- Stanza trovata! -")
+        enigma_file = pd.read_csv('../MappaGioco/Tileset/Stanze/'+GLOB.Piano+'/'+GLOB.Stanza+'/enigmi/Enigmi'+GLOB.Stanza+'.csv')
+
+    except FileNotFoundError:
+
+        print("Stanza non trovata!")
+        enigma_file = pd.read_csv('../MappaGioco/Tileset/Stanze/1-PianoTerra/Chimica/enigmi/EnigmiChimica.csv')
+
+    SetPlayer_speed()
+
+
 #funzione principale
 def main():
 
@@ -404,7 +437,7 @@ def main():
             else:
                 player.finish()
             
-        if RIGHT and not LEFT and not(condition_3 and condition_4):    
+        elif RIGHT and not LEFT and not(condition_3 and condition_4):    
             player.setRightPress(IsPressed)
 
             if IsPressed:
@@ -413,7 +446,7 @@ def main():
             else:
                 player.finish()
 
-        if UP and not DOWN and not(condition_1 and condition_3):
+        elif UP and not DOWN and not(condition_1 and condition_3):
             player.setUpPress(IsPressed)
 
             if IsPressed:
@@ -422,7 +455,7 @@ def main():
             else:
                 player.finish()
             
-        if DOWN and not UP and not(condition_2 and condition_4):
+        elif DOWN and not UP and not(condition_2 and condition_4):
             player.setDownPress(IsPressed)
 
             if IsPressed:
@@ -431,13 +464,15 @@ def main():
             else:
                 player.finish()
 
-        if event.key == pygame.K_LSHIFT:
+        elif event.key == pygame.K_LSHIFT:
             if IsPressed:
                 player.setIsRunning(True)
                 GLOB.Player_speed = GLOB.Player_speed * GLOB.PlayerRun_speed
             else:
                 player.setIsRunning(False)
                 GLOB.Player_speed = GLOB.Player_default_speed
+        else:
+            player.setAllkeys(False)    # Evita che ci siano input zombie
         
 
     """
@@ -450,7 +485,7 @@ def main():
 
     df = pd.read_csv('Dialoghi/dialogo.csv')
 
-    ec = pd.read_csv('../MappaGioco/Tileset/Stanze/1-PianoTerra/Chimica/enigmi/EnigmiChimica.csv')
+    enigma()
 
     # print(df[df['Personaggi']])
 
@@ -497,10 +532,10 @@ def main():
 
                 if keys_pressed[pygame.K_n]:
                             
-                        if not GLOB.Enigma:
-                            GLOB.Enigma = True
-                        elif GLOB.Debug:
-                            GLOB.Enigma = False
+                    if not GLOB.Enigma:
+                        GLOB.Enigma = True
+                    elif GLOB.Debug:
+                        GLOB.Enigma = False
 
                 if GLOB.Debug:
 
@@ -521,14 +556,18 @@ def main():
 
 
         if GLOB.Enigma:
+            global enigma_file, Enigma
+
+            enigma()
 
             #print(len(df.values))
             row = 0
-            Enigma = Dialoghi_Interattivi(tipo_enigma = ec.values[row][0], oggetto = ec.values[row][1], descrizione =  ec.values[row][2], suggerimento =  ec.values[row][3], risposte = (ec.values[row][4], ec.values[row][5], ec.values[row][6], ec.values[row][7]), soluzione = int(ec.values[row][8]), difficolta = ec.values[row][9], text_speed = 3)
+            Enigma = Dialoghi_Interattivi(tipo_enigma = enigma_file.values[row][0], personaggio = enigma_file.values[row][1], oggetto = "Documento", descrizione =  enigma_file.values[row][2], suggerimento =  enigma_file.values[row][3], risposte = (enigma_file.values[row][4], enigma_file.values[row][5], enigma_file.values[row][6], enigma_file.values[row][7]), soluzione = int(enigma_file.values[row][8]), difficolta = enigma_file.values[row][9], text_speed = 3)
             player.setAllkeys(False)
             player.finish()
             Enigma.stampa()
             GLOB.Enigma = False
+            player.evento = None
         
         # Debugging
         console = debug.Debug()

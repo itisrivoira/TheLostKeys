@@ -184,7 +184,7 @@ class Dialoghi():
 		self.sfondo = pygame.transform.scale(self.sfondo, (self.sfondo.get_width()*GLOB.MULT, self.sfondo.get_height()*GLOB.MULT))
 
 		self.keySound = mixer.Sound("suoni/char-sound.wav")
-		self.keySound.set_volume(0.02*GLOB.AU)
+		self.keySound.set_volume(0.01*GLOB.AU)
 
 	def __effetto_testo(self):
     		
@@ -411,13 +411,17 @@ class Dialoghi():
 
 # risposte (risposta1, risposta2, risposta3)
 class Dialoghi_Interattivi():
-	def __init__(self, tipo_enigma, oggetto, descrizione, suggerimento, risposte, soluzione, difficolta, text_speed):
+	def __init__(self, tipo_enigma, personaggio, oggetto, descrizione, suggerimento, risposte, soluzione, difficolta, text_speed):
 		self.tipo = tipo_enigma
-		# self.oggetto = oggetto
-		self.oggetto = "Narratore"
+		self.oggetto = oggetto
+		# self.personaggio = personaggio
+		self.personaggio = "Verga"
+		# self.oggetto = "Narratore"
 
 		self.full_description = descrizione
 		self.full_suggeriment = suggerimento
+
+		self.testo_suggerimento = self.full_suggeriment.split("|")
 
 		self.descr = descrizione.split("\n")
 		self.sugg = suggerimento.split("\n")
@@ -491,16 +495,33 @@ class Dialoghi_Interattivi():
 		self.background = pygame.image.load("assets/Dialoghi-Sfondo1.png").convert()
 		self.background = pygame.transform.scale(self.background, (self.background.get_width()*GLOB.MULT, self.background.get_height()*GLOB.MULT))
 
-		val = 3
+		val = 5
 
 		self.vignetta = pygame.image.load("Dialoghi/Characters/"+self.oggetto+".png").convert_alpha()
 		self.vignetta = pygame.transform.scale(self.vignetta, (self.vignetta.get_width()*GLOB.MULT*val, self.vignetta.get_height()*GLOB.MULT*val))
+
+		self.scelte = pygame.image.load("assets/vignetta-risposta.png").convert_alpha()
+		self.scelte = pygame.transform.scale(self.scelte, (self.scelte.get_width()*GLOB.MULT, self.scelte.get_height()*GLOB.MULT))
 
 		self.sfondo = pygame.image.load("assets/dialoghi-risposta.png").convert_alpha()
 		self.sfondo = pygame.transform.scale(self.sfondo, (self.sfondo.get_width()*GLOB.MULT, self.sfondo.get_height()*GLOB.MULT))
 
 		self.keySound = mixer.Sound("suoni/char-sound.wav")
-		self.keySound.set_volume(0.02*GLOB.AU)
+		self.keySound.set_volume(0.01*GLOB.AU)
+
+		self.val_oggetto_max = 12
+		self.val_oggetto = self.val_oggetto_max + 1
+		self.flag_sali = True
+		self.flag_scendi = False
+
+		self.risultato = None
+		self.suggerimento = False
+
+		vel = 0.01
+		self.class_sfoca = Sfoca(vel)
+		self.class_desfoca = Sfoca(val)
+		self.class_sfoca.val_scurisci = 0
+		self.suggerimento_sfondo = pygame.Surface((GLOB.screen_width, GLOB.screen_height))
 
 	def __effetto_testo(self):
     		
@@ -650,6 +671,76 @@ class Dialoghi_Interattivi():
 		
 		#print("Delay: "+str(round(self.delay, 1))+" | Intero: "+str(int(self.delay+0.1))+" | Lunghezza: "+str(len(self.descr))+" | Contatore: "+str(self.contatore)+" | Max: "+str((self.delay+1)))
 
+	def __object_animation(self):
+
+		if int(self.val_oggetto) <= -self.val_oggetto_max:
+			self.flag_sali = False
+			self.flag_scendi = True
+
+		elif int(self.val_oggetto) >= self.val_oggetto_max:
+			self.flag_sali = True
+			self.flag_scendi = False
+
+		if self.flag_scendi:
+			self.flag_sali = False
+			self.val_oggetto += 0.1 * GLOB.MULT
+
+		elif self.flag_sali:
+			self.flag_scendi = False
+			self.val_oggetto -= 0.1 * GLOB.MULT
+
+
+	def __check_score(self):
+		print("tentativo: ", GLOB.tentativo+1)
+
+		if self.risultato:
+	
+			if self.difficolta == "Facile":
+					
+				if GLOB.tentativo == 0:
+					GLOB.score += 10
+				elif GLOB.tentativo == 1:
+					GLOB.score += 5
+				elif GLOB.tentativo == 2:
+					GLOB.score += 2
+
+			elif self.difficolta == "Medio":
+				
+				if GLOB.tentativo == 0:
+					GLOB.score += 40
+				elif GLOB.tentativo == 1:
+					GLOB.score += 20
+				elif GLOB.tentativo == 2:
+					GLOB.score += 10
+
+			elif self.difficolta == "Difficile":
+					
+				if GLOB.tentativo == 0:
+					GLOB.score += 60
+				elif GLOB.tentativo == 1:
+					GLOB.score += 30
+				elif GLOB.tentativo == 2:
+					GLOB.score += 15
+		else:
+    		
+			if self.difficolta == "Facile":
+    			
+				if GLOB.tentativo > 2:
+					GLOB.score_seconds = -45
+
+			if self.difficolta == "Facile":
+        			
+				if GLOB.tentativo > 2:
+					GLOB.score_seconds = -30
+
+
+			if self.difficolta == "Facile":
+        			
+				if GLOB.tentativo > 2:
+					GLOB.score_seconds = -20
+			
+			print("secondi tolti")
+
 	def stampa(self):
 
 		clock = pygame.time.Clock()
@@ -660,37 +751,81 @@ class Dialoghi_Interattivi():
     		
 			self.__effetto_testo()
 
+			if not self.class_sfoca.flag_reverse:
+				self.__object_animation()
+
 			if self.contatore == len(self.descr):
 				self.isFinished = True
-
-
+				
 			GLOB.screen.blit(self.background, (0,0))
 			GLOB.screen.blit(self.sfondo, (0, GLOB.screen_height-self.sfondo.get_height()))
-			GLOB.screen.blit(self.vignetta, (140*GLOB.MULT, 80*GLOB.MULT))
+
 			
-			if self.r0:
-				GLOB.screen.blit(self.Descrizione_TEXT, self.Descrizione_RECT)
+			if self.class_sfoca.iFinished:
+				self.class_sfoca.flag_reverse = False
+				self.class_sfoca.val_scurisci = 0
 
-			if self.r1:
-				GLOB.screen.blit(self.Descrizione1_TEXT, self.Descrizione1_RECT)
+			if not self.class_sfoca.flag_reverse:
+				val = 5
+				self.vignetta = pygame.image.load("Dialoghi/Characters/"+self.oggetto+".png").convert_alpha()
+				self.vignetta = pygame.transform.scale(self.vignetta, (self.vignetta.get_width()*GLOB.MULT*val, self.vignetta.get_height()*GLOB.MULT*val))
+				GLOB.screen.blit(self.vignetta, (110*GLOB.MULT, 50*GLOB.MULT + self.val_oggetto))
 
-			if self.r2:
-				GLOB.screen.blit(self.Descrizione2_TEXT, self.Descrizione2_RECT)
+			if self.class_sfoca.flag_reverse:			
+				val = 4
+				transparenza = 40
 
-			if self.r3:
-				GLOB.screen.blit(self.Descrizione3_TEXT, self.Descrizione3_RECT)
+				self.vignetta = pygame.image.load("Characters_Image/"+self.personaggio+".png").convert_alpha()
+				self.vignetta = pygame.transform.scale(self.vignetta, (self.vignetta.get_width()*GLOB.MULT*val, self.vignetta.get_height()*GLOB.MULT*val))
+				GLOB.screen.blit(self.vignetta, (65*GLOB.MULT, 1*GLOB.MULT))
+
+				self.suggerimento_sfondo.fill((255,255,255))
+				self.suggerimento_sfondo.set_alpha(transparenza)
+
+				GLOB.screen.blit(self.suggerimento_sfondo, (0,0))
+
+				for suggerimento in self.testo_suggerimento:
+
+					self.dialogo_suggerimento = Dialoghi(self.personaggio, suggerimento, 3)
+					self.dialogo_suggerimento.stampa()
+				
+				self.class_sfoca.flag_reverse = False
+				self.class_sfoca.val_scurisci = 0
+				self.suggerimento = False
+
+			TRY_TEXT = get_font(6*int(GLOB.MULT)).render(str(GLOB.tentativo+1)+"° tentativo", True, "white")
+			TRY_RECT = TRY_TEXT.get_rect(center=(50*GLOB.MULT, 20*GLOB.MULT))
+
+			GLOB.screen.blit(TRY_TEXT, TRY_RECT)
+
+			if not self.class_sfoca.flag_reverse:
+
+			
+				if self.r0:
+					GLOB.screen.blit(self.Descrizione_TEXT, self.Descrizione_RECT)
+
+				if self.r1:
+					GLOB.screen.blit(self.Descrizione1_TEXT, self.Descrizione1_RECT)
+
+				if self.r2:
+					GLOB.screen.blit(self.Descrizione2_TEXT, self.Descrizione2_RECT)
+
+				if self.r3:
+					GLOB.screen.blit(self.Descrizione3_TEXT, self.Descrizione3_RECT)
 
 
 			if self.isFinished:
-        			
-				distanza_righe = 15
-				valuex, valuey = 145, 50
+				if not self.suggerimento:
+					GLOB.screen.blit(self.scelte, (280*GLOB.MULT, 12 * GLOB.MULT))
+					
+				distanza_righe = 23
+				valuex, valuey = 138, 30
 
-				font_size = 3
+				font_size = 4
 				# print(self.risposte)
 
-				default_color = "White"
-				selected_color = "Yellow"
+				default_color = "#c2c2c2"
+				selected_color = "White"
 
 				def imposta_colore(num_risposta):
 					if self.number_selection == num_risposta:
@@ -729,6 +864,9 @@ class Dialoghi_Interattivi():
 				self.interm = 0
 				self.cooldown_interm = 0
 
+			if self.suggerimento:
+				self.class_sfoca.disegna()
+
 			for event in pygame.event.get():
 				keys_pressed = pygame.key.get_pressed()
     
@@ -736,14 +874,18 @@ class Dialoghi_Interattivi():
 					pygame.quit()
 					sys.exit()
 
+
+				if keys_pressed[pygame.K_i]:
+					self.suggerimento = True
+
     				
 				if keys_pressed[pygame.K_ESCAPE]:
 					possoIniziare = True
 
 
-				if keys_pressed[pygame.K_SPACE]:
+				if keys_pressed[pygame.K_SPACE] and not self.isFinished:
 					if self.CanIplay_sound:
-						self.__init__(self.tipo, self.oggetto, self.full_description, self.full_suggeriment, self.risposte, self.number_solution + 1, self.difficolta, 5)
+						self.__init__(self.tipo, self.personaggio, self.oggetto, self.full_description, self.full_suggeriment, self.risposte, self.number_solution + 1, self.difficolta, 5)
 						self.CanIplay_sound = False
 						self.isFinished = True
 
@@ -763,11 +905,18 @@ class Dialoghi_Interattivi():
 
 				if keys_pressed[pygame.K_RETURN] and self.isFinished:
 					self.number_selected = self.number_selection
+					print(GLOB.tentativo)
 
 					if self.number_selected == self.number_solution:
 						print("Risposta Esatta!!")
+						self.risultato = True
+						self.__check_score()
+						GLOB.tentativo = 0
 					else:
 						print("-- Risposta Errata --")
+						self.risultato = False
+						self.__check_score()
+						GLOB.tentativo += 1
 
 					possoIniziare = True
 					
@@ -828,12 +977,11 @@ class Timer():
 		self.__flag = True
 
 	def AddSeconds(self, value):
-		if (self.getSeconds() + value) >= 60:
-			self.__minutes += 1
+		if (self.getSeconds() + value) >= 60 or (self.getSeconds() + value) <= 0:
 			if value < 0:
-				parse_value = -0.9
+				parse_value = -0.9999
 			else:
-				parse_value = +0.9
+				parse_value = +0.9999
 
 			self.__minutes += int(value/60 + parse_value)
 			
@@ -847,11 +995,13 @@ class Timer():
 			if self.getSeconds() >= 59:
 				self.__seconds = d * GLOB.FPS
 
-			if value != (m * 60):
-				self.__minutes -= 1
+			# if value != (m * 60):
+			# 	self.__minutes -= 1
 
 		else:
 			self.__seconds += value * GLOB.FPS
+		
+		GLOB.score_seconds = 0
 
 	def Stop(self):
 		self.__init__(self.__max_sec, self.__molt_sec, self.__function)
@@ -878,3 +1028,122 @@ class Timer():
 #     print(var)
 
 # delay = Delay(sec = 3, event = miaFunzione)
+
+class Delay():
+    def __init__(self, sec, event):
+        self.__min = 0
+        self.__max = sec * GLOB.FPS
+        self.__increment = 1
+        self.__function = event
+        self.__flag = True
+        self.__times = 0
+
+    # | Avvia il delay -> Poi si interromperà |
+    def Start(self):
+        if self.__flag:
+            self.__min += self.__increment
+
+            if int(self.__min) >= self.__max:
+                self.__function()
+                self.__flag = False
+
+    # | Restarta il delay |
+    def ReStart(self):
+        if not self.__flag:
+            self.__min = 0
+            self.__flag = True
+
+    # | Imposta il delay a infinito |
+    def Infinite(self):
+        self.ReStart()
+        self.Start()
+
+    def TotTimes(self, val):
+        if self.__times <= val:
+            self.ReStart()
+            self.Start()
+            self.__times += 1
+
+    # | Stampa lo stato attuale del delay |
+    def ActualState(self):
+        print("| Current Second: %d | Max Seconds: %d | Function: %s |" %(self.__min/GLOB.FPS, self.__max/GLOB.FPS, self.__function))
+
+
+
+class Sfoca():
+    def __init__(self, vel):
+        self.flag_changeBg = True 
+        self.__vel = vel
+        self.__delay = Delay(sec = self.__vel, event = self.sgrana)
+        self.superficie = pygame.surface.Surface((GLOB.screen_width, GLOB.screen_height))
+        self.superficie.fill((255,255,255))
+        
+        self.val_scurisci = 0
+
+        self.flag_reverse = False
+        self.iFinished = False
+
+    def Start(self):
+        self.__delay.Infinite()
+
+    def sgrana(self):
+
+        if not self.iFinished:
+
+            val_incremento = 5
+            val_max = 310
+            val_min = 50
+
+            if not self.flag_reverse:
+                self.val_scurisci += val_incremento
+            else:
+                self.val_scurisci -= val_incremento
+
+            if self.val_scurisci >= val_max:
+                self.val_scurisci = val_max
+                self.flag_reverse = True
+            elif self.val_scurisci <= val_min and self.flag_reverse:
+                self.val_scurisci = val_min
+                self.flag_reverse = False
+                self.iFinished = True
+
+            self.superficie.set_alpha(self.val_scurisci)
+
+
+    def disegna(self):
+    
+        self.Start()
+        GLOB.screen.blit(self.superficie, (0, 0))
+
+
+class Risultato():
+	def __init__(self, text, color, size, delay_scomparsa):
+		self.text = text
+		self.color = color
+		self.size = size
+
+		self.show = True
+		self.delay = Delay(delay_scomparsa, self.Stop)
+
+	def Stop(self):
+		print("Finito")
+		self.show = False
+
+	def Start(self):
+		self.delay.Start()
+		self.disegna()
+
+	def ReStart(self):
+		self.show = True
+		self.delay.ReStart()
+
+	def ChangeParamatrer(self, text, color, size, delay_scomparsa):
+		self.__init__(text, color, size, delay_scomparsa)
+		
+	def disegna(self):
+    		
+		if self.show:
+			RISULTATO_TEXT = get_font(self.size*int(GLOB.MULT)).render(self.text, True, self.color)
+			RISULTATO_RECT = pygame.Rect((GLOB.screen_width/2 - RISULTATO_TEXT.get_width()/2))
+
+			GLOB.screen.blit(RISULTATO_TEXT, RISULTATO_RECT)

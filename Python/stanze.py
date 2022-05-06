@@ -81,6 +81,10 @@ def Corridoio():
         # Fisica
         setPosition((200, 74), (0, 54))
 
+    elif GLOB.Stanza == "Archivio":
+        # Fisica
+        setPosition((152, 108), (146, -58))
+
 
     GLOB.Piano = "1-PianoTerra"
     GLOB.Stanza = "Corridoio"
