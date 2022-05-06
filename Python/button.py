@@ -1114,3 +1114,36 @@ class Sfoca():
     
         self.Start()
         GLOB.screen.blit(self.superficie, (0, 0))
+
+
+class Risultato():
+	def __init__(self, text, color, size, delay_scomparsa):
+		self.text = text
+		self.color = color
+		self.size = size
+
+		self.show = True
+		self.delay = Delay(delay_scomparsa, self.Stop)
+
+	def Stop(self):
+		print("Finito")
+		self.show = False
+
+	def Start(self):
+		self.delay.Start()
+		self.disegna()
+
+	def ReStart(self):
+		self.show = True
+		self.delay.ReStart()
+
+	def ChangeParamatrer(self, text, color, size, delay_scomparsa):
+		self.__init__(text, color, size, delay_scomparsa)
+		
+	def disegna(self):
+    		
+		if self.show:
+			RISULTATO_TEXT = get_font(self.size*int(GLOB.MULT)).render(self.text, True, self.color)
+			RISULTATO_RECT = pygame.Rect((GLOB.screen_width/2 - RISULTATO_TEXT.get_width()/2))
+
+			GLOB.screen.blit(RISULTATO_TEXT, RISULTATO_RECT)

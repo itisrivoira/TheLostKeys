@@ -3,7 +3,7 @@ import pygame, os, sys
 
 #Importo i vari file e classi necessarie
 import giocatore, menu, camera, debug, collisioni
-from button import Bar, Button, Dialoghi, Dialoghi_Interattivi, Timer
+from button import Bar, Button, Dialoghi, Dialoghi_Interattivi, Risultato, Timer
 from pygame import mixer
 from animazione import Transizione
 import stanze
@@ -68,7 +68,7 @@ def SetPlayer_sprite():
 
 #funzione di default
 def inizializza():
-    global player, cam, timer, clock, collisions, animazione
+    global player, cam, timer, clock, collisions, animazione, messaggio_a_schermo
 
     stanze.inizializza()
     SetPlayer_speed()
@@ -93,6 +93,9 @@ def inizializza():
 
     # Faccio nascere l'oggetto "cam"
     cam = camera.Cam()
+
+    # Messaggio visualizzabile a schermo
+    messaggio_a_schermo = Risultato(text = "GIUSTO!", color = "White", size = 5, delay_scomparsa = 10)
 
     def miaFunzione():
         print("Tempo Scaduto!")
@@ -180,6 +183,14 @@ def disegna():
 
     animazione.disegna()
 
+    try:
+
+        if Enigma.risultato != None:
+            messaggio_a_schermo.Start()
+            print("Enigma-risolto")
+    
+    except NameError:
+        pass
 #Funzione Volume e Audio del gioco
 def options_audio():
     # Setto visibile il cursore del mouse
@@ -382,6 +393,8 @@ def enigma():
         print("Stanza non trovata!")
         enigma_file = pd.read_csv('../MappaGioco/Tileset/Stanze/1-PianoTerra/Chimica/enigmi/EnigmiChimica.csv')
 
+    SetPlayer_speed()
+
 
 #funzione principale
 def main():
@@ -424,7 +437,7 @@ def main():
             else:
                 player.finish()
             
-        if RIGHT and not LEFT and not(condition_3 and condition_4):    
+        elif RIGHT and not LEFT and not(condition_3 and condition_4):    
             player.setRightPress(IsPressed)
 
             if IsPressed:
@@ -433,7 +446,7 @@ def main():
             else:
                 player.finish()
 
-        if UP and not DOWN and not(condition_1 and condition_3):
+        elif UP and not DOWN and not(condition_1 and condition_3):
             player.setUpPress(IsPressed)
 
             if IsPressed:
@@ -442,7 +455,7 @@ def main():
             else:
                 player.finish()
             
-        if DOWN and not UP and not(condition_2 and condition_4):
+        elif DOWN and not UP and not(condition_2 and condition_4):
             player.setDownPress(IsPressed)
 
             if IsPressed:
@@ -451,13 +464,15 @@ def main():
             else:
                 player.finish()
 
-        if event.key == pygame.K_LSHIFT:
+        elif event.key == pygame.K_LSHIFT:
             if IsPressed:
                 player.setIsRunning(True)
                 GLOB.Player_speed = GLOB.Player_speed * GLOB.PlayerRun_speed
             else:
                 player.setIsRunning(False)
                 GLOB.Player_speed = GLOB.Player_default_speed
+        else:
+            player.setAllkeys(False)    # Evita che ci siano input zombie
         
 
     """
@@ -541,7 +556,7 @@ def main():
 
 
         if GLOB.Enigma:
-            global enigma_file
+            global enigma_file, Enigma
 
             enigma()
 
