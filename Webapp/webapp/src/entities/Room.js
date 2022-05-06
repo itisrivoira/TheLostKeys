@@ -17,16 +17,16 @@ const Room = ({name, event, evType, evOptions}) => {
 
 	// Cambierò il tasto Z con probabilmente Q
 	const attivaEnigma = ev => {
-		if (ev.key == 'z') {
+		if (ev.key == 'q') {
 			// Evento Enigma
 			if ( event && evType == 'Enigma' ) {
 				setEnigma(true);
 				setRun(false);		// Stoppo il gioco
 			} else if ( event && evType == 'Dialog' ) {
-				alert('Questo è un dialogo!');
+				console.log('Questo è un dialogo!');
 			} else if ( event && evType =='Door' ) {
 				// Questo evento lo sposterò da qui perchè inutile
-				alert('Qui cambierò stanza!');
+				console.log('Qui cambierò stanza!');
 			}
 		}
 	};

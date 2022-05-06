@@ -127,7 +127,12 @@
                  "x":1372,
                  "y":529.333,
                  "evType":"Door",
-                 "options": {}
+                 "options": {
+                     "dest": "Corridoio",
+                     "nextX": 1033,
+                     "nextY": 22,
+                     "direction": "down"
+                 }
                 },
                 {
                  "gid":6429,
