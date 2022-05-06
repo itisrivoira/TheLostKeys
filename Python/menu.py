@@ -357,7 +357,7 @@ def options():
                 else: 
                     GLOB.screen = pygame.display.set_mode((GLOB.screen_width,GLOB.screen_height),pygame.FULLSCREEN)
 
-                rain = Rain(screen, height = 60 * GLOB.MULT, speed = 12 * GLOB.MULT / GLOB.Delta_Time, color = (152, 164, 184, 255), numdrops = 270)
+                setPioggia()
 
 
             button_sound = mixer.Sound("suoni/option-sound.wav")
@@ -407,6 +407,10 @@ def options():
         pygame.display.flip()
         pygame.display.update()
 
+def setPioggia():
+    global rain
+    rain = Rain(screen, height = int(60 * GLOB.MULT), speed = 12 * GLOB.MULT / GLOB.Delta_Time, color = (152, 164, 184, 255), numdrops = 270)
+
 def main_menu():
     pygame.mouse.set_visible(True)
     
@@ -425,8 +429,8 @@ def main_menu():
 
     BG_Cloud = pygame.image.load("assets/Nuvola.png").convert_alpha()
     BG_Cloud = pygame.transform.scale(BG_Cloud, (BG_Cloud.get_width()*GLOB.MULT/4,BG_Cloud.get_height()*GLOB.MULT/4))
-    
-    rain = Rain(screen, height = 60 * GLOB.MULT, speed = 12 * GLOB.MULT / GLOB.Delta_Time, color = (152, 164, 184, 255), numdrops = 270)
+
+    setPioggia()
 
     # Settaggio del Clock
     clock = pygame.time.Clock()

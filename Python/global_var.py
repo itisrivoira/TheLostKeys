@@ -28,6 +28,7 @@ Scelta = 0
 Cam_visible = False
 
 Debug = False
+ShowGrid = False
 ShowFps = True
 ShowDropFrames = True
 
@@ -74,6 +75,10 @@ Default_Map = '../MappaGioco/Tileset/Stanze/1-PianoTerra/Corridoio/png/Corridoio
 Default_object = '../MappaGioco/Tileset/Stanze/1-PianoTerra/Corridoio/png/CorridoioOggetti.png'
 
 PlayerCanMove = True
+PlayerCanRun = True
+
+PlayerIsWalking = True
+PlayerIsRunning = False
 
 # Configurazione Schermo
 screen = pygame.display.set_mode((screen_width,screen_height))
