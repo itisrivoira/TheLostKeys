@@ -68,7 +68,6 @@ const Loop = (entities, { input }) => {
 				} else
 					room.event = false;
 
-
 				break;
 
 			case "KeyS":
@@ -130,6 +129,7 @@ const Loop = (entities, { input }) => {
 					room.event = false;
 
 				break;
+
 			case "KeyQ":
 				ev = collision(x, y, name, 'Eventi');
 
@@ -139,10 +139,9 @@ const Loop = (entities, { input }) => {
 					player.x = ev.options.nextX;	// cambio le coordinate del giocatore
 					player.y = ev.options.nextY;
 
-					const direction = ev.options.direction;
+					const direction = ev.options.direction;		// direzione in cui il giocatore sarà rivolto
 					player.src = require(`../assets/characters/${direction}/Walk0.png`);
 				}
-
 
 				break;
 		}

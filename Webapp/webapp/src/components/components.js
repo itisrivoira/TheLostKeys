@@ -6,7 +6,7 @@ import Dialog from './Dialog';
 import DialogText from './DialogText';
 import Footer from "./Footer";
 import GlobalProvider, { Run, Music, Sfx, Setting } from './GlobalProvider';
-import GameProvider, { DialogOpen, Enigma, RoomName, Score } from './GameProvider';
+import GameProvider, { DialogOpen, Enigma, RoomName, Score, Done } from './GameProvider';
 import Options from "./Options";
 import SplashScreen from "./SplashScreen";
 import Title from "./Title";
@@ -34,5 +34,6 @@ export {
 	EnigmaModal,
 	Enigma,
 	RoomName,
-	Score
+	Score,
+	Done
 };
