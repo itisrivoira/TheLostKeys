@@ -28,10 +28,12 @@ const Play = () => {
 		if (ev.key === "e"){		// vado in pausa
 			setSetting(true);
 			setRun(false);
-		} else if (ev.key === 'q') {		// Dialogo di pausa
+		}
+
+		/*else if (ev.key === 'q') {		// Dialogo di pausa
 			setDialog(true);
 			setRun(false);
-		}
+		}*/
 	}, [setDialog, setRun, setSetting]);
 
 	// questo probabilmento lo toglierò

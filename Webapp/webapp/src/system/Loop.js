@@ -44,6 +44,7 @@ const Loop = (entities, { input }) => {
 		return i;
 	}
 
+	// Quando l'evento si verifica faccio muovere il giocatore
 	if (payload) {
 		const key = payload.code;		// Lettera tasto premuto
 		let [col, ev] = [{}, {}];		// col ed ev sono Object che indicano le direzioni in cui collide il giocatore
@@ -61,10 +62,12 @@ const Loop = (entities, { input }) => {
 					player.src = require(`../assets/characters/up/${frames[0]}`);
 				}
 
-				if (ev) {	// Se c'è l'evento
+				if (ev.evType != '') {	// Se c'è l'evento
 					room.event = true;
 					room.evType = ev.evType;	// Mi salvo il tipo di evento
-				}
+				} else
+					room.event = false;
+
 
 				break;
 
@@ -80,10 +83,11 @@ const Loop = (entities, { input }) => {
 					player.src = require(`../assets/characters/down/${frames[0]}`);
 				}
 
-				if (ev) {
+				if (ev.evType != '') {
 					room.event = true;
 					room.evType = ev.evType;
-				}
+				} else
+					room.event = false;
 
 				break;
 
@@ -99,10 +103,11 @@ const Loop = (entities, { input }) => {
 					player.src = require(`../assets/characters/left/${frames[0]}`);
 				}
 
-				if (ev) {
+				if (ev.evType != '') {
 					room.event = true;
 					room.evType = ev.evType;
-				}
+				} else
+					room.event = false;
 
 				break;
 
@@ -118,10 +123,26 @@ const Loop = (entities, { input }) => {
 					player.src = require(`../assets/characters/right/${frames[0]}`);
 				}
 
-				if (ev) {
+				if (ev.evType != '') {
 					room.event = true;
 					room.evType = ev.evType;
+				} else
+					room.event = false;
+
+				break;
+			case "KeyQ":
+				ev = collision(x, y, name, 'Eventi');
+
+				// Cambio stanza
+				if (ev.evType != '') {
+					room.name = ev.options.dest;	// cambio name cioè la stanza
+					player.x = ev.options.nextX;	// cambio le coordinate del giocatore
+					player.y = ev.options.nextY;
+
+					const direction = ev.options.direction;
+					player.src = require(`../assets/characters/${direction}/Walk0.png`);
 				}
+
 
 				break;
 		}
