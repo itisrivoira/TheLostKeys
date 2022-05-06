@@ -1,7 +1,9 @@
-// File di Export
-// Qui ci sono tutti gli import dei png delle stanze richimati un Literal Object
-// Questo perchè in React non si possono importare le immagini dinamicamente ma solo in modo statico
-// Come chiave uso il nome della stanza e sotto altre due sottochiavi: una per png l'altra per il json
+/*
+	File di Export
+	Qui ci sono tutti gli import dei png delle stanze richimati un Literal Object
+	Questo perchè in React non si possono importare le immagini dinamicamente ma solo in modo statico
+	Come chiave uso il nome della stanza e sotto altre due sottochiavi: una per png l'altra per il json
+*/
 
 export default {
 	Chimica: {
@@ -19,9 +21,9 @@ export default {
 		json: require("./assets/rooms/json/Archivio.json")
 	},
 
-	Corridoio: {
-		png: require("./assets/rooms/png/Corridoio.png"),
-		json: require("./assets/rooms/json/Corridoio.json")
+	PianoT: {
+		png: require("./assets/rooms/png/PianoT.png"),
+		json: require("./assets/rooms/json/PianoT.json")
 	},
 
 	Classe1A: {
