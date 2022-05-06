@@ -3,7 +3,7 @@ import pygame, os, sys
 
 #Importo i vari file e classi necessarie
 import giocatore, menu, camera, debug, collisioni
-from button import Bar, Button, Dialoghi, Dialoghi_Interattivi, Risultato, Timer
+from button import Bar, Button, Dialoghi, Dialoghi_Interattivi, Risultato, Timer, GUI
 from pygame import mixer
 from animazione import Transizione
 import stanze
@@ -68,7 +68,7 @@ def SetPlayer_sprite():
 
 #funzione di default
 def inizializza():
-    global player, cam, timer, clock, collisions, animazione, messaggio_a_schermo
+    global player, cam, timer, clock, collisions, animazione, messaggio_a_schermo, Gui
 
     stanze.inizializza()
     SetPlayer_speed()
@@ -94,8 +94,10 @@ def inizializza():
     # Faccio nascere l'oggetto "cam"
     cam = camera.Cam()
 
+    Gui = GUI()
+
     # Messaggio visualizzabile a schermo
-    messaggio_a_schermo = Risultato(text = "GIUSTO!", color = "White", size = 5, delay_scomparsa = 10)
+    messaggio_a_schermo = Risultato(text = "Esempio", color = "White", size = 12, delay_scomparsa = 4)
 
     def miaFunzione():
         print("Tempo Scaduto!")
@@ -183,14 +185,48 @@ def disegna():
 
     animazione.disegna()
 
+    if GLOB.Enigma:
+        messaggio_a_schermo.ReStart()
+
     try:
 
         if Enigma.risultato != None:
+
+            if Enigma.isFinished:
+                if Enigma.risultato:
+                    messaggio_a_schermo.ChangeParamatrer(text = "CORRETTO!", color = "#70c73e", size = 12)
+                    condizione = False
+                    var = 0
+
+                    for value in range(len(GLOB.enigmi_da_risolvere)):
+
+                        if GLOB.enigmi_da_risolvere[value] == GLOB.Stanza:
+                            GLOB.enigmi_risolti.append(GLOB.enigmi_da_risolvere[value])
+                            condizione = True
+                            var = value
+
+                    if condizione:
+                        GLOB.enigmi_da_risolvere.pop(var)
+
+                else:
+                    messaggio_a_schermo.ChangeParamatrer(text = "SBAGLIATO!", color = "#e83838", size = 12)
+
+                if messaggio_a_schermo.isFinished:
+                    Enigma.risultato = None
+
             messaggio_a_schermo.Start()
-            print("Enigma-risolto")
     
     except NameError:
         pass
+
+    # MOSTRO LA GUI A SCHERMO
+    Gui.show()
+
+    if not GLOB.PlayerCanRun:
+        SetPlayer_speed()
+
+
+
 #Funzione Volume e Audio del gioco
 def options_audio():
     # Setto visibile il cursore del mouse
@@ -381,16 +417,16 @@ def pausa():
 def enigma():
     global enigma_file
 
-    print('../MappaGioco/Tileset/Stanze/'+GLOB.Piano+'/'+GLOB.Stanza+'/enigmi/Enigmi'+GLOB.Stanza+'.csv')
+    #print('../MappaGioco/Tileset/Stanze/'+GLOB.Piano+'/'+GLOB.Stanza+'/enigmi/Enigmi'+GLOB.Stanza+'.csv')
 
     try:
         
-        print("- Stanza trovata! -")
+        # print("- Stanza trovata! -")
         enigma_file = pd.read_csv('../MappaGioco/Tileset/Stanze/'+GLOB.Piano+'/'+GLOB.Stanza+'/enigmi/Enigmi'+GLOB.Stanza+'.csv')
 
     except FileNotFoundError:
 
-        print("Stanza non trovata!")
+        # print("Stanza non trovata!")
         enigma_file = pd.read_csv('../MappaGioco/Tileset/Stanze/1-PianoTerra/Chimica/enigmi/EnigmiChimica.csv')
 
     SetPlayer_speed()
@@ -465,15 +501,24 @@ def main():
                 player.finish()
 
         elif event.key == pygame.K_LSHIFT:
-            if IsPressed:
-                player.setIsRunning(True)
+            if IsPressed and GLOB.PlayerCanRun:
+
+                GLOB.PlayerIsWalking = False
+                GLOB.PlayerIsRunning = True
+
+                player.setIsRunning(GLOB.PlayerCanRun)
                 GLOB.Player_speed = GLOB.Player_speed * GLOB.PlayerRun_speed
             else:
-                player.setIsRunning(False)
+
+                GLOB.PlayerIsWalking = True
+                GLOB.PlayerIsRunning = False
+
+                player.setIsRunning(GLOB.PlayerCanRun)
                 GLOB.Player_speed = GLOB.Player_default_speed
-        else:
+                
+        elif not UP and player.getUpPress() or not DOWN and player.getDownPress():
             player.setAllkeys(False)    # Evita che ci siano input zombie
-        
+            player.finish()
 
     """
     
@@ -502,6 +547,39 @@ def main():
             if keys_pressed[pygame.K_ESCAPE]:
                 pausa()
 
+
+            if keys_pressed[pygame.K_F3]:
+            
+                if not GLOB.Debug:
+                    GLOB.Debug = True
+                    GLOB.Cam_visible = True
+                elif GLOB.Debug:
+                    GLOB.Debug = False
+                    GLOB.Cam_visible = False
+
+            if GLOB.Debug:
+
+                if keys_pressed[pygame.K_l]:
+                    animazione.iFinished = False
+
+                if keys_pressed[pygame.K_k]:
+                        
+                    if not GLOB.Dialogo:
+                        GLOB.Dialogo = True
+
+                if keys_pressed[pygame.K_n]:
+
+                    if not GLOB.Enigma:
+                        GLOB.Enigma = True
+                            
+
+                if keys_pressed[pygame.K_z]:
+                                
+                    if GLOB.ShowGrid:
+                        GLOB.ShowGrid = False
+                    else:
+                        GLOB.ShowGrid = True
+
             if GLOB.PlayerCanMove:
 
                 if event.type == pygame.KEYDOWN:
@@ -514,33 +592,6 @@ def main():
 
             # if int(clock.get_fps())<110:
             #     print("| fps: "+str(int(clock.get_fps()))) # Per mostrare gli GLOB.FPS
-                if keys_pressed[pygame.K_F3]:
-            
-                    if not GLOB.Debug:
-                        GLOB.Debug = True
-                        GLOB.Cam_visible = True
-                    elif GLOB.Debug:
-                        GLOB.Debug = False
-                        GLOB.Cam_visible = False
-
-                if keys_pressed[pygame.K_k]:
-                    
-                    if not GLOB.Dialogo:
-                        GLOB.Dialogo = True
-                    elif GLOB.Debug:
-                        GLOB.Dialogo = False
-
-                if keys_pressed[pygame.K_n]:
-                            
-                    if not GLOB.Enigma:
-                        GLOB.Enigma = True
-                    elif GLOB.Debug:
-                        GLOB.Enigma = False
-
-                if GLOB.Debug:
-
-                    if keys_pressed[pygame.K_l]:
-                        animazione.iFinished = False
 
         disegna()
 

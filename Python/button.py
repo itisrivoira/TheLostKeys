@@ -691,7 +691,7 @@ class Dialoghi_Interattivi():
 
 
 	def __check_score(self):
-		print("tentativo: ", GLOB.tentativo+1)
+		# print("tentativo: ", GLOB.tentativo+1)
 
 		if self.risultato:
 	
@@ -739,7 +739,7 @@ class Dialoghi_Interattivi():
 				if GLOB.tentativo > 2:
 					GLOB.score_seconds = -20
 			
-			print("secondi tolti")
+			# print("secondi tolti")
 
 	def stampa(self):
 
@@ -815,6 +815,8 @@ class Dialoghi_Interattivi():
 
 
 			if self.isFinished:
+				GLOB.Enigma = False
+				
 				if not self.suggerimento:
 					GLOB.screen.blit(self.scelte, (280*GLOB.MULT, 12 * GLOB.MULT))
 					
@@ -905,15 +907,15 @@ class Dialoghi_Interattivi():
 
 				if keys_pressed[pygame.K_RETURN] and self.isFinished:
 					self.number_selected = self.number_selection
-					print(GLOB.tentativo)
+					# print(GLOB.tentativo)
 
 					if self.number_selected == self.number_solution:
-						print("Risposta Esatta!!")
+						# print("Risposta Esatta!!")
 						self.risultato = True
 						self.__check_score()
 						GLOB.tentativo = 0
 					else:
-						print("-- Risposta Errata --")
+						# print("-- Risposta Errata --")
 						self.risultato = False
 						self.__check_score()
 						GLOB.tentativo += 1
@@ -1069,7 +1071,6 @@ class Delay():
         print("| Current Second: %d | Max Seconds: %d | Function: %s |" %(self.__min/GLOB.FPS, self.__max/GLOB.FPS, self.__function))
 
 
-
 class Sfoca():
     def __init__(self, vel):
         self.flag_changeBg = True 
@@ -1123,10 +1124,14 @@ class Risultato():
 		self.size = size
 
 		self.show = True
-		self.delay = Delay(delay_scomparsa, self.Stop)
+		self.sec = delay_scomparsa
+		self.delay = Delay(self.sec, self.Stop)
+		self.isFinished = False
+
+		self.surface = pygame.Surface((GLOB.screen_width, GLOB.screen_height))
 
 	def Stop(self):
-		print("Finito")
+		self.isFinished = True
 		self.show = False
 
 	def Start(self):
@@ -1134,16 +1139,96 @@ class Risultato():
 		self.disegna()
 
 	def ReStart(self):
-		self.show = True
-		self.delay.ReStart()
+		self.__init__(self.text, self.color, self.size, self.sec)
 
-	def ChangeParamatrer(self, text, color, size, delay_scomparsa):
-		self.__init__(text, color, size, delay_scomparsa)
+	def ChangeParamatrer(self, text, color, size):
+		self.text = text
+		self.color = color
+		self.size = size
 		
 	def disegna(self):
-    		
+		transparenza = 120
+		altezza = 2
+	
 		if self.show:
-			RISULTATO_TEXT = get_font(self.size*int(GLOB.MULT)).render(self.text, True, self.color)
-			RISULTATO_RECT = pygame.Rect((GLOB.screen_width/2 - RISULTATO_TEXT.get_width()/2))
+			self.surface.fill((0,0,0))
+			self.surface.set_alpha(transparenza)
 
-			GLOB.screen.blit(RISULTATO_TEXT, RISULTATO_RECT)
+			GLOB.screen.blit(self.surface, (0,0))
+
+			RISULTATO_TEXT = get_font(self.size*int(GLOB.MULT)).render(self.text, True, self.color)
+			RISULTATO_POS = (GLOB.screen_width/2 - RISULTATO_TEXT.get_width()/2, GLOB.screen_height/3 - RISULTATO_TEXT.get_height()/2)
+
+			CONTORNO_TEXT = get_font(self.size*int(GLOB.MULT)).render(self.text, True, "Black")
+			CONTORNO_POS = (GLOB.screen_width/2 - CONTORNO_TEXT.get_width()/2, GLOB.screen_height/3 - CONTORNO_TEXT.get_height()/2 + altezza * GLOB.MULT)
+
+			GLOB.screen.blit(CONTORNO_TEXT, CONTORNO_POS)
+			GLOB.screen.blit(RISULTATO_TEXT, RISULTATO_POS)
+
+
+class GUI():
+	def __init__(self):
+		self.speed = GLOB.PlayerRun_speed
+
+		val = 1
+		self.first = pygame.image.load("assets/gui-1.png").convert_alpha()
+		self.first = pygame.transform.scale(self.first, (self.first.get_width()/val * GLOB.MULT, self.first.get_height()/val * GLOB.MULT))
+
+		self.second = pygame.image.load("assets/gui-2.png").convert()
+		self.second = pygame.transform.scale(self.second, (self.second.get_width()/val * GLOB.MULT, self.second.get_height()/val * GLOB.MULT))
+	
+		self.third = pygame.image.load("assets/gui-3.png").convert_alpha()
+		self.third = pygame.transform.scale(self.third, (self.third.get_width()/val * GLOB.MULT, self.third.get_height()/val * GLOB.MULT))
+
+		self.bar = pygame.image.load("assets/gui-4.png").convert_alpha()
+		self.bar = pygame.transform.scale(self.bar, (self.bar.get_width()/val * GLOB.MULT, self.bar.get_height()/val * GLOB.MULT))
+
+		val_player = 1.8
+
+		self.player = pygame.image.load("Dialoghi/Characters/"+GLOB.scelta_char+".png").convert_alpha()
+		self.player = pygame.transform.scale(self.player, (self.player.get_width() * val_player * GLOB.MULT, self.player.get_height() * val_player * GLOB.MULT))
+
+		self.max = self.bar.get_width() - GLOB.MULT
+
+		self.color_bar = "#64ad5a"
+
+		self.recupero = 2.5
+
+	def __stamina_calculation(self):
+    		
+		divisore = 3.5
+
+		if GLOB.PlayerIsRunning:
+			self.max -= self.speed * GLOB.MULT / divisore
+		
+		elif not GLOB.PlayerIsRunning and self.max < self.bar.get_width() - GLOB.MULT:
+			self.max += self.recupero
+
+
+		if self.max > self.bar.get_width() - GLOB.MULT - 1:
+			self.max = self.bar.get_width() - GLOB.MULT
+			GLOB.PlayerCanRun = True
+			self.color_bar = "#64ad5a"
+		
+		elif self.max <= 0:
+			GLOB.PlayerCanRun = False
+			self.color_bar = "#ada55a"
+
+		self.barra_esaurita = pygame.Rect((84 * GLOB.MULT, GLOB.screen_height - 22 * GLOB.MULT, self.bar.get_width(), self.bar.get_height()))
+		self.barra_stamina = pygame.Rect((84 * GLOB.MULT, GLOB.screen_height - 22 * GLOB.MULT, self.max, self.bar.get_height()))
+	
+	def show(self):
+    		
+		self.__stamina_calculation()
+    		
+		GLOB.screen.blit(self.first, (0, GLOB.screen_height - self.first.get_height()))
+		GLOB.screen.blit(self.second, (34 * GLOB.MULT, GLOB.screen_height - 63 * GLOB.MULT))
+		GLOB.screen.blit(self.player, (34 * GLOB.MULT, GLOB.screen_height - 65 * GLOB.MULT))
+		GLOB.screen.blit(self.third, (22 * GLOB.MULT, GLOB.screen_height - 75 * GLOB.MULT))
+
+
+		if self.max <= 0:
+			pygame.draw.rect(GLOB.screen, "#ad5a5a", self.barra_esaurita)
+
+		pygame.draw.rect(GLOB.screen, self.color_bar, self.barra_stamina)
+		GLOB.screen.blit(self.bar, (84 * GLOB.MULT, GLOB.screen_height - 22 * GLOB.MULT))

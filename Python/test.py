@@ -60,6 +60,8 @@ def caricaCollisione():
 
             y += val
 
+        # print(starty, startx, endy, endx)
+
         dizionario[value] = (centerx + starty, centery + startx, endy + val, endx + val)
 
 def caricaOggetti():

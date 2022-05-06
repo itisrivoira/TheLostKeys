@@ -11,9 +11,25 @@ def testa():
     #     main.animazione.iFinished = False
 
     if main.player.evento == "enigma":
-        GLOB.Enigma = True
-    else:
-        GLOB.Enigma = False
+        condizione = False
+
+        for value in GLOB.enigmi_da_risolvere:
+    
+            if value != GLOB.Stanza:
+
+                GLOB.Enigma = False
+                main.player.evento = None
+            
+            else:
+                condizione = True
+                
+
+        if condizione:
+            # print("Risolto: "+str(GLOB.enigmi_risolti))
+            # print("Da risolvere: "+str(GLOB.enigmi_da_risolvere))
+            GLOB.Enigma = True
+        else:
+            GLOB.Enigma = False
 
 
     if main.player.evento == "porta-0":

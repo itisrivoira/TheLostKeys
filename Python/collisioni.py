@@ -66,9 +66,9 @@ class Map():
 
                     y += val
 
-                val_res = 9.6
+                val_res = 28.8
 
-                self.tiles_collisioni[value] = (starty//val_res, startx//val_res, endy, endx)
+                self.tiles_collisioni[value] = (starty/val_res * GLOB.MULT, startx/val_res * GLOB.MULT, endy/3 * GLOB.MULT, endx/3 * GLOB.MULT)
 
         riempi("Collisioni")
         caricaCollisione()
@@ -136,9 +136,13 @@ class Map():
                 if hitbox != None:
                     oggetto = pygame.Rect((main.cam.getPositionX()+ x * GLOB.MULT),(main.cam.getPositionY()+ y * GLOB.MULT), self.tiles_risoluzione * GLOB.MULT, self.tiles_risoluzione * GLOB.MULT)
 
+                    if GLOB.Debug and GLOB.ShowGrid:
+                        pygame.draw.rect(GLOB.screen, (255,255,255), oggetto, int(1))
+
                     if condition and (oggetto.colliderect(chunck_render)):
                         collisione = pygame.Rect((main.cam.getPositionX()+(x+self.tiles_collisioni[var][0]) * GLOB.MULT),(main.cam.getPositionY()+(y + self.tiles_collisioni[var][1]) * GLOB.MULT), self.tiles_collisioni[var][2]/value, self.tiles_collisioni[var][3]/value)
                         #print("- Render | Collisione Oggetto Impostata!", collisione,"\n")
+
                         if hitbox:
                             main.player.HasCollision(collisione)
                             if GLOB.Debug:
