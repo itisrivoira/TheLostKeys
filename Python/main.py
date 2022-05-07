@@ -421,12 +421,12 @@ def enigma():
 
     try:
         
-        # print("- Stanza trovata! -")
+        print("- Stanza trovata! -")
         enigma_file = pd.read_csv('../MappaGioco/Tileset/Stanze/'+GLOB.Piano+'/'+GLOB.Stanza+'/enigmi/Enigmi'+GLOB.Stanza+'.csv')
 
     except FileNotFoundError:
 
-        # print("Stanza non trovata!")
+        print("Stanza non trovata!")
         enigma_file = pd.read_csv('../MappaGioco/Tileset/Stanze/1-PianoTerra/Fisica/enigmi/EnigmiFisica.csv')
 
     SetPlayer_speed()
