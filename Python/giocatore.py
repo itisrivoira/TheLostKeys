@@ -397,8 +397,14 @@ class Player(pygame.sprite.Sprite):
 
                 # -- EVENTO --
 
-                elif var == 62 or var == 56 or var == 78:
+                elif var >= 56 and var <= 111:
                     self.evento = "enigma"
+
+
+                # -- PLANIMETRIA --
+
+                elif var == 126:
+                    self.evento = "mappa"
 
                 else:
                     self.evento = None

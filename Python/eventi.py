@@ -1,6 +1,7 @@
 # import pygame, os, sys
 import main
 import global_var as GLOB
+from button import MiniMap
 
 def testa():
 
@@ -30,6 +31,10 @@ def testa():
             GLOB.Enigma = True
         else:
             GLOB.Enigma = False
+
+    if main.player.evento == "mappa":
+        mappa = MiniMap()
+        mappa.update()
 
     if main.player.evento == "piano-0":
         GLOB.Piano = "0-PianoSegreto"

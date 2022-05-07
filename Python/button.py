@@ -1233,3 +1233,74 @@ class GUI():
 
 		pygame.draw.rect(GLOB.screen, self.color_bar, self.barra_stamina)
 		GLOB.screen.blit(self.bar, (84 * GLOB.MULT, GLOB.screen_height - 22 * GLOB.MULT))
+
+
+class MiniMap():
+	def __init__(self):
+		self.path_floor = "Mappa/Floors/"
+		self.path_characters = "Mappa/Characters/"
+
+		self.pos_player = 0, 0
+		print(GLOB.Piano, GLOB.Stanza)
+
+	def update(self):
+		if GLOB.Piano == "0-PianoSegreto":
+			self.path_image = "Piano-0"
+		
+		elif GLOB.Piano == "1-PianoTerra":
+			self.path_image = "Piano-1"
+
+			if GLOB.Stanza == "Chimica":
+				self.pos_player = 360 * GLOB.MULT, 65 * GLOB.MULT
+
+			if GLOB.Stanza == "Fisica":
+				self.pos_player = 310 * GLOB.MULT, 65 * GLOB.MULT
+
+			if GLOB.Stanza == "Corridoio":
+				self.pos_player = 310 * GLOB.MULT, 125 * GLOB.MULT
+
+			if GLOB.Stanza == "Archivio":
+				self.pos_player = 120 * GLOB.MULT, 320 * GLOB.MULT
+
+		elif GLOB.Piano == "2-PrimoPiano":
+			self.path_image = "Piano-2"
+
+		elif GLOB.Piano == "3-SecondoPiano":
+			self.path_image = "Piano-3"
+
+		elif GLOB.Piano == "4-Esterno":
+			self.path_image = "Piano-4"
+
+		clock = pygame.time.Clock()
+
+
+		self.image = pygame.image.load(self.path_floor + self.path_image + ".png").convert_alpha()
+		self.image = pygame.transform.scale(self.image, (self.image.get_width() * GLOB.MULT, self.image.get_height() * GLOB.MULT))
+
+		
+		value = 1
+
+		self.character = pygame.image.load(self.path_characters + GLOB.scelta_char + ".png").convert_alpha()
+		self.character = pygame.transform.scale(self.character, (self.character.get_width() * GLOB.MULT * value, self.character.get_height() * GLOB.MULT * value))
+
+		possoIniziare = False
+
+		r = 1.5
+
+		while not possoIniziare:
+			for event in pygame.event.get():
+				keys_pressed = pygame.key.get_pressed()
+    
+				if event.type == pygame.QUIT:
+					pygame.quit()
+					sys.exit()
+
+				if keys_pressed[pygame.K_ESCAPE]:
+					possoIniziare = True
+
+			GLOB.screen.blit(self.image, (0, 0))
+			pygame.draw.circle(GLOB.screen, "#496e55", (self.pos_player[0] + self.character.get_width()/2, self.pos_player[1] + self.character.get_height()/2), self.character.get_height() / r, 0)
+			GLOB.screen.blit(self.character, self.pos_player)
+
+			clock.tick(GLOB.FPS)
+			pygame.display.flip()
