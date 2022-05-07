@@ -326,8 +326,28 @@ class Player(pygame.sprite.Sprite):
 
         if chunk_render.colliderect(object):
 
+            
+            # -- PIANO --
+
+            if var == 127:
+                self.evento = "piano-0"
+
+            elif var == 128:
+                self.evento = "piano-1"
+
+            elif var == 129:
+                self.evento = "piano-2"
+
+            elif var == 130:
+                self.evento = "piano-3"
+
+            elif var == 131:
+                self.evento = "piano-4"
+            else:
+                self.evento = None
+                
+
             if keys_pressed[pygame.K_e]:
-                print(var)
 
                 # -- PORTE --
 
@@ -377,11 +397,13 @@ class Player(pygame.sprite.Sprite):
 
                 # -- EVENTO --
 
-                elif var == 62 or var == 56:
+                elif var == 62 or var == 56 or var == 78:
                     self.evento = "enigma"
 
                 else:
                     self.evento = None
+
+                print(var, self.evento)
 
     # Funzione che serve ad aggiornare la velocità attuale del giocatore la velocità da' un'impressione Smooth
     def update(self):

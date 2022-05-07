@@ -67,19 +67,6 @@ DF_height = 270
 screen_width = DF_width * MULT
 screen_height = DF_height * MULT
 
-Default_Character = 'Characters/Senex/WalkOrizontal/Walk0.png'
-
-Piano = "1-PianoTerra"
-Stanza = "Corridoio"
-Default_Map = '../MappaGioco/Tileset/Stanze/1-PianoTerra/Corridoio/png/Corridoio.png'
-Default_object = '../MappaGioco/Tileset/Stanze/1-PianoTerra/Corridoio/png/CorridoioOggetti.png'
-
-PlayerCanMove = True
-PlayerCanRun = True
-
-PlayerIsWalking = True
-PlayerIsRunning = False
-
 # Configurazione Schermo
 screen = pygame.display.set_mode((screen_width,screen_height))
 pygame.display.set_caption(TITLE)
@@ -117,6 +104,8 @@ setCharacter()
 ShowScore = True
 def setResources():
     global score, score_seconds, tentativo, enigmi_da_risolvere, enigmi_risolti, chiavette, inventario
+    global Default_Character, Piano, Stanza, Default_Map, Default_object, PlayerCanMove, PlayerCanRun, PlayerIsWalking, PlayerIsRunning
+
     # --- SCORE ---
     score = 0
     score_seconds = 0
@@ -124,7 +113,7 @@ def setResources():
     # --- ENIGMI ---
 
     tentativo = 0
-    enigmi_da_risolvere = ["Chimica", "Storia", "Inglese", "Fisica", "Matematica", "Informatica", "Italiano", "Sistemi", "TPSIT"]
+    enigmi_da_risolvere = ["Chimica", "Fisica", "1A"]
     enigmi_risolti = []
 
 
@@ -132,5 +121,19 @@ def setResources():
 
     chiavette = ["Chimica", "Storia", "Inglese", "Fisica", "Matematica", "Informatica", "Italiano", "Sistemi", "TPSIT"]
     inventario = []
+
+
+    Default_Character = 'Characters/Senex/WalkOrizontal/Walk0.png'
+
+    Piano = "1-PianoTerra"
+    Stanza = "Corridoio"
+    Default_Map = '../MappaGioco/Tileset/Stanze/1-PianoTerra/Corridoio/png/Corridoio.png'
+    Default_object = '../MappaGioco/Tileset/Stanze/1-PianoTerra/Corridoio/png/CorridoioOggetti.png'
+
+    PlayerCanMove = True
+    PlayerCanRun = True
+
+    PlayerIsWalking = True
+    PlayerIsRunning = False
 
 setResources()

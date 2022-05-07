@@ -877,7 +877,7 @@ class Dialoghi_Interattivi():
 					sys.exit()
 
 
-				if keys_pressed[pygame.K_i]:
+				if keys_pressed[pygame.K_i] and self.isFinished:
 					self.suggerimento = True
 
     				
@@ -1192,7 +1192,7 @@ class GUI():
 
 		self.color_bar = "#64ad5a"
 
-		self.recupero = 2.5
+		self.recupero = 3.7 - self.speed
 
 	def __stamina_calculation(self):
     		
@@ -1211,6 +1211,7 @@ class GUI():
 			self.color_bar = "#64ad5a"
 		
 		elif self.max <= 0:
+			self.max = 0
 			GLOB.PlayerCanRun = False
 			self.color_bar = "#ada55a"
 
@@ -1223,7 +1224,7 @@ class GUI():
     		
 		GLOB.screen.blit(self.first, (0, GLOB.screen_height - self.first.get_height()))
 		GLOB.screen.blit(self.second, (34 * GLOB.MULT, GLOB.screen_height - 63 * GLOB.MULT))
-		GLOB.screen.blit(self.player, (34 * GLOB.MULT, GLOB.screen_height - 65 * GLOB.MULT))
+		GLOB.screen.blit(self.player, (33.6 * GLOB.MULT, GLOB.screen_height - 65 * GLOB.MULT))
 		GLOB.screen.blit(self.third, (22 * GLOB.MULT, GLOB.screen_height - 75 * GLOB.MULT))
 
 

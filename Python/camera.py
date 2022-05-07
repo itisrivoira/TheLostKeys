@@ -12,11 +12,11 @@ import global_var as GLOB
 """
 
 class Cam():
-    def __init__(self):
+    def __init__(self, x, y):
 
         #indico il giocatore impostato
-        self.setPositionX(0) 
-        self.setPositionY(0)
+        self.setPositionX(x) 
+        self.setPositionY(y)
 
         self.image = pygame.image.load("assets/BackgroundCam.png").convert()
 

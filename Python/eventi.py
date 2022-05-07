@@ -31,6 +31,46 @@ def testa():
         else:
             GLOB.Enigma = False
 
+    if main.player.evento == "piano-0":
+        GLOB.Piano = "0-PianoSegreto"
+        main.player.evento = None
+        main.stanze.setToDefault()
+
+    elif main.player.evento == "piano-1":
+        GLOB.Piano = "1-PianoTerra"
+        main.player.evento = None
+        main.stanze.setToDefault()
+        main.stanze.flag_Corridoio = True
+
+        print(GLOB.Default_Map, GLOB.Stanza)
+        print(main.stanze.flag_Corridoio, main.stanze.flag_Corridoio1)
+        main.animazione.iFinished = False
+        main.stanze.setPosition((192, 72), (146, 62))
+
+    elif main.player.evento == "piano-2":
+        GLOB.Piano = "2-PrimoPiano"
+        main.player.evento = None
+        main.stanze.setToDefault()
+        main.stanze.flag_Corridoio1 = True
+
+        print(GLOB.Default_Map, GLOB.Stanza)
+        main.animazione.iFinished = False
+        main.stanze.setPosition((274, 110), (-300, -148))
+
+    elif main.player.evento == "piano-3":
+        GLOB.Piano = "3-SecondoPiano"
+        main.player.evento = None
+        main.stanze.setToDefault()
+        main.stanze.flag_Corridoio2 = True
+
+        print(GLOB.Default_Map, GLOB.Stanza)
+        main.animazione.iFinished = False
+
+    elif main.player.evento == "piano-4":
+        GLOB.Piano = "4-Esterno"
+        main.player.evento = None
+        main.stanze.setToDefault()
+
 
     if main.player.evento == "porta-0":
         main.player.evento = None
@@ -67,7 +107,22 @@ def testa():
         print(GLOB.Default_Map, GLOB.Stanza)
         main.animazione.iFinished = False
 
+    if main.player.evento == "porta-7":
+        main.player.evento = None
+        main.stanze.setToDefault()
 
+        if GLOB.Piano == "2-PrimoPiano":
+            
+            if GLOB.Stanza == "Corridoio":
+                main.stanze.flag_Classe1A = True
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
+            if GLOB.Stanza == "1A":
+                main.stanze.flag_Corridoio1 = True
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
+        print(GLOB.Default_Map, GLOB.Stanza)
+        main.animazione.iFinished = False
 
     if main.player.evento == "porta-8":
         main.player.evento = None

@@ -10,20 +10,27 @@ def setPosition(posP, posC):
     pos_portaC = posC
 
 def inizializza():
-    global flag_Chimica, flag_Fisica, flag_Archivio, flag_Corridoio, flag_Corridoio1, flag_Corridoio2, pos_portaP, pos_portaC
+    global pos_portaP, pos_portaC
+    global flag_Corridoio, flag_Corridoio1, flag_Corridoio2
+    global flag_Chimica, flag_Fisica, flag_Archivio
+    global flag_Classe1A
     flag_Chimica = False
     flag_Fisica = False
     flag_Archivio = False
+    flag_Classe1A = False
     flag_Corridoio = True
     flag_Corridoio1 = False
     flag_Corridoio2 = False
-    setPosition((660, 210), (660, 210))
+    setPosition((152, 122), (130, -118))
 
 def setToDefault():
-    global flag_Chimica, flag_Fisica, flag_Archivio, flag_Corridoio, flag_Corridoio1, flag_Corridoio2
+    global  flag_Corridoio, flag_Corridoio1, flag_Corridoio2
+    global flag_Chimica, flag_Fisica, flag_Archivio
+    global flag_Classe1A
     flag_Chimica = False
     flag_Fisica = False
     flag_Archivio = False
+    flag_Classe1A = False
     flag_Corridoio = False
     flag_Corridoio1 = False
     flag_Corridoio2 = False
@@ -63,11 +70,25 @@ def Archivio():
     GLOB.Piano = "1-PianoTerra"
     GLOB.Stanza = "Archivio"
     main.load_collisions("ProvaArchivio_CollisioniStefano.csv")
-    GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaArchivioSenzaCollisioni.png"
+    GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaArchivio.png"
     GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaArchivioOggetti.png"
 
     # PORTA ORIGINE STANZA
     setPosition((264, 120), (-160, -118))
+
+
+def Classe1A():
+    global pos_portaP, pos_portaC
+
+    # PIANO - STANZA - COLLISIONI
+    GLOB.Piano = "2-PrimoPiano"
+    GLOB.Stanza = "1A"
+    main.load_collisions("Classe1A_CollisioniStefano.csv")
+    GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/Classe1A.png"
+    GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/Classe1AOggetti.png"
+
+    # PORTA ORIGINE STANZA
+    setPosition((272, 120), (-314, -118))
 
 def Corridoio():
 
@@ -93,7 +114,31 @@ def Corridoio():
     GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/CorridoioOggetti.png"
 
 def Corridoio1():
-    pass
+
+        # PORTA ORIGINE STANZA
+
+    if GLOB.Stanza == "AulaMagna":
+        # Chimica
+        setPosition((270, 74), (-244, 56))
+
+    elif GLOB.Stanza == "AulaProfessori":
+        # Fisica
+        setPosition((200, 74), (0, 54))
+
+    elif GLOB.Stanza == "LabInfo":
+        # Fisica
+        setPosition((152, 108), (146, -58))
+
+    elif GLOB.Stanza == "1A":
+        # Fisica
+        setPosition((160, 112), (-208, -148))
+
+
+    GLOB.Piano = "2-PrimoPiano"
+    GLOB.Stanza = "Corridoio"
+    main.load_collisions("CorridoioPrimoPiano_Collisioni.csv")
+    GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/CorridoioPrimoPiano.png"
+    GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/CorridoioPrimoPianoOggetti.png"
 
 def Corridoio2():
     pass
@@ -106,13 +151,18 @@ def caricaStanza():
 
     if not main.animazione.iFinished:
         main.collisions.load_map(GLOB.Default_Map)
-        main.collisions.load_objects(GLOB.Default_object)
+
+        if GLOB.Default_object != None:
+            main.collisions.load_objects(GLOB.Default_object)
         #print(660 * GLOB.MULT, 210 * GLOB.MULT)
 
 
     #print("Chimica: %s | Fisica: %s | Archivio: %s | Corridoio: %s" % (flag_Chimica, flag_Fisica, flag_Archivio, flag_Corridoio))
 
     if GLOB.Piano == "1-PianoTerra":
+
+        if flag_Corridoio1:
+            Corridoio1()
 
         if flag_Corridoio:
             Corridoio()
@@ -131,6 +181,12 @@ def caricaStanza():
     
         if flag_Corridoio1:
             Corridoio1()
+
+        if flag_Corridoio:
+            Corridoio()
+
+        if flag_Classe1A:
+            Classe1A()
 
 
     if GLOB.Piano == "3-SecondoPiano":

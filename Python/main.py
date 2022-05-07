@@ -89,10 +89,10 @@ def inizializza():
     clock = pygame.time.Clock()
 
     # Fa Spawnare il giocatore e al centro dello schermo e con che velocità
-    player = giocatore.Player(GLOB.screen_width/2-Player_width/2, GLOB.screen_height/2-Player_height/2, GLOB.scelta_rep, Player_width, Player_height, character_image)
+    player = giocatore.Player(152 * GLOB.MULT, 122 * GLOB.MULT, GLOB.scelta_rep, Player_width, Player_height, character_image)
 
     # Faccio nascere l'oggetto "cam"
-    cam = camera.Cam()
+    cam = camera.Cam(130 * GLOB.MULT, -118 * GLOB.MULT)
 
     Gui = GUI()
 
@@ -417,7 +417,7 @@ def pausa():
 def enigma():
     global enigma_file
 
-    #print('../MappaGioco/Tileset/Stanze/'+GLOB.Piano+'/'+GLOB.Stanza+'/enigmi/Enigmi'+GLOB.Stanza+'.csv')
+    print('../MappaGioco/Tileset/Stanze/'+GLOB.Piano+'/'+GLOB.Stanza+'/enigmi/Enigmi'+GLOB.Stanza+'.csv')
 
     try:
         
