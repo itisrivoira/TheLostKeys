@@ -427,7 +427,7 @@ def enigma():
     except FileNotFoundError:
 
         # print("Stanza non trovata!")
-        enigma_file = pd.read_csv('../MappaGioco/Tileset/Stanze/1-PianoTerra/Chimica/enigmi/EnigmiChimica.csv')
+        enigma_file = pd.read_csv('../MappaGioco/Tileset/Stanze/1-PianoTerra/Fisica/enigmi/EnigmiFisica.csv')
 
     SetPlayer_speed()
 

@@ -139,5 +139,18 @@ def testa():
                 main.stanze.flag_Corridoio = True
                 print(main.stanze.pos_portaP, main.stanze.pos_portaC)
 
+
+        if GLOB.Piano == "2-PrimoPiano":
+            
+            if GLOB.Stanza == "Corridoio":
+                main.stanze.flag_AulaMagna = True
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
+            if GLOB.Stanza == "AulaMagna":
+                main.stanze.flag_Corridoio1 = True
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
+        
+
         print(GLOB.Default_Map, GLOB.Stanza)
         main.animazione.iFinished = False

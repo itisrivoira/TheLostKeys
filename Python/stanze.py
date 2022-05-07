@@ -10,27 +10,23 @@ def setPosition(posP, posC):
     pos_portaC = posC
 
 def inizializza():
-    global pos_portaP, pos_portaC
-    global flag_Corridoio, flag_Corridoio1, flag_Corridoio2
-    global flag_Chimica, flag_Fisica, flag_Archivio
-    global flag_Classe1A
-    flag_Chimica = False
-    flag_Fisica = False
-    flag_Archivio = False
-    flag_Classe1A = False
+    global flag_Corridoio
+
+    setToDefault()
     flag_Corridoio = True
-    flag_Corridoio1 = False
-    flag_Corridoio2 = False
+
+
     setPosition((152, 122), (130, -118))
 
 def setToDefault():
     global  flag_Corridoio, flag_Corridoio1, flag_Corridoio2
     global flag_Chimica, flag_Fisica, flag_Archivio
-    global flag_Classe1A
+    global flag_Classe1A, flag_AulaMagna
     flag_Chimica = False
     flag_Fisica = False
     flag_Archivio = False
     flag_Classe1A = False
+    flag_AulaMagna = False
     flag_Corridoio = False
     flag_Corridoio1 = False
     flag_Corridoio2 = False
@@ -90,6 +86,20 @@ def Classe1A():
     # PORTA ORIGINE STANZA
     setPosition((272, 120), (-314, -118))
 
+
+def AulaMagna():
+    global pos_portaP, pos_portaC
+
+    # PIANO - STANZA - COLLISIONI
+    GLOB.Piano = "2-PrimoPiano"
+    GLOB.Stanza = "AulaMagna"
+    main.load_collisions("ProvaAulaMagna_CollsioniStefano.csv")
+    GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/AulaMagna.png"
+    GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/AulaMagnaOggetti.png"
+
+    # PORTA ORIGINE STANZA
+    setPosition((238, 118), (-372, -142))
+
 def Corridoio():
 
         # PORTA ORIGINE STANZA
@@ -119,7 +129,7 @@ def Corridoio1():
 
     if GLOB.Stanza == "AulaMagna":
         # Chimica
-        setPosition((270, 74), (-244, 56))
+        setPosition((250, 116), (-262, -144))
 
     elif GLOB.Stanza == "AulaProfessori":
         # Fisica
@@ -187,6 +197,9 @@ def caricaStanza():
 
         if flag_Classe1A:
             Classe1A()
+
+        if flag_AulaMagna:
+            AulaMagna()
 
 
     if GLOB.Piano == "3-SecondoPiano":
