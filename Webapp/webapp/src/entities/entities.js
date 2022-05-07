@@ -9,7 +9,7 @@ const entities = () => {
 	return {
 		room: {	// Posso inserire tutte le prop che voglio
 			name: 'Chimica',	// Nome della stanza
-			event: false,
+			event: false,		// Da togliere
 			evType: '',			// Tipo di evento
 			evOptions: {},		// Opzioni dell'Evento
 			renderer: <Room />	// La prop renderer contiene il Componente da renderizzare a schermo
@@ -24,8 +24,9 @@ const entities = () => {
 		},
 
 		uhd: {
-			min: 25,		// minuti
+			min: 10,		// minuti
 			sec: 0,		// secondi
+			gameOver: false,
 			renderer: <UHD />
 		}
 	}

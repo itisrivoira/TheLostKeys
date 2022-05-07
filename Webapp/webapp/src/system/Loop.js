@@ -134,7 +134,7 @@ const Loop = (entities, { input }) => {
 				ev = collision(x, y, name, 'Eventi');
 
 				// Cambio stanza
-				if (ev.evType != '') {
+				if (ev.evType == 'Door') {
 					room.name = ev.options.dest;	// cambio name cioè la stanza
 					player.x = ev.options.nextX;	// cambio le coordinate del giocatore
 					player.y = ev.options.nextY;
