@@ -21,12 +21,13 @@ def inizializza():
 def setToDefault():
     global  flag_Corridoio, flag_Corridoio1, flag_Corridoio2
     global flag_Chimica, flag_Fisica, flag_Archivio
-    global flag_Classe1A, flag_AulaMagna
+    global flag_Classe1A, flag_AulaMagna, flag_AulaProfessori
     flag_Chimica = False
     flag_Fisica = False
     flag_Archivio = False
     flag_Classe1A = False
     flag_AulaMagna = False
+    flag_AulaProfessori = False
     flag_Corridoio = False
     flag_Corridoio1 = False
     flag_Corridoio2 = False
@@ -100,6 +101,19 @@ def AulaMagna():
     # PORTA ORIGINE STANZA
     setPosition((238, 118), (-372, -142))
 
+def AulaProfessori():
+    global pos_portaP, pos_portaC
+
+    # PIANO - STANZA - COLLISIONI
+    GLOB.Piano = "2-PrimoPiano"
+    GLOB.Stanza = "AulaProfessori"
+    main.load_collisions("AulaProfessori.room.gmx_CollisioniStefano.csv")
+    GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/AulaProfessori.png"
+    GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/AulaProfessoriOggetti.png"
+
+    # PORTA ORIGINE STANZA
+    setPosition((160, 100), (10, -64))
+
 def Corridoio():
 
         # PORTA ORIGINE STANZA
@@ -133,7 +147,7 @@ def Corridoio1():
 
     elif GLOB.Stanza == "AulaProfessori":
         # Fisica
-        setPosition((200, 74), (0, 54))
+        setPosition((268, 96), (-386, -114))
 
     elif GLOB.Stanza == "LabInfo":
         # Fisica
@@ -200,6 +214,9 @@ def caricaStanza():
 
         if flag_AulaMagna:
             AulaMagna()
+
+        if flag_AulaProfessori:
+            AulaProfessori()
 
 
     if GLOB.Piano == "3-SecondoPiano":

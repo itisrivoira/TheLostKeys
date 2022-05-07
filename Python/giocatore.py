@@ -347,7 +347,7 @@ class Player(pygame.sprite.Sprite):
                 self.evento = None
                 
 
-            if keys_pressed[pygame.K_e]:
+            if keys_pressed[pygame.K_e] and GLOB.PlayerCanMove:
 
                 # -- PORTE --
 

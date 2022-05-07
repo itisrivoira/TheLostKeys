@@ -10,7 +10,7 @@ Player_proportion = 1 # Divisore della grandezza del giocatore
 FPS = 30 * Delta_Time
 
 # rapporto di proporzione allo schermo NON INFERIORE AD 1
-MULT = 3
+MULT = 4
 
 # rapporto offset telecamera dello schermo MAX 40
 Moff = 30
@@ -113,7 +113,7 @@ def setResources():
     # --- ENIGMI ---
 
     tentativo = 0
-    enigmi_da_risolvere = ["Chimica", "Fisica", "1A", "AulaMagna"]
+    enigmi_da_risolvere = ["Chimica", "Fisica", "1A", "AulaMagna", "AulaProfessori"]
     enigmi_risolti = []
 
 

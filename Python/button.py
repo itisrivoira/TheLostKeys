@@ -728,13 +728,13 @@ class Dialoghi_Interattivi():
 				if GLOB.tentativo > 2:
 					GLOB.score_seconds = -45
 
-			if self.difficolta == "Facile":
+			if self.difficolta == "Medio":
         			
 				if GLOB.tentativo > 2:
 					GLOB.score_seconds = -30
 
 
-			if self.difficolta == "Facile":
+			if self.difficolta == "Difficile":
         			
 				if GLOB.tentativo > 2:
 					GLOB.score_seconds = -20
