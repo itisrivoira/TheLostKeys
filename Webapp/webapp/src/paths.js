@@ -6,9 +6,10 @@
 */
 
 export default {
+	// Ogni stanza ha una sua etichetta
 	Chimica: {
-		png: require("./assets/rooms/png/Chimica.png"),
-		json: require("./assets/rooms/json/Chimica.json")
+		png: require("./assets/rooms/png/Chimica.png"),			// Sfondo Stanze
+		json: require("./assets/rooms/json/Chimica.json")		// Schema Collisioni Eventi
 	},
 
 	Fisica: {
@@ -44,6 +45,17 @@ export default {
 	WCMaschi: {
 		png: require("./assets/rooms/png/WCMaschi.png"),
 		json: require("./assets/rooms/json/WCMaschi.json")
-	}
+	},
 
+	Piano1: {
+		png: require("./assets/rooms/png/Piano1.png"),
+		json: require("./assets/rooms/json/Piano1.json")
+
+	},
+
+	Piano2: {
+		png: require("./assets/rooms/png/Piano2.png"),
+		json: require("./assets/rooms/json/Piano2.json")
+
+	}
 }

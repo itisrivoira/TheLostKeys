@@ -29,10 +29,6 @@ const EnimaModal = () => {
 
 	// Chiudo la UI Enigma
 	const close = () => {
-		setDone(prev => [...prev, room]);	// Aggiungo il nome dell'enigma fra quelli già fatt
-		setTentativi(3);			// Resetto il numero di Tentativi
-		setIndizio(false);		// Resetto l'indizio
-		setText(true);				// Resetto il testo dell'enigma
 		setEnigma(false);			// Chiudo la UI
 		setRun(true);				// Tolgo la pausa dal gioco
 	};
@@ -40,7 +36,10 @@ const EnimaModal = () => {
 	// Risposta giusta
 	const right = () => {
 		alert('giusto :)');
-		console.log(indizio);
+		setDone(prev => [...prev, room]);	// Aggiungo il nome dell'enigma fra quelli già fatt
+		setTentativi(3);			// Resetto il numero di Tentativi
+		setIndizio(false);		// Resetto l'indizio
+		setText(true);				// Resetto il testo dell'enigma
 		setScore(prev => indizio ? prev + points/2 : prev + points);
 		close();
 	};

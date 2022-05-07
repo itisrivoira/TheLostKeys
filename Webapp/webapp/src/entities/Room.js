@@ -24,7 +24,7 @@ const Room = ({name, event, evType, evOptions}) => {
 		if (ev.key == 'q') {
 			// Evento Enigma
 			if ( event && evType == 'Enigma' ) {
-				if ( !done.includes(name) ) {
+				if ( !done.includes(name) ) {		// se l'enigma non è incluso fra quelli GIA FATTI
 					setEnigma(true);		// Apro la UI Enigma
 					setRun(false);			// Stoppo il gioco
 				} else
