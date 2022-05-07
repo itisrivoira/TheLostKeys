@@ -3,15 +3,24 @@
 	Qui ci sono le informazioni a chermo quali conto alla rovescia e punteggio
 */
 
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import { BsPauseFill, BsPlayFill } from "react-icons/bs";
 
 import { Run, Score } from "../components/components";
 
-const UHD = ({ min, sec }) => {
-	const { run } = useContext(Run);		// flag esecuzione gioco
+const UHD = ({ min, sec, gameOver }) => {
+	const { run, setRun } = useContext(Run);		// flag esecuzione gioco
 	const { score } = useContext(Score);	// Punteggio del gioco
+
+	// Se gameOver diventa vero allora il giocatore ha perso
+	useEffect( () => {
+		console.log(gameOver);
+		if (gameOver) {
+			setRun(false);		// Stoppo il gioco
+			alert('Hai persooooooo!!');
+		}
+	}, [gameOver]);
 
 	return(
 		<Row className="position-absolute top-0 start-50 translate-middle-x w-50">

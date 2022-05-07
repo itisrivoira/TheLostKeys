@@ -24,8 +24,9 @@ const entities = () => {
 		},
 
 		uhd: {
-			min: 25,		// minuti
+			min: 10,		// minuti
 			sec: 0,		// secondi
+			gameOver: false,
 			renderer: <UHD />
 		}
 	}
