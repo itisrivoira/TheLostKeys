@@ -99,11 +99,7 @@ def inizializza():
     # Messaggio visualizzabile a schermo
     messaggio_a_schermo = Risultato(text = "Esempio", color = "White", size = 12, delay_scomparsa = 4)
 
-    def miaFunzione():
-        print("Tempo Scaduto!")
-        inizializza()
-
-    timer = Timer(minutes = GLOB.Timer, molt_sec = 1, event = miaFunzione)
+    timer = Timer(minutes = GLOB.Timer, molt_sec = 1, event = game_over)
     animazione = Transizione(vel = 0.01)
 
     collisions = collisioni.Map(risoluzione = 24, path = "../MappaGioco/Tileset/Stanze/"+ GLOB.Piano +"/")
@@ -226,6 +222,78 @@ def disegna():
         SetPlayer_speed()
 
 
+#Funzione GAME OVER
+def game_over():
+    sfondo = pygame.image.load("assets/gameover.png").convert()
+    sfondo = pygame.transform.scale(sfondo, (sfondo.get_width() * GLOB.MULT, sfondo.get_height() * GLOB.MULT))
+
+    restarta = False
+
+    pygame.mouse.set_visible(True)
+
+    while not restarta:
+
+        # Ottengo la posizione corrente del cursore del mouse
+        MENU_MOUSE_POS = pygame.mouse.get_pos()
+
+
+        distanza_riga = 30
+        posy = 180
+
+
+        PLAY_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, posy * GLOB.MULT), 
+            text_input="RESTART", font=menu.get_font(8*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=2)
+        
+        QUIT_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, (posy + distanza_riga) * GLOB.MULT), 
+                            text_input="BACK TO MENU", font=menu.get_font(8*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=2)
+
+        for event in pygame.event.get():
+            keys_pressed = pygame.key.get_pressed()
+
+            if keys_pressed[pygame.K_ESCAPE] or (event.type == pygame.MOUSEBUTTONDOWN and QUIT_BUTTON.checkForInput(MENU_MOUSE_POS)):
+                menu.main_menu()
+
+            if keys_pressed[pygame.K_RETURN] or (event.type == pygame.MOUSEBUTTONDOWN and PLAY_BUTTON.checkForInput(MENU_MOUSE_POS)):
+                pygame.mouse.set_visible(False)
+                restarta = True
+                inizializza()
+
+        GLOB.screen.blit(sfondo, (0, 0))
+
+
+        altezza = 6 * GLOB.MULT
+        size = 20
+
+        distanza = 40 * GLOB.MULT
+        distanza_riga = 20 * GLOB.MULT
+
+    
+        GAME_TEXT = get_font(size*int(GLOB.MULT)).render("GAME", True, "Yellow")
+        GAME_POS = (GLOB.screen_width/2 - GAME_TEXT.get_width()/2, GLOB.screen_height/3 - GAME_TEXT.get_height()/2 + distanza)
+
+        CGAME_TEXT = get_font(size*int(GLOB.MULT)).render("GAME", True, "Black")
+        CGAME_POS = (GLOB.screen_width/2 - CGAME_TEXT.get_width()/2, GLOB.screen_height/3 - CGAME_TEXT.get_height()/2 + distanza + altezza)
+
+        OVER_TEXT = get_font(size*int(GLOB.MULT)).render("OVER", True, "Red")
+        OVER_POS = (GLOB.screen_width/2 - OVER_TEXT.get_width()/2, GLOB.screen_height/3 - OVER_TEXT.get_height()/2 + distanza + distanza_riga)
+
+        COVER_TEXT = get_font(size*int(GLOB.MULT)).render("OVER", True, "Black")
+        COVER_POS = (GLOB.screen_width/2 - COVER_TEXT.get_width()/2, GLOB.screen_height/3 - COVER_TEXT.get_height()/2 + distanza + distanza_riga + altezza)
+
+        GLOB.screen.blit(CGAME_TEXT, CGAME_POS)
+        GLOB.screen.blit(COVER_TEXT, COVER_POS)
+
+        GLOB.screen.blit(GAME_TEXT, GAME_POS)
+        GLOB.screen.blit(OVER_TEXT, OVER_POS)
+
+		
+        for button in [PLAY_BUTTON, QUIT_BUTTON]:
+            button.changeColor(MENU_MOUSE_POS)
+            button.update(GLOB.screen)
+
+
+        clock.tick(GLOB.FPS)
+        pygame.display.flip()
 
 #Funzione Volume e Audio del gioco
 def options_audio():

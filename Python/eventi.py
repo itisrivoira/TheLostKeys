@@ -161,6 +161,26 @@ def testa():
         main.animazione.iFinished = False
 
 
+    if main.player.evento == "porta-10":
+        main.player.evento = None
+        main.stanze.setToDefault()
+
+
+        if GLOB.Piano == "2-PrimoPiano":
+            
+            if GLOB.Stanza == "Corridoio":
+                main.stanze.flag_WCfemmine = True
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
+            if GLOB.Stanza == "WC-Femmine":
+                main.stanze.flag_Corridoio1 = True
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
+        
+
+        print(GLOB.Default_Map, GLOB.Stanza)
+        main.animazione.iFinished = False
+
     if main.player.evento == "porta-11":
         main.player.evento = None
         main.stanze.setToDefault()

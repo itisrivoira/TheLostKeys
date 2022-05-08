@@ -21,13 +21,14 @@ def inizializza():
 def setToDefault():
     global  flag_Corridoio, flag_Corridoio1, flag_Corridoio2
     global flag_Chimica, flag_Fisica, flag_Archivio
-    global flag_Classe1A, flag_AulaMagna, flag_AulaProfessori
+    global flag_Classe1A, flag_AulaMagna, flag_AulaProfessori, flag_WCfemmine
     flag_Chimica = False
     flag_Fisica = False
     flag_Archivio = False
     flag_Classe1A = False
     flag_AulaMagna = False
     flag_AulaProfessori = False
+    flag_WCfemmine = False
     flag_Corridoio = False
     flag_Corridoio1 = False
     flag_Corridoio2 = False
@@ -114,20 +115,30 @@ def AulaProfessori():
     # PORTA ORIGINE STANZA
     setPosition((160, 100), (10, -64))
 
+def WCfemmine():
+    global pos_portaP, pos_portaC
+
+    # PIANO - STANZA - COLLISIONI
+    GLOB.Piano = "2-PrimoPiano"
+    GLOB.Stanza = "WC-Femmine"
+    main.load_collisions("WCfemmine_CollisioniPY.csv")
+    GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/WCfemmine.png"
+    GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/WCfemmineOggetti.png"
+
+    # PORTA ORIGINE STANZA
+    setPosition((214, 70), (-146, -22))
+
 def Corridoio():
 
-        # PORTA ORIGINE STANZA
+        # PORTA ORIGINE STANZA - CORRIDOIO
 
     if GLOB.Stanza == "Chimica":
-        # Chimica
         setPosition((270, 74), (-244, 56))
 
     elif GLOB.Stanza == "Fisica":
-        # Fisica
         setPosition((200, 74), (0, 54))
 
     elif GLOB.Stanza == "Archivio":
-        # Fisica
         setPosition((152, 108), (146, -58))
 
 
@@ -139,24 +150,22 @@ def Corridoio():
 
 def Corridoio1():
 
-        # PORTA ORIGINE STANZA
+        # PORTA ORIGINE STANZA - CORRIDOIO
 
     if GLOB.Stanza == "AulaMagna":
-        # Chimica
         setPosition((250, 116), (-262, -144))
 
     elif GLOB.Stanza == "AulaProfessori":
-        # Fisica
         setPosition((268, 96), (-386, -114))
 
     elif GLOB.Stanza == "LabInfo":
-        # Fisica
         setPosition((152, 108), (146, -58))
 
     elif GLOB.Stanza == "1A":
-        # Fisica
         setPosition((160, 112), (-208, -148))
 
+    elif GLOB.Stanza == "WC-Femmine": 
+        setPosition((270, 110), (-388, -148))
 
     GLOB.Piano = "2-PrimoPiano"
     GLOB.Stanza = "Corridoio"
@@ -217,6 +226,9 @@ def caricaStanza():
 
         if flag_AulaProfessori:
             AulaProfessori()
+
+        if flag_WCfemmine:
+            WCfemmine()
 
 
     if GLOB.Piano == "3-SecondoPiano":

@@ -964,6 +964,7 @@ class Timer():
 				self.__testo1 = ""
 
 			if int(self.getMinutes()) < self.__minimal:
+				self.__minutes = self.__minimal
 				self.__function()
 				self.Pause()
 
@@ -1227,12 +1228,30 @@ class GUI():
 		GLOB.screen.blit(self.player, (33.6 * GLOB.MULT, GLOB.screen_height - 65 * GLOB.MULT))
 		GLOB.screen.blit(self.third, (22 * GLOB.MULT, GLOB.screen_height - 75 * GLOB.MULT))
 
+		altezza = 2 * GLOB.MULT
+		size = 8
+
+		
+		if GLOB.scelta_char == "Dark Angel":
+			name = "Dark"
+		else:
+			name = GLOB.scelta_char
+    
+		NAME_TEXT = get_font(size*int(GLOB.MULT)).render(name, True, "White")
+		NAME_POS = (37 * GLOB.MULT, GLOB.screen_height - 20 * GLOB.MULT)
+
+		CNAME_TEXT = get_font(size*int(GLOB.MULT)).render(name, True, "Black")
+		CNAME_POS = (37 * GLOB.MULT, GLOB.screen_height - 20 * GLOB.MULT + altezza)
+
 
 		if self.max <= 0:
 			pygame.draw.rect(GLOB.screen, "#ad5a5a", self.barra_esaurita)
 
 		pygame.draw.rect(GLOB.screen, self.color_bar, self.barra_stamina)
 		GLOB.screen.blit(self.bar, (84 * GLOB.MULT, GLOB.screen_height - 22 * GLOB.MULT))
+
+		GLOB.screen.blit(CNAME_TEXT, CNAME_POS)
+		GLOB.screen.blit(NAME_TEXT, NAME_POS)
 
 
 class MiniMap():
