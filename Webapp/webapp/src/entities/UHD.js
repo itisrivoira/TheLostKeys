@@ -15,7 +15,6 @@ const UHD = ({ min, sec, gameOver }) => {
 
 	// Se gameOver diventa vero allora il giocatore ha perso
 	useEffect( () => {
-		console.log(gameOver);
 		if (gameOver) {
 			setRun(false);		// Stoppo il gioco
 			alert('Hai persooooooo!!');
