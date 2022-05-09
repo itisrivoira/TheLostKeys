@@ -9,8 +9,7 @@ import global_var as GLOB
 """
 
 
-# Creazione della classe Player ed è figlia di sprite +ottimizzata e veloce
-class Player(pygame.sprite.Sprite):
+class Player():
     def __init__(self, x, y, selected, width, height, char_image):
 
         #stato attuale dell'animazione
@@ -78,6 +77,9 @@ class Player(pygame.sprite.Sprite):
 
         # Evento Interazione Oggetti
         self.evento = None
+
+        #Creazione mostro
+        self.monster_spawn()
 
 # ---------- self.set() ----------
 
@@ -505,6 +507,7 @@ class Player(pygame.sprite.Sprite):
 
         #print("| Condizione 1: "+str(condition_1)+" | Condizione 2: "+str(condition_2)+" | Condizione 3: "+str(condition_3)+" | Condizione 4: "+str(condition_4))
         #print(self.animation_speed)
+
 
     def setHitbox(self):
         self.hitbox = (self.x + 20 * GLOB.MULT /GLOB.Player_proportion, self.y + 35 * GLOB.MULT /GLOB.Player_proportion, 15 * GLOB.MULT /GLOB.Player_proportion, 10 * GLOB.MULT /GLOB.Player_proportion)

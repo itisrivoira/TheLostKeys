@@ -424,6 +424,10 @@ def pausa():
 
     BG_Seimi = pygame.image.load("assets/BG_semitransparent.png").convert_alpha()
     BG_Seimi = pygame.transform.scale(BG_Seimi, (GLOB.screen_width, GLOB.screen_height))
+
+    GLOB.PlayerCanMove = False
+
+    GLOB.isPaused = True
 	
     while not ricominciamo:
 
@@ -460,6 +464,7 @@ def pausa():
 
             if keys_pressed[pygame.K_ESCAPE] or event_pausa.type == pygame.MOUSEBUTTONDOWN and PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
                 ricominciamo = True
+                GLOB.isPaused = False
                 player.finish()
                 timer.DePause()
                 main()
@@ -607,6 +612,11 @@ def main():
 
         for event in pygame.event.get(): # per ogni evento che viene eseguito in pygame.event.get()
             keys_pressed = pygame.key.get_pressed()
+
+            if event.type == pygame.KEYDOWN:
+                GLOB.KeyPressed = pygame.key.name(event.key)
+            elif event.type == pygame.KEYUP:
+                GLOB.KeyPressed = ""
 
 
             if event.type == pygame.QUIT:

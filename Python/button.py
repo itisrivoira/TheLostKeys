@@ -1195,6 +1195,9 @@ class GUI():
 
 		self.recupero = 3.7 - self.speed
 
+		self.barra_esaurita = pygame.Rect((84 * GLOB.MULT, GLOB.screen_height - 22 * GLOB.MULT, self.bar.get_width(), self.bar.get_height()))
+		self.barra_stamina = pygame.Rect((84 * GLOB.MULT, GLOB.screen_height - 22 * GLOB.MULT, self.max, self.bar.get_height()))
+
 	def __stamina_calculation(self):
     		
 		divisore = 3.5
@@ -1221,7 +1224,8 @@ class GUI():
 	
 	def show(self):
     		
-		self.__stamina_calculation()
+		if not GLOB.isPaused and GLOB.PlayerCanMove:
+			self.__stamina_calculation()
     		
 		GLOB.screen.blit(self.first, (0, GLOB.screen_height - self.first.get_height()))
 		GLOB.screen.blit(self.second, (34 * GLOB.MULT, GLOB.screen_height - 63 * GLOB.MULT))

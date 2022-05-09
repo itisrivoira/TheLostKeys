@@ -20,7 +20,8 @@ class Debug():
             sprint = GLOB.Player_speed > GLOB.Player_default_speed
             keys_pressed = pygame.key.get_pressed()
 
-            key = ""
+            key = GLOB.KeyPressed.upper()
+
 
             if main.player.getUpPress():
                 key = "↑"
