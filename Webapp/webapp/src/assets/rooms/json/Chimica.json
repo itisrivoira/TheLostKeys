@@ -128,7 +128,7 @@
                  "y":529.333,
                  "evType":"Door",
                  "options": {
-                     "dest": "Corridoio",
+                     "dest": "PianoT",
                      "nextX": 1033,
                      "nextY": 22,
                      "direction": "down"

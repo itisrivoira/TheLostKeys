@@ -149,7 +149,14 @@
                  "visible":true,
                  "width":8.32635,
                  "x":1285.23,
-                 "y":576.257
+                 "y":576.257,
+                 "evType":"Door",
+						"options": {
+							 "dest": "PianoT",
+							 "nextX": 411,
+							 "nextY": 15,
+							 "direction": "down"
+						}
                 }],
          "opacity":1,
          "type":"objectgroup",
