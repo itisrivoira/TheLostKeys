@@ -137,20 +137,6 @@
                 {
                  "gid":6429,
                  "height":48,
-                 "id":2,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":816,
-                 "y":241.333,
-                 "evType": "Dialog",
-                 "options": {}
-                },
-                {
-                 "gid":6429,
-                 "height":48,
                  "id":3,
                  "name":"",
                  "rotation":0,
