@@ -152,7 +152,8 @@ class Map():
                             main.player.HasCollision(collisione)
                             main.player.HasInteraction(chunck_render, collisione, var)
 
-                            eventi.testa()
+                            if main.animazione.iFinished == True:
+                                eventi.testa()
 
                             if GLOB.Debug:
                                 pygame.draw.rect(GLOB.screen, (0,255,0), collisione, int(GLOB.MULT))

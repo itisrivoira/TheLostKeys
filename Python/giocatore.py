@@ -78,9 +78,6 @@ class Player():
         # Evento Interazione Oggetti
         self.evento = None
 
-        #Creazione mostro
-        self.monster_spawn()
-
 # ---------- self.set() ----------
 
     def setPositionX(self, x):

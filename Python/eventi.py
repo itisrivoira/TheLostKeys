@@ -53,6 +53,7 @@ def testa():
         main.stanze.setPosition((192, 72), (146, 62))
 
     elif main.player.evento == "piano-2":
+        last_floor = GLOB.Piano
         GLOB.Piano = "2-PrimoPiano"
         main.player.evento = None
         main.stanze.setToDefault()
@@ -60,7 +61,14 @@ def testa():
 
         print(GLOB.Default_Map, GLOB.Stanza)
         main.animazione.iFinished = False
-        main.stanze.setPosition((274, 110), (-300, -148))
+        print(last_floor)
+
+        if last_floor == "1-PianoTerra":
+            main.stanze.setPosition((274, 110), (-312, -148))
+        elif last_floor == "3-SecondoPiano":
+            main.stanze.setPosition((244, 110), (-312, -148))
+        else:
+            main.stanze.setPosition((260, 110), (-312, -148))
 
     elif main.player.evento == "piano-3":
         GLOB.Piano = "3-SecondoPiano"
@@ -70,6 +78,7 @@ def testa():
 
         print(GLOB.Default_Map, GLOB.Stanza)
         main.animazione.iFinished = False
+        main.stanze.setPosition((270, 110), (-326, -148))
 
     elif main.player.evento == "piano-4":
         GLOB.Piano = "4-Esterno"
@@ -161,6 +170,26 @@ def testa():
         main.animazione.iFinished = False
 
 
+    if main.player.evento == "porta-9":
+        main.player.evento = None
+        main.stanze.setToDefault()
+
+        
+        if GLOB.Piano == "3-SecondoPiano":
+            
+            if GLOB.Stanza == "Corridoio":
+                main.stanze.flag_Classe4A = True
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
+            if GLOB.Stanza == "4A":
+                main.stanze.flag_Corridoio2 = True
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+        
+
+        print(GLOB.Default_Map, GLOB.Stanza)
+        main.animazione.iFinished = False
+
+
     if main.player.evento == "porta-10":
         main.player.evento = None
         main.stanze.setToDefault()
@@ -174,8 +203,7 @@ def testa():
 
             if GLOB.Stanza == "WC-Femmine":
                 main.stanze.flag_Corridoio1 = True
-                print(main.stanze.pos_portaP, main.stanze.pos_portaC)
-
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)        
         
 
         print(GLOB.Default_Map, GLOB.Stanza)
