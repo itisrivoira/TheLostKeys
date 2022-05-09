@@ -53,6 +53,24 @@ export default {
 
 	},
 
+	WCFemmine: {
+		png: require("./assets/rooms/png/WCFemmine.png"),
+		json: require("./assets/rooms/json/WCFemmine.json")
+
+	},
+
+	LabInfo2: {
+		png: require("./assets/rooms/png/LabInfo2.png"),
+		json: require("./assets/rooms/json/LabInfo2.json")
+
+	},
+
+	Rispostiglio: {
+		png: require("./assets/rooms/png/Ripostiglio.png"),
+		json: require("./assets/rooms/json/Ripostiglio.json")
+
+	},
+
 	Piano2: {
 		png: require("./assets/rooms/png/Piano2.png"),
 		json: require("./assets/rooms/json/Piano2.json")

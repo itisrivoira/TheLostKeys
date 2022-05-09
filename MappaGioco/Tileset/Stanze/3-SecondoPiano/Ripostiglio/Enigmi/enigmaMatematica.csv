@@ -1,0 +1,7 @@
+Tipo Enigma;Personaggio;Introduzione;Suggerimento;Scelta-1;Scelta-2;Scelta-3;Scelta-4;Soluzione;Difficoltà;Risposta Esatta(punti);Risposta 2 tentativo(punti);Risposta 3 tentativo(punti);Ultimo Tentativo(secondi);Risposta Suggerita(secondi)Scelta Multipla;Prof. Rinaldi;"Il doppio aumentato di 9 del prodotto di un numero naturale con un
+altro che lo supera di quattro è uguale a 3 volte il quadrato del
+primo. Determinare i due numeri.";2x(x + 4) + 9 = 3x2;"x1 = 19
+x2 = 0";"x1 = 10
+x2 = 1";"x1 = 9
+x2 = 13";"x1 = 144
+x2 = 7";3;Medio;40;20;10;-30;-15
