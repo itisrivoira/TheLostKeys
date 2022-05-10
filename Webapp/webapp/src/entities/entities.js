@@ -8,7 +8,7 @@ const entities = () => {
 
 	return {
 		room: {	// Posso inserire tutte le prop che voglio
-			name: 'Piano1',	// Nome della stanza
+			name: 'Piano2',	// Nome della stanza
 			event: false,		// Da togliere
 			evType: '',			// Tipo di evento
 			evOptions: {},		// Opzioni dell'Evento

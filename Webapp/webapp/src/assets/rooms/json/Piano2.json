@@ -39,6 +39,107 @@
          "y":0
         },
         {
+				"id": 3,
+				"name": "Eventi",
+				"objects": [
+					{
+						"gid":6209,
+						"height":90.5948592411261,
+						"id":155,
+						"name":"",
+						"rotation":0,
+						"type":"",
+						"visible":true,
+						"width":93.003671971,
+						"x":1200.499388005,
+						"y":718.736842105263,
+						"evType":"Door",
+						"options": {
+							"dest": "Piano1",
+							"nextX": 1120,
+							"nextY": 530,
+							"direction": "up"
+						}
+					},
+					{
+						"gid":6265,
+						"height":48,
+						"id":143,
+						"name":"",
+						"rotation":0,
+						"type":"",
+						"visible":true,
+						"width":48,
+						"x":578.203182374541,
+						"y":679.079559363525,
+						"evType":"Door",
+						"options": {
+							"dest": "Classe4A",
+							"nextX": 1174,
+							"nextY": 55,
+							"direction": "down"
+						}
+					},
+					{
+						"gid":6265,
+						"height":48,
+						"id":137,
+						"name":"",
+						"rotation":0,
+						"type":"",
+						"visible":true,
+						"width":48,
+						"x":1391.91187270502,
+						"y":432.323133414933,
+						"evType":"Door",
+						"options": {
+							"dest": "AulaVideo",
+							"nextX": 200,
+							"nextY": 500,
+							"direction": "right"
+						}
+					},
+					{
+						"gid":6265,
+						"height":48,
+						"id":145,
+						"name":"",
+						"rotation":0,
+						"type":"",
+						"visible":true,
+						"width":48,
+						"x":388.729498164015,
+						"y":677.610771113831,
+						"evType":"Door",
+						"options": {
+							"dest": "LabInfo2",
+							"nextX": 840,
+							"nextY": 440,
+							"direction": "left"
+						}
+					},
+					{
+						"gid":6265,
+						"height":48,
+						"id":128,
+						"name":"",
+						"rotation":0,
+						"type":"",
+						"visible":true,
+						"width":48,
+						"x":193.380660954712,
+						"y":192.91064871481,
+						"evType":"Door",
+						"options": {
+							"dest": "Ripostiglio",
+							"nextX": 750,
+							"nextY": 350,
+							"direction": "left"
+						}
+					}
+				]
+        },
+        {
          "draworder":"topdown",
          "id":6,
          "name":"Collisioni",
@@ -286,18 +387,6 @@
                 {
                  "gid":6265,
                  "height":48,
-                 "id":128,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":193.380660954712,
-                 "y":192.91064871481
-                },
-                {
-                 "gid":6265,
-                 "height":48,
                  "id":129,
                  "name":"",
                  "rotation":0,
@@ -394,18 +483,6 @@
                 {
                  "gid":6265,
                  "height":48,
-                 "id":137,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":1391.91187270502,
-                 "y":432.323133414933
-                },
-                {
-                 "gid":6265,
-                 "height":48,
                  "id":138,
                  "name":"",
                  "rotation":0,
@@ -466,18 +543,6 @@
                 {
                  "gid":6265,
                  "height":48,
-                 "id":143,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":578.203182374541,
-                 "y":679.079559363525
-                },
-                {
-                 "gid":6265,
-                 "height":48,
                  "id":144,
                  "name":"",
                  "rotation":0,
@@ -486,18 +551,6 @@
                  "width":48,
                  "x":576.734394124847,
                  "y":718.736842105263
-                },
-                {
-                 "gid":6265,
-                 "height":48,
-                 "id":145,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":388.729498164015,
-                 "y":677.610771113831
                 },
                 {
                  "gid":6265,

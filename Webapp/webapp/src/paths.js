@@ -71,7 +71,7 @@ export default {
 
 	},
 
-	Rispostiglio: {
+	Ripostiglio: {
 		png: require("./assets/rooms/png/Ripostiglio.png"),
 		json: require("./assets/rooms/json/Ripostiglio.json")
 
@@ -81,5 +81,16 @@ export default {
 		png: require("./assets/rooms/png/Piano2.png"),
 		json: require("./assets/rooms/json/Piano2.json")
 
+	},
+
+	Classe4A: {
+		png: require("./assets/rooms/png/Classe4A.png"),
+		json: require("./assets/rooms/json/Classe4A.json")
+
+	},
+
+	AulaVideo: {
+		png: require("./assets/rooms/png/AulaVideo.png"),
+		json: require("./assets/rooms/json/AulaVideo.json")
 	}
 }

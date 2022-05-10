@@ -155,6 +155,44 @@
 						"nextY": 300,
 						"direction": "left"
 					}
+				},
+				{
+					"gid":5321,
+					"height":48,
+					"id":26,
+					"name":"",
+					"rotation":0,
+					"type":"",
+					"visible":true,
+					"width":48,
+					"x":1195.91902834008,
+					"y":679.141700404858,
+					"evType":"Door",
+					"options": {
+						"dest": "PianoT",
+						"nextX": 100,
+						"nextY": 10,
+						"direction": "down"
+					}
+				},
+				{
+					"gid":5265,
+					"height":93.1821862348179,
+					"id":10,
+					"name":"",
+					"rotation":0,
+					"type":"",
+					"visible":true,
+					"width":48,
+					"x":1104.04858299595,
+					"y":718.2995951417,
+					"evType":"Door",
+					"options": {
+						"dest": "Piano2",
+						"nextX": 1200,
+						"nextY": 520,
+						"direction": "up"
+					}
 				}
 			]
 		  },
@@ -269,18 +307,6 @@
                  "visible":true,
                  "width":90.17004048583,
                  "x":1348.03238866397,
-                 "y":718.2995951417
-                },
-                {
-                 "gid":5265,
-                 "height":93.1821862348179,
-                 "id":10,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":1104.04858299595,
                  "y":718.2995951417
                 },
                 {
@@ -449,18 +475,6 @@
                  "visible":true,
                  "width":48,
                  "x":1156.76113360324,
-                 "y":679.141700404858
-                },
-                {
-                 "gid":5321,
-                 "height":48,
-                 "id":26,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":1195.91902834008,
                  "y":679.141700404858
                 },
                 {

@@ -180,6 +180,32 @@
 		"indizio": "L'ultima fase è la Solidificazione",
 		"penalita": [0,2,5],
 		"punti": 10
+	},
+
+	"Classe4A": {
+		"text": "Risolvi lo schema per il passaggio di stato: da una sostanza solida come il ghiaccio qual è il giusto ordine per passare allo stato gassoso, e poi a quello liquido come l’acqua e poi di nuovo allo stato solido?",
+		"img": "blablabla",
+		"A": "Sublimazione - Liquefazione - Solidificazione",
+		"B": "Liquefazione - Sublimazione - Solidificazione",
+		"C": "Solidificazione - Liquefazione - Sublimazione",
+		"D": "Non si puo determinare",
+		"right": "A",
+		"indizio": "L'ultima fase è la Solidificazione",
+		"penalita": [0,2,5],
+		"punti": 10
+	},
+
+	"AulaVideo": {
+		"text": "Risolvi lo schema per il passaggio di stato: da una sostanza solida come il ghiaccio qual è il giusto ordine per passare allo stato gassoso, e poi a quello liquido come l’acqua e poi di nuovo allo stato solido?",
+		"img": "blablabla",
+		"A": "Sublimazione - Liquefazione - Solidificazione",
+		"B": "Liquefazione - Sublimazione - Solidificazione",
+		"C": "Solidificazione - Liquefazione - Sublimazione",
+		"D": "Non si puo determinare",
+		"right": "A",
+		"indizio": "L'ultima fase è la Solidificazione",
+		"penalita": [0,2,5],
+		"punti": 10
 	}
 
 }

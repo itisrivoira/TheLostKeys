@@ -82,7 +82,7 @@
 						"evType":"Door",
 						"options": {
 							 "dest": "Piano1",
-							 "nextX": 1147,
+							 "nextX": 1180,
 							 "nextY": 520,
 							 "direction": "up"
 						}
@@ -101,7 +101,7 @@
 						"evType":"Door",
 						"options": {
 							 "dest": "Piano1",
-							 "nextX": 1147,
+							 "nextX": 1180,
 							 "nextY": 520,
 							 "direction": "up"
 						}
