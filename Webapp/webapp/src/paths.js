@@ -53,6 +53,12 @@ export default {
 
 	},
 
+	AulaProfessori: {
+		png: require("./assets/rooms/png/AulaProfessori.png"),
+		json: require("./assets/rooms/json/AulaProfessori.json")
+
+	},
+
 	WCFemmine: {
 		png: require("./assets/rooms/png/WCFemmine.png"),
 		json: require("./assets/rooms/json/WCFemmine.json")

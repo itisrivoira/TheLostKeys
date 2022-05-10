@@ -38,6 +38,126 @@
          "x":0,
          "y":0
         },
+		  {
+			"id": 4,
+			"name": "Eventi",
+			"objects": [
+				{
+					"gid":5321,
+					"height":48,
+					"id":43,
+					"name":"",
+					"rotation":0,
+					"type":"",
+					"visible":true,
+					"width":48,
+					"x":1391.70850202429,
+					"y":531.546558704453,
+					"evType":"Door",
+					"options": {
+						"dest": "AulaProfessori",
+						"nextX": 325,
+						"nextY": 315,
+						"direction": "right"
+					}
+				},
+				{
+					"gid":5321,
+					"height":48,
+					"id":44,
+					"name":"",
+					"rotation":0,
+					"type":"",
+					"visible":true,
+					"width":48,
+					"x":1391.70850202429,
+					"y":623.417004048583,
+					"evType":"Door",
+					"options": {
+						"dest": "WCFemmine",
+						"nextX": 720,
+						"nextY": 160,
+						"direction": "down"
+					}
+				},
+				{
+					"gid":5321,
+					"height":48,
+					"id":23,
+					"name":"",
+					"rotation":0,
+					"type":"",
+					"visible":true,
+					"width":48,
+					"x":1055.85425101215,
+					"y":679.141700404858,
+					"evType":"Door",
+					"options": {
+						"dest": "AulaMagna",
+						"nextX": 1250,
+						"nextY": 500,
+						"direction": "left"
+					}
+				},
+				{
+					"gid":5321,
+					"height":48,
+					"id":29,
+					"name":"",
+					"rotation":0,
+					"type":"",
+					"visible":true,
+					"width":48,
+					"x":768.194331983806,
+					"y":680.647773279352,
+					"evType":"Door",
+					"options": {
+						"dest": "Classe1A",
+						"nextX": 1170,
+						"nextY": 450,
+						"direction": "left"
+					}
+				},
+				{
+					"gid":5321,
+					"height":48,
+					"id":37,
+					"name":"",
+					"rotation":0,
+					"type":"",
+					"visible":true,
+					"width":48,
+					"x":99.497975708502,
+					"y":683.65991902834,
+					"evType":"Door",
+					"options": {
+						"dest": "WCMaschi",
+						"nextX": 1090,
+						"nextY": 450,
+						"direction": "left"
+					}
+				},
+				{
+					"gid":5321,
+					"height":48,
+					"id":39,
+					"name":"",
+					"rotation":0,
+					"type":"",
+					"visible":true,
+					"width":48,
+					"x":3.10931174089069,
+					"y":478.834008097166,
+					"evType":"Door",
+					"options": {
+						"dest": "LabInfo",
+						"nextX": 1160,
+						"nextY": 300,
+						"direction": "left"
+					}
+				}
+			]
+		  },
         {
          "draworder":"topdown",
          "id":5,
@@ -310,18 +430,6 @@
                 {
                  "gid":5321,
                  "height":48,
-                 "id":23,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":1055.85425101215,
-                 "y":679.141700404858
-                },
-                {
-                 "gid":5321,
-                 "height":48,
                  "id":24,
                  "name":"",
                  "rotation":0,
@@ -378,18 +486,6 @@
                  "width":48,
                  "x":1298.33198380567,
                  "y":719.805668016194
-                },
-                {
-                 "gid":5321,
-                 "height":48,
-                 "id":29,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":768.194331983806,
-                 "y":680.647773279352
                 },
                 {
                  "gid":5321,
@@ -478,18 +574,6 @@
                 {
                  "gid":5321,
                  "height":48,
-                 "id":37,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":99.497975708502,
-                 "y":683.65991902834
-                },
-                {
-                 "gid":5321,
-                 "height":48,
                  "id":38,
                  "name":"",
                  "rotation":0,
@@ -498,18 +582,6 @@
                  "width":48,
                  "x":94.9797570850202,
                  "y":718.2995951417
-                },
-                {
-                 "gid":5321,
-                 "height":48,
-                 "id":39,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":3.10931174089069,
-                 "y":478.834008097166
                 },
                 {
                  "gid":5321,
@@ -546,31 +618,8 @@
                  "width":48,
                  "x":1391.70850202429,
                  "y":432.145748987854
-                },
-                {
-                 "gid":5321,
-                 "height":48,
-                 "id":43,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":1391.70850202429,
-                 "y":531.546558704453
-                },
-                {
-                 "gid":5321,
-                 "height":48,
-                 "id":44,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":1391.70850202429,
-                 "y":623.417004048583
-                }],
+                }
+              ],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
