@@ -18,7 +18,7 @@ const entities = () => {
 		player: {
 			x: 700,		// coordinata X
 			y: 200,		// coordinata Y
-			speed: 4,	// velocità
+			speed: 5,	// velocità
 			src: require('../assets/characters/Seima.png'),		// sprite
 			renderer: <Player />
 		},
