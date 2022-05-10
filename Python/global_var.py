@@ -116,9 +116,12 @@ def setResources():
 
     # --- ENIGMI ---
 
-    tentativo = 0
+    tentativo = {}
     enigmi_da_risolvere = ["WC-Femmine", "Fisica", "1A", "AulaMagna", "AulaProfessori", "4A"]
     enigmi_risolti = []
+
+    for i in enigmi_da_risolvere:
+        tentativo[i] = 0
 
 
     # --- INVENTARIO ---

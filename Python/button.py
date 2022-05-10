@@ -697,46 +697,46 @@ class Dialoghi_Interattivi():
 	
 			if self.difficolta == "Facile":
 					
-				if GLOB.tentativo == 0:
+				if GLOB.tentativo[GLOB.Stanza] == 0:
 					GLOB.score += 10
-				elif GLOB.tentativo == 1:
+				elif GLOB.tentativo[GLOB.Stanza] == 1:
 					GLOB.score += 5
-				elif GLOB.tentativo == 2:
+				elif GLOB.tentativo[GLOB.Stanza] == 2:
 					GLOB.score += 2
 
 			elif self.difficolta == "Medio":
 				
-				if GLOB.tentativo == 0:
+				if GLOB.tentativo[GLOB.Stanza] == 0:
 					GLOB.score += 40
-				elif GLOB.tentativo == 1:
+				elif GLOB.tentativo[GLOB.Stanza] == 1:
 					GLOB.score += 20
-				elif GLOB.tentativo == 2:
+				elif GLOB.tentativo[GLOB.Stanza] == 2:
 					GLOB.score += 10
 
 			elif self.difficolta == "Difficile":
 					
-				if GLOB.tentativo == 0:
+				if GLOB.tentativo[GLOB.Stanza] == 0:
 					GLOB.score += 60
-				elif GLOB.tentativo == 1:
+				elif GLOB.tentativo[GLOB.Stanza] == 1:
 					GLOB.score += 30
-				elif GLOB.tentativo == 2:
+				elif GLOB.tentativo[GLOB.Stanza] == 2:
 					GLOB.score += 15
 		else:
     		
 			if self.difficolta == "Facile":
     			
-				if GLOB.tentativo > 2:
+				if GLOB.tentativo[GLOB.Stanza] > 2:
 					GLOB.score_seconds = -45
 
 			if self.difficolta == "Medio":
         			
-				if GLOB.tentativo > 2:
+				if GLOB.tentativo[GLOB.Stanza] > 2:
 					GLOB.score_seconds = -30
 
 
 			if self.difficolta == "Difficile":
         			
-				if GLOB.tentativo > 2:
+				if GLOB.tentativo[GLOB.Stanza] > 2:
 					GLOB.score_seconds = -20
 			
 			# print("secondi tolti")
@@ -793,7 +793,7 @@ class Dialoghi_Interattivi():
 				self.class_sfoca.val_scurisci = 0
 				self.suggerimento = False
 
-			TRY_TEXT = get_font(6*int(GLOB.MULT)).render(str(GLOB.tentativo+1)+"° tentativo", True, "white")
+			TRY_TEXT = get_font(6*int(GLOB.MULT)).render(str(GLOB.tentativo[GLOB.Stanza]+1)+"° tentativo", True, "white")
 			TRY_RECT = TRY_TEXT.get_rect(center=(50*GLOB.MULT, 20*GLOB.MULT))
 
 			GLOB.screen.blit(TRY_TEXT, TRY_RECT)
@@ -913,12 +913,12 @@ class Dialoghi_Interattivi():
 						# print("Risposta Esatta!!")
 						self.risultato = True
 						self.__check_score()
-						GLOB.tentativo = 0
+						GLOB.tentativo[GLOB.Stanza] = 0
 					else:
 						# print("-- Risposta Errata --")
 						self.risultato = False
 						self.__check_score()
-						GLOB.tentativo += 1
+						GLOB.tentativo[GLOB.Stanza] += 1
 
 					possoIniziare = True
 					
