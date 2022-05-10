@@ -5,7 +5,7 @@ import { Col, Button, Modal, Row, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { BsKeyboard } from "react-icons/bs";
 
-import { useFullScreen } from "../utils/utils";
+import { useFullScreen, useEventListener } from "../utils/utils";
 import { Audio, Music, Sfx, Setting, Run } from './components';
 
 const Options = ({exit}) => {
@@ -28,7 +28,7 @@ const Options = ({exit}) => {
 	}
 
 	// Chiudo questo Pannello
-	const HandleClose = () => {
+	const handleClose = () => {
 		setSetting(false);
 		if ( !run ) setRun(true);
 	}
@@ -36,10 +36,11 @@ const Options = ({exit}) => {
 	return(
 		<Modal
 			show={setting}
-			onHide={HandleClose}
+			onHide={handleClose}
 			backdrop="static"		// IL pannello si chiuderà solo quando l'utente clicca la X
 			size="lg"
 			centered
+			onEscapeKeyDown={e => e.preventDefault()}
 		>
 			<Modal.Header
 				closeButton

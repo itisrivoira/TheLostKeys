@@ -16,7 +16,7 @@ const App = () => {
 	const prevent = useCallback(e => {
 		if (e.key == 'F11' || e.key == 'Escape')
 			e.preventDefault();		// Annulla le azioni eseguite di default dal Browser
-	})
+	});
 
 	// assegno la funzione prevent all'evento keydown
 	useEventListener('keydown', prevent);
