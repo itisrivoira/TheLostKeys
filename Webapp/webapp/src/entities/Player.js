@@ -13,8 +13,8 @@ const Player = ({x, y, src}) => {
 				left: x,		// distanza tra l'img e il lato sinistro
 				top: y,		// distanza tra l'img e il lato destro
 			}}
-			width={90}
-			height={130}
+			width={100}
+			height={144}
 			src={src}
 		/>
 	)

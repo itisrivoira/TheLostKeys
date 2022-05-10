@@ -67,6 +67,44 @@
 							 "nextY": 467,
 							 "direction": "left"
 						}
+					},
+					{
+						"gid":7344,
+						"height":48,
+						"id":106,
+						"name":"",
+						"rotation":0,
+						"type":"",
+						"visible":true,
+						"width":48,
+						"x":95.9020807833537,
+						"y":95.3341493268054,
+						"evType":"Door",
+						"options": {
+							 "dest": "Piano1",
+							 "nextX": 1180,
+							 "nextY": 520,
+							 "direction": "up"
+						}
+					},
+					{
+						"gid":7344,
+						"height":48,
+						"id":107,
+						"name":"",
+						"rotation":0,
+						"type":"",
+						"visible":true,
+						"width":48,
+						"x":142.952264381885,
+						"y":98.3696450428397,
+						"evType":"Door",
+						"options": {
+							 "dest": "Piano1",
+							 "nextX": 1180,
+							 "nextY": 520,
+							 "direction": "up"
+						}
 					}
 				]
         },
@@ -950,30 +988,6 @@
                  "width":48,
                  "x":7.87270501835986,
                  "y":280.499388004896
-                },
-                {
-                 "gid":7344,
-                 "height":48,
-                 "id":106,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":95.9020807833537,
-                 "y":95.3341493268054
-                },
-                {
-                 "gid":7344,
-                 "height":48,
-                 "id":107,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":142.952264381885,
-                 "y":98.3696450428397
                 },
                 {
                  "gid":7317,

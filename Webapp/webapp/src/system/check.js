@@ -24,7 +24,7 @@ export default (elem, x, y, msg) => {
 			x >= (el.x - 10) &&				// X deve essere compresa tra destra e sinistra
 			x <= (el.x + el.width + 10) &&
 			y <= (el.y - el.height) &&		// Y deve essere vicina al lato alto (quello superiore) o più in alto
-			y >= (el.y - el.height - 40)
+			y >= (el.y - el.height - 50)
 		) {
 			dirs.down = true;
 			console.log(`${msg}: down ${el.id} x: ${x}, y: ${y}`);	// Log di debug
@@ -40,8 +40,8 @@ export default (elem, x, y, msg) => {
 		if (
 			x >= (el.x - 10) &&		// X deve essere compresa tra destra e sinistra
 			x <= (el.x + el.width + 10) &&
-			y >= (el.y - 40) &&		// Y deve essere vicina al lato basso (inferiore) o più in alto
-			y <= (el.y - 15)			// Questo per dare un effetto 3D del giocatore
+			y >= (el.y - 50) &&		// Y deve essere vicina al lato basso (inferiore) o più in alto
+			y <= (el.y - 20)			// Questo per dare un effetto 3D del giocatore
 		){
 			dirs.up = true;
 			console.log(`${msg}: up ${el.id} x: ${x}, y: ${y}`);
@@ -63,10 +63,10 @@ export default (elem, x, y, msg) => {
 
 		// Collisioni verso destra
 		if (
-			x >= (el.x - 20) &&		// X deve essere vicina al lato sinistro o più verso sinistra
+			x >= (el.x - 25) &&		// X deve essere vicina al lato sinistro o più verso sinistra
 			x <= el.x &&
-			y >= (el.y - el.height - 30) &&		// Y deve essere compresa nell'altezza dell'oggeto
-			y <= (el.y - 30)				// ma translata di 30 px verso l'alto per dare l'effetto 3D
+			y >= (el.y - el.height - 40) &&		// Y deve essere compresa nell'altezza dell'oggeto
+			y <= (el.y - 40)				// ma translata di 30 px verso l'alto per dare l'effetto 3D
 		) {
 			dirs.right = true;
 			console.log(`${msg}: right ${el.id} x: ${x}, y: ${y}`);
@@ -80,9 +80,9 @@ export default (elem, x, y, msg) => {
 		// Collisioni verso sinistra
 		if (
 			x >= (el.x + el.width) &&			// X deve essere vicina al lato destro o più verso destra
-			x <= (el.x + el.width + 15) &&
-			y >= (el.y - el.height - 30) && 	// Y deve essere compresa nell'altezza dell'oggeto
-			y <= (el.y - 30)		// ma translata di 30 px verso l'alto per dare l'effetto 3D
+			x <= (el.x + el.width + 25) &&
+			y >= (el.y - el.height - 40) && 	// Y deve essere compresa nell'altezza dell'oggeto
+			y <= (el.y - 40)		// ma translata di 30 px verso l'alto per dare l'effetto 3D
 		) {
 			dirs.left = true;
 			console.log(`${msg}: left ${el.id} x: ${x}, y: ${y}`);

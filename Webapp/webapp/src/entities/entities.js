@@ -8,7 +8,7 @@ const entities = () => {
 
 	return {
 		room: {	// Posso inserire tutte le prop che voglio
-			name: 'PianoT',	// Nome della stanza
+			name: 'Piano2',	// Nome della stanza
 			event: false,		// Da togliere
 			evType: '',			// Tipo di evento
 			evOptions: {},		// Opzioni dell'Evento
@@ -18,9 +18,9 @@ const entities = () => {
 		player: {
 			x: 700,		// coordinata X
 			y: 200,		// coordinata Y
-			speed: 4,	// velocità
+			speed: 5,	// velocità
 			src: require('../assets/characters/Seima.png'),		// sprite
-			renderer: <Player />
+			renderer: <Player/>
 		},
 
 		uhd: {

@@ -4,6 +4,7 @@
 */
 
 import collision from "./collision";
+import Player from "../entities/Player";
 
 // Indicatori di frame nelle 4 direzioni
 var [ u, d, l, r ] = [ 0, 0, 0, 0 ];
