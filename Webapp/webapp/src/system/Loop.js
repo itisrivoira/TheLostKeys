@@ -5,6 +5,7 @@
 
 import collision from "./collision";
 import Player from "../entities/Player";
+import Room from "../entities/Room";
 
 // Indicatori di frame nelle 4 direzioni
 var [ u, d, l, r ] = [ 0, 0, 0, 0 ];
@@ -136,12 +137,24 @@ const Loop = (entities, { input }) => {
 
 				// Cambio stanza
 				if (ev.evType == 'Door') {
-					room.name = ev.options.dest;	// cambio name cioè la stanza
-					player.x = ev.options.nextX;	// cambio le coordinate del giocatore
-					player.y = ev.options.nextY;
+					// imposto un ritardo per non uccidere i miei occhi
+					setTimeout(() => {
+						room.renderer = null;		// nascondo lo sfondo e il giocatore
+						player.renderer = null;
+					}, 300);
 
-					const direction = ev.options.direction;		// direzione in cui il giocatore sarà rivolto
-					player.src = require(`../assets/characters/${direction}/Walk0.png`);
+					// cambio stanza e sposto il giocatore dopo quasi un secondo
+					setTimeout( () => {
+						room.name = ev.options.dest;	// cambio name cioè la stanza
+						player.x = ev.options.nextX;	// cambio le coordinate del giocatore
+						player.y = ev.options.nextY;
+
+						room.renderer = <Room/>;		// mostro lo sfondo e il giocatore
+						player.renderer = <Player />;
+
+						const direction = ev.options.direction;		// direzione in cui il giocatore sarà rivolto
+						player.src = require(`../assets/characters/${direction}/Walk0.png`);
+					}, 900);
 				}
 
 				break;
