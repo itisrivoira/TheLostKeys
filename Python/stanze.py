@@ -21,8 +21,8 @@ def inizializza():
 def setToDefault():
     global  flag_Corridoio, flag_Corridoio1, flag_Corridoio2
     global flag_Chimica, flag_Fisica, flag_Archivio
-    global flag_Classe1A, flag_AulaMagna, flag_AulaProfessori, flag_WCfemmine
-    global flag_Classe4A
+    global flag_Classe1A, flag_AulaMagna, flag_AulaProfessori, flag_WCfemmine, flag_WCmaschi
+    global flag_Classe4A, flag_LabInformatica
     flag_Chimica = False
     flag_Fisica = False
     flag_Archivio = False
@@ -30,7 +30,9 @@ def setToDefault():
     flag_AulaMagna = False
     flag_AulaProfessori = False
     flag_WCfemmine = False
+    flag_WCmaschi = False
     flag_Classe4A = False
+    flag_LabInformatica = False
     flag_Corridoio = False
     flag_Corridoio1 = False
     flag_Corridoio2 = False
@@ -130,6 +132,20 @@ def WCfemmine():
     # PORTA ORIGINE STANZA
     setPosition((214, 70), (-146, -22))
 
+
+def WCmaschi():
+    global pos_portaP, pos_portaC
+
+    # PIANO - STANZA - COLLISIONI
+    GLOB.Piano = "2-PrimoPiano"
+    GLOB.Stanza = "WC-Maschi"
+    main.load_collisions("ProvaBagniMaschili_CollisioniStefano.csv")
+    GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/BagniMaschili.png"
+    GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/BagniMaschiliOggetti.png"
+
+    # PORTA ORIGINE STANZA
+    setPosition((274, 120), (-264, -20))
+
 def Classe4A():
     global pos_portaP, pos_portaC
 
@@ -143,6 +159,19 @@ def Classe4A():
 
     # PORTA ORIGINE STANZA
     setPosition((268, 69), (-318, 30))
+
+def LabInformatica():
+    global pos_portaP, pos_portaC
+
+    # PIANO - STANZA - COLLISIONI
+    GLOB.Piano = "3-SecondoPiano"
+    GLOB.Stanza = "LabInformatica"
+    main.load_collisions("LabInfo2_CollisioniPY.csv")
+    GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/LabInfo2.png"
+    GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/LabInfo2Oggetti.png"
+
+    # PORTA ORIGINE STANZA
+    setPosition((154, 120), (-264, -114))
 
 def Corridoio():
 
@@ -183,6 +212,9 @@ def Corridoio1():
     elif GLOB.Stanza == "WC-Femmine": 
         setPosition((270, 110), (-388, -148))
 
+    elif GLOB.Stanza == "WC-Maschi": 
+        setPosition((270, 118), (-264, -120))
+
     GLOB.Piano = "2-PrimoPiano"
     GLOB.Stanza = "Corridoio"
     main.load_collisions("CorridoioPrimoPiano_Collisioni.csv")
@@ -195,6 +227,9 @@ def Corridoio2():
 
     if GLOB.Stanza == "4A":
         setPosition((162, 110), (-114, -148))
+
+    if GLOB.Stanza == "LabInformatica":
+        setPosition((162, 110), (-16, -148))
 
     GLOB.Piano = "3-SecondoPiano"
     GLOB.Stanza = "Corridoio"
@@ -262,6 +297,9 @@ def caricaStanza():
         if flag_WCfemmine:
             WCfemmine()
 
+        if flag_WCmaschi:
+            WCmaschi()
+
 
     if GLOB.Piano == "3-SecondoPiano":
 
@@ -273,4 +311,7 @@ def caricaStanza():
 
         if flag_Classe4A:
             Classe4A()
+
+        if flag_LabInformatica:
+            LabInformatica()
         #print("Sono Uscito")

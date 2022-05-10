@@ -221,6 +221,7 @@ class Mostro():
         self.y = pos[1]
         self.width = wh[0]
         self.height = wh[1]
+        self.default_height = self.height
         self.vel = vel
         self.x, self.y = GLOB.screen.get_rect().center
         self.line_vector = pygame.math.Vector2(1, 0)
@@ -281,21 +282,28 @@ class Mostro():
 
         end_line1 = round(self.x + self.width/2 - rot_vector1.x), round(self.y - rot_vector1.y)
 
+        self.triangle = pygame.draw.polygon(surface=GLOB.screen, color=self.color_triangle, points=[end_line, end_line1, start_line])
+
+        valore_distanza = 250 * GLOB.MULT
+
         if self.triangle.colliderect(player.hitbox) or self.aggr:
             self.raggio_ai_brain = 0
             self.monster_ai_brain = 0
-            pygame.draw.circle(GLOB.screen, "White", (self.x, self.y), 20, 0)
+            self.height = 0
+            self.circle = pygame.draw.circle(GLOB.screen, "Red", (self.x, self.y), valore_distanza, 0)
             self.color_rect = (255, 0, 255)
             self.color_triangle = (255, 0, 0)
             self.__setMonster(True)
             self.aggr = True
+            player.color = "White"
 
         else:
+            self.height = self.default_height
             self.delay_monster.Infinite()
             self.__setMonster(False)
             self.color_triangle = (255,255,255)
             self.color_rect = (255, 0, 0)
-            self.triangle = pygame.draw.polygon(surface=GLOB.screen, color=self.color_triangle, points=[end_line, end_line1, start_line])
+            player.color = "Blue"
 
             # pygame.draw.ellipse(GLOB.screen, self.color_triangle, pygame.Rect(end_line[0]/2 + end_line1[0]/2, end_line[1]/2 + end_line1[1]/2, (self.distanza - self.height), (self.distanza + self.height)), width=0)
 
@@ -304,14 +312,10 @@ class Mostro():
 
         val = 20
 
-        valore_distanza = 300 * GLOB.MULT
-
-        if self.x + valore_distanza < player.x or self.x - valore_distanza > player.x or self.y + valore_distanza < player.y or self.y - valore_distanza > player.y:
-            self.aggr = False
-
         if self.mesh.colliderect(player.hitbox):
             pygame.draw.rect(GLOB.screen, (0, 255, 0), self.mesh, GLOB.MULT)
             print("GAME OVER")
+            inizializza()
 
         if not self.aggr:
 
@@ -328,12 +332,12 @@ class Mostro():
             if self.monster_ai_brain > 2 and self.monster_ai_brain < 3:
                 self.monster_ai_brain = 2.5
                 self.direzione = "sinistra-basso"
-                self.angle = 90
+                self.angle = 270
 
             if self.monster_ai_brain > 3 and self.monster_ai_brain < 4:
                 self.monster_ai_brain = 3.5
                 self.direzione = "sinistra-alto"
-                self.angle = 80
+                self.angle = 0
 
             if self.monster_ai_brain > 4:
                 self.monster_ai_brain = 4.5
@@ -360,7 +364,7 @@ class Mostro():
                 self.direzione = "alto"
                 self.angle = 90
 
-            print(self.monster_ai_brain, self.direzione)
+            # print(self.monster_ai_brain, self.direzione)
 
             # -- DESTRA --
             if (self.monster_ai_brain == 1 or self.monster_ai_brain == 1.5 or self.monster_ai_brain == 4.5) and self.monster_ai_brain:
@@ -383,7 +387,7 @@ class Mostro():
                     self.y -= self.speed
 
         
-        else:
+        if self.aggr and self.circle.colliderect(player.hitbox):
 
             self.speed *= 1.002
 
@@ -398,6 +402,10 @@ class Mostro():
 
             if player.Last_keyPressed == "Down" or self.y < player.y:
                 self.y += self.speed
+
+        else:
+
+            self.aggr = False
 
 
 
@@ -436,10 +444,10 @@ class Mostro():
         self.distanza -= 0.25 * GLOB.MULT
 
     def aumenta_lunghezza(self):
-        self.height += 0.025 * GLOB.MULT
+        self.default_height += 0.025 * GLOB.MULT
 
     def diminuisci_lunghezza(self):
-        self.height -= 0.025 * GLOB.MULT
+        self.default_height -= 0.025 * GLOB.MULT
 
 
 
@@ -449,7 +457,7 @@ def inizializza():
     pygame.display.set_caption("Effetto")
     clock = pygame.time.Clock()
     player = Player(10, 10)
-    mostro = Mostro((500,500), 20, (10 * GLOB.MULT, 0.3 * GLOB.MULT))
+    mostro = Mostro((500,500), 20, (10 * GLOB.MULT, 0.5 * GLOB.MULT))
 
 def disegna():
     GLOB.screen.fill((12,24,36))

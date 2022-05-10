@@ -655,7 +655,10 @@ def main():
                                 
                     if GLOB.ShowGrid:
                         GLOB.ShowGrid = False
-                    else:
+
+                if keys_pressed[pygame.K_x]:
+                                    
+                    if not GLOB.ShowGrid:
                         GLOB.ShowGrid = True
 
             if GLOB.PlayerCanMove:
@@ -691,7 +694,7 @@ def main():
 
             #print(len(df.values))
             row = 0
-            Enigma = Dialoghi_Interattivi(tipo_enigma = enigma_file.values[row][0], personaggio = enigma_file.values[row][1], oggetto = "Documento", descrizione =  enigma_file.values[row][2], suggerimento =  enigma_file.values[row][3], risposte = (enigma_file.values[row][4], enigma_file.values[row][5], enigma_file.values[row][6], enigma_file.values[row][7]), soluzione = int(enigma_file.values[row][8]), difficolta = enigma_file.values[row][9], text_speed = 3)
+            Enigma = Dialoghi_Interattivi(tipo_enigma = str(enigma_file.values[row][0]), personaggio = str(enigma_file.values[row][1]), oggetto = "Documento", descrizione =  str(enigma_file.values[row][2]), suggerimento =  str(enigma_file.values[row][3]), risposte = (str(enigma_file.values[row][4]), str(enigma_file.values[row][5]), str(enigma_file.values[row][6]), str(enigma_file.values[row][7])), soluzione = int(enigma_file.values[row][8]), difficolta = str(enigma_file.values[row][9]), text_speed = 3)
             player.setAllkeys(False)
             player.finish()
             Enigma.stampa()

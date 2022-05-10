@@ -103,6 +103,26 @@ def testa():
         print(GLOB.Default_Map, GLOB.Stanza)
         main.animazione.iFinished = False
     
+    if main.player.evento == "porta-1":
+        main.player.evento = None
+        main.stanze.setToDefault()
+
+
+        if GLOB.Piano == "2-PrimoPiano":
+            
+            if GLOB.Stanza == "Corridoio":
+                main.stanze.flag_WCmaschi = True
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
+            if GLOB.Stanza == "WC-Maschi":
+                main.stanze.flag_Corridoio1 = True
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)        
+        
+
+        print(GLOB.Default_Map, GLOB.Stanza)
+        main.animazione.iFinished = False
+
+
     if main.player.evento == "porta-2":
         main.player.evento = None
         main.stanze.setToDefault()
@@ -223,6 +243,21 @@ def testa():
             if GLOB.Stanza == "AulaProfessori":
                 main.stanze.flag_Corridoio1 = True
                 print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
+
+        if GLOB.Piano == "3-SecondoPiano":
+                
+            if GLOB.Stanza == "Corridoio":
+                main.stanze.flag_LabInformatica = True
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
+            if GLOB.Stanza == "LabInformatica":
+                main.stanze.flag_Corridoio2 = True
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+        
+
+        print(GLOB.Default_Map, GLOB.Stanza)
+        main.animazione.iFinished = False
 
         
 
