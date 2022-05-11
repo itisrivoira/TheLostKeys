@@ -411,7 +411,7 @@ class Dialoghi():
 
 # risposte (risposta1, risposta2, risposta3)
 class Dialoghi_Interattivi():
-	def __init__(self, tipo_enigma, personaggio, oggetto, descrizione, suggerimento, risposte, soluzione, difficolta, text_speed):
+	def __init__(self, tipo_enigma, personaggio, oggetto, descrizione, suggerimento, risposte, soluzione, difficolta, malus, text_speed):
 		self.tipo = tipo_enigma
 		self.oggetto = oggetto
 		# self.personaggio = personaggio
@@ -422,6 +422,9 @@ class Dialoghi_Interattivi():
 		self.full_suggeriment = suggerimento
 
 		self.testo_suggerimento = self.full_suggeriment.split("|")
+
+		self.malus = malus
+		print(self.malus)
 
 		self.descr = descrizione.split("\n")
 		self.sugg = suggerimento.split("\n")
@@ -516,12 +519,21 @@ class Dialoghi_Interattivi():
 
 		self.risultato = None
 		self.suggerimento = False
+		self.BeenSuggested = False
 
 		vel = 0.01
 		self.class_sfoca = Sfoca(vel)
 		self.class_desfoca = Sfoca(val)
 		self.class_sfoca.val_scurisci = 0
 		self.suggerimento_sfondo = pygame.Surface((GLOB.screen_width, GLOB.screen_height))
+
+		try:
+
+			self.tentativo = GLOB.tentativo[GLOB.Stanza]
+
+		except KeyError:
+
+			self.tentativo = GLOB.tentativo["Fisica"]
 
 	def __effetto_testo(self):
     		
@@ -693,51 +705,26 @@ class Dialoghi_Interattivi():
 	def __check_score(self):
 		# print("tentativo: ", GLOB.tentativo+1)
 
+		if self.BeenSuggested:
+			GLOB.score_seconds = self.malus[4]
+    			
+
 		if self.risultato:
 	
-			if self.difficolta == "Facile":
-					
-				if GLOB.tentativo[GLOB.Stanza] == 0:
-					GLOB.score += 10
-				elif GLOB.tentativo[GLOB.Stanza] == 1:
-					GLOB.score += 5
-				elif GLOB.tentativo[GLOB.Stanza] == 2:
-					GLOB.score += 2
-
-			elif self.difficolta == "Medio":
-				
-				if GLOB.tentativo[GLOB.Stanza] == 0:
-					GLOB.score += 40
-				elif GLOB.tentativo[GLOB.Stanza] == 1:
-					GLOB.score += 20
-				elif GLOB.tentativo[GLOB.Stanza] == 2:
-					GLOB.score += 10
-
-			elif self.difficolta == "Difficile":
-					
-				if GLOB.tentativo[GLOB.Stanza] == 0:
-					GLOB.score += 60
-				elif GLOB.tentativo[GLOB.Stanza] == 1:
-					GLOB.score += 30
-				elif GLOB.tentativo[GLOB.Stanza] == 2:
-					GLOB.score += 15
+			if self.difficolta == "Facile" or self.difficolta == "Media" or self.difficolta == "Difficile":
+    					
+				if self.tentativo == 0:
+					GLOB.score += self.malus[0]
+				elif self.tentativo == 1:
+					GLOB.score += self.malus[1]
+				elif self.tentativo == 2:
+					GLOB.score += self.malus[2]
 		else:
     		
-			if self.difficolta == "Facile":
+			if self.difficolta == "Facile" or self.difficolta == "Media" or self.difficolta == "Difficile":
     			
-				if GLOB.tentativo[GLOB.Stanza] > 2:
-					GLOB.score_seconds = -45
-
-			if self.difficolta == "Medio":
-        			
-				if GLOB.tentativo[GLOB.Stanza] > 2:
-					GLOB.score_seconds = -30
-
-
-			if self.difficolta == "Difficile":
-        			
-				if GLOB.tentativo[GLOB.Stanza] > 2:
-					GLOB.score_seconds = -20
+				if self.tentativo > 2:
+					GLOB.score_seconds = self.malus[3]
 			
 			# print("secondi tolti")
 
@@ -792,8 +779,8 @@ class Dialoghi_Interattivi():
 				self.class_sfoca.flag_reverse = False
 				self.class_sfoca.val_scurisci = 0
 				self.suggerimento = False
-
-			TRY_TEXT = get_font(6*int(GLOB.MULT)).render(str(GLOB.tentativo[GLOB.Stanza]+1)+"° tentativo", True, "white")
+				
+			TRY_TEXT = get_font(6*int(GLOB.MULT)).render(str(self.tentativo+1)+"° tentativo", True, "white")
 			TRY_RECT = TRY_TEXT.get_rect(center=(50*GLOB.MULT, 20*GLOB.MULT))
 
 			GLOB.screen.blit(TRY_TEXT, TRY_RECT)
@@ -867,6 +854,8 @@ class Dialoghi_Interattivi():
 				self.cooldown_interm = 0
 
 			if self.suggerimento:
+				self.BeenSuggested = True
+				self.__check_score()
 				self.class_sfoca.disegna()
 
 			for event in pygame.event.get():
@@ -887,7 +876,7 @@ class Dialoghi_Interattivi():
 
 				if keys_pressed[pygame.K_SPACE] and not self.isFinished:
 					if self.CanIplay_sound:
-						self.__init__(self.tipo, self.personaggio, self.oggetto, self.full_description, self.full_suggeriment, self.risposte, self.number_solution + 1, self.difficolta, 5)
+						self.__init__(self.tipo, self.personaggio, self.oggetto, self.full_description, self.full_suggeriment, self.risposte, self.number_solution + 1, self.difficolta, self.malus, 5)
 						self.CanIplay_sound = False
 						self.isFinished = True
 
@@ -909,16 +898,21 @@ class Dialoghi_Interattivi():
 					self.number_selected = self.number_selection
 					# print(GLOB.tentativo)
 
-					if self.number_selected == self.number_solution:
-						# print("Risposta Esatta!!")
-						self.risultato = True
-						self.__check_score()
-						GLOB.tentativo[GLOB.Stanza] = 0
-					else:
-						# print("-- Risposta Errata --")
-						self.risultato = False
-						self.__check_score()
-						GLOB.tentativo[GLOB.Stanza] += 1
+					try:
+
+						if self.number_selected == self.number_solution:
+							# print("Risposta Esatta!!")
+							self.risultato = True
+							self.__check_score()
+							GLOB.tentativo[GLOB.Stanza] = 0
+						else:
+							# print("-- Risposta Errata --")
+							self.risultato = False
+							self.__check_score()
+							GLOB.tentativo[GLOB.Stanza] += 1
+
+					except KeyError:
+						pass
 
 					possoIniziare = True
 					

@@ -10,7 +10,7 @@ Player_proportion = 1 # Divisore della grandezza del giocatore
 FPS = 30 * Delta_Time
 
 # rapporto di proporzione allo schermo NON INFERIORE AD 1
-MULT = 3
+MULT = 4
 
 # rapporto offset telecamera dello schermo MAX 40
 Moff = 30
@@ -22,7 +22,7 @@ AU = 5
 MU = 1
 
 # Timer del gioco
-Timer = 25
+Timer = 5
 
 Scelta = 0
 Cam_visible = False
@@ -32,6 +32,7 @@ ShowGrid = False
 ShowFps = True
 ShowDropFrames = True
 
+isGameRunning = False
 isPaused = False
 
 KeyPressed = ""

@@ -144,7 +144,7 @@ def WCmaschi():
     GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/BagniMaschiliOggetti.png"
 
     # PORTA ORIGINE STANZA
-    setPosition((274, 120), (-264, -20))
+    setPosition((272, 120), (-264, -120))
 
 def Classe4A():
     global pos_portaP, pos_portaC
@@ -213,7 +213,7 @@ def Corridoio1():
         setPosition((270, 110), (-388, -148))
 
     elif GLOB.Stanza == "WC-Maschi": 
-        setPosition((270, 118), (-264, -120))
+        setPosition((162, 122), (-128, -144))
 
     GLOB.Piano = "2-PrimoPiano"
     GLOB.Stanza = "Corridoio"

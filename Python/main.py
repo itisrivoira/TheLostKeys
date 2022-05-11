@@ -70,6 +70,8 @@ def SetPlayer_sprite():
 def inizializza():
     global player, cam, timer, clock, collisions, animazione, messaggio_a_schermo, Gui
 
+    GLOB.isGameRunning = True
+
     stanze.inizializza()
     SetPlayer_speed()
 
@@ -251,6 +253,7 @@ def game_over():
             keys_pressed = pygame.key.get_pressed()
 
             if keys_pressed[pygame.K_ESCAPE] or (event.type == pygame.MOUSEBUTTONDOWN and QUIT_BUTTON.checkForInput(MENU_MOUSE_POS)):
+                GLOB.isGameRunning = False
                 menu.main_menu()
 
             if keys_pressed[pygame.K_RETURN] or (event.type == pygame.MOUSEBUTTONDOWN and PLAY_BUTTON.checkForInput(MENU_MOUSE_POS)):
@@ -512,6 +515,9 @@ def main():
     mixer.music.set_volume(0.02*GLOB.MU)
     mixer.music.play(-1)	# La setto a -1 che indica un loop quindi a infinito
 
+    # Setto il messaggio a schermo a false
+    messaggio_a_schermo.Stop()
+
     # Setto il cursore del mouse a non visibile
     pygame.mouse.set_visible(False)
    
@@ -626,6 +632,18 @@ def main():
                 pausa()
 
 
+            
+            # FLIP FLOP - SHOW GRID
+            if event.type == pygame.KEYDOWN:
+
+                if event.key == pygame.K_z and GLOB.Debug:
+                                
+                    if not GLOB.ShowGrid:
+                        GLOB.ShowGrid = True
+                    elif GLOB.ShowGrid:
+                        GLOB.ShowGrid = False
+
+            # FLIP FLOP - DEBUG
             if keys_pressed[pygame.K_F3]:
             
                 if not GLOB.Debug:
@@ -649,17 +667,6 @@ def main():
 
                     if not GLOB.Enigma:
                         GLOB.Enigma = True
-                            
-
-                if keys_pressed[pygame.K_z]:
-                                
-                    if GLOB.ShowGrid:
-                        GLOB.ShowGrid = False
-
-                if keys_pressed[pygame.K_x]:
-                                    
-                    if not GLOB.ShowGrid:
-                        GLOB.ShowGrid = True
 
             if GLOB.PlayerCanMove:
 
@@ -680,7 +687,12 @@ def main():
         if GLOB.Dialogo:
             #print(len(df.values))
             for row in range(len(df.values)):
-                Racconto = Dialoghi(personaggio = df.values[row][0], descrizione = df.values[row][1], text_speed = 3)
+                Racconto = Dialoghi(
+                    personaggio = df.values[row][0], 
+                    descrizione = df.values[row][1], 
+                    text_speed = 3
+                )
+                
                 player.setAllkeys(False)
                 player.finish()
                 Racconto.stampa()
@@ -694,7 +706,20 @@ def main():
 
             #print(len(df.values))
             row = 0
-            Enigma = Dialoghi_Interattivi(tipo_enigma = str(enigma_file.values[row][0]), personaggio = str(enigma_file.values[row][1]), oggetto = "Documento", descrizione =  str(enigma_file.values[row][2]), suggerimento =  str(enigma_file.values[row][3]), risposte = (str(enigma_file.values[row][4]), str(enigma_file.values[row][5]), str(enigma_file.values[row][6]), str(enigma_file.values[row][7])), soluzione = int(enigma_file.values[row][8]), difficolta = str(enigma_file.values[row][9]), text_speed = 3)
+            Enigma = Dialoghi_Interattivi(
+                
+                tipo_enigma = str(enigma_file.values[row][0]), 
+                personaggio = str(enigma_file.values[row][1]), 
+                oggetto = "Documento", 
+                descrizione =  str(enigma_file.values[row][2]), 
+                suggerimento =  str(enigma_file.values[row][3]), 
+                risposte = (str(enigma_file.values[row][4]), str(enigma_file.values[row][5]), str(enigma_file.values[row][6]), str(enigma_file.values[row][7])), 
+                soluzione = int(enigma_file.values[row][8]), 
+                difficolta = str(enigma_file.values[row][9]), 
+                malus = (int(enigma_file.values[row][10]), int(enigma_file.values[row][11]), int(enigma_file.values[row][12]), int(enigma_file.values[row][13]), int(enigma_file.values[row][14])), 
+                text_speed = 3
+                                          
+            )
             player.setAllkeys(False)
             player.finish()
             Enigma.stampa()
