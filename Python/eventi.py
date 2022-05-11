@@ -100,6 +100,10 @@ def testa():
                 main.stanze.flag_Corridoio = True
                 print(main.stanze.pos_portaP, main.stanze.pos_portaC)
 
+        else:
+            print("porta chiusa")
+            return
+
         print(GLOB.Default_Map, GLOB.Stanza)
         main.animazione.iFinished = False
     
@@ -116,7 +120,11 @@ def testa():
 
             if GLOB.Stanza == "WC-Maschi":
                 main.stanze.flag_Corridoio1 = True
-                print(main.stanze.pos_portaP, main.stanze.pos_portaC)        
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
+        else:
+            print("porta chiusa")
+            return
         
 
         print(GLOB.Default_Map, GLOB.Stanza)
@@ -138,6 +146,10 @@ def testa():
                 main.stanze.flag_Corridoio = True
                 print(main.stanze.pos_portaP, main.stanze.pos_portaC)
 
+        else:
+            print("porta chiusa")
+            return
+
         print(GLOB.Default_Map, GLOB.Stanza)
         main.animazione.iFinished = False
 
@@ -154,6 +166,10 @@ def testa():
             if GLOB.Stanza == "1A":
                 main.stanze.flag_Corridoio1 = True
                 print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
+        else:
+            print("porta chiusa")
+            return
 
         print(GLOB.Default_Map, GLOB.Stanza)
         main.animazione.iFinished = False
@@ -174,7 +190,7 @@ def testa():
                 print(main.stanze.pos_portaP, main.stanze.pos_portaC)
 
 
-        if GLOB.Piano == "2-PrimoPiano":
+        elif GLOB.Piano == "2-PrimoPiano":
             
             if GLOB.Stanza == "Corridoio":
                 main.stanze.flag_AulaMagna = True
@@ -183,6 +199,10 @@ def testa():
             if GLOB.Stanza == "AulaMagna":
                 main.stanze.flag_Corridoio1 = True
                 print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
+        else:
+            print("porta chiusa")
+            return
 
         
 
@@ -204,6 +224,10 @@ def testa():
             if GLOB.Stanza == "4A":
                 main.stanze.flag_Corridoio2 = True
                 print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
+        else:
+            print("porta chiusa")
+            return
         
 
         print(GLOB.Default_Map, GLOB.Stanza)
@@ -223,7 +247,12 @@ def testa():
 
             if GLOB.Stanza == "WC-Femmine":
                 main.stanze.flag_Corridoio1 = True
-                print(main.stanze.pos_portaP, main.stanze.pos_portaC)        
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
+
+        else:
+            print("porta chiusa")
+            return  
         
 
         print(GLOB.Default_Map, GLOB.Stanza)
@@ -245,7 +274,7 @@ def testa():
                 print(main.stanze.pos_portaP, main.stanze.pos_portaC)
 
 
-        if GLOB.Piano == "3-SecondoPiano":
+        elif GLOB.Piano == "3-SecondoPiano":
                 
             if GLOB.Stanza == "Corridoio":
                 main.stanze.flag_LabInformatica = True
@@ -254,12 +283,33 @@ def testa():
             if GLOB.Stanza == "LabInformatica":
                 main.stanze.flag_Corridoio2 = True
                 print(main.stanze.pos_portaP, main.stanze.pos_portaC)
-        
+
+        else:
+            print("porta chiusa")
+            return
 
         print(GLOB.Default_Map, GLOB.Stanza)
         main.animazione.iFinished = False
 
-        
+
+    if main.player.evento == "porta-12":
+        main.player.evento = None
+        main.stanze.setToDefault()
+
+
+        if GLOB.Piano == "3-SecondoPiano":
+                
+            if GLOB.Stanza == "Corridoio":
+                main.stanze.flag_Ripostiglio = True
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
+            if GLOB.Stanza == "Ripostiglio":
+                main.stanze.flag_Corridoio2 = True
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
+        else:
+            print("porta chiusa")
+            return
 
         print(GLOB.Default_Map, GLOB.Stanza)
         main.animazione.iFinished = False

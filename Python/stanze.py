@@ -22,7 +22,7 @@ def setToDefault():
     global  flag_Corridoio, flag_Corridoio1, flag_Corridoio2
     global flag_Chimica, flag_Fisica, flag_Archivio
     global flag_Classe1A, flag_AulaMagna, flag_AulaProfessori, flag_WCfemmine, flag_WCmaschi
-    global flag_Classe4A, flag_LabInformatica
+    global flag_Classe4A, flag_LabInformatica, flag_Ripostiglio
     flag_Chimica = False
     flag_Fisica = False
     flag_Archivio = False
@@ -33,6 +33,7 @@ def setToDefault():
     flag_WCmaschi = False
     flag_Classe4A = False
     flag_LabInformatica = False
+    flag_Ripostiglio = False
     flag_Corridoio = False
     flag_Corridoio1 = False
     flag_Corridoio2 = False
@@ -173,6 +174,20 @@ def LabInformatica():
     # PORTA ORIGINE STANZA
     setPosition((154, 120), (-264, -114))
 
+
+def Ripostiglio():
+    global pos_portaP, pos_portaC
+
+    # PIANO - STANZA - COLLISIONI
+    GLOB.Piano = "3-SecondoPiano"
+    GLOB.Stanza = "Ripostiglio"
+    main.load_collisions("ripostiglio_CollisioniPY.csv")
+    GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ripostiglio.png"
+    GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ripostiglioOggetto.png"
+
+    # PORTA ORIGINE STANZA
+    setPosition((272, 118), (-100, -72))
+
 def Corridoio():
 
     # PORTA ORIGINE STANZA - CORRIDOIO
@@ -230,6 +245,9 @@ def Corridoio2():
 
     if GLOB.Stanza == "LabInformatica":
         setPosition((162, 110), (-16, -148))
+
+    if GLOB.Stanza == "Ripostiglio":
+        setPosition((152,72), (72, 6))
 
     GLOB.Piano = "3-SecondoPiano"
     GLOB.Stanza = "Corridoio"
@@ -314,4 +332,7 @@ def caricaStanza():
 
         if flag_LabInformatica:
             LabInformatica()
+
+        if flag_Ripostiglio:
+            Ripostiglio()
         #print("Sono Uscito")

@@ -71,6 +71,7 @@ def inizializza():
     global player, cam, timer, clock, collisions, animazione, messaggio_a_schermo, Gui
 
     GLOB.isGameRunning = True
+    GLOB.isPaused = False
 
     stanze.inizializza()
     SetPlayer_speed()
@@ -100,6 +101,7 @@ def inizializza():
 
     # Messaggio visualizzabile a schermo
     messaggio_a_schermo = Risultato(text = "Esempio", color = "White", size = 12, delay_scomparsa = 4)
+    messaggio_a_schermo.Stop()
 
     timer = Timer(minutes = GLOB.Timer, molt_sec = 1, event = game_over)
     animazione = Transizione(vel = 0.01)
@@ -155,6 +157,7 @@ def disegna():
         #timer.DePause()
     else:
         #timer.Pause()
+        GLOB.PlayerIsRunning = False
         GLOB.PlayerCanMove = False
         player.setAllkeys(False)
         player.finish()

@@ -711,7 +711,7 @@ class Dialoghi_Interattivi():
 
 		if self.risultato:
 	
-			if self.difficolta == "Facile" or self.difficolta == "Media" or self.difficolta == "Difficile":
+			if self.difficolta == "Facile" or self.difficolta == "Media" or self.difficolta == "Medio" or self.difficolta == "Difficile":
     					
 				if self.tentativo == 0:
 					GLOB.score += self.malus[0]
@@ -721,7 +721,7 @@ class Dialoghi_Interattivi():
 					GLOB.score += self.malus[2]
 		else:
     		
-			if self.difficolta == "Facile" or self.difficolta == "Media" or self.difficolta == "Difficile":
+			if self.difficolta == "Facile" or self.difficolta == "Media" or self.difficolta == "Medio" or self.difficolta == "Difficile":
     			
 				if self.tentativo > 2:
 					GLOB.score_seconds = self.malus[3]
