@@ -10,8 +10,6 @@ import { Enigma, Run, RoomName, Score, Done } from './components';
 import { Documento } from "../assets/img/img";
 import puzzles from '../assets/puzzles/puzzles.js';
 
-import '../style/enigma.css';
-
 const EnimaModal = () => {
 	const { enigma, setEnigma } = useContext(Enigma);		// Se la UI è attiva o meno
 	const { room } = useContext(RoomName);			// Nome della stanza in cui sono (=nome enigma)
