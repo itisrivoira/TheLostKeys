@@ -3,7 +3,7 @@
 	Forse il componente più importante di tutti
 */
 
-import { useCallback, useContext } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import { GameEngine } from 'react-game-engine';		// Motore di Gioco
 
 import { Options , Dialog, DialogOpen, Setting, Run, EnigmaModal } from '../components/components';
@@ -18,6 +18,8 @@ const Play = () => {
 	const { setSetting } = useContext(Setting);		// aprire le impostazioni
 	const { setDialog } = useContext(DialogOpen);	// aprire dialoghi di prova
 	const { run, setRun } = useContext(Run);			// mettere in pausa il Gioco
+
+	useEffect( () => setRun(true), []);		// se il run era false diventa true
 
 	/*
 		useCallback server per memorizzare l'esecuzione di una funzione

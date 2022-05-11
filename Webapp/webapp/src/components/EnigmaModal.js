@@ -25,7 +25,8 @@ const EnimaModal = () => {
 	const puzzle = puzzles[room];			// ottengo l'Enigma come Object Literal
 	const { A, B, C, D } = puzzle;		// Estraggo le domande per poterle girare più facilmente (map())
 
-	const [points, setPoints] = useState(puzzle.punti);			// punti locali dell'enigma
+	const [points, setPoints] = useState(puzzle.punti[tentativi]);			// punti locali dell'enigma
+	// i punti nel JSON sono in ordine descrescente perchè li cambio in base ai tentativi (40 -> 20 -> 10 -> 0)
 
 	// Chiudo la UI Enigma
 	const close = () => {
@@ -69,11 +70,12 @@ const EnimaModal = () => {
 
 	useEffect( () => {
 		if (tentativi < 3)	// quando l'utente sbaglia diminuisco i punti secondo le penalità dell'Enigma
-			setPoints(puzzle.penalita[tentativi]);
+			setPoints(puzzle.punti[tentativi]);
 
 		// quando l'utente esaurisce i tentativi gli rivelo la risposta corretta e chiude
 		if (tentativi === 0) {
 			alert('La risposta giusta era la: ' + puzzle.right);
+			setTentativi(0);
 			close();
 		}
 	}, [tentativi]);
