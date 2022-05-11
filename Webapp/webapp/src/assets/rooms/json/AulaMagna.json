@@ -479,7 +479,8 @@
                  "visible":true,
                  "width":48,
                  "x":1010.67,
-                 "y":190.667
+                 "y":190.667,
+                 "evType": "Enigma"
                 }],
          "opacity":1,
          "type":"objectgroup",

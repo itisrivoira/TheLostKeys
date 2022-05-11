@@ -289,7 +289,8 @@
                  "visible":true,
                  "width":46.6667,
                  "x":392,
-                 "y":377.333
+                 "y":377.333,
+                 "evType": "Enigma"
                 },
                 {
                  "gid":1977,
