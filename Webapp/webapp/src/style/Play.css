@@ -4,3 +4,14 @@
 	background: black;
 	overflow: hidden;
 }
+
+.customw {
+   min-width: 80%;
+   max-height: 250px;
+}
+
+.back {
+	background: url('../assets/img/classe.png') no-repeat;
+	background-size: cover;
+	image-rendering: pixelated;
+}

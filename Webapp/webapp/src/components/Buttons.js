@@ -8,7 +8,7 @@ import {useAudio, useRandomInterval} from '../utils/utils';		// Custom Hooks che
 import { penPlay, penOptions, penLogin, penPlayWhite, penLoginWhite, penOptionsWhite } from '../assets/img/img';
 import { rainSound, thunderSound, thunderSound2 } from '../assets/sounds/sounds';
 
-import '../style/App.css';
+import '../style/Menu.css';
 
 /*
 	Questo componente fa da Bottone Generico

@@ -7,10 +7,8 @@ import { useContext, useEffect, useState } from "react";
 import { Modal, Row, Col, Button, Image } from "react-bootstrap";
 
 import { Enigma, Run, RoomName, Score, Done } from './components';
-import { narratore } from "../assets/img/img";
-import puzzles from '../assets/puzzles/puzzles.json';
-
-import '../style/enigma.css';
+import { Documento } from "../assets/img/img";
+import puzzles from '../assets/puzzles/puzzles.js';
 
 const EnimaModal = () => {
 	const { enigma, setEnigma } = useContext(Enigma);		// Se la UI è attiva o meno
@@ -98,24 +96,23 @@ const EnimaModal = () => {
 				<Row className="my-3">
 					<Col xxl={4} className='d-flex justify-content-center'>
 						<Image
-							src={narratore}
-							width={250}
-							height={250}
+							src={Documento}
+							width={300}
+							height={300}
 						/>
 					</Col>
-					<Col xxl={8}>
-						{
-						// Genero per ogni domanda un bottone con funzione check e come parametro la lettera della risposta
-						Object.keys({A,B,C,D}).map( key => (
-							<Button
-								onClick={() => check(key)}
-								variant="success"
-								className="txt-pixel fs-4 my-2 p-2"
-								key={key}
-							>
-								{key}: {puzzle[key]}
-							</Button>
-						))}
+					<Col xxl={8} className='d-flex align-items-center'>
+						<Row>
+							{
+							// Genero per ogni domanda un bottone con funzione check e come parametro la lettera della risposta
+							Object.keys({A,B,C,D}).map( key => (
+								<BtnAnswer
+									indice={key}
+									text={puzzle[key]}
+									click={() => check(key)}
+								/>
+							))}
+						</Row>
 					</Col>
 				</Row>
 				<Row className="my-2 mt-4 p-5 bg-secondary rounded-pill">
@@ -165,5 +162,20 @@ const EnimaModal = () => {
 		</Modal>
 	)
 }
+
+// Pulsante per una riposta
+const BtnAnswer = ({indice, text, click}) => (
+	<Col className="mx-3">
+		<Button
+			onClick={click}
+			variant="success"
+			className="txt-pixel fs-4 my-2 p-3"
+			key={indice}
+		>
+			{indice}: {text}
+		</Button>
+	</Col>
+)
+
 
 export default EnimaModal;

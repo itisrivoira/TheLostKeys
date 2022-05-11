@@ -7,8 +7,6 @@ import { DialogOpen, DialogText, Run } from "./components";
 import { useEventListener } from '../utils/utils';
 import primo from '../assets/dialogs/primo.json';		// file di dialogo di prova
 
-import '../style/Dialog.css';
-
 const Dialog = () => {
 	const [ n, setN ] = useState(0);		// indica il numero della parte di dialogo da visualizzare
 	const { dialog, setDialog } = useContext(DialogOpen);		// per aprire il modal del Dialogo

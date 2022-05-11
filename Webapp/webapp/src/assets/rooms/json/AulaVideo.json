@@ -72,6 +72,19 @@
 							"nextY": 320,
 							"direction": "left"
 						}
+				},
+				{
+					"gid":1979,
+					"height":48,
+					"id":50,
+					"name":"",
+					"rotation":0,
+					"type":"",
+					"visible":true,
+					"width":48,
+					"x":1148.08335456259,
+					"y":121.041830131961,
+					"evType": "Enigma"
 				}
 			]
         },
@@ -619,18 +632,6 @@
                  "width":48,
                  "x":527.925408875529,
                  "y":542.567279767667
-                },
-                {
-                 "gid":1979,
-                 "height":48,
-                 "id":50,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":1148.08335456259,
-                 "y":121.041830131961
                 }
                ],
          "opacity":1,

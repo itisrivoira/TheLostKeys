@@ -10,7 +10,7 @@ import { useContext } from "react";
 */
 import { SplashScreen, Title, Footer, Options, BtnPlay, BtnOptions, BtnLogin, BtnMusic, Setting } from '../components/components';
 
-import '../style/App.css';
+import '../style/Menu.css';
 import '../style/Font.css';
 
 const Menu = () => {

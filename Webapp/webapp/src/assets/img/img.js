@@ -8,6 +8,7 @@ import penPlayWhite from "./penPlayWhite.png";
 import penOptionsWhite from "./penOptionsWhite.png";
 import penLoginWhite from "./penLoginWhite.png";
 import narratore from './Narratore.png';
+import Documento from './Documento.png';
 
 export {
 	denina,
@@ -17,5 +18,6 @@ export {
 	penPlayWhite,
 	penLoginWhite,
 	penOptionsWhite,
-	narratore
+	narratore,
+	Documento
 };
