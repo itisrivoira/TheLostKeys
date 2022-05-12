@@ -4,7 +4,7 @@ import pygame, os, sys
 
 #Importo i vari file e classi necessarie
 import giocatore, menu, camera, debug, collisioni
-from button import Bar, Button, Dialoghi, Dialoghi_Interattivi, Risultato, Timer, GUI
+from components import Bar, Button, Dialoghi, Dialoghi_Interattivi, Risultato, Timer, GUI
 from pygame import mixer
 from animazione import Transizione
 import stanze

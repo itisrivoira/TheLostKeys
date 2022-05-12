@@ -1,7 +1,7 @@
 # import pygame, os, sys
 import main
 import global_var as GLOB
-from button import MiniMap
+from components import MiniMap
 
 def testa():
 
@@ -379,3 +379,94 @@ def testa():
 
         print(GLOB.Default_Map, GLOB.Stanza)
         main.animazione.iFinished = False
+
+
+    if main.player.evento == "chiavetta-1":
+        var = "Fisica"
+        print(GLOB.chiavette[var][1])
+        GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
+        GLOB.inventario["chiavetta-1"] = (False, "Proprietario: Tommaso Dalbesio - Files: stringhe.c")
+        print(GLOB.inventario)
+        main.player.evento = None
+
+
+    if main.player.evento == "chiavetta-2":
+        var = "1A"
+        print(GLOB.chiavette[var][1])
+        GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
+        GLOB.inventario["chiavetta-2"] = (False, "Proprietario: Stefano Senestro - Files: stringhe.c")
+        print(GLOB.inventario)
+        main.player.evento = None
+
+
+    if main.player.evento == "chiavetta-3":
+        var = "WC-Femmine"
+        print(GLOB.chiavette[var][1])
+        GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
+        GLOB.inventario["chiavetta-3"] = (False, "Proprietario: Aleksandra Venezia - Files: stringhe.c")
+        print(GLOB.inventario)
+        main.player.evento = None
+
+
+    if main.player.evento == "chiavetta-4":
+        var = "AulaMagna"
+        print(GLOB.chiavette[var][1])
+        GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
+        GLOB.inventario["chiavetta-4"] = (False, "Proprietario: Matteo Seimandi - Files: stringhe.c")
+        print(GLOB.inventario)
+        main.player.evento = None
+
+
+    if main.player.evento == "chiavetta-5":
+        var = "AulaProfessori"
+        print(GLOB.chiavette[var][1])
+        GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
+        GLOB.inventario["chiavetta-5"] = (False, "Proprietario: Giuseppe Di Biase - Files: stringhe.c")
+        print(GLOB.inventario)
+        main.player.evento = None
+
+
+    if main.player.evento == "chiavetta-6":
+        var = "LabInfo"
+        print(GLOB.chiavette[var][1])
+        GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
+        GLOB.inventario["chiavetta-6"] = (False, "Proprietario: Giulio Dajani - Files: stringhe.c")
+        print(GLOB.inventario)
+        main.player.evento = None
+
+
+    if main.player.evento == "chiavetta-7":
+        var = "4A"
+        print(GLOB.chiavette[var][1])
+        GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
+        GLOB.inventario["chiavetta-7"] = (False, "Proprietario: Marco Giachero - Files: stringhe.c")
+        print(GLOB.inventario)
+        main.player.evento = None
+
+
+    if main.player.evento == "chiavetta-8":
+        var = "AulaVideo"
+        print(GLOB.chiavette[var][1])
+        GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
+        GLOB.inventario["chiavetta-8"] = (False, "Proprietario: Chiara Bossolasco - Files: stringhe.c")
+        print(GLOB.inventario)
+        main.player.evento = None
+
+
+    if main.player.evento == "chiavetta-9":
+        var = "LabInformatica"
+        print(GLOB.chiavette[var][1])
+        GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
+        GLOB.inventario["chiavetta-9"] = (False, "Proprietario: Mattia Barbero - Files: stringhe.c")
+        print(GLOB.inventario)
+        main.player.evento = None
+
+
+    if main.player.evento == "chiavetta-10":
+        var = "Ripostiglio"
+        print(GLOB.chiavette[var][1])
+        GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
+        GLOB.inventario["chiavetta-10"] = (False, "Proprietario: Lorenzo Ferrato - Files: stringhe.c")
+        print(GLOB.inventario)
+        main.player.evento = None
+        

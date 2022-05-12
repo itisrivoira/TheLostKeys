@@ -1,5 +1,5 @@
 import pygame, sys, random
-from button import Delay
+from components import Delay
 import global_var as GLOB
 # import main
 

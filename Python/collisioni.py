@@ -15,6 +15,12 @@ class Map():
         self.posY = 0
         self.divisore = 2
 
+        
+        self.valore_fluttua = 0
+        self.valore_fluttua_max = 1
+        self.flag_fluttua = False
+
+
         # self.__load_images("MappaGioco/Tileset/Tileset_Muri/Tiles")
         self.__loadCollisions()
 
@@ -128,10 +134,34 @@ class Map():
             for valore_x in range(len(lista[valore_y])):
                 condition = lista[valore_y][valore_x] == var
 
+                if self.valore_fluttua >= self.valore_fluttua_max:
+                    self.valore_fluttua = self.valore_fluttua_max
+                    self.flag_fluttua = False
+                elif self.valore_fluttua <= -self.valore_fluttua_max:
+                    self.valore_fluttua = -self.valore_fluttua_max
+                    self.flag_fluttua = True
+
+                if self.flag_fluttua:
+                    self.valore_fluttua += 0.00001
+                else:
+                    self.valore_fluttua -= 0.00001
+
+                
+
                 if condition and object != None:
                     if str(type(self.tiles_immagini_sprite[var])) == "<class 'pygame.Surface'>" and len(self.tiles_immagini_sprite) > 1:
                         GLOB.screen.blit(self.tiles_immagini_sprite[var], (main.cam.getPositionX()+x * GLOB.MULT, main.cam.getPositionY()+y * GLOB.MULT))
                         #print("\n- Render | Oggetto a schermo!", self.tiles_immagini_sprite[var])
+                        
+
+                if condition:
+                    chavetta = pygame.Rect((main.cam.getPositionX()+(x+self.tiles_collisioni[var][0]) * GLOB.MULT),(main.cam.getPositionY()+(y + self.tiles_collisioni[var][1]) * GLOB.MULT), self.tiles_collisioni[var][2]/value, self.tiles_collisioni[var][3]/value)
+                    try:
+                        if var >= GLOB.chiavetta_start and GLOB.chiavette[GLOB.enigmi_risolti[0]][1]:
+                            GLOB.screen.blit(GLOB.chiavette[GLOB.enigmi_risolti[0]][2], (x * GLOB.MULT + main.cam.getPositionX() + self.tiles_risoluzione, y * GLOB.MULT + main.cam.getPositionY() + self.valore_fluttua * GLOB.MULT))
+                            main.player.HasInteraction(chunck_render, chavetta, var)
+                    except IndexError:
+                        pass
 
                 if hitbox != None:
                     oggetto = pygame.Rect((main.cam.getPositionX()+ x * GLOB.MULT),(main.cam.getPositionY()+ y * GLOB.MULT), self.tiles_risoluzione * GLOB.MULT, self.tiles_risoluzione * GLOB.MULT)
@@ -149,8 +179,9 @@ class Map():
                                 pygame.draw.rect(GLOB.screen, (255,0,0), collisione, int(GLOB.MULT))
                         
                         if not hitbox:
-                            main.player.HasCollision(collisione)
-                            main.player.HasInteraction(chunck_render, collisione, var)
+                            if var < GLOB.chiavetta_start:
+                                main.player.HasCollision(collisione)
+                                main.player.HasInteraction(chunck_render, collisione, var)
 
                             if main.animazione.iFinished == True:
                                 eventi.testa()

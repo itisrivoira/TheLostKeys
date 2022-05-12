@@ -120,7 +120,7 @@ setCharacter()
 
 ShowScore = True
 def setResources():
-    global score, score_seconds, tentativo, enigmi_da_risolvere, enigmi_risolti, chiavette, inventario
+    global score, score_seconds, tentativo, enigmi_da_risolvere, enigmi_risolti, chiavette, chiavetta_start, chiavetta_end, inventario
     global Default_Character, Piano, Stanza, Default_Map, Default_object, Default_collisions, PlayerCanMove, PlayerCanRun, PlayerIsWalking, PlayerIsRunning
 
     # --- SCORE ---
@@ -130,19 +130,28 @@ def setResources():
     # --- ENIGMI ---
 
     tentativo = {}
-    enigmi_da_risolvere = ["WC-Femmine", "Fisica", "1A", "AulaMagna", "AulaProfessori", "LabInfo", "4A", "AulaVideo", "LabInformatica", "Ripostiglio"]
+    enigmi_da_risolvere = ["Fisica", "1A", "WC-Femmine", "AulaMagna", "AulaProfessori", "LabInfo", "4A", "AulaVideo", "LabInformatica", "Ripostiglio"]
     enigmi_risolti = []
-
-    for i in enigmi_da_risolvere:
-        tentativo[i] = 0
-
 
     # --- INVENTARIO ---
 
-    chiavette = ["Chimica", "Storia", "Inglese", "Fisica", "Matematica", "Informatica", "Italiano", "Sistemi", "TPSIT"]
-    inventario = []
+    chiavette = {}
+    chiavetta_start = 140
+    molt_chiavetta = 2
+
+    for i in enigmi_da_risolvere:
+        tentativo[i] = 0
+        immagine = pygame.image.load("Collectibles/chiavetta-"+str(enigmi_da_risolvere.index(i) + 1)+".png").convert_alpha()
+        immagine = pygame.transform.scale(immagine, (immagine.get_width() * MULT * molt_chiavetta, immagine.get_height() * MULT * molt_chiavetta))
+        chiavette[i] = (chiavetta_start, True, immagine)
+        chiavetta_start += 1
+        chiavetta_end = chiavetta_start
+
+    print(chiavette)
+    chiavetta_start = 140
 
 
+    inventario = {}
     Default_Character = 'Characters/Senex/WalkOrizontal/Walk0.png'
 
     Piano = "1-PianoTerra"

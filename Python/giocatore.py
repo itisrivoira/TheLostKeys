@@ -342,6 +342,46 @@ class Player():
 
             elif var == 131:
                 self.evento = "piano-4"
+
+            # -- CHIAVETTE --
+
+            elif var == GLOB.chiavetta_start:
+                self.evento = "chiavetta-1"
+
+            elif var == GLOB.chiavetta_start + 1:
+                self.evento = "chiavetta-2"
+
+            elif var == GLOB.chiavetta_start + 2:
+                self.evento = "chiavetta-3"
+
+            elif var == GLOB.chiavetta_start + 3:
+                self.evento = "chiavetta-4"
+
+            elif var == GLOB.chiavetta_start + 4:
+                self.evento = "chiavetta-5"
+
+            elif var == GLOB.chiavetta_start + 5:
+                self.evento = "chiavetta-6"
+
+            elif var == GLOB.chiavetta_start + 6:
+                self.evento = "chiavetta-7"
+
+            elif var == GLOB.chiavetta_start + 7:
+                self.evento = "chiavetta-8"
+
+            elif var == GLOB.chiavetta_start + 8:
+                self.evento = "chiavetta-9"
+
+            elif var == GLOB.chiavetta_start + 9:
+                self.evento = "chiavetta-10"
+
+            elif var == GLOB.chiavetta_start + 10:
+                self.evento = "chiavetta-11"
+
+            elif var == GLOB.chiavetta_start + 11:
+                self.evento = "chiavetta-12"
+
+
             else:
                 self.evento = None
                 
