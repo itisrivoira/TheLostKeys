@@ -293,9 +293,12 @@ def options():
                 pygame.quit()
                 sys.exit()
 
-            if keys_pressed[pygame.K_F12]:
-                flag_screen = True
-                setFullScreen()
+
+            if event.type == pygame.KEYDOWN:
+
+                if event.key == pygame.K_F11:
+                    flag_screen = True
+                    setFullScreen()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 flag_screen = False

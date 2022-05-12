@@ -21,7 +21,7 @@ def inizializza():
 def setToDefault():
     global  flag_Corridoio, flag_Corridoio1, flag_Corridoio2
     global flag_Chimica, flag_Fisica, flag_Archivio
-    global flag_Classe1A, flag_AulaMagna, flag_AulaProfessori, flag_WCfemmine, flag_WCmaschi
+    global flag_Classe1A, flag_AulaMagna, flag_AulaProfessori, flag_LabInfo, flag_WCfemmine, flag_WCmaschi
     global flag_Classe4A, flag_LabInformatica, flag_Ripostiglio
     flag_Chimica = False
     flag_Fisica = False
@@ -29,6 +29,7 @@ def setToDefault():
     flag_Classe1A = False
     flag_AulaMagna = False
     flag_AulaProfessori = False
+    flag_LabInfo = False
     flag_WCfemmine = False
     flag_WCmaschi = False
     flag_Classe4A = False
@@ -137,6 +138,23 @@ def AulaProfessori():
     setPosition((160, 100), (10, -64))
 
     flag_AulaProfessori = False
+    
+
+def LabInfo():
+    global flag_LabInfo
+    global pos_portaP, pos_portaC
+
+    # PIANO - STANZA - COLLISIONI
+    GLOB.Piano = "2-PrimoPiano"
+    GLOB.Stanza = "LabInfo"
+    GLOB.Default_collisions = "ProvaLabInfo_CollisioniStefano.csv"
+    GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/LabInfo.png"
+    GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/LabInfoOggetto.png"
+
+    # PORTA ORIGINE STANZA
+    setPosition((160, 100), (10, -64))
+
+    flag_LabInfo = False
 
 def WCfemmine():
     global flag_WCfemmine
@@ -360,6 +378,9 @@ def caricaStanza():
 
         if flag_AulaProfessori:
             AulaProfessori()
+
+        if flag_LabInfo:
+            LabInfo()
 
         if flag_WCfemmine:
             WCfemmine()

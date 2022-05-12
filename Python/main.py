@@ -226,10 +226,13 @@ def disegna():
     Gui.show()
 
     if player.evento == "porta-99":
-        print("Porta chiusa")
+        player.finish()
+        player.setAllkeys(False)
+        GLOB.PlayerIsRunning = False
         c = Dialoghi(GLOB.scelta_char, "La porta sembra chiusa", 3)
         c.stampa()
         player.evento = None
+        SetPlayer_speed()
 
     if not GLOB.PlayerCanRun:
         SetPlayer_speed()
@@ -640,7 +643,8 @@ def main():
                 run = False
 
             if keys_pressed[pygame.K_ESCAPE]:
-                pausa()
+                if not animazione.flag_caricamento:
+                   pausa()
 
 
             

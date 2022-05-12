@@ -81,7 +81,11 @@ screen_height = DF_height * MULT
 flags = FULLSCREEN | DOUBLEBUF
 
 # Configurazione Schermo
-screen = pygame.display.set_mode((screen_width,screen_height), flags, 8)
+if Fullscreen:
+    screen = pygame.display.set_mode((screen_width,screen_height), flags, 8)
+else:
+    screen = pygame.display.set_mode((screen_width,screen_height))
+    
 pygame.display.set_caption(TITLE)
 
 

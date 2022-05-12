@@ -96,6 +96,16 @@ def testa():
                 main.stanze.flag_Corridoio = True
                 print(main.stanze.pos_portaP, main.stanze.pos_portaC)
 
+        elif GLOB.Piano == "2-PrimoPiano":
+                    
+            if GLOB.Stanza == "Corridoio":
+                main.stanze.flag_LabInfo = True
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
+            if GLOB.Stanza == "LabInfo":
+                main.stanze.flag_Corridoio2 = True
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
         else:
             main.player.evento = "porta-99"
             return
@@ -347,15 +357,15 @@ def testa():
             main.player.evento = "porta-99"
             return
 
+        print(GLOB.Default_Map, GLOB.Stanza)
+        main.animazione.iFinished = False
+
     if main.player.evento == "porta-13":
         main.player.evento = None
         main.stanze.setToDefault()
 
         main.player.evento = "porta-99"
-        return        
-
-        print(GLOB.Default_Map, GLOB.Stanza)
-        main.animazione.iFinished = False
+        return
 
         print(GLOB.Default_Map, GLOB.Stanza)
         main.animazione.iFinished = False
