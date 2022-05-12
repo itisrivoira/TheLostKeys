@@ -3,7 +3,7 @@
 const puzzles = {
 	Chimica:{
 		text: "Per trovare la chiavetta somma il numero degli atomi di ossigeno nell’acqua, di idrogeno dell’acido solforico e l’ordine di grandezza della costante di avogadro",
-		img: "blablabla",
+		img: false,
 		A: "25",
 		B: "26",
 		C: "23",
@@ -61,9 +61,9 @@ const puzzles = {
 		punti: [0, 10, 20, 40]
 	},
 
-	LabInfo:{
+	LabInfo: {
 		text: "Determinare il valore di B a fine esecuzione",
-		img: "blablabla",
+		img: require('../img/info1.png'),
 		A: "3",
 		B: "B",
 		C: "5",
@@ -99,7 +99,7 @@ const puzzles = {
 
 	WCFemmine: {
 		text: "Risolvi lo schema per il passaggio di stato: da una sostanza solida come il ghiaccio qual e' il giusto ordine per passare allo stato gassoso, e poi a quello liquido come l’acqua e poi di nuovo allo stato solido?",
-		img: "blablabla",
+		img: require('../img/chimica.png'),
 		A: "Sublimazione - Liquefazione - Solidificazione",
 		B: "Liquefazione - Sublimazione - Solidificazione",
 		C: "Solidificazione - Liquefazione - Sublimazione",

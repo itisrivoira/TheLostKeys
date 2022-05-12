@@ -96,9 +96,9 @@ const EnimaModal = () => {
 				<Row className="my-3">
 					<Col xxl={4} className='d-flex justify-content-center'>
 						<Image
-							src={Documento}
-							width={300}
-							height={300}
+							src={!puzzle.img ? Documento: puzzle.img}
+							width={350}
+							height={350}
 						/>
 					</Col>
 					<Col xxl={8} className='d-flex align-items-center'>
