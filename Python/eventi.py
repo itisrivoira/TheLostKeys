@@ -7,10 +7,6 @@ def testa():
 
 # ---- GESTIONE EVENTI ----
 
-    # if main.player.evento == "porta" or main.player.evento == "porta-1" or main.player.evento == "porta-2" or main.player.evento == "porta-3":
-    #     print(GLOB.Default_Map, GLOB.Stanza)
-    #     main.animazione.iFinished = False
-
     if main.player.evento == "enigma":
         condizione = False
 
@@ -349,7 +345,6 @@ def testa():
 
         else:
             main.player.evento = "porta-99"
-            print(main.player.evento)
             return
 
     if main.player.evento == "porta-13":

@@ -266,7 +266,7 @@ def Corridoio1():
         setPosition((270, 110), (-388, -148))
 
     elif GLOB.Stanza == "WC-Maschi": 
-        setPosition((162, 122), (-128, -144))
+        setPosition((152, 122), (120, -144))
 
     GLOB.Piano = "2-PrimoPiano"
     GLOB.Stanza = "Corridoio"
