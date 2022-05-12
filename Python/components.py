@@ -1004,7 +1004,7 @@ class Timer():
 		self.__init__(self.__max_sec, self.__molt_sec, self.__function)
 
 	def Show(self):
-		testo = get_font(12*int(GLOB.MULT)).render((self.__testo1+str(self.__minutes)+str(self.__testo2)+str(int(self.__seconds/GLOB.FPS))), True, "White")
+		testo = get_font(8*int(GLOB.MULT)).render((self.__testo1+str(self.__minutes)+str(self.__testo2)+str(int(self.__seconds/GLOB.FPS))), True, "Black")
 		GLOB.screen.blit(testo, (GLOB.screen_width/2 - testo.get_width()/2, 35 * GLOB.MULT))
 
 	def getSeconds(self):
@@ -1178,6 +1178,11 @@ class GUI():
 		self.bar = pygame.image.load("assets/gui-4.png").convert_alpha()
 		self.bar = pygame.transform.scale(self.bar, (self.bar.get_width()/val * GLOB.MULT, self.bar.get_height()/val * GLOB.MULT))
 
+		val_timer = 1.8
+
+		self.timer = pygame.image.load("assets/gui-6.png").convert_alpha()
+		self.timer = pygame.transform.scale(self.timer, (self.timer.get_width()/val / val_timer * GLOB.MULT, self.timer.get_height()/val / val_timer * GLOB.MULT))
+
 		val_player = 1.8
 
 		self.player = pygame.image.load("Dialoghi/Characters/"+GLOB.scelta_char+".png").convert_alpha()
@@ -1226,20 +1231,24 @@ class GUI():
 		GLOB.screen.blit(self.player, (33.6 * GLOB.MULT, GLOB.screen_height - 65 * GLOB.MULT))
 		GLOB.screen.blit(self.third, (22 * GLOB.MULT, GLOB.screen_height - 75 * GLOB.MULT))
 
+		GLOB.screen.blit(self.timer, (GLOB.screen_width/2 - self.timer.get_width()/2, 26 * GLOB.MULT))
+
 		altezza = 2 * GLOB.MULT
 		size = 8
 
 		
 		if GLOB.scelta_char == "Dark Angel":
 			name = "Dark"
+			posx = 40 * GLOB.MULT
 		else:
 			name = GLOB.scelta_char
+			posx = 37 * GLOB.MULT
     
 		NAME_TEXT = get_font(size*int(GLOB.MULT)).render(name, True, "White")
-		NAME_POS = (37 * GLOB.MULT, GLOB.screen_height - 20 * GLOB.MULT)
+		NAME_POS = (posx, GLOB.screen_height - 20 * GLOB.MULT)
 
 		CNAME_TEXT = get_font(size*int(GLOB.MULT)).render(name, True, "Black")
-		CNAME_POS = (37 * GLOB.MULT, GLOB.screen_height - 20 * GLOB.MULT + altezza)
+		CNAME_POS = (posx, GLOB.screen_height - 20 * GLOB.MULT + altezza)
 
 
 		if self.max <= 0:
@@ -1266,24 +1275,15 @@ class MiniMap():
 		
 		elif GLOB.Piano == "1-PianoTerra":
 			self.path_image = "Piano-1"
-
-			if GLOB.Stanza == "Chimica":
-				self.pos_player = 360 * GLOB.MULT, 65 * GLOB.MULT
-
-			if GLOB.Stanza == "Fisica":
-				self.pos_player = 310 * GLOB.MULT, 65 * GLOB.MULT
-
-			if GLOB.Stanza == "Corridoio":
-				self.pos_player = 310 * GLOB.MULT, 125 * GLOB.MULT
-
-			if GLOB.Stanza == "Archivio":
-				self.pos_player = 120 * GLOB.MULT, 320 * GLOB.MULT
+			self.pos_player = 250 * GLOB.MULT, 105 * GLOB.MULT
 
 		elif GLOB.Piano == "2-PrimoPiano":
 			self.path_image = "Piano-2"
+			self.pos_player = 205 * GLOB.MULT, 65 * GLOB.MULT
 
 		elif GLOB.Piano == "3-SecondoPiano":
 			self.path_image = "Piano-3"
+			self.pos_player = 205 * GLOB.MULT, 105 * GLOB.MULT
 
 		elif GLOB.Piano == "4-Esterno":
 			self.path_image = "Piano-4"

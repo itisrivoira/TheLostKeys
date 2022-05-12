@@ -31,6 +31,8 @@ def testa():
     if main.player.evento == "mappa":
         mappa = MiniMap()
         mappa.update()
+        main.player.setAllkeys(False)
+        main.SetPlayer_speed()
 
     if main.player.evento == "piano-0":
         GLOB.Piano = "0-PianoSegreto"

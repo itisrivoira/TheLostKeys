@@ -185,8 +185,6 @@ def disegna():
 
     player.load_playerSurface()
 
-    timer.Show()
-
     animazione.disegna()
 
     if GLOB.Enigma:
@@ -225,6 +223,9 @@ def disegna():
 
     # MOSTRO LA GUI A SCHERMO
     Gui.show()
+
+    # MOSTRO IL TIMER
+    timer.Show()
 
     if player.evento == "porta-99":
 

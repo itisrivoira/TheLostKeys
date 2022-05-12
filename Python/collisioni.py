@@ -154,14 +154,12 @@ class Map():
                         #print("\n- Render | Oggetto a schermo!", self.tiles_immagini_sprite[var])
                         
 
-                if condition:
+                if condition and GLOB.enigmi_risolti:
                     chavetta = pygame.Rect((main.cam.getPositionX()+(x+self.tiles_collisioni[var][0]) * GLOB.MULT),(main.cam.getPositionY()+(y + self.tiles_collisioni[var][1]) * GLOB.MULT), self.tiles_collisioni[var][2]/value, self.tiles_collisioni[var][3]/value)
-                    try:
-                        if var >= GLOB.chiavetta_start and GLOB.chiavette[GLOB.enigmi_risolti[0]][1]:
-                            GLOB.screen.blit(GLOB.chiavette[GLOB.enigmi_risolti[0]][2], (x * GLOB.MULT + main.cam.getPositionX() + self.tiles_risoluzione, y * GLOB.MULT + main.cam.getPositionY() + self.valore_fluttua * GLOB.MULT))
-                            main.player.HasInteraction(chunck_render, chavetta, var)
-                    except IndexError:
-                        pass
+
+                    if var >= GLOB.chiavetta_start and GLOB.chiavette[GLOB.enigmi_risolti[-1]][1]:
+                        GLOB.screen.blit(GLOB.chiavette[GLOB.enigmi_risolti[0]][2], (x * GLOB.MULT + main.cam.getPositionX() + self.tiles_risoluzione, y * GLOB.MULT + main.cam.getPositionY() + self.valore_fluttua * GLOB.MULT))
+                        main.player.HasInteraction(chunck_render, chavetta, var)
 
                 if hitbox != None:
                     oggetto = pygame.Rect((main.cam.getPositionX()+ x * GLOB.MULT),(main.cam.getPositionY()+ y * GLOB.MULT), self.tiles_risoluzione * GLOB.MULT, self.tiles_risoluzione * GLOB.MULT)
