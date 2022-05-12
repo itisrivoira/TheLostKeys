@@ -2,15 +2,16 @@
 
 import Audio from './Audio';
 import { BtnPlay, BtnOptions, BtnRank, BtnMusic } from "./Buttons";
-import Dialog from './Dialog';
+import DialogUI from './DialogUI';
 import DialogText from './DialogText';
 import Footer from "./Footer";
-import GlobalProvider, { Run, Music, Sfx, Setting } from './GlobalProvider';
-import GameProvider, { DialogOpen, Enigma, RoomName, Score, Done } from './GameProvider';
-import Options from "./Options";
+import GlobalContext, { RunCtx, MusicCtx, SfxCtx, SettingCtx } from './GlobalContext';
+import GameContext, { DialogCtx, EnigmaCtx, RoomNameCtx, ScoreCtx, DoneCtx, GameOverCtx } from './GameContext';
+import SettingsUI from "./SettingsUI";
 import SplashScreen from "./SplashScreen";
 import Title from "./Title";
-import EnigmaModal from './EnigmaModal';
+import EnigmaUI from './EnigmaUI';
+import GameOverUI from './GameOverUI';
 
 export {
 	Audio,
@@ -18,22 +19,24 @@ export {
 	BtnOptions,
 	BtnRank,
 	BtnMusic,
-	Dialog,
+	DialogUI,
 	DialogText,
 	Footer,
-	GlobalProvider,
-	GameProvider,
-	Run,
-	Music,
-	Sfx,
-	Setting,
-	DialogOpen,
-	Options,
+	GlobalContext,
+	GameContext,
+	RunCtx,
+	MusicCtx,
+	SfxCtx,
+	SettingCtx,
+	DialogCtx,
+	EnigmaCtx,
+	RoomNameCtx,
+	ScoreCtx,
+	DoneCtx,
+	GameOverCtx,
+	SettingsUI,
 	SplashScreen,
 	Title,
-	EnigmaModal,
-	Enigma,
-	RoomName,
-	Score,
-	Done
+	EnigmaUI,
+	GameOverUI
 };

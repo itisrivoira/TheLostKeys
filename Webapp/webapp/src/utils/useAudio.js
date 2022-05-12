@@ -4,15 +4,15 @@
 // Una funzione per metter in pausa
 
 import { useState, useEffect, useContext } from "react";
-import { Music, Sfx } from "../components/components";
+import { MusicCtx, SfxCtx } from "../components/components";
 
 const useAudio = (url, loop) => {
 	const [audio] = useState(new Audio(url));
 	const [playing, setPlaying] = useState(false);
 
 	// Ottengo i livelli della musica e SFX
-	const { music } = useContext(Music);
-	const { sfx } = useContext(Sfx);
+	const { music } = useContext(MusicCtx);
+	const { sfx } = useContext(SfxCtx);
 
 	const toggle = () => setPlaying(!playing);
 	const pause = () => audio.pause();

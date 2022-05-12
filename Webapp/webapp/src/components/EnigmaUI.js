@@ -6,16 +6,16 @@
 import { useContext, useEffect, useState } from "react";
 import { Modal, Row, Col, Button, Image } from "react-bootstrap";
 
-import { Enigma, Run, RoomName, Score, Done } from './components';
+import { EnigmaCtx, RunCtx, RoomNameCtx, ScoreCtx, DoneCtx } from './components';
 import { Documento } from "../assets/img/img";
 import puzzles from '../assets/puzzles/puzzles.js';
 
-const EnimaModal = () => {
-	const { enigma, setEnigma } = useContext(Enigma);		// Se la UI è attiva o meno
-	const { room } = useContext(RoomName);			// Nome della stanza in cui sono (=nome enigma)
-	const { setRun } = useContext(Run);			// per stoppare il gioco
-	const { setScore } = useContext(Score);		// per modificare il punteggio totale
-	const { setDone } = useContext(Done);					// Per aggiungere l'enigma come fatto
+const EnimaUI = () => {
+	const { enigma, setEnigma } = useContext(EnigmaCtx);		// Se la UI è attiva o meno
+	const { room } = useContext(RoomNameCtx);			// Nome della stanza in cui sono (=nome enigma)
+	const { setRun } = useContext(RunCtx);			// per stoppare il gioco
+	const { setScore } = useContext(ScoreCtx);		// per modificare il punteggio totale
+	const { setDone } = useContext(DoneCtx);					// Per aggiungere l'enigma come fatto
 	const [tentativi, setTentativi] = useState(3);
 	const [indizio, setIndizio] = useState(false);	// se il suggerimento è stato attivato
 	const [text, setText] = useState(true);			// se mostrare il testo dell'enigma o il suggerimento
@@ -178,4 +178,4 @@ const BtnAnswer = ({indice, text, click}) => (
 )
 
 
-export default EnimaModal;
+export default EnimaUI;

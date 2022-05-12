@@ -3,14 +3,14 @@
 import { Modal } from "react-bootstrap";
 import { useState, useContext, useEffect } from "react";
 
-import { DialogOpen, DialogText, Run } from "./components";
+import { DialogCtx, DialogText, RunCtx } from "./components";
 import { useEventListener } from '../utils/utils';
 import primo from '../assets/dialogs/primo.json';		// file di dialogo di prova
 
-const Dialog = () => {
+const DialogUI = () => {
+	const { dialog, setDialog } = useContext(DialogCtx);		// per aprire il modal del Dialogo
+	const { run, setRun } = useContext(RunCtx);		// per stoppare il gioco
 	const [ n, setN ] = useState(0);		// indica il numero della parte di dialogo da visualizzare
-	const { dialog, setDialog } = useContext(DialogOpen);		// per aprire il modal del Dialogo
-	const { run, setRun } = useContext(Run);		// per stoppare il gioco
 
 	// chiudere il modal del dialogo
 	const handleClose = () => {
@@ -66,4 +66,4 @@ const Dialog = () => {
 	)
 }
 
-export default Dialog;
+export default DialogUI;

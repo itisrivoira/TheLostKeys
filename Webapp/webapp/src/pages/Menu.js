@@ -8,13 +8,13 @@ import { useContext } from "react";
 	Con i File Export posso fare cose di questro tipo
 	cioè importare decine di componenti in una sola riga
 */
-import { SplashScreen, Title, Footer, Options, BtnPlay, BtnOptions, BtnRank, BtnMusic, Setting } from '../components/components';
+import { SplashScreen, Title, Footer, SettingsUI, BtnPlay, BtnOptions, BtnRank, BtnMusic, SettingCtx } from '../components/components';
 
 import '../style/Menu.css';
 import '../style/Font.css';
 
 const Menu = () => {
-	const { setSetting } = useContext(Setting);		// recupero funzione globale
+	const { setSetting } = useContext(SettingCtx);		// recupero funzione globale
 	let navigate = useNavigate();			// questo serve per navigare fra gli EndPoint
 
 	const openSettings = () => setSetting(true);		// Aprire le impostazioni
@@ -51,7 +51,7 @@ const Menu = () => {
 					</Col>
 				</Row>
 			</Container>
-			<Options exit={false} /* Exit è false perchè siamo nella Home */ />
+			<SettingsUI exit={false} /* Exit è false perchè siamo nella Home */ />
 			<SplashScreen /* Questo serve per l'animazione di caricamento del menu */ />
 		</>
 	);

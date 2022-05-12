@@ -5,15 +5,15 @@ import { Col, Button, Modal, Row, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { BsKeyboard } from "react-icons/bs";
 
-import { useFullScreen, useEventListener } from "../utils/utils";
-import { Audio, Music, Sfx, Setting, Run } from './components';
+import { useFullScreen } from "../utils/utils";
+import { Audio, MusicCtx, SfxCtx, SettingCtx, RunCtx } from './components';
 
-const Options = ({exit}) => {
+const SettingsUI = ({exit}) => {
 	const { fullScreen, toggle } = useFullScreen();		// Hook che mi permette di attivare/disattivare il FullScreen
-	const { setting, setSetting } = useContext(Setting);		// Flag delle Opzioni
-	const { run, setRun } = useContext(Run);				// Pausa/Riprendi del Gioco
-	const { music, setMusic } = useContext(Music);		// Livello Musica
-	const { sfx, setSfx } = useContext(Sfx);				// Livello Effetti Sonori
+	const { setting, setSetting } = useContext(SettingCtx);		// Flag delle Opzioni
+	const { run, setRun } = useContext(RunCtx);				// Pausa/Riprendi del Gioco
+	const { music, setMusic } = useContext(MusicCtx);		// Livello Musica
+	const { sfx, setSfx } = useContext(SfxCtx);				// Livello Effetti Sonori
 
 	const [com, setCom] = useState(false);		// stato per il Pannello Comandi
 	let navigate = useNavigate();			// Per navigare fra gli EndPoint
@@ -96,40 +96,38 @@ const Options = ({exit}) => {
 	)
 }
 
-const Commands = ({show, handleClose}) => {
+const Commands = ({show, handleClose}) => (
+	<Modal
+		show={show}			// flag per l'attivazione del modal
+		onHide={handleClose}		// callback richiamata alla chiusura della modal
+		centered					// centrato a schermo
+	>
+		<Modal.Header closeButton>
+			<Modal.Title>
+				Instruzioni
+			</Modal.Title>
+		</Modal.Header>
+		<Modal.Body>
+			{/*Qui giro il vettore ListaComandi e ritorno una riga per ogni comando*/}
+			{listaComandi.map( value => (<>
+				<Row key={value.key}>
+					<Col xxl={4}>
+						<p>
+							{value.key}
+						</p>
+					</Col>
+					<Col xxl={8}>
+						<p>
+							{value.funzione}
+						</p>
+					</Col>
+				</Row>
+				<hr/>
+			</>))}
+		</Modal.Body>
+	</Modal>
+)
 
-	return(
-		<Modal
-			show={show}			// flag per l'attivazione del modal
-			onHide={handleClose}		// callback richiamata alla chiusura della modal
-			centered					// centrato a schermo
-		>
-			<Modal.Header closeButton>
-				<Modal.Title>
-					Instruzioni
-				</Modal.Title>
-			</Modal.Header>
-			<Modal.Body>
-				{/*Qui giro il vettore ListaComandi e ritorno una riga per ogni comando*/}
-				{listaComandi.map( value => (<>
-					<Row key={value.key}>
-						<Col xxl={4}>
-							<p>
-								{value.key}
-							</p>
-						</Col>
-						<Col xxl={8}>
-							<p>
-								{value.funzione}
-							</p>
-						</Col>
-					</Row>
-					<hr/>
-				</>))}
-			</Modal.Body>
-		</Modal>
-	)
-}
 
 // Tutti i comandi del Gioco
 const listaComandi = [
@@ -163,4 +161,4 @@ const listaComandi = [
 	}
 ];
 
-export default Options;
+export default SettingsUI;
