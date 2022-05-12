@@ -28,12 +28,10 @@ def play():
     
 def options():
     mixer.music.stop()
-    global flag_Fullscreen
-    flag_Fullscreen = False
 
     while True:
 
-        if flag_Fullscreen == False:
+        if not GLOB.Fullscreen:
             TEXT_FULLSCREEN = "FULLSCREEN ON"
         else:
             TEXT_FULLSCREEN = "FULLSCREEN OFF"
@@ -282,12 +280,11 @@ def options():
         flag_screen = False
 
         def setFullScreen():
-            global flag_Fullscreen
 
-            if flag_Fullscreen == False:
-                flag_Fullscreen = True
+            if not GLOB.Fullscreen:
+                GLOB.Fullscreen = True
             else:
-                flag_Fullscreen = False
+                GLOB.Fullscreen = False
 
         for event in pygame.event.get():
             keys_pressed = pygame.key.get_pressed()
@@ -296,9 +293,12 @@ def options():
                 pygame.quit()
                 sys.exit()
 
-            if keys_pressed[pygame.K_F12]:
-                flag_screen = True
-                setFullScreen()
+
+            if event.type == pygame.KEYDOWN:
+
+                if event.key == pygame.K_F11:
+                    flag_screen = True
+                    setFullScreen()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 flag_screen = False
@@ -352,7 +352,7 @@ def options():
                 GLOB.screen_width = 480*GLOB.MULT
                 GLOB.screen_height = 270*GLOB.MULT
 
-                if not flag_Fullscreen:
+                if not GLOB.Fullscreen:
                     GLOB.screen = pygame.display.set_mode((GLOB.screen_width,GLOB.screen_height))
                 else: 
                     GLOB.screen = pygame.display.set_mode((GLOB.screen_width,GLOB.screen_height),pygame.FULLSCREEN)
@@ -409,7 +409,7 @@ def options():
 
 def setPioggia():
     global rain
-    rain = Rain(screen, height = int(60 * GLOB.MULT), speed = 12 * GLOB.MULT / GLOB.Delta_Time, color = (152, 164, 184, 255), numdrops = 270)
+    rain = Rain(screen, height = int(60 * GLOB.MULT), speed = 6 * GLOB.MULT, color = (152, 164, 184, 255), numdrops = 270)
 
 def main_menu():
     pygame.mouse.set_visible(True)

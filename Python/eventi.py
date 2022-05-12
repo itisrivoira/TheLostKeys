@@ -7,10 +7,6 @@ def testa():
 
 # ---- GESTIONE EVENTI ----
 
-    # if main.player.evento == "porta" or main.player.evento == "porta-1" or main.player.evento == "porta-2" or main.player.evento == "porta-3":
-    #     print(GLOB.Default_Map, GLOB.Stanza)
-    #     main.animazione.iFinished = False
-
     if main.player.evento == "enigma":
         condizione = False
 
@@ -100,8 +96,18 @@ def testa():
                 main.stanze.flag_Corridoio = True
                 print(main.stanze.pos_portaP, main.stanze.pos_portaC)
 
+        elif GLOB.Piano == "2-PrimoPiano":
+                    
+            if GLOB.Stanza == "Corridoio":
+                main.stanze.flag_LabInfo = True
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
+            if GLOB.Stanza == "LabInfo":
+                main.stanze.flag_Corridoio2 = True
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
         else:
-            print("porta chiusa")
+            main.player.evento = "porta-99"
             return
 
         print(GLOB.Default_Map, GLOB.Stanza)
@@ -123,7 +129,7 @@ def testa():
                 print(main.stanze.pos_portaP, main.stanze.pos_portaC)
 
         else:
-            print("porta chiusa")
+            main.player.evento = "porta-99"
             return
         
 
@@ -147,8 +153,48 @@ def testa():
                 print(main.stanze.pos_portaP, main.stanze.pos_portaC)
 
         else:
-            print("porta chiusa")
+            main.player.evento = "porta-99"
             return
+
+        print(GLOB.Default_Map, GLOB.Stanza)
+        main.animazione.iFinished = False
+
+    if main.player.evento == "porta-3":
+        main.player.evento = None
+        main.stanze.setToDefault()
+
+        main.player.evento = "porta-99"
+        return        
+
+        print(GLOB.Default_Map, GLOB.Stanza)
+        main.animazione.iFinished = False
+
+    if main.player.evento == "porta-4":
+        main.player.evento = None
+        main.stanze.setToDefault()
+
+        main.player.evento = "porta-99"
+        return        
+
+        print(GLOB.Default_Map, GLOB.Stanza)
+        main.animazione.iFinished = False
+
+    if main.player.evento == "porta-5":
+        main.player.evento = None
+        main.stanze.setToDefault()
+
+        main.player.evento = "porta-99"
+        return        
+
+        print(GLOB.Default_Map, GLOB.Stanza)
+        main.animazione.iFinished = False
+
+    if main.player.evento == "porta-6":
+        main.player.evento = None
+        main.stanze.setToDefault()
+
+        main.player.evento = "porta-99"
+        return        
 
         print(GLOB.Default_Map, GLOB.Stanza)
         main.animazione.iFinished = False
@@ -168,7 +214,7 @@ def testa():
                 print(main.stanze.pos_portaP, main.stanze.pos_portaC)
 
         else:
-            print("porta chiusa")
+            main.player.evento = "porta-99"
             return
 
         print(GLOB.Default_Map, GLOB.Stanza)
@@ -201,7 +247,7 @@ def testa():
                 print(main.stanze.pos_portaP, main.stanze.pos_portaC)
 
         else:
-            print("porta chiusa")
+            main.player.evento = "porta-99"
             return
 
         
@@ -226,7 +272,7 @@ def testa():
                 print(main.stanze.pos_portaP, main.stanze.pos_portaC)
 
         else:
-            print("porta chiusa")
+            main.player.evento = "porta-99"
             return
         
 
@@ -251,7 +297,7 @@ def testa():
 
 
         else:
-            print("porta chiusa")
+            main.player.evento = "porta-99"
             return  
         
 
@@ -285,7 +331,7 @@ def testa():
                 print(main.stanze.pos_portaP, main.stanze.pos_portaC)
 
         else:
-            print("porta chiusa")
+            main.player.evento = "porta-99"
             return
 
         print(GLOB.Default_Map, GLOB.Stanza)
@@ -308,8 +354,18 @@ def testa():
                 print(main.stanze.pos_portaP, main.stanze.pos_portaC)
 
         else:
-            print("porta chiusa")
+            main.player.evento = "porta-99"
             return
+
+        print(GLOB.Default_Map, GLOB.Stanza)
+        main.animazione.iFinished = False
+
+    if main.player.evento == "porta-13":
+        main.player.evento = None
+        main.stanze.setToDefault()
+
+        main.player.evento = "porta-99"
+        return
 
         print(GLOB.Default_Map, GLOB.Stanza)
         main.animazione.iFinished = False
