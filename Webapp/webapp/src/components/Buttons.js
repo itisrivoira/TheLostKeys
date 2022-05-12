@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { Button, Image } from "react-bootstrap";
 import { MdMusicNote, MdMusicOff } from "react-icons/md";
 
-import {useAudio, useRandomInterval} from '../utils/utils';		// Custom Hooks che facilitano il lavoro
-import { penPlay, penOptions, penLogin, penPlayWhite, penLoginWhite, penOptionsWhite } from '../assets/img/img';
+import { useAudio, useRandomInterval } from '../utils/utils';		// Custom Hooks che facilitano il lavoro
+import { penPlay, penOptions, penRank, penPlayWhite, penRankWhite, penOptionsWhite } from '../assets/img/img';
 import { rainSound, thunderSound, thunderSound2 } from '../assets/sounds/sounds';
 
 import '../style/Menu.css';
@@ -52,11 +52,11 @@ export const BtnOptions = ({callback}) =>(
 	/>
 )
 
-export const BtnLogin = ({callback}) => (
+export const BtnRank = ({callback}) => (
 	<Btn
 		callback={callback}
-		enterSrc={penLoginWhite}
-		leaveSrc={penLogin}
+		enterSrc={penRankWhite}
+		leaveSrc={penRank}
 	/>
 )
 

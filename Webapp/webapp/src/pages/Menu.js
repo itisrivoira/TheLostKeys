@@ -8,7 +8,7 @@ import { useContext } from "react";
 	Con i File Export posso fare cose di questro tipo
 	cioè importare decine di componenti in una sola riga
 */
-import { SplashScreen, Title, Footer, Options, BtnPlay, BtnOptions, BtnLogin, BtnMusic, Setting } from '../components/components';
+import { SplashScreen, Title, Footer, Options, BtnPlay, BtnOptions, BtnRank, BtnMusic, Setting } from '../components/components';
 
 import '../style/Menu.css';
 import '../style/Font.css';
@@ -39,7 +39,7 @@ const Menu = () => {
 						<BtnPlay callback={play} />
 					</Col>
 					<Col className="d-flex justify-content-end" xxl={4}>
-						<BtnLogin /*Per ora questo è senza funzioni */  />
+						<BtnRank /*Per ora questo è senza funzioni */  />
 					</Col>
 				</Row>
 				<Row className="mb-5 w-100 position-absolute bottom-0 start-50 translate-middle-x ">

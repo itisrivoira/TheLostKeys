@@ -1,7 +1,7 @@
 // File di Export dei componenti React del Gioco
 
 import Audio from './Audio';
-import { BtnPlay, BtnOptions, BtnLogin, BtnMusic } from "./Buttons";
+import { BtnPlay, BtnOptions, BtnRank, BtnMusic } from "./Buttons";
 import Dialog from './Dialog';
 import DialogText from './DialogText';
 import Footer from "./Footer";
@@ -16,7 +16,7 @@ export {
 	Audio,
 	BtnPlay,
 	BtnOptions,
-	BtnLogin,
+	BtnRank,
 	BtnMusic,
 	Dialog,
 	DialogText,
