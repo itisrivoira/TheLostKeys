@@ -124,9 +124,11 @@ class Map():
         value = 9.9 / GLOB.MULT
         chunck = 32 * GLOB.MULT
         chunck_render = pygame.Rect(main.player.x + 12 * GLOB.MULT /GLOB.Player_proportion, main.player.y + 25 * GLOB.MULT /GLOB.Player_proportion, chunck, chunck)
+        chunck_render_m = pygame.Rect(main.mostro.x + 12 * GLOB.MULT + main.cam.getPositionX(),  main.mostro.y + 25 * GLOB.MULT + main.cam.getPositionY(), chunck, chunck)
 
         if GLOB.Debug:
             pygame.draw.rect(GLOB.screen, (0,255,0), chunck_render, int(GLOB.MULT))
+            pygame.draw.rect(GLOB.screen, (0,0,255), chunck_render_m, int(GLOB.MULT))
 
         for valore_y in range(len(lista)):
 
@@ -167,18 +169,20 @@ class Map():
                     if GLOB.Debug and GLOB.ShowGrid:
                         pygame.draw.rect(GLOB.screen, (255,255,255), oggetto, int(1))
 
-                    if condition and (oggetto.colliderect(chunck_render)):
+                    if condition and ((oggetto.colliderect(chunck_render)) or (oggetto.colliderect(chunck_render_m))):
                         collisione = pygame.Rect((main.cam.getPositionX()+(x+self.tiles_collisioni[var][0]) * GLOB.MULT),(main.cam.getPositionY()+(y + self.tiles_collisioni[var][1]) * GLOB.MULT), self.tiles_collisioni[var][2]/value, self.tiles_collisioni[var][3]/value)
                         #print("- Render | Collisione Oggetto Impostata!", collisione,"\n")
 
                         if hitbox:
                             main.player.HasCollision(collisione)
+                            main.mostro.HasCollision(collisione)
                             if GLOB.Debug:
                                 pygame.draw.rect(GLOB.screen, (255,0,0), collisione, int(GLOB.MULT))
                         
                         if not hitbox:
                             if var < GLOB.chiavetta_start:
                                 main.player.HasCollision(collisione)
+                                main.mostro.HasCollision(collisione)
                                 main.player.HasInteraction(chunck_render, collisione, var)
 
                             if main.animazione.iFinished == True:

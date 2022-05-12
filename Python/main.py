@@ -8,6 +8,7 @@ from components import Bar, Button, Dialoghi, Dialoghi_Interattivi, Risultato, T
 from pygame import mixer
 from animazione import Transizione
 import stanze
+from mostro import Keeper
 
 # Importo le variabili Globali
 import global_var as GLOB
@@ -69,7 +70,7 @@ def SetPlayer_sprite():
 
 #funzione di default
 def inizializza():
-    global player, cam, timer, clock, collisions, animazione, messaggio_a_schermo, Gui
+    global player, cam, timer, clock, collisions, animazione, messaggio_a_schermo, Gui, mostro
 
     GLOB.isGameRunning = True
     GLOB.isPaused = False
@@ -108,6 +109,8 @@ def inizializza():
     animazione = Transizione(vel = 0.01)
 
     collisions = collisioni.Map(risoluzione = 24, path = "../MappaGioco/Tileset/Stanze/"+ GLOB.Piano +"/")
+
+    mostro = Keeper((200 * GLOB.MULT, 122 * GLOB.MULT), 1.4, (10 * GLOB.MULT, 0.5 * GLOB.MULT))
 
 
 def load_collisions(path):
@@ -179,11 +182,15 @@ def disegna():
 
     player.update() # richiama la funzione di aggiornamento del giocatore
 
+    mostro.update()
+
     collisions.render_objects((0,0))
 
     stanze.caricaStanza()
 
     player.load_playerSurface()
+
+    mostro.load_monsterSurface()
 
     animazione.disegna()
 

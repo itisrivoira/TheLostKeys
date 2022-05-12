@@ -33,6 +33,7 @@ Debug = False
 ShowGrid = False
 ShowFps = True
 ShowDropFrames = True
+ShowMonsterRange = False
 LoadCollisions = True
 
 Mappa = []
@@ -48,6 +49,8 @@ Enigma = False
 Fullscreen = True
 Drop_Frames = False
 
+
+MonsterCanAttack = True
 Player_speed = 2 * MULT
 PlayerRun_speed = 3 * MULT
 

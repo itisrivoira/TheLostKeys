@@ -52,6 +52,9 @@ class Player():
 
         #hitbox del player
         self.setHitbox()
+
+        # mesh del giocatore
+        self.mesh = pygame.Rect(self.hitbox)
         
         # setta a video l'immagine del giocatore
         self.character = pygame.image.load(
