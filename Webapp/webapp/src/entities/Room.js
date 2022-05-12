@@ -6,15 +6,15 @@
 import { useEffect, useContext } from "react";
 import { Image } from "react-bootstrap";
 
-import { Enigma, Run, RoomName, Done } from "../components/components";
+import { EnigmaCtx, RunCtx, RoomNameCtx, DoneCtx } from "../components/components";
 import { useEventListener } from "../utils/utils";
 import paths from '../paths';		// Percorsi dei png delle Stanze
 
-const Room = ({name, event, evType, evOptions}) => {
-	const { setEnigma } = useContext(Enigma);		// queste già le conosciamo
-	const { setRoom } = useContext(RoomName);
-	const { setRun } = useContext(Run);
-	const { done } = useContext(Done);
+const Room = ({name, event, evType}) => {
+	const { setEnigma } = useContext(EnigmaCtx);		// queste già le conosciamo
+	const { setRoom } = useContext(RoomNameCtx);
+	const { setRun } = useContext(RunCtx);
+	const { done } = useContext(DoneCtx);
 
 	// Aggiorno lo stato Globale Room al cambiamento della prop event
 	useEffect( () => setRoom(name), [name]);

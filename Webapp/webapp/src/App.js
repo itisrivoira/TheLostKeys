@@ -6,7 +6,7 @@
 import { useCallback } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
-import { GameProvider } from "./components/components";
+import { GameContext } from "./components/components";
 import { useEventListener } from "./utils/utils";
 import { Menu, Play } from './pages/pages';
 
@@ -26,9 +26,9 @@ const App = () => {
 			<Route path="*" element={<Navigate to="/menu" />} /* Qualsiasi URL scriva l'utente ritornerà al menu principale */  />
 			<Route path="/menu" element={<Menu />} />
 			<Route path="/play" element={
-				<GameProvider>
+				<GameContext>
 					<Play />
-				</GameProvider>
+				</GameContext>
 			} />
 		</Routes>
 	);

@@ -7,7 +7,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
-import { GlobalProvider } from './components/components';
+import { GlobalContext } from './components/components';
 import App from './App';
 
 import 'bootstrap/dist/css/bootstrap.min.css';		// Foglio di stile per Bootstrap
@@ -16,9 +16,9 @@ import './style/index.css';
 ReactDOM.render(
 	<React.StrictMode>
 		<BrowserRouter>
-			<GlobalProvider>
+			<GlobalContext>
 				<App />
-			</GlobalProvider>
+			</GlobalContext>
 		</BrowserRouter>
 	</React.StrictMode>,
 	document.getElementById('root')

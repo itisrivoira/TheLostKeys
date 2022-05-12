@@ -5,8 +5,8 @@ import { BtnPlay, BtnOptions, BtnRank, BtnMusic } from "./Buttons";
 import Dialog from './Dialog';
 import DialogText from './DialogText';
 import Footer from "./Footer";
-import GlobalProvider, { Run, Music, Sfx, Setting } from './GlobalProvider';
-import GameProvider, { DialogOpen, Enigma, RoomName, Score, Done } from './GameProvider';
+import GlobalContext, { RunCtx, MusicCtx, SfxCtx, SettingCtx } from './GlobalContext';
+import GameContext, { DialogCtx, EnigmaCtx, RoomNameCtx, ScoreCtx, DoneCtx } from './GameContext';
 import Options from "./Options";
 import SplashScreen from "./SplashScreen";
 import Title from "./Title";
@@ -21,19 +21,19 @@ export {
 	Dialog,
 	DialogText,
 	Footer,
-	GlobalProvider,
-	GameProvider,
-	Run,
-	Music,
-	Sfx,
-	Setting,
-	DialogOpen,
+	GlobalContext,
+	GameContext,
+	RunCtx,
+	MusicCtx,
+	SfxCtx,
+	SettingCtx,
+	DialogCtx,
+	EnigmaCtx,
+	RoomNameCtx,
+	ScoreCtx,
+	DoneCtx,
 	Options,
 	SplashScreen,
 	Title,
-	EnigmaModal,
-	Enigma,
-	RoomName,
-	Score,
-	Done
+	EnigmaModal
 };
