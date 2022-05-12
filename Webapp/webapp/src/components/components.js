@@ -6,11 +6,12 @@ import DialogUI from './DialogUI';
 import DialogText from './DialogText';
 import Footer from "./Footer";
 import GlobalContext, { RunCtx, MusicCtx, SfxCtx, SettingCtx } from './GlobalContext';
-import GameContext, { DialogCtx, EnigmaCtx, RoomNameCtx, ScoreCtx, DoneCtx } from './GameContext';
+import GameContext, { DialogCtx, EnigmaCtx, RoomNameCtx, ScoreCtx, DoneCtx, GameOverCtx } from './GameContext';
 import SettingsUI from "./SettingsUI";
 import SplashScreen from "./SplashScreen";
 import Title from "./Title";
 import EnigmaUI from './EnigmaUI';
+import GameOverUI from './GameOverUI';
 
 export {
 	Audio,
@@ -32,8 +33,10 @@ export {
 	RoomNameCtx,
 	ScoreCtx,
 	DoneCtx,
+	GameOverCtx,
 	SettingsUI,
 	SplashScreen,
 	Title,
-	EnigmaUI
+	EnigmaUI,
+	GameOverUI
 };
