@@ -103,7 +103,7 @@ def testa():
                 print(main.stanze.pos_portaP, main.stanze.pos_portaC)
 
             if GLOB.Stanza == "LabInfo":
-                main.stanze.flag_Corridoio2 = True
+                main.stanze.flag_Corridoio1 = True
                 print(main.stanze.pos_portaP, main.stanze.pos_portaC)
 
         else:
