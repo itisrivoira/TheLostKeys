@@ -22,7 +22,7 @@ def setToDefault():
     global  flag_Corridoio, flag_Corridoio1, flag_Corridoio2
     global flag_Chimica, flag_Fisica, flag_Archivio
     global flag_Classe1A, flag_AulaMagna, flag_AulaProfessori, flag_LabInfo, flag_WCfemmine, flag_WCmaschi
-    global flag_Classe4A, flag_LabInformatica, flag_Ripostiglio
+    global flag_Classe4A, flag_AulaVideo, flag_LabInformatica, flag_Ripostiglio
     flag_Chimica = False
     flag_Fisica = False
     flag_Archivio = False
@@ -33,6 +33,7 @@ def setToDefault():
     flag_WCfemmine = False
     flag_WCmaschi = False
     flag_Classe4A = False
+    flag_AulaVideo = False
     flag_LabInformatica = False
     flag_Ripostiglio = False
     flag_Corridoio = False
@@ -135,7 +136,7 @@ def AulaProfessori():
     GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/AulaProfessoriOggetti.png"
 
     # PORTA ORIGINE STANZA
-    setPosition((274, 100), (-386, -63))
+    setPosition((154, 100), (4, -62))
 
     flag_AulaProfessori = False
     
@@ -198,13 +199,28 @@ def Classe4A():
     GLOB.Stanza = "4A"
     GLOB.Default_collisions = "4A_Collisioni_Python.csv"
     GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/4A.png"
-    # GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/WCfemmineOggetti.png"
-    GLOB.Default_object = None
+    GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/4AOggetti.png"
 
     # PORTA ORIGINE STANZA
-    setPosition((268, 69), (-318, 30))
+    setPosition((268, 70), (-318, 30))
 
     flag_Classe4A = False
+
+def AulaVideo():
+    global flag_AulaVideo
+    global pos_portaP, pos_portaC
+
+    # PIANO - STANZA - COLLISIONI
+    GLOB.Piano = "3-SecondoPiano"
+    GLOB.Stanza = "AulaVideo"
+    GLOB.Default_collisions = "salavideo_Collisioni_Python.csv"
+    GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/AulaVideo.png"
+    GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/AulaVideoOggetti.png"
+
+    # PORTA ORIGINE STANZA
+    setPosition((156, 118), (50, -144))
+
+    flag_AulaVideo = False
 
 def LabInformatica():
     global flag_LabInformatica
@@ -272,7 +288,7 @@ def Corridoio1():
         setPosition((250, 116), (-262, -144))
 
     elif GLOB.Stanza == "AulaProfessori":
-        setPosition((268, 96), (-386, -114))
+        setPosition((274, 96), (-386, -70))
 
     elif GLOB.Stanza == "LabInfo":
         setPosition((152, 70), (144, -118))
@@ -302,10 +318,13 @@ def Corridoio2():
     if GLOB.Stanza == "4A":
         setPosition((162, 110), (-114, -148))
 
-    if GLOB.Stanza == "LabInformatica":
+    elif GLOB.Stanza == "AulaVideo":
+        setPosition((270, 94), (-386, -72))
+
+    elif GLOB.Stanza == "LabInformatica":
         setPosition((162, 110), (-16, -148))
 
-    if GLOB.Stanza == "Ripostiglio":
+    elif GLOB.Stanza == "Ripostiglio":
         setPosition((152,72), (72, 6))
 
     GLOB.Piano = "3-SecondoPiano"
@@ -399,6 +418,9 @@ def caricaStanza():
 
         if flag_Classe4A:
             Classe4A()
+
+        if flag_AulaVideo:
+            AulaVideo()
 
         if flag_LabInformatica:
             LabInformatica()

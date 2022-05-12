@@ -213,6 +213,16 @@ def testa():
                 main.stanze.flag_Corridoio1 = True
                 print(main.stanze.pos_portaP, main.stanze.pos_portaC)
 
+        elif GLOB.Piano == "3-SecondoPiano":
+                    
+            if GLOB.Stanza == "Corridoio":
+                main.stanze.flag_AulaVideo = True
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
+            if GLOB.Stanza == "AulaVideo":
+                main.stanze.flag_Corridoio2 = True
+                print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+
         else:
             main.player.evento = "porta-99"
             return

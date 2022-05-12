@@ -1,3 +1,4 @@
+import random
 import pandas as pd
 import pygame, os, sys
 
@@ -100,7 +101,7 @@ def inizializza():
     Gui = GUI()
 
     # Messaggio visualizzabile a schermo
-    messaggio_a_schermo = Risultato(text = "Esempio", color = "White", size = 12, delay_scomparsa = 4)
+    messaggio_a_schermo = Risultato(text = "Esempio", color = "White", size = 12, delay_scomparsa = 2)
     messaggio_a_schermo.Stop()
 
     timer = Timer(minutes = GLOB.Timer, molt_sec = 1, event = game_over)
@@ -226,10 +227,12 @@ def disegna():
     Gui.show()
 
     if player.evento == "porta-99":
+
+        risposte = ["la porta sembra chiusa", "non si apre", "è bloccata"]
         player.finish()
         player.setAllkeys(False)
         GLOB.PlayerIsRunning = False
-        c = Dialoghi(GLOB.scelta_char, "La porta sembra chiusa", 3)
+        c = Dialoghi(GLOB.scelta_char, random.choice(risposte), 3)
         c.stampa()
         player.evento = None
         SetPlayer_speed()
