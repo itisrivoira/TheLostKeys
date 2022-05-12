@@ -135,7 +135,7 @@ def AulaProfessori():
     GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/AulaProfessoriOggetti.png"
 
     # PORTA ORIGINE STANZA
-    setPosition((160, 100), (10, -64))
+    setPosition((274, 100), (-386, -63))
 
     flag_AulaProfessori = False
     
@@ -152,7 +152,7 @@ def LabInfo():
     GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/LabInfoOggetto.png"
 
     # PORTA ORIGINE STANZA
-    setPosition((160, 100), (10, -64))
+    setPosition((270, 104), (-290, -62))
 
     flag_LabInfo = False
 
@@ -275,7 +275,7 @@ def Corridoio1():
         setPosition((268, 96), (-386, -114))
 
     elif GLOB.Stanza == "LabInfo":
-        setPosition((152, 108), (146, -58))
+        setPosition((152, 70), (144, -118))
 
     elif GLOB.Stanza == "1A":
         setPosition((160, 112), (-208, -148))
