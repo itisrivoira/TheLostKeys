@@ -166,26 +166,6 @@ class Map():
     def render_gamemapCollision(self, object, lista, var, collisione):
         self.render(lista, object, var, collisione)
 
-    # def render_object(self, event):
-    #     lista_chiavi = list(self.tiles_oggetti.keys())
-
-    #     for value in range(len(lista_chiavi)):
-    #         condition =  str(type(self.tiles_oggetti.get(lista_chiavi[value])[0])) == "<class 'pygame.Surface'>"
-    #         #print(str(lista_chiavi[value])+" | "+str(condition))
-    #         if condition:
-                
-    #             try:      
-    #                 if  self.tiles_oggetti.get(lista_chiavi[value])[2] == None:
-    #                     collisione = (0, 0, self.tiles_risoluzione, self.tiles_risoluzione)
-    #                 else:
-    #                     collisione = self.tiles_oggetti.get(lista_chiavi[value])[2]
-
-    #                 self.render(lista = event, object = self.tiles_oggetti.get(lista_chiavi[value])[0], var = self.tiles_oggetti.get(lista_chiavi[value])[1], hitbox = collisione)
-    #                 #print(str(lista_chiavi[value])+" | Oggetto Caricato!")
-    #             except KeyError:
-    #                 #print(str(lista_chiavi[value])+" | Errore nel caricare l'oggetto")
-    #                 pass
-
     def render_map(self, pos):
         GLOB.screen.blit(self.tiles_mappa, (main.cam.getPositionX() + pos[0] * GLOB.MULT, main.cam.getPositionY() + pos[1] * GLOB.MULT))
         self.posX = pos[0]

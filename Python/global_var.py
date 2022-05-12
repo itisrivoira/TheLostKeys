@@ -1,4 +1,6 @@
 import pygame
+from pygame.locals import *
+
 TITLE = "The Lost Keys"
 
 # Valori di proporzione
@@ -31,6 +33,9 @@ Debug = False
 ShowGrid = False
 ShowFps = True
 ShowDropFrames = True
+LoadCollisions = True
+
+Mappa = []
 
 isGameRunning = False
 isPaused = False
@@ -40,6 +45,7 @@ KeyPressed = ""
 Dialogo = False
 Enigma = False
 
+Fullscreen = True
 Drop_Frames = False
 
 Player_speed = 2 * MULT
@@ -72,8 +78,10 @@ DF_height = 270
 screen_width = DF_width * MULT
 screen_height = DF_height * MULT
 
+flags = FULLSCREEN | DOUBLEBUF
+
 # Configurazione Schermo
-screen = pygame.display.set_mode((screen_width,screen_height))
+screen = pygame.display.set_mode((screen_width,screen_height), flags, 8)
 pygame.display.set_caption(TITLE)
 
 
@@ -109,7 +117,7 @@ setCharacter()
 ShowScore = True
 def setResources():
     global score, score_seconds, tentativo, enigmi_da_risolvere, enigmi_risolti, chiavette, inventario
-    global Default_Character, Piano, Stanza, Default_Map, Default_object, PlayerCanMove, PlayerCanRun, PlayerIsWalking, PlayerIsRunning
+    global Default_Character, Piano, Stanza, Default_Map, Default_object, Default_collisions, PlayerCanMove, PlayerCanRun, PlayerIsWalking, PlayerIsRunning
 
     # --- SCORE ---
     score = 0
@@ -137,6 +145,7 @@ def setResources():
     Stanza = "Corridoio"
     Default_Map = '../MappaGioco/Tileset/Stanze/1-PianoTerra/Corridoio/png/Corridoio.png'
     Default_object = '../MappaGioco/Tileset/Stanze/1-PianoTerra/Corridoio/png/CorridoioOggetti.png'
+    Default_collisions = 'Corridoio_Collisioni.csv'
 
     PlayerCanMove = True
     PlayerCanRun = True

@@ -132,17 +132,19 @@ def load_collisions(path):
         tupla = (csv, lista_valori)
         return tupla
 
-    l1 = CaricaLista(path)
+    if GLOB.LoadCollisions:
+        GLOB.Mappa = CaricaLista(path)
+        GLOB.LoadCollisions = False
     # l2 = CaricaLista("ChimicaProva_Basamento.csv")
 
     #print("\nLista valori",lista_valori)
 
-    for i in l1[1]:
+    for i in GLOB.Mappa[1]:
         if i >= 0 and i < 56:
             CanCollide = True
         elif i >= 56 and i < 125:
             CanCollide = False
-        collisions.render_gamemapCollision(lista = l1[0], object = None, var = i, collisione = CanCollide)
+        collisions.render_gamemapCollision(lista = GLOB.Mappa[0], object = None, var = i, collisione = CanCollide)
 
     # for i in l2[1]:
     #     collisions.render_gamemapCollision(lista = l2[0], object= True, var = i, collisione = None)
@@ -222,6 +224,12 @@ def disegna():
 
     # MOSTRO LA GUI A SCHERMO
     Gui.show()
+
+    if player.evento == "porta-99":
+        print("Porta chiusa")
+        c = Dialoghi(GLOB.scelta_char, "La porta sembra chiusa", 3)
+        c.stampa()
+        player.evento = None
 
     if not GLOB.PlayerCanRun:
         SetPlayer_speed()
