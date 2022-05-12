@@ -7,7 +7,7 @@ import { DialogCtx, DialogText, RunCtx } from "./components";
 import { useEventListener } from '../utils/utils';
 import primo from '../assets/dialogs/primo.json';		// file di dialogo di prova
 
-const Dialog = () => {
+const DialogUI = () => {
 	const { dialog, setDialog } = useContext(DialogCtx);		// per aprire il modal del Dialogo
 	const { run, setRun } = useContext(RunCtx);		// per stoppare il gioco
 	const [ n, setN ] = useState(0);		// indica il numero della parte di dialogo da visualizzare
@@ -66,4 +66,4 @@ const Dialog = () => {
 	)
 }
 
-export default Dialog;
+export default DialogUI;

@@ -8,7 +8,7 @@ import { BsKeyboard } from "react-icons/bs";
 import { useFullScreen } from "../utils/utils";
 import { Audio, MusicCtx, SfxCtx, SettingCtx, RunCtx } from './components';
 
-const Options = ({exit}) => {
+const SettingsUI = ({exit}) => {
 	const { fullScreen, toggle } = useFullScreen();		// Hook che mi permette di attivare/disattivare il FullScreen
 	const { setting, setSetting } = useContext(SettingCtx);		// Flag delle Opzioni
 	const { run, setRun } = useContext(RunCtx);				// Pausa/Riprendi del Gioco
@@ -161,4 +161,4 @@ const listaComandi = [
 	}
 ];
 
-export default Options;
+export default SettingsUI;

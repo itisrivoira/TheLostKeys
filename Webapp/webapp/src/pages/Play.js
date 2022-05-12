@@ -6,7 +6,7 @@
 import { useCallback, useContext, useEffect } from 'react';
 import { GameEngine } from 'react-game-engine';		// Motore di Gioco
 
-import { Options, Dialog, DialogCtx, SettingCtx, RunCtx, EnigmaModal } from '../components/components';
+import { SettingsUI, DialogUI, DialogCtx, SettingCtx, RunCtx, EnigmaUI } from '../components/components';
 import { useEventListener } from '../utils/utils';
 import entities from '../entities/entities';		// Entita di Gioco
 import system from '../system/system';		// Funzioni di Logica del Gioco
@@ -53,9 +53,9 @@ const Play = () => {
 			entities={entities()}	// Entita di gioco
 			className='Stage'
 		>
-			<Options	exit={true} />
-			<Dialog /* Per i Dialoghi */ />
-			<EnigmaModal /* UI degli enigmi */ />
+			<SettingsUI	exit={true} />
+			<DialogUI /* Per i Dialoghi */ />
+			<EnigmaUI /* UI degli enigmi */ />
 		</GameEngine>
 	)
 }

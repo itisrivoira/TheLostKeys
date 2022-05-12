@@ -10,7 +10,7 @@ import { EnigmaCtx, RunCtx, RoomNameCtx, ScoreCtx, DoneCtx } from './components'
 import { Documento } from "../assets/img/img";
 import puzzles from '../assets/puzzles/puzzles.js';
 
-const EnimaModal = () => {
+const EnimaUI = () => {
 	const { enigma, setEnigma } = useContext(EnigmaCtx);		// Se la UI è attiva o meno
 	const { room } = useContext(RoomNameCtx);			// Nome della stanza in cui sono (=nome enigma)
 	const { setRun } = useContext(RunCtx);			// per stoppare il gioco
@@ -178,4 +178,4 @@ const BtnAnswer = ({indice, text, click}) => (
 )
 
 
-export default EnimaModal;
+export default EnimaUI;
