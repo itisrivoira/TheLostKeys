@@ -85,7 +85,7 @@ if Fullscreen:
     screen = pygame.display.set_mode((screen_width,screen_height), flags, 8)
 else:
     screen = pygame.display.set_mode((screen_width,screen_height))
-    
+
 pygame.display.set_caption(TITLE)
 
 
@@ -93,7 +93,7 @@ def setCharacter():
     global Player_speed, Player_default_speed, PlayerRun_speed, scelta_char, scelta_rep
     Player_speed = 2 * MULT / Delta_Time / Player_proportion
     Player_default_speed = Player_speed
-    
+
     if Scelta==1:
         scelta_char = "Seima"
         PlayerRun_speed = 1 + Seima_Stat[0]/10

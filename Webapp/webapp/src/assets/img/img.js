@@ -9,6 +9,7 @@ import penOptionsWhite from "./penOptionsWhite.png";
 import penRankWhite from "./penRankWhite.png";
 import narratore from './Narratore.png';
 import Documento from './Documento.png';
+import Skull from "./skull.png";
 
 export {
 	denina,
@@ -19,5 +20,6 @@ export {
 	penRankWhite,
 	penOptionsWhite,
 	narratore,
-	Documento
+	Documento,
+	Skull
 };
