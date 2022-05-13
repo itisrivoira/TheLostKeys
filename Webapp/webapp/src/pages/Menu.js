@@ -19,6 +19,7 @@ const Menu = () => {
 
 	const openSettings = () => setSetting(true);		// Aprire le impostazioni
 	const play = () => navigate('../play', {replace: true});		// Passare alla pagina di gioco
+	const rank = () => navigate('../rank', {replace: true});		// Passare alla classifica
 
 	/*
 		Row e Col sono dei componenti Bootstrap che permettono di suddividere le pagine in righe e colonne
@@ -39,7 +40,7 @@ const Menu = () => {
 						<BtnPlay callback={play} />
 					</Col>
 					<Col className="d-flex justify-content-end" xxl={4}>
-						<BtnRank /*Per ora questo è senza funzioni */  />
+						<BtnRank callback={rank}  />
 					</Col>
 				</Row>
 				<Row className="mb-5 w-100 position-absolute bottom-0 start-50 translate-middle-x ">
