@@ -105,6 +105,25 @@
 							 "nextY": 520,
 							 "direction": "up"
 						}
+					},
+					{
+						"gid":7357,
+						"height":48,
+						"id":104,
+						"name":"",
+						"rotation":0,
+						"type":"",
+						"visible":true,
+						"width":48,
+						"x":1.80171358629131,
+						"y":433.791921664627,
+						"evType":"Door",
+						"options": {
+							 "dest": "Archivio",
+							 "nextX": 880,
+							 "nextY": 440,
+							 "direction": "left"
+						}
 					}
 				]
         },
@@ -964,18 +983,6 @@
                  "width":48,
                  "x":1058.15422276622,
                  "y":61.9436964504284
-                },
-                {
-                 "gid":7357,
-                 "height":48,
-                 "id":104,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":1.80171358629131,
-                 "y":433.791921664627
                 },
                 {
                  "gid":7357,

@@ -92,5 +92,10 @@ export default {
 	AulaVideo: {
 		png: require("./assets/rooms/png/AulaVideo.png"),
 		json: require("./assets/rooms/json/AulaVideo.json")
+	},
+
+	StanzaSegreta: {
+		png: require("./assets/rooms/png/StanzaSegreta.png"),
+		json: require("./assets/rooms/json/StanzaSegreta.json")
 	}
 }
