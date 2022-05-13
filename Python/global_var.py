@@ -33,7 +33,6 @@ Debug = False
 ShowGrid = False
 ShowFps = True
 ShowDropFrames = True
-ShowMonsterRange = False
 LoadCollisions = True
 
 Mappa = []
@@ -50,7 +49,12 @@ Fullscreen = True
 Drop_Frames = False
 
 
+# -- MOSTRO
+ShowMonsterRange = False
+MonsterCanSpawn = False
 MonsterCanAttack = True
+
+
 Player_speed = 2 * MULT
 PlayerRun_speed = 3 * MULT
 

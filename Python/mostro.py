@@ -50,7 +50,7 @@ class Keeper():
 
         self.line_vector = pygame.math.Vector2(self.height, 0)
 
-        self.transparency = 20
+        self.transparency = 50
 
         self.lista_movimento = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5]
 
@@ -119,7 +119,8 @@ class Keeper():
                 self.superfice.set_alpha(self.transparency)
             else:
                 self.superfice.fill((0, 0, 0))
-                self.triangle = pygame.draw.polygon(surface=self.superfice, color=self.color_triangle, points=[end_line, end_line1, start_line])
+            
+            self.triangle = pygame.draw.polygon(surface=self.superfice, color=self.color_triangle, points=[end_line, end_line1, start_line])
 
 
             if (self.triangle.colliderect(main.player.mesh) or self.aggr) and GLOB.MonsterCanAttack:
