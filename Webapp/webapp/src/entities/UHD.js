@@ -11,7 +11,7 @@ import { RunCtx, ScoreCtx, GameOverCtx } from "../components/components";
 
 const UHD = ({ min, sec, gameOver }) => {
 	const { run, setRun } = useContext(RunCtx);		// flag esecuzione gioco
-	const { score } = useContext(ScoreCtx);	// Punteggio del gioco
+	const { score, setScore } = useContext(ScoreCtx);	// Punteggio del gioco
 	const { setGameOver } = useContext(GameOverCtx); // Game Over
 
 	// Se gameOver diventa vero allora il giocatore ha perso
@@ -26,7 +26,7 @@ const UHD = ({ min, sec, gameOver }) => {
 		<Row className="position-absolute top-0 start-50 translate-middle-x w-50">
 			<Col xxl={4} className="w-30 p-0 mt-3">
 				<p className="fs-2 text-white text-center txt-pixel">
-					Score: {score}		{/* Molto probabilmento il punteggio lo toglieremo */}
+					Score: {score}		{/* Molto probabilmento il punteggio lo sostituirò con le chiavette */}
 				</p>
 			</Col>
 			<Col xxl={2} className="text-center w-25">

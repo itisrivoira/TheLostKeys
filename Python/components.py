@@ -119,7 +119,6 @@ class Dialoghi():
 		for var in range(len(self.descr)):
 
 			if self.descr[var] == "VAR":
-				# print("Trovato")
 				self.descr[var] = GLOB.scelta_char
 
 		self.descr = " ".join(self.descr)
@@ -131,11 +130,6 @@ class Dialoghi():
 		self.descrizione1 = ""
 		self.descrizione2 = ""
 		self.descrizione3 = ""
-
-		# print(self.descr.split(" "))
-		# print(len(self.descr.split(" ")))
-
-		# self.lunghezza = self.descr.split(" ")
 
 		self.r0 = False
 		self.r1 = False
@@ -150,17 +144,17 @@ class Dialoghi():
 		self.interm = 0
 
 		if text_speed == 1:
-			self.text_speed = 0.1
+			self.text_speed = 0.2 / GLOB.Delta_Time
 		elif text_speed == 2:
-			self.text_speed = 0.2
+			self.text_speed = 0.4 / GLOB.Delta_Time
 		elif text_speed == 3:
-			self.text_speed = 0.25
+			self.text_speed = 0.5 / GLOB.Delta_Time
 		elif text_speed == 4:
-			self.text_speed = 0.5
+			self.text_speed = 0.1 / GLOB.Delta_Time
 		elif text_speed == 5:
-			self.text_speed = 1
+			self.text_speed = 2 / GLOB.Delta_Time
 		else:
-			self.text_speed = 0.1
+			self.text_speed = 0.2 / GLOB.Delta_Time
 
 		self.contatore = 0
 
@@ -188,14 +182,6 @@ class Dialoghi():
 
 	def __effetto_testo(self):
     		
-		# Elenco le varie condizioni (limite massimo di caratteri)
-
-		# if self.descrizione.split(" ") == self.lunghezza[0]:
-		# 	pass
-		
-		# self.value = int((len(self.lunghezza)*len(self.descr))/192)
-		# print(self.value)
-    		
 		self.condition0 = self.contatore < self.value
 		self.condition1 = self.contatore >= self.value and self.contatore < self.value * 2
 		self.condition2 = self.contatore >= self.value * 2 and self.contatore < self.value * 3
@@ -217,38 +203,37 @@ class Dialoghi():
 					self.valore = value
     		
 
-		def ScriviTesto1():
-			self.descrizione += self.descr[int(round(self.delay, 1))]
+		def ScriviTesto(val):
+    			
+			if val == 1:
+				self.descrizione += self.descr[int(round(self.delay, 1))]
 
-			self.Descrizione_TEXT = get_font(4*int(GLOB.MULT)).render(self.descrizione, True, "White")
-			self.Descrizione_RECT = self.Descrizione_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, GLOB.screen_height-(valuey)*GLOB.MULT))
+				self.Descrizione_TEXT = get_font(4*int(GLOB.MULT)).render(self.descrizione, True, "White")
+				self.Descrizione_RECT = self.Descrizione_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, GLOB.screen_height-(valuey)*GLOB.MULT))
 
-			self.r0 = True
+				self.r0 = True
 
-		def ScriviTesto2():
-			self.descrizione1 += self.descr[int(round(self.delay, 1))]
+			elif val == 2:
+				self.descrizione1 += self.descr[int(round(self.delay, 1))]
 
-			self.Descrizione1_TEXT = get_font(4*int(GLOB.MULT)).render(self.descrizione1, True, "White")
-			self.Descrizione1_RECT = self.Descrizione1_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, GLOB.screen_height-(valuey-distanza_righe)*GLOB.MULT))
+				self.Descrizione1_TEXT = get_font(4*int(GLOB.MULT)).render(self.descrizione1, True, "White")
+				self.Descrizione1_RECT = self.Descrizione1_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, GLOB.screen_height-(valuey-distanza_righe)*GLOB.MULT))
 
-			self.r1 = True
+				self.r1 = True
+			elif val == 3:
+				self.descrizione2 += self.descr[int(round(self.delay, 1))]
 
-		def ScriviTesto3():
-			self.descrizione2 += self.descr[int(round(self.delay, 1))]
+				self.Descrizione2_TEXT = get_font(4*int(GLOB.MULT)).render(self.descrizione2, True, "White")
+				self.Descrizione2_RECT = self.Descrizione2_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, GLOB.screen_height-(valuey-distanza_righe*2)*GLOB.MULT))
 
-			self.Descrizione2_TEXT = get_font(4*int(GLOB.MULT)).render(self.descrizione2, True, "White")
-			self.Descrizione2_RECT = self.Descrizione2_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, GLOB.screen_height-(valuey-distanza_righe*2)*GLOB.MULT))
+				self.r2 = True
+			elif val == 4:
+				self.descrizione3 += self.descr[int(round(self.delay, 1))]
 
-			self.r2 = True
+				self.Descrizione3_TEXT = get_font(4*int(GLOB.MULT)).render(self.descrizione3, True, "White")
+				self.Descrizione3_RECT = self.Descrizione3_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, GLOB.screen_height-(valuey-distanza_righe*3)*GLOB.MULT))
 
-		def ScriviTesto4():
-			self.descrizione3 += self.descr[int(round(self.delay, 1))]
-
-			self.Descrizione3_TEXT = get_font(4*int(GLOB.MULT)).render(self.descrizione3, True, "White")
-			self.Descrizione3_RECT = self.Descrizione3_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, GLOB.screen_height-(valuey-distanza_righe*3)*GLOB.MULT))
-
-			self.r3 = True
-		
+				self.r3 = True
 
 		# vado a confrontare se il delay corisponde ad un numero intero e non decimale e anche se non ha superato il valore massimo della lista
 
@@ -271,75 +256,54 @@ class Dialoghi():
 			# Prima riga
 
 			if self.condition0:
-				#print("prima condizione")
 				if len(self.descr) >= self.value:
         		
 					Cerca(1)
 
 					if Condition(1):
-						ScriviTesto2()
+						ScriviTesto(2)
 					else:
-						ScriviTesto1()
+						ScriviTesto(1)
 				else:
-					ScriviTesto1()
+					ScriviTesto(1)
 
 				self.flag_capo = True
 
 			# Seconda riga
 			
 			elif self.condition1:
-				#print("seconda condizione")
 				if len(self.descr) >= self.value*2:
             		
 					Cerca(2)
 
 					if Condition(2):
-						ScriviTesto3()
+						ScriviTesto(3)
 					else:
-						ScriviTesto2()
+						ScriviTesto(2)
 				else:
-					ScriviTesto2()
+					ScriviTesto(2)
 				self.flag_capo = True
 
 			# Terza riga
 
 			elif self.condition2:
-				#print("terza condizione")
 				if len(self.descr) >= self.value*3:
             		
 					Cerca(3)
 
 					if Condition(3):
-						ScriviTesto4()
+						ScriviTesto(3)
 					else:
-						ScriviTesto3()
+						ScriviTesto(3)
 				else:
-					ScriviTesto3()
+					ScriviTesto(3)
 				self.flag_capo = True
 
 			elif self.condition3:
-				#print("terza condizione")
-				ScriviTesto4()
+				ScriviTesto(4)
 
-			# contatore che serve a controllare quanti caratteri sono stati inseriti
 			self.contatore += 1
 
-			"""if self.contatore >= self.value and self.descrizione[-1] != "" and self.descrizione[-1] != "=" and self.descrizione[-1] != " ":
-				self.descrizione += " ="
-				self.Descrizione_TEXT = get_font(4*int(GLOB.MULT)).render(self.descrizione, True, "White")
-
-			if self.contatore >= self.value*2 and self.descrizione1[-1] != "" and self.descrizione1[-1] != "=" and self.descrizione1[-1] != " ":
-				self.descrizione1 += " ="
-				self.Descrizione1_TEXT = get_font(4*int(GLOB.MULT)).render(self.descrizione1, True, "White")
-
-			if self.contatore >= self.value*3 and self.descrizione2[-1] != "" and self.descrizione2[-1] != "=" and self.descrizione2[-1] != " ":
-				self.descrizione2 += " ="
-				self.Descrizione2_TEXT = get_font(4*int(GLOB.MULT)).render(self.descrizione2, True, "White")
-
-			if self.contatore >= self.value*4 and self.descrizione3[-1] != "" and self.descrizione3[-1] != "=" and self.descrizione3[-1] != " ":
-				self.descrizione3 += " ="
-				self.Descrizione3_TEXT = get_font(4*int(GLOB.MULT)).render(self.descrizione3, True, "White")"""
-			
 		# Delay aggiuntivo per dei caratteri particolari indicati
 		if max and self.descr[int(round(self.delay, 1))] != "." and self.descr[int(round(self.delay, 1))] != "?" and self.descr[int(round(self.delay, 1))] != "!" or self.ritardo == 1:
 			self.delay += + self.text_speed
@@ -471,17 +435,17 @@ class Dialoghi_Interattivi():
 		self.interm = 0
 
 		if text_speed == 1:
-			self.text_speed = 0.1
+			self.text_speed = 0.2 / GLOB.Delta_Time
 		elif text_speed == 2:
-			self.text_speed = 0.2
+			self.text_speed = 0.4 / GLOB.Delta_Time
 		elif text_speed == 3:
-			self.text_speed = 0.25
+			self.text_speed = 0.5 / GLOB.Delta_Time
 		elif text_speed == 4:
-			self.text_speed = 0.5
+			self.text_speed = 0.1 / GLOB.Delta_Time
 		elif text_speed == 5:
-			self.text_speed = 1
+			self.text_speed = 2 / GLOB.Delta_Time
 		else:
-			self.text_speed = 0.1
+			self.text_speed = 0.2 / GLOB.Delta_Time
 
 		self.contatore = 0
 
@@ -537,14 +501,6 @@ class Dialoghi_Interattivi():
 
 	def __effetto_testo(self):
     		
-		# Elenco le varie condizioni (limite massimo di caratteri)
-
-		# if self.descrizione.split(" ") == self.lunghezza[0]:
-		# 	pass
-		
-		# self.value = int((len(self.lunghezza)*len(self.descr))/192)
-		# print(self.value)
-    		
 		self.condition0 = self.contatore < self.value
 		self.condition1 = self.contatore >= self.value and self.contatore < self.value * 2
 		self.condition2 = self.contatore >= self.value * 2 and self.contatore < self.value * 3
@@ -566,38 +522,38 @@ class Dialoghi_Interattivi():
 					self.valore = value
     		
 
-		def ScriviTesto1():
-			self.descrizione += self.descr[int(round(self.delay, 1))]
+		def ScriviTesto(val):
+    			
+			if val == 1:
+				self.descrizione += self.descr[int(round(self.delay, 1))]
 
-			self.Descrizione_TEXT = get_font(4*int(GLOB.MULT)).render(self.descrizione, True, "White")
-			self.Descrizione_RECT = self.Descrizione_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, GLOB.screen_height-(valuey)*GLOB.MULT))
+				self.Descrizione_TEXT = get_font(4*int(GLOB.MULT)).render(self.descrizione, True, "White")
+				self.Descrizione_RECT = self.Descrizione_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, GLOB.screen_height-(valuey)*GLOB.MULT))
 
-			self.r0 = True
+				self.r0 = True
 
-		def ScriviTesto2():
-			self.descrizione1 += self.descr[int(round(self.delay, 1))]
+			elif val == 2:
+				self.descrizione1 += self.descr[int(round(self.delay, 1))]
 
-			self.Descrizione1_TEXT = get_font(4*int(GLOB.MULT)).render(self.descrizione1, True, "White")
-			self.Descrizione1_RECT = self.Descrizione1_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, GLOB.screen_height-(valuey-distanza_righe)*GLOB.MULT))
+				self.Descrizione1_TEXT = get_font(4*int(GLOB.MULT)).render(self.descrizione1, True, "White")
+				self.Descrizione1_RECT = self.Descrizione1_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, GLOB.screen_height-(valuey-distanza_righe)*GLOB.MULT))
 
-			self.r1 = True
+				self.r1 = True
+			elif val == 3:
+				self.descrizione2 += self.descr[int(round(self.delay, 1))]
 
-		def ScriviTesto3():
-			self.descrizione2 += self.descr[int(round(self.delay, 1))]
+				self.Descrizione2_TEXT = get_font(4*int(GLOB.MULT)).render(self.descrizione2, True, "White")
+				self.Descrizione2_RECT = self.Descrizione2_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, GLOB.screen_height-(valuey-distanza_righe*2)*GLOB.MULT))
 
-			self.Descrizione2_TEXT = get_font(4*int(GLOB.MULT)).render(self.descrizione2, True, "White")
-			self.Descrizione2_RECT = self.Descrizione2_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, GLOB.screen_height-(valuey-distanza_righe*2)*GLOB.MULT))
+				self.r2 = True
+			elif val == 4:
+				self.descrizione3 += self.descr[int(round(self.delay, 1))]
 
-			self.r2 = True
+				self.Descrizione3_TEXT = get_font(4*int(GLOB.MULT)).render(self.descrizione3, True, "White")
+				self.Descrizione3_RECT = self.Descrizione3_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, GLOB.screen_height-(valuey-distanza_righe*3)*GLOB.MULT))
 
-		def ScriviTesto4():
-			self.descrizione3 += self.descr[int(round(self.delay, 1))]
+				self.r3 = True
 
-			self.Descrizione3_TEXT = get_font(4*int(GLOB.MULT)).render(self.descrizione3, True, "White")
-			self.Descrizione3_RECT = self.Descrizione3_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, GLOB.screen_height-(valuey-distanza_righe*3)*GLOB.MULT))
-
-			self.r3 = True
-		
 
 		# vado a confrontare se il delay corisponde ad un numero intero e non decimale e anche se non ha superato il valore massimo della lista
 
@@ -620,55 +576,51 @@ class Dialoghi_Interattivi():
 			# Prima riga
 
 			if self.condition0:
-				#print("prima condizione")
 				if len(self.descr) >= self.value:
         		
 					Cerca(1)
 
 					if Condition(1):
-						ScriviTesto2()
+						ScriviTesto(2)
 					else:
-						ScriviTesto1()
+						ScriviTesto(1)
 				else:
-					ScriviTesto1()
+					ScriviTesto(1)
 
 				self.flag_capo = True
 
 			# Seconda riga
 			
 			elif self.condition1:
-				#print("seconda condizione")
 				if len(self.descr) >= self.value*2:
             		
 					Cerca(2)
 
 					if Condition(2):
-						ScriviTesto3()
+						ScriviTesto(3)
 					else:
-						ScriviTesto2()
+						ScriviTesto(2)
 				else:
-					ScriviTesto2()
+					ScriviTesto(2)
 				self.flag_capo = True
 
 			# Terza riga
 
 			elif self.condition2:
-				#print("terza condizione")
 				if len(self.descr) >= self.value*3:
             		
 					Cerca(3)
 
 					if Condition(3):
-						ScriviTesto4()
+						ScriviTesto(4)
 					else:
-						ScriviTesto3()
+						ScriviTesto(3)
 				else:
-					ScriviTesto3()
+					ScriviTesto(3)
 				self.flag_capo = True
 
 			elif self.condition3:
-				#print("terza condizione")
-				ScriviTesto4()
+				ScriviTesto(4)
 
 			# contatore che serve a controllare quanti caratteri sono stati inseriti
 			self.contatore += 1
@@ -679,9 +631,6 @@ class Dialoghi_Interattivi():
 			self.ritardo = 0
 		else:
 			self.ritardo += self.text_speed
-
-		
-		#print("Delay: "+str(round(self.delay, 1))+" | Intero: "+str(int(self.delay+0.1))+" | Lunghezza: "+str(len(self.descr))+" | Contatore: "+str(self.contatore)+" | Max: "+str((self.delay+1)))
 
 	def __object_animation(self):
 
@@ -1004,7 +953,7 @@ class Timer():
 		self.__init__(self.__max_sec, self.__molt_sec, self.__function)
 
 	def Show(self):
-		testo = get_font(12*int(GLOB.MULT)).render((self.__testo1+str(self.__minutes)+str(self.__testo2)+str(int(self.__seconds/GLOB.FPS))), True, "White")
+		testo = get_font(8*int(GLOB.MULT)).render((self.__testo1+str(self.__minutes)+str(self.__testo2)+str(int(self.__seconds/GLOB.FPS))), True, "Black")
 		GLOB.screen.blit(testo, (GLOB.screen_width/2 - testo.get_width()/2, 35 * GLOB.MULT))
 
 	def getSeconds(self):
@@ -1017,14 +966,6 @@ class Timer():
 		if self.__flag:
 			print("| Current Second: %d | Min Seconds: %d | Function: %s |" %(self.getSeconds() * self.getMinutes() * 60, self.__minimal/GLOB.FPS, self.__function))
 
-# var = 0
-
-# def miaFunzione():
-#     global var
-#     var += 1
-#     print(var)
-
-# delay = Delay(sec = 3, event = miaFunzione)
 
 class Delay():
     def __init__(self, sec, event):
@@ -1178,6 +1119,11 @@ class GUI():
 		self.bar = pygame.image.load("assets/gui-4.png").convert_alpha()
 		self.bar = pygame.transform.scale(self.bar, (self.bar.get_width()/val * GLOB.MULT, self.bar.get_height()/val * GLOB.MULT))
 
+		val_timer = 1.8
+
+		self.timer = pygame.image.load("assets/gui-6.png").convert_alpha()
+		self.timer = pygame.transform.scale(self.timer, (self.timer.get_width()/val / val_timer * GLOB.MULT, self.timer.get_height()/val / val_timer * GLOB.MULT))
+
 		val_player = 1.8
 
 		self.player = pygame.image.load("Dialoghi/Characters/"+GLOB.scelta_char+".png").convert_alpha()
@@ -1226,20 +1172,24 @@ class GUI():
 		GLOB.screen.blit(self.player, (33.6 * GLOB.MULT, GLOB.screen_height - 65 * GLOB.MULT))
 		GLOB.screen.blit(self.third, (22 * GLOB.MULT, GLOB.screen_height - 75 * GLOB.MULT))
 
+		GLOB.screen.blit(self.timer, (GLOB.screen_width/2 - self.timer.get_width()/2, 26 * GLOB.MULT))
+
 		altezza = 2 * GLOB.MULT
 		size = 8
 
 		
 		if GLOB.scelta_char == "Dark Angel":
 			name = "Dark"
+			posx = 40 * GLOB.MULT
 		else:
 			name = GLOB.scelta_char
+			posx = 37 * GLOB.MULT
     
 		NAME_TEXT = get_font(size*int(GLOB.MULT)).render(name, True, "White")
-		NAME_POS = (37 * GLOB.MULT, GLOB.screen_height - 20 * GLOB.MULT)
+		NAME_POS = (posx, GLOB.screen_height - 20 * GLOB.MULT)
 
 		CNAME_TEXT = get_font(size*int(GLOB.MULT)).render(name, True, "Black")
-		CNAME_POS = (37 * GLOB.MULT, GLOB.screen_height - 20 * GLOB.MULT + altezza)
+		CNAME_POS = (posx, GLOB.screen_height - 20 * GLOB.MULT + altezza)
 
 
 		if self.max <= 0:
@@ -1266,24 +1216,15 @@ class MiniMap():
 		
 		elif GLOB.Piano == "1-PianoTerra":
 			self.path_image = "Piano-1"
-
-			if GLOB.Stanza == "Chimica":
-				self.pos_player = 360 * GLOB.MULT, 65 * GLOB.MULT
-
-			if GLOB.Stanza == "Fisica":
-				self.pos_player = 310 * GLOB.MULT, 65 * GLOB.MULT
-
-			if GLOB.Stanza == "Corridoio":
-				self.pos_player = 310 * GLOB.MULT, 125 * GLOB.MULT
-
-			if GLOB.Stanza == "Archivio":
-				self.pos_player = 120 * GLOB.MULT, 320 * GLOB.MULT
+			self.pos_player = 250 * GLOB.MULT, 105 * GLOB.MULT
 
 		elif GLOB.Piano == "2-PrimoPiano":
 			self.path_image = "Piano-2"
+			self.pos_player = 205 * GLOB.MULT, 65 * GLOB.MULT
 
 		elif GLOB.Piano == "3-SecondoPiano":
 			self.path_image = "Piano-3"
+			self.pos_player = 205 * GLOB.MULT, 105 * GLOB.MULT
 
 		elif GLOB.Piano == "4-Esterno":
 			self.path_image = "Piano-4"

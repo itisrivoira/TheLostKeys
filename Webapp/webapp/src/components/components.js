@@ -4,12 +4,10 @@ import Audio from './Audio';
 import { BtnPlay, BtnOptions, BtnRank, BtnMusic } from "./Buttons";
 import DialogUI from './DialogUI';
 import DialogText from './DialogText';
-import Footer from "./Footer";
 import GlobalContext, { RunCtx, MusicCtx, SfxCtx, SettingCtx } from './GlobalContext';
 import GameContext, { DialogCtx, EnigmaCtx, RoomNameCtx, ScoreCtx, DoneCtx, GameOverCtx } from './GameContext';
 import SettingsUI from "./SettingsUI";
 import SplashScreen from "./SplashScreen";
-import Title from "./Title";
 import EnigmaUI from './EnigmaUI';
 import GameOverUI from './GameOverUI';
 
@@ -21,7 +19,6 @@ export {
 	BtnMusic,
 	DialogUI,
 	DialogText,
-	Footer,
 	GlobalContext,
 	GameContext,
 	RunCtx,
@@ -36,7 +33,6 @@ export {
 	GameOverCtx,
 	SettingsUI,
 	SplashScreen,
-	Title,
 	EnigmaUI,
 	GameOverUI
 };

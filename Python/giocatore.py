@@ -52,6 +52,9 @@ class Player():
 
         #hitbox del player
         self.setHitbox()
+
+        # mesh del giocatore
+        self.mesh = pygame.Rect(self.hitbox)
         
         # setta a video l'immagine del giocatore
         self.character = pygame.image.load(
@@ -165,7 +168,6 @@ class Player():
 
     # aggiorna a schermo l'immagine attuale del Player
     def character_update(self,var):
-        # Controlla se l'animazione è attiva
         if self.getIsWalking():
 
             u = self.getUpPress() or self.Last_keyPressed == "Up"
@@ -173,22 +175,14 @@ class Player():
             l = self.getLeftPress() or self.Last_keyPressed == "Left"
             r = self.getRightPress() or self.Last_keyPressed == "Right"
 
-            # LEFT_KEY
-
             if l and not r:
-                #è un float perchè quando arriverà ad un int l'animazione cambiera quindi è come se fosse un delay
                 self.current_spriteWOL += self.getAnimationSpeed() / GLOB.Delta_Time
  
-                # Controllo di non uscire dal range dei frames possibili
                 if self.current_spriteWOL >= len(self.animationWO) or self.getRightPress():
                     self.current_spriteWOL = 0
 
-                # setta l'immagine di animazione attuale di walking
                 self.image = self.animationWO[int(self.current_spriteWOL)]
-
-
-            # RIGHT_KEY
-
+        
             elif r and not l:
                 self.current_spriteWOR += self.getAnimationSpeed() / GLOB.Delta_Time
 
@@ -197,9 +191,6 @@ class Player():
                     
                 self.image = self.animationWO[int(self.current_spriteWOR)]
 
-
-            # DOWN_KEY
-
             elif d and not u:
                 self.current_spriteWVD += self.getAnimationSpeed() / GLOB.Delta_Time
 
@@ -207,9 +198,6 @@ class Player():
                     self.current_spriteWVD = 0
             
                 self.image = self.animationWVD[int(self.current_spriteWVD)]
-
-
-            # UP_KEY
 
             elif u and not d:
                 self.current_spriteWVU += self.getAnimationSpeed() / GLOB.Delta_Time
@@ -233,48 +221,45 @@ class Player():
 
             if var==2:
                 self.character = pygame.image.load(
-                os.path.join(self.Name_animationWO,self.image)).convert_alpha() # carica l'immagine presa dalla cartella Walk
+                os.path.join(self.Name_animationWO,self.image)).convert_alpha()
 
             if var==3:
                 immagine = pygame.image.load(
                 os.path.join(self.Name_animationWO,self.image)).convert_alpha()
-                self.character = pygame.transform.flip(immagine, True, False) # specchia l'immagine dalle assi x
-            
-            #print("Sprite WO corrente: "+str(self.current_spriteWO)+" | Sprite WVD corrente: "+str(self.current_spriteWVD)+" | Sprite WVU corrente: "+str(int(self.current_spriteWVU)))
+                self.character = pygame.transform.flip(immagine, True, False)
 
     def HasCollision(self, object):
 
-        def Confronta(value):   # Creo una funziona dato che la utilizzo piu' volte e se gli passo "x" fa una cosa mentre se gli passo "y" ne fa un'altra
+        def Confronta(value):
 
-            if value=="x":  # confronto il valore passato
+            if value=="x":
 
-                if self.mesh.right >= object.right:  # confronto se la posizione del player delle x è maggiore o uguale della posizione delle x dell'oggetto di cui ho collisione
-                    self.x += GLOB.Player_speed    # ogni volta che collido vado a settare la posizione del player indietro grazie alla sua velocità
-                    self.setLeftPress(False)    # ogni volta che collido dal lato sinistro non posso riandare a ricliccare il pulsante destro
+                if self.mesh.right >= object.right:
+                    self.x += GLOB.Player_speed
+                    self.setLeftPress(False)
                     self.collision_state["right"] = True
                 elif self.mesh.left <= object.left:
-                    self.x -= GLOB.Player_speed    # ogni volta che collido vado a settare la posizione del player indietro grazie alla sua velocità
-                    self.setRightPress(False)    # ogni volta che collido dal lato destro non posso riandare a ricliccare il pulsante sinistro
+                    self.x -= GLOB.Player_speed
+                    self.setRightPress(False)
                     self.collision_state["left"] = True
 
-            if value=="y":  # confronto il valore passato
+            if value=="y":
 
-                if self.mesh.bottom >= object.bottom:  # confronto se la posizione del player delle y è maggiore o uguale della posizione delle y dell'oggetto di cui ho collisione
-                    self.y += GLOB.Player_speed    # ogni volta che collido vado a settare la posizione del player indietro grazie alla sua velocità
-                    self.setUpPress(False)    # ogni volta che collido dal lato basso non posso riandare a ricliccare il pulsante alto
+                if self.mesh.bottom >= object.bottom:
+                    self.y += GLOB.Player_speed
+                    self.setUpPress(False)
                     self.collision_state["bottom"] = True
                 elif self.mesh.top <= object.top:
-                    self.y -= GLOB.Player_speed    # ogni volta che collido vado a settare la posizione del player indietro grazie alla sua velocità
-                    self.setDownPress(False)    # ogni volta che collido dal lato alto non posso riandare a ricliccare il pulsante basso
+                    self.y -= GLOB.Player_speed
+                    self.setDownPress(False)
                     self.collision_state["top"] = True
             
 
-        if self.mesh.colliderect(object):   # Metodo di pygame che confronta se due rettangoli collidono
+        if self.mesh.colliderect(object):
 
-            self.finish()    # ogni volta che collido stoppo l'animazione del player
+            self.finish()
             self.character = pygame.transform.scale(self.character, (self.width, self.height))
-
-            # Setto diverse variabili per non ripeterli nei confronti
+            
             w = (self.Last_keyPressed == "Up")
             a = (self.Last_keyPressed == "Left")
             
@@ -289,24 +274,24 @@ class Player():
             d1 =  (self.getUpPress() and d or self.getDownPress() and d)
 
 
-            if self.Last_keyPressed != "Null":  # Confronto se il giocatore è fermo o si sta muovendo
+            if self.Last_keyPressed != "Null":
 
-                if (a1 or b1) and (not c1 and not d1):  # se è stato premuto il pulsante destro/sinistro e NON quello alto o basso mentre si ha una collisione allora:
+                if (a1 or b1) and (not c1 and not d1):
 
-                    Confronta("x")  # richiamo la funzione
-                    self.Last_keyPressed = "Null"   # Variabile usata per non dare errori dato che l'ultimo pulsante cliccato sono l'insieme di due in contemporanea
+                    Confronta("x")
+                    self.Last_keyPressed = "Null"
 
                     
-                if (c1 or d1) and (not a1 and not b1):  # se è stato premuto il pulsante alto/basso e NON con quello sinistro o destro mentre si ha una collisione allora:
+                if (c1 or d1) and (not a1 and not b1):
 
-                    Confronta("y")  # richiamo la funzione
-                    self.Last_keyPressed = "Null"   # Variabile usata per non dare errori dato che l'ultimo pulsante cliccato sono l'insieme di due in contemporanea
+                    Confronta("y")
+                    self.Last_keyPressed = "Null"
                     
 
-                if (self.getRightPress() or self.getLeftPress() or a or d) and (not w and not s):   # Qua altri confronti con unicamente con un pulante a volta cliccato sinistra/destra
+                if (self.getRightPress() or self.getLeftPress() or a or d) and (not w and not s):
                     Confronta("x")
                 
-                if (self.getUpPress() or self.getDownPress() or w or s) and (not d and not a):   # Qua altri confronti con unicamente con un pulante a volta cliccato alto/basso
+                if (self.getUpPress() or self.getDownPress() or w or s) and (not d and not a):
                     Confronta("y")
             else:
                 Confronta("y")
@@ -318,85 +303,47 @@ class Player():
                 self.collision_state["bottom"] = False
                 self.collision_state["left"] = False
                 self.collision_state["right"] = False
-            #self.setAllkeys(None)
 
     def HasInteraction(self, chunk_render, object, var):
         keys_pressed = pygame.key.get_pressed()
+        self.evento = None
+
+        # -- PIANO --
+
+        start_id = 127
+        var_max = 4
+
+        for i in range(var_max):
+            if var == (start_id + i):
+                self.evento = "piano-"+str(i)
+
+        # -- CHIAVETTE --
+
+
+        start_id = GLOB.chiavetta_start
+        var_max = 11
+
+        for i in range(var_max):
+            if var == (start_id + i):
+                self.evento = "chiavetta-"+str(i)   
+
 
         if chunk_render.colliderect(object):
-
             
-            # -- PIANO --
-
-            if var == 127:
-                self.evento = "piano-0"
-
-            elif var == 128:
-                self.evento = "piano-1"
-
-            elif var == 129:
-                self.evento = "piano-2"
-
-            elif var == 130:
-                self.evento = "piano-3"
-
-            elif var == 131:
-                self.evento = "piano-4"
-            else:
-                self.evento = None
-                
-
             if keys_pressed[pygame.K_e] and GLOB.PlayerCanMove:
 
                 # -- PORTE --
 
-                if var == 112:
-                    self.evento = "porta-0"
+                start_id = 112
+                var_max = 13
 
-                elif var == 113:
-                    self.evento = "porta-1"
-
-                elif var == 114:
-                    self.evento = "porta-2"
-
-                elif var == 115:
-                    self.evento = "porta-3"
-
-                elif var == 116:
-                    self.evento = "porta-4"
-
-                elif var == 117:
-                    self.evento = "porta-5"
-
-                elif var == 118:
-                    self.evento = "porta-6"
-
-                elif var == 119:
-                    self.evento = "porta-7"
-
-                elif var == 120:
-                    self.evento = "porta-8"
-
-                elif var == 121:
-                    self.evento = "porta-9"
-
-                elif var == 122:
-                    self.evento = "porta-10"
-
-                elif var == 123:
-                    self.evento = "porta-11"
-
-                elif var == 124:
-                    self.evento = "porta-12"
-
-                elif var == 125:
-                    self.evento = "porta-13"
-
-                
+                for i in range(var_max):
+                    if var == (start_id + i):
+                        self.evento = "porta-"+str(i)                
 
                 # -- EVENTO --
 
-                elif var >= 56 and var <= 111:
+                if var >= 56 and var <= 111:
                     self.evento = "enigma"
 
 
@@ -405,17 +352,11 @@ class Player():
                 elif var == 126:
                     self.evento = "mappa"
 
-                else:
-                    self.evento = None
+                print(var, self.evento)             
 
-                print(var, self.evento)
-
-    # Funzione che serve ad aggiornare la velocità attuale del giocatore la velocità da' un'impressione Smooth
     def update(self):
         self.setVelocitaX(0)
         self.setVelocitaY(0)
-
-        #print(self.collision_state)
 
         getUp = self.getUpPress()
         getDown = self.getDownPress()
@@ -442,25 +383,25 @@ class Player():
             self.setVelocitaY(-GLOB.Player_speed)
             self.setVelocitaX(GLOB.Player_speed)           
             self.setIsWalking(True)
-            self.character_update(1) # richiamo la funzione di aggiorna l'animazione
+            self.character_update(1)
 
         if condition_2:
             self.setVelocitaY(GLOB.Player_speed)
             self.setVelocitaX(GLOB.Player_speed)           
             self.setIsWalking(True)
-            self.character_update(0) # richiamo la funzione di aggiorna l'animazione
+            self.character_update(0)
 
         if condition_3:
             self.setVelocitaY(-GLOB.Player_speed)
             self.setVelocitaX(-GLOB.Player_speed)           
             self.setIsWalking(True)
-            self.character_update(1) # richiamo la funzione di aggiorna l'animazione
+            self.character_update(1)
 
         if condition_4:
             self.setVelocitaY(GLOB.Player_speed)
             self.setVelocitaX(-GLOB.Player_speed)           
             self.setIsWalking(True)
-            self.character_update(1) # richiamo la funzione di aggiorna l'animazione
+            self.character_update(1)
 
         if condition_1 or condition_2 or condition_3 or condition_4:
             self.setAnimationSpeed(slow)
@@ -470,22 +411,22 @@ class Player():
         if (getLeft and not getRight):
             self.setVelocitaX(-GLOB.Player_speed)
             self.setIsWalking(True)
-            self.character_update(3) # richiamo la funzione di aggiorna l'animazione
+            self.character_update(3)
         
         if (getRight and not getLeft):
             self.setVelocitaX(GLOB.Player_speed)
             self.setIsWalking(True)
-            self.character_update(2) # richiamo la funzione di aggiorna l'animazione
+            self.character_update(2)
 
         if (getUp and not getDown):
             self.setVelocitaY(-GLOB.Player_speed)
             self.setIsWalking(True)
-            self.character_update(1) # richiamo la funzione di aggiorna l'animazione
+            self.character_update(1)
 
         if (getDown and not getUp):
             self.setVelocitaY(GLOB.Player_speed)
             self.setIsWalking(True)
-            self.character_update(0) # richiamo la funzione di aggiorna l'animazione
+            self.character_update(0)
 
         if (getLeft and getRight) or (getUp and getDown):
             self.finish()
@@ -493,27 +434,20 @@ class Player():
         self.x += self.getVelocitaX()
         self.y += self.getVelocitaY()
 
-        self.mesh = pygame.Rect(self.hitbox) # indico la hitbox (mesh) del Player
+        self.mesh = pygame.Rect(self.hitbox)
 
-        self.character = pygame.transform.scale(self.character, (self.width, self.height)) # ingrandisco (scalo) l'immagine presa dalle cartelle
+        self.character = pygame.transform.scale(self.character, (self.width, self.height))
 
-        GLOB.screen.blit(self.ombra, (self.x , self.y-2.5*GLOB.MULT/GLOB.Player_proportion)) # indica che lo schermo fa nascere il giocatore
-        GLOB.screen.blit(self.character, (self.x , self.y)) # indica che lo schermo fa nascere il giocatore
-        # self.hitbox = (self.x-60, self.y-55, 200, 180)
+        GLOB.screen.blit(self.ombra, (self.x , self.y-2.5*GLOB.MULT/GLOB.Player_proportion))
+        GLOB.screen.blit(self.character, (self.x , self.y))
         self.setHitbox()
-
-        #print("| Condizione 1: "+str(condition_1)+" | Condizione 2: "+str(condition_2)+" | Condizione 3: "+str(condition_3)+" | Condizione 4: "+str(condition_4))
-        #print(self.animation_speed)
-
 
     def setHitbox(self):
         self.hitbox = (self.x + 20 * GLOB.MULT /GLOB.Player_proportion, self.y + 35 * GLOB.MULT /GLOB.Player_proportion, 15 * GLOB.MULT /GLOB.Player_proportion, 10 * GLOB.MULT /GLOB.Player_proportion)
 
-    # setta l'animazione della camminata a vera
     def animate(self):
         self.setIsWalking(True)
 
-    # setta l'animazione della camminata a falso e rimette le variabili a default
     def finish(self):
         self.setIsWalking(False)
         self.current_spriteWOL = 0
@@ -521,7 +455,6 @@ class Player():
         self.current_spriteWVD = 0
         self.current_spriteWVU = 0
 
-        # imposta un'animazione di default dopo aver eseguito l'ultima
         self.character = pygame.image.load(
             os.path.join(self.Name_animationWVD,'Walk0.png')).convert_alpha()
 

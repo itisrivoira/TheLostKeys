@@ -14,17 +14,8 @@ import global_var as GLOB
 class Cam():
     def __init__(self, x, y):
 
-        #indico il giocatore impostato
         self.setPositionX(x) 
         self.setPositionY(y)
-
-        self.image = pygame.image.load("assets/BackgroundCam.png").convert()
-
-        self.width = self.image.get_width()
-        self.height = self.image.get_height()
-
-        self.image = pygame.transform.scale(self.image,((self.width*GLOB.MULT*3), (self.height*GLOB.MULT*3)))
-
         self.Player_hitbox = [ 20 * GLOB.MULT /GLOB.Player_proportion, 35 * GLOB.MULT /GLOB.Player_proportion, 15 * GLOB.MULT /GLOB.Player_proportion, 10 * GLOB.MULT /GLOB.Player_proportion]
 
 
@@ -42,11 +33,7 @@ class Cam():
 
         
     def update(self):
-        #GLOB.screen.blit(self.image, (self.x, self.y))
-
         self.offset = (5 * GLOB.Moff * GLOB.MULT, 2.25 * GLOB.Moff * GLOB.MULT)
-
-        #print(GLOB.Moff)
 
         a = main.player.getPositionX() >= GLOB.screen_width - self.offset[0] - main.player.width
         b = main.player.getPositionX() <= self.offset[0]
@@ -77,28 +64,21 @@ class Cam():
         if a and a1 or ln and a:
             main.player.setPositionX(main.player.getPositionX()-main.player.getVelocitaX())
             self.x -= main.player.getVelocitaX()
-            # print("A vero")
     
 
         if b and b1 or ln and b:
             main.player.setPositionX(main.player.getPositionX()-main.player.getVelocitaX())
             self.x += -main.player.getVelocitaX()
-            # print("B vero")
 
 
         if c and c1 or ln and c:
             main.player.setPositionY(main.player.getPositionY()-main.player.getVelocitaY())
             self.y -= main.player.getVelocitaY()
-            # print("C vero")
     
 
         if d and d1 or ln and d:
             main.player.setPositionY(main.player.getPositionY()-main.player.getVelocitaY())
             self.y += -main.player.getVelocitaY()
-            # print("D vero")
-
-        
-        #print("Posizione x: "+str(main.player.getPositionX())+" | Posizione y: "+str(main.player.getPositionY())+" | VelocitàX: "+str(main.player.getVelocitaX()))
 
 
     def ShowCam(self):

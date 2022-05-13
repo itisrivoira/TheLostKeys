@@ -1,6 +1,5 @@
 import pygame, sys, os, time, random
-from button import Button
-from button import Bar
+from components import Button, Bar
 from pygame import mixer
 import global_var as GLOB
 

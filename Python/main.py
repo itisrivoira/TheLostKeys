@@ -1,17 +1,19 @@
+import random
 import pandas as pd
 import pygame, os, sys
 
 #Importo i vari file e classi necessarie
 import giocatore, menu, camera, debug, collisioni
-from button import Bar, Button, Dialoghi, Dialoghi_Interattivi, Risultato, Timer, GUI
+from components import Bar, Button, Dialoghi, Dialoghi_Interattivi, Risultato, Timer, GUI
 from pygame import mixer
 from animazione import Transizione
+from mostro import Keeper
 import stanze
 
 # Importo le variabili Globali
 import global_var as GLOB
 
-def get_font(size): # Returns Press-Start-2P in the desired size
+def get_font(size):
     return pygame.font.Font("font/font.ttf", size)
 
 
@@ -68,7 +70,7 @@ def SetPlayer_sprite():
 
 #funzione di default
 def inizializza():
-    global player, cam, timer, clock, collisions, animazione, messaggio_a_schermo, Gui
+    global console, player, cam, timer, clock, collisions, animazione, messaggio_a_schermo, Gui, mostro
 
     GLOB.isGameRunning = True
     GLOB.isPaused = False
@@ -100,13 +102,18 @@ def inizializza():
     Gui = GUI()
 
     # Messaggio visualizzabile a schermo
-    messaggio_a_schermo = Risultato(text = "Esempio", color = "White", size = 12, delay_scomparsa = 4)
+    messaggio_a_schermo = Risultato(text = "Esempio", color = "White", size = 12, delay_scomparsa = 2)
     messaggio_a_schermo.Stop()
 
     timer = Timer(minutes = GLOB.Timer, molt_sec = 1, event = game_over)
     animazione = Transizione(vel = 0.01)
 
     collisions = collisioni.Map(risoluzione = 24, path = "../MappaGioco/Tileset/Stanze/"+ GLOB.Piano +"/")
+
+    console = debug.Debug()
+
+    if GLOB.MonsterCanSpawn:
+        mostro = Keeper((200 * GLOB.MULT, 122 * GLOB.MULT), 1.4, (10 * GLOB.MULT, 0.5 * GLOB.MULT))
 
 
 def load_collisions(path):
@@ -117,11 +124,6 @@ def load_collisions(path):
 
         lista_valori = []
 
-
-        #print("csv",csv)
-        #print(GLOB.Drop_Frames)
-        # collisions.render_object(event = csv)
-        #print(clock.get_fps())
         for value in range(len(csv)):
             for val in csv[value]:
                 if val not in lista_valori and val != -1:
@@ -135,19 +137,14 @@ def load_collisions(path):
     if GLOB.LoadCollisions:
         GLOB.Mappa = CaricaLista(path)
         GLOB.LoadCollisions = False
-    # l2 = CaricaLista("ChimicaProva_Basamento.csv")
-
-    #print("\nLista valori",lista_valori)
 
     for i in GLOB.Mappa[1]:
         if i >= 0 and i < 56:
             CanCollide = True
         elif i >= 56 and i < 125:
             CanCollide = False
-        collisions.render_gamemapCollision(lista = GLOB.Mappa[0], object = None, var = i, collisione = CanCollide)
+        collisions.render(lista = GLOB.Mappa[0], var = i, hitbox = CanCollide)
 
-    # for i in l2[1]:
-    #     collisions.render_gamemapCollision(lista = l2[0], object= True, var = i, collisione = None)
 
 def disegna():
 
@@ -156,9 +153,7 @@ def disegna():
 
     if animazione.iFinished:
         GLOB.PlayerCanMove = True
-        #timer.DePause()
     else:
-        #timer.Pause()
         GLOB.PlayerIsRunning = False
         GLOB.PlayerCanMove = False
         player.setAllkeys(False)
@@ -176,7 +171,10 @@ def disegna():
     
     collisions.render_map((0,0))
 
-    player.update() # richiama la funzione di aggiornamento del giocatore
+    player.update()
+
+    if GLOB.MonsterCanSpawn:
+        mostro.update()
 
     collisions.render_objects((0,0))
 
@@ -184,7 +182,9 @@ def disegna():
 
     player.load_playerSurface()
 
-    timer.Show()
+
+    if GLOB.MonsterCanSpawn:
+        mostro.load_monsterSurface()
 
     animazione.disegna()
 
@@ -225,11 +225,16 @@ def disegna():
     # MOSTRO LA GUI A SCHERMO
     Gui.show()
 
+    # MOSTRO IL TIMER
+    timer.Show()
+
     if player.evento == "porta-99":
+
+        risposte = ["la porta sembra chiusa", "non si apre", "è bloccata"]
         player.finish()
         player.setAllkeys(False)
         GLOB.PlayerIsRunning = False
-        c = Dialoghi(GLOB.scelta_char, "La porta sembra chiusa", 3)
+        c = Dialoghi(GLOB.scelta_char, random.choice(risposte), 3)
         c.stampa()
         player.evento = None
         SetPlayer_speed()
@@ -506,17 +511,10 @@ def pausa():
 
 def enigma():
     global enigma_file
-
-    print('../MappaGioco/Tileset/Stanze/'+GLOB.Piano+'/'+GLOB.Stanza+'/enigmi/Enigmi'+GLOB.Stanza+'.csv')
-
+    
     try:
-        
-        print("- Stanza trovata! -")
         enigma_file = pd.read_csv('../MappaGioco/Tileset/Stanze/'+GLOB.Piano+'/'+GLOB.Stanza+'/enigmi/Enigmi'+GLOB.Stanza+'.csv')
-
     except FileNotFoundError:
-
-        print("Stanza non trovata!")
         enigma_file = pd.read_csv('../MappaGioco/Tileset/Stanze/1-PianoTerra/Fisica/enigmi/EnigmiFisica.csv')
 
     SetPlayer_speed()
@@ -630,7 +628,7 @@ def main():
     while run:
         keys_pressed = pygame.key.get_pressed()
 
-        for event in pygame.event.get(): # per ogni evento che viene eseguito in pygame.event.get()
+        for event in pygame.event.get():
             keys_pressed = pygame.key.get_pressed()
 
             if event.type == pygame.KEYDOWN:
@@ -647,8 +645,6 @@ def main():
                    pausa()
 
 
-            
-            # FLIP FLOP - SHOW GRID
             if event.type == pygame.KEYDOWN:
 
                 if event.key == pygame.K_z and GLOB.Debug:
@@ -658,7 +654,7 @@ def main():
                     elif GLOB.ShowGrid:
                         GLOB.ShowGrid = False
 
-            # FLIP FLOP - DEBUG
+
             if keys_pressed[pygame.K_F3]:
             
                 if not GLOB.Debug:
@@ -687,20 +683,14 @@ def main():
 
                 if event.type == pygame.KEYDOWN:
                     key_pressed(event,True)
-                    # print("Ultima key: ",player.Last_keyPressed)
-                    
                 if event.type == pygame.KEYUP:
                     key_pressed(event,False)
                     player.Last_keyPressed = "Null"
-
-            # if int(clock.get_fps())<110:
-            #     print("| fps: "+str(int(clock.get_fps()))) # Per mostrare gli GLOB.FPS
 
         disegna()
 
 
         if GLOB.Dialogo:
-            #print(len(df.values))
             for row in range(len(df.values)):
                 Racconto = Dialoghi(
                     personaggio = df.values[row][0], 
@@ -719,7 +709,6 @@ def main():
 
             enigma()
 
-            #print(len(df.values))
             row = 0
             Enigma = Dialoghi_Interattivi(
                 
@@ -742,17 +731,12 @@ def main():
             player.evento = None
         
         # Debugging
-        console = debug.Debug()
-        
         console.log()
 
-        
-        pygame.display.flip() # ti permette di aggiornare una area dello schermo per evitare lag e fornire piu' ottimizzazione
-        pygame.display.update()
-
-        clock.tick(GLOB.FPS) # setto i FramesPerSecond
+        pygame.display.flip()
+        clock.tick(GLOB.FPS)
     
-    pygame.quit() # per stoppare pygame in modo appropriato
+    pygame.quit()
     sys.exit()
 
 

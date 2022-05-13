@@ -15,6 +15,12 @@ class Map():
         self.posY = 0
         self.divisore = 2
 
+        
+        self.valore_fluttua = 0
+        self.valore_fluttua_max = 1
+        self.flag_fluttua = False
+
+
         # self.__load_images("MappaGioco/Tileset/Tileset_Muri/Tiles")
         self.__loadCollisions()
 
@@ -81,17 +87,11 @@ class Map():
 
         def riempi(percorso):
             FileNames = os.listdir(percorso)
-
-            # Ordino i file e gli appendo ad una lista, in modo che le animazioni siano lineari e ordinate
             FileNames.sort()
 
             for filename in FileNames:
                 if (filename[-3] == "p" and filename[-2] == "n" and filename[-1] == "g") and (filename[0] == "t" and filename[1] == "i" and filename[2] == "l" and filename[3] == "e"):
                     lista.append(filename)
-
-            #print(self.path+self.tiles_oggetti[event][0]+".png")
-            #print(self.tiles_immagini_sprite)
-        
         riempi(path)
         
         for value in range(len(lista)):
@@ -99,8 +99,6 @@ class Map():
                 v = pygame.image.load(path+"/"+lista[value]).convert_alpha()
                 v = pygame.transform.scale(v, (v.get_width() * GLOB.MULT, v.get_height() * GLOB.MULT))
                 self.tiles_immagini_sprite.append(v)
-
-        #print(self.tiles_immagini_sprite)
 
     def load_map(self, path):
         self.tiles_mappa = pygame.image.load(path).convert()
@@ -112,15 +110,22 @@ class Map():
         self.tiles_mappaOggetti = pygame.image.load(path).convert_alpha()
         self.tiles_mappaOggetti = pygame.transform.scale(self.tiles_mappaOggetti, (self.tiles_mappa.get_width(), self.tiles_mappa.get_height()))
 
-    def render(self, lista, object, var, hitbox):
+    def render(self, lista, var, hitbox):
         x = self.posX
         y = self.posY
         value = 9.9 / GLOB.MULT
         chunck = 32 * GLOB.MULT
         chunck_render = pygame.Rect(main.player.x + 12 * GLOB.MULT /GLOB.Player_proportion, main.player.y + 25 * GLOB.MULT /GLOB.Player_proportion, chunck, chunck)
+        
+
+        if GLOB.MonsterCanSpawn:
+            chunck_render_m = pygame.Rect(main.mostro.x + 12 * GLOB.MULT + main.cam.getPositionX(),  main.mostro.y + 25 * GLOB.MULT + main.cam.getPositionY(), chunck, chunck)
 
         if GLOB.Debug:
             pygame.draw.rect(GLOB.screen, (0,255,0), chunck_render, int(GLOB.MULT))
+            
+            if GLOB.MonsterCanSpawn:
+                pygame.draw.rect(GLOB.screen, (0,0,255), chunck_render_m, int(GLOB.MULT))
 
         for valore_y in range(len(lista)):
 
@@ -128,29 +133,56 @@ class Map():
             for valore_x in range(len(lista[valore_y])):
                 condition = lista[valore_y][valore_x] == var
 
-                if condition and object != None:
-                    if str(type(self.tiles_immagini_sprite[var])) == "<class 'pygame.Surface'>" and len(self.tiles_immagini_sprite) > 1:
-                        GLOB.screen.blit(self.tiles_immagini_sprite[var], (main.cam.getPositionX()+x * GLOB.MULT, main.cam.getPositionY()+y * GLOB.MULT))
-                        #print("\n- Render | Oggetto a schermo!", self.tiles_immagini_sprite[var])
+                if self.valore_fluttua >= self.valore_fluttua_max:
+                    self.valore_fluttua = self.valore_fluttua_max
+                    self.flag_fluttua = False
+                elif self.valore_fluttua <= -self.valore_fluttua_max:
+                    self.valore_fluttua = -self.valore_fluttua_max
+                    self.flag_fluttua = True
 
-                if hitbox != None:
+                if self.flag_fluttua:
+                    self.valore_fluttua += 0.00001
+                else:
+                    self.valore_fluttua -= 0.00001
+
+
+                if hitbox != None:        
                     oggetto = pygame.Rect((main.cam.getPositionX()+ x * GLOB.MULT),(main.cam.getPositionY()+ y * GLOB.MULT), self.tiles_risoluzione * GLOB.MULT, self.tiles_risoluzione * GLOB.MULT)
+
+                    if condition and GLOB.enigmi_risolti:
+                        
+                        for i in range(len(GLOB.enigmi_risolti)):
+                            if var >= GLOB.chiavetta_start and GLOB.chiavette[GLOB.enigmi_risolti[i]][1]:
+                                GLOB.screen.blit(GLOB.chiavette[GLOB.enigmi_risolti[i]][2], (x * GLOB.MULT + main.cam.getPositionX() + self.tiles_risoluzione, y * GLOB.MULT + main.cam.getPositionY() + self.valore_fluttua * GLOB.MULT))
+                        
+                        main.player.HasInteraction(chunck_render, oggetto, var)
 
                     if GLOB.Debug and GLOB.ShowGrid:
                         pygame.draw.rect(GLOB.screen, (255,255,255), oggetto, int(1))
 
-                    if condition and (oggetto.colliderect(chunck_render)):
+                    if GLOB.MonsterCanSpawn:
+                        controllo_collisione = condition and ((oggetto.colliderect(chunck_render)) or (oggetto.colliderect(chunck_render_m)))
+                    else:
+                        controllo_collisione = condition and (oggetto.colliderect(chunck_render))
+
+                    if controllo_collisione:
                         collisione = pygame.Rect((main.cam.getPositionX()+(x+self.tiles_collisioni[var][0]) * GLOB.MULT),(main.cam.getPositionY()+(y + self.tiles_collisioni[var][1]) * GLOB.MULT), self.tiles_collisioni[var][2]/value, self.tiles_collisioni[var][3]/value)
-                        #print("- Render | Collisione Oggetto Impostata!", collisione,"\n")
 
                         if hitbox:
                             main.player.HasCollision(collisione)
+                            if GLOB.MonsterCanSpawn:
+                                main.mostro.HasCollision(collisione)
+
                             if GLOB.Debug:
                                 pygame.draw.rect(GLOB.screen, (255,0,0), collisione, int(GLOB.MULT))
                         
                         if not hitbox:
-                            main.player.HasCollision(collisione)
-                            main.player.HasInteraction(chunck_render, collisione, var)
+                            if var < GLOB.chiavetta_start:
+                                main.player.HasCollision(collisione)
+                                main.player.HasInteraction(chunck_render, collisione, var)
+
+                                if GLOB.MonsterCanSpawn:
+                                    main.mostro.HasCollision(collisione)
 
                             if main.animazione.iFinished == True:
                                 eventi.testa()
@@ -158,13 +190,9 @@ class Map():
                             if GLOB.Debug:
                                 pygame.draw.rect(GLOB.screen, (0,255,0), collisione, int(GLOB.MULT))
 
-
                 x += self.tiles_risoluzione
 
             y += self.tiles_risoluzione
-
-    def render_gamemapCollision(self, object, lista, var, collisione):
-        self.render(lista, object, var, collisione)
 
     def render_map(self, pos):
         GLOB.screen.blit(self.tiles_mappa, (main.cam.getPositionX() + pos[0] * GLOB.MULT, main.cam.getPositionY() + pos[1] * GLOB.MULT))

@@ -8,7 +8,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import { GameContext } from "./components/components";
 import { useEventListener } from "./utils/utils";
-import { Menu, Play } from './pages/pages';
+import { Menu, Play, Rank, Select } from './pages/pages';
 
 const App = () => {
 
@@ -25,6 +25,8 @@ const App = () => {
 		<Routes>
 			<Route path="*" element={<Navigate to="/menu" />} /* Qualsiasi URL scriva l'utente ritornerà al menu principale */  />
 			<Route path="/menu" element={<Menu />} />
+			<Route path="/rank" element={<Rank />} />
+			<Route path="/select" element={<Select />} />
 			<Route path="/play" element={
 				<GameContext>
 					<Play />

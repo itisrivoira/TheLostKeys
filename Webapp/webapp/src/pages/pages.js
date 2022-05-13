@@ -3,5 +3,7 @@
 
 import Menu from './Menu';
 import Play from './Play';
+import Rank from './Rank';
+import Select from './Select';
 
-export { Menu, Play };
+export { Menu, Play, Rank, Select };
