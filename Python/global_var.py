@@ -153,8 +153,8 @@ def setResources():
         chiavette[i] = (chiavetta_start, True, immagine)
         chiavetta_start += 1
         chiavetta_end = chiavetta_start
+        print( "| "+str(i)+": " +str(chiavette[i][0])+" - "+str(chiavette[i][1])+ "| ")
 
-    print(chiavette)
     chiavetta_start = 140
 
 
