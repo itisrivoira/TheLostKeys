@@ -69,7 +69,7 @@ const puzzles = {
 		C: "5",
 		D: "0",
 		right: "D",
-		indizio: "Mostro il valore di B in certe fasi del programma",
+		indizio: "Il costrutto Repeat Until funziona come il While",
 		punti: [0, 10, 20, 40]
 	},
 
@@ -165,7 +165,7 @@ const puzzles = {
 		C: "3",
 		D: "15",
 		right: "D",
-		indizio: "Mostro il valore di A in certe fasi del programma",
+		indizio: "Il costrutto repeat funziona come un il For",
 		punti: [0, 2, 5, 10]
 	},
 

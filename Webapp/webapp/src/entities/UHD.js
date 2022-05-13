@@ -17,7 +17,6 @@ const UHD = ({ min, sec, gameOver }) => {
 	// Se gameOver diventa vero allora il giocatore ha perso
 	useEffect( () => {
 		if (gameOver) {
-			setScore(prev => prev + sec + min * 60 + 300);	// aggiungo il tempo che rimane al punteggio
 			setRun(false);		// Stoppo il gioco
 			setGameOver(true); // attivo il game Over
 		}
