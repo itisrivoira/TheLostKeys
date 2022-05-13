@@ -46,7 +46,7 @@ const GameOverUI = () => {
 				<Row className="my-3">
 					<Col className="text-center">
 						<p className="fs-1 txt-pixel text-white">
-							Your Score is: {score}
+							Your Final Score is: {score}
 						</p>
 					</Col>
 				</Row>
