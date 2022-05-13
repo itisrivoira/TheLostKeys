@@ -110,7 +110,8 @@ def inizializza():
 
     collisions = collisioni.Map(risoluzione = 24, path = "../MappaGioco/Tileset/Stanze/"+ GLOB.Piano +"/")
 
-    mostro = Keeper((200 * GLOB.MULT, 122 * GLOB.MULT), 1.4, (10 * GLOB.MULT, 0.5 * GLOB.MULT))
+    if GLOB.MonsterCanSpawn:
+        mostro = Keeper((200 * GLOB.MULT, 122 * GLOB.MULT), 1.4, (10 * GLOB.MULT, 0.5 * GLOB.MULT))
 
 
 def load_collisions(path):
@@ -182,7 +183,8 @@ def disegna():
 
     player.update() # richiama la funzione di aggiornamento del giocatore
 
-    mostro.update()
+    if GLOB.MonsterCanSpawn:
+        mostro.update()
 
     collisions.render_objects((0,0))
 
@@ -190,7 +192,9 @@ def disegna():
 
     player.load_playerSurface()
 
-    mostro.load_monsterSurface()
+
+    if GLOB.MonsterCanSpawn:
+        mostro.load_monsterSurface()
 
     animazione.disegna()
 
