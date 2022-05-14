@@ -17,7 +17,7 @@ const Menu = () => {
 	let navigate = useNavigate();			// questo serve per navigare fra gli EndPoint
 
 	const openSettings = () => setSetting(true);		// Aprire le impostazioni
-	const play = () => navigate('../play', {replace: true});		// Passare alla pagina di gioco
+	const play = () => navigate('../select', {replace: true});		// Passare alla pagina di gioco
 	const rank = () => navigate('../rank', {replace: true});		// Passare alla classifica
 
 	/*

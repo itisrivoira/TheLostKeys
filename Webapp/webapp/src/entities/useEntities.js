@@ -1,6 +1,7 @@
 // Tutte entita di gioco
 
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { PgCtx } from '../components/components';
 
 import UHD from './UHD';
@@ -9,12 +10,19 @@ import Room from './Room';
 
 const useEntities = () => {
 	const { pg } = useContext(PgCtx);
+	const navigate = useNavigate();
+
+	useEffect( () => {
+		// controllo se l'utente non ha scelto giocatori (quindi pg rimane vuoto)
+		if (Object.keys(pg).length === 0)
+			navigate('../menu', {replace: true});
+	}, [pg]);
 
 	const entities = {
 		player: {
 			x: 100,					// coordinata X iniziale
 			y: 450,					// coordinata Y iniziale
-			name: pg.name,			// nome del pg che sto usando
+			pg: pg.name,			// nome del pg che sto usando
 			speed: pg.speed * 2,	// velocità
 			src: pg.img,			// sprite
 			renderer: <Player/>

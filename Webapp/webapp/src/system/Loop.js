@@ -26,7 +26,7 @@ const Loop = (entities, { input }) => {
 
 	// Estraggo varie proprietà dalle entita per comodità
 	var { name } = room;
-	var { x, y, speed } = player;
+	var { x, y, speed, pg } = player;
 
 	// Smezzo le coordinate del giocatore per ottenere il punto medio
 	x += 45;
@@ -37,7 +37,7 @@ const Loop = (entities, { input }) => {
 	const motion = (i, direct) => {
 		if (i === 5) i = 0;		// se il contatore arriva al massimo lo resetto
 		// ogni 4 click cambio immagine dove direct=direzione e frame=numero della animazione
-		player.src = require(`../assets/characters/${direct}/${frames[parseInt(i)]}`);
+		player.src = require(`../assets/characters/${pg}/${direct}/${frames[parseInt(i)]}`);
 		// aumento di un 1/4 per ritardare l'animazione e renderla più fluida
 		i += 0.25;
 
@@ -61,7 +61,7 @@ const Loop = (entities, { input }) => {
 					u = motion(u, 'up');		// Animazione
 					room.event = false;		// Nessun evento quindi il flag è false
 				} else {		// Se invece non posso muovermi carico lo sprite da fermo
-					player.src = require(`../assets/characters/up/${frames[0]}`);
+					player.src = require(`../assets/characters/${pg}/up/${frames[0]}`);
 				}
 
 				if (ev.evType != '') {	// Se c'è l'evento
@@ -81,7 +81,7 @@ const Loop = (entities, { input }) => {
 					d = motion(d, 'down');
 					room.event = false;
 				}	else{
-					player.src = require(`../assets/characters/down/${frames[0]}`);
+					player.src = require(`../assets/characters/${pg}/down/${frames[0]}`);
 				}
 
 				if (ev.evType != '') {
@@ -101,7 +101,7 @@ const Loop = (entities, { input }) => {
 					l = motion(l, 'left');
 					room.event = false;
 				} else{
-					player.src = require(`../assets/characters/left/${frames[0]}`);
+					player.src = require(`../assets/characters/${pg}/left/${frames[0]}`);
 				}
 
 				if (ev.evType != '') {
@@ -121,7 +121,7 @@ const Loop = (entities, { input }) => {
 					r = motion(r, 'right');
 					room.event = false;
 				} else {
-					player.src = require(`../assets/characters/right/${frames[0]}`);
+					player.src = require(`../assets/characters/${pg}/right/${frames[0]}`);
 				}
 
 				if (ev.evType != '') {
@@ -153,7 +153,7 @@ const Loop = (entities, { input }) => {
 						player.renderer = <Player />;
 
 						const direction = ev.options.direction;		// direzione in cui il giocatore sarà rivolto
-						player.src = require(`../assets/characters/${direction}/Walk0.png`);
+						player.src = require(`../assets/characters/${pg}/${direction}/Walk0.png`);
 					}, 900);
 				}
 

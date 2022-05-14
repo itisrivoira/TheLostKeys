@@ -2,13 +2,15 @@
 
 import { useState, useContext } from "react";
 import { Container, Row, Col, Button, Carousel, Image, ProgressBar } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 import { PgCtx } from "../components/components";
 import players from "./players";
 
 const Select = () => {
 	const [index, setIndex] = useState(0);
-	const { setPg } = useContext(PgCtx);
+	const { pg, setPg } = useContext(PgCtx);
+	let navigate = useNavigate();
 
 	const handleSelect = eventKey => { setIndex(eventKey) };
 	const confirmPg = () => {
@@ -17,6 +19,7 @@ const Select = () => {
 			img: players[index].img,					// immagine del personaggio
 			speed: players[index].stats[9].value	// velocità del personaggio
 		});
+		navigate('../play', {replace: true});
 	};
 
 	const loadItems = () => (
