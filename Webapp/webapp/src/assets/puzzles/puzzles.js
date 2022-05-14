@@ -15,7 +15,7 @@ const puzzles = {
 
 	PianoT:{
 		text: "",
-		img: "blablabla",
+		img: false,
 		A: "",
 		B: "",
 		C: "",
@@ -27,7 +27,7 @@ const puzzles = {
 
 	Fisica:{
 		text: "Cosa c’e' all’inizio dell’onda elettromagnetica, al centro dell’atomo, e alla fine di uno spettrometro?",
-		img: "blablabla",
+		img: false,
 		A: "La radiazione",
 		B: "Il vuoto",
 		C: "O'",
@@ -39,7 +39,7 @@ const puzzles = {
 
 	Archivio:{
 		text: "",
-		img: "blablabla",
+		img: false,
 		A: "",
 		B: "",
 		C: "",
@@ -51,7 +51,7 @@ const puzzles = {
 
 	AulaMagna:{
 		text: "I have 4 legs, a back, but no head, What am I?",
-		img: "blablabla",
+		img: false,
 		A: "Cap",
 		B: "Blackboard",
 		C: "Cat",
@@ -75,7 +75,7 @@ const puzzles = {
 
 	Classe1A: {
 		text: "La somma della superficie di 3 piscine misura 1200 m^2. Se la prima e' il doppio della seconda e questa e' il triplo della terza, quanto misura in m^2 ogni piscina?",
-		img: "blablabla",
+		img: false,
 		A: "C = 400  B = 400  A = 400",
 		B: "B = 120  C = 390  A = 720",
 		C: "C = 120  B = 3C = 360  A = 2B = 720",
@@ -87,7 +87,7 @@ const puzzles = {
 
 	WCMaschi: {
 		text: "",
-		img: "blablabla",
+		img: false,
 		A: "",
 		B: "",
 		C: "",
@@ -99,7 +99,7 @@ const puzzles = {
 
 	WCFemmine: {
 		text: "Risolvi lo schema per il passaggio di stato: da una sostanza solida come il ghiaccio qual e' il giusto ordine per passare allo stato gassoso, e poi a quello liquido come l’acqua e poi di nuovo allo stato solido?",
-		img: require('../img/chimica.png'),
+		img: false,
 		A: "Sublimazione - Liquefazione - Solidificazione",
 		B: "Liquefazione - Sublimazione - Solidificazione",
 		C: "Solidificazione - Liquefazione - Sublimazione",
@@ -111,7 +111,7 @@ const puzzles = {
 
 	CLasse1D: {
 		text: "Cosa usi per misurare la lunghezza, il tempo la corrente e la temperatura?",
-		img: "blablabla",
+		img: false,
 		A: "metri- secondi- Ampere- Kelvin",
 		B: "centimetri- ore - ohm - celsius",
 		C: "kilometri - minuti - Ampere - Fahrenheit",
@@ -123,7 +123,7 @@ const puzzles = {
 
 	AulaProfessori: {
 		text: "Ricordi quando ufficialmente la scuola fu chiusa? In quel mese di 101 anni prima si stava concludendo uno duro scontro in un paese distante dal nostro. Trova il libro celebre di quegli anni all'interno dell'edificio, e ti guideranno alla chiavetta",
-		img: "blablabla",
+		img: false,
 		A: "1900",
 		B: "1817",
 		C: "1917",
@@ -135,7 +135,7 @@ const puzzles = {
 
 	Piano1: {
 		text: "",
-		img: "blablabla",
+		img: false,
 		A: "",
 		B: "",
 		C: "",
@@ -146,20 +146,20 @@ const puzzles = {
 	},
 
 	Piano2: {
-		text: "",
-		img: "blablabla",
-		A: "",
-		B: "",
-		C: "",
-		D: "",
-		right: "",
-		indizio: "",
-		punti: []
+		text: "Quanto fa 2^12 sapendo che 2^6 fa 64?",
+		img: false,
+		A: "4096",
+		B: "4094",
+		C: "4092",
+		D: "4090",
+		right: "A",
+		indizio: "2^12 non è il doppio di 2^6",
+		punti: [0, 10, 20, 40]
 	},
 
 	LabInfo2: {
 		text: "Determinare il valore di A a fine esecuzione",
-		img: "blablabla",
+		img: false,
 		A: "5",
 		B: "10",
 		C: "3",
@@ -171,7 +171,7 @@ const puzzles = {
 
 	Ripostiglio: {
 		text: "Il doppio aumentato di 9 del prodotto di un numero naturale con un altro che lo supera di quattro è uguale a 3 volte il quadrato del primo. Determinare i due numeri.",
-		img: "blablabla",
+		img: false,
 		A: "x1 = 19 x2 = 0",
 		B: "x1 = 10 x2 = 1",
 		C: "x1 = 9 x2 = 13",
@@ -183,7 +183,7 @@ const puzzles = {
 
 	Classe4A: {
 		text: "Questo enigma è uguale :(",
-		img: "blablabla",
+		img: false,
 		A: "",
 		B: "",
 		C: "",
@@ -195,7 +195,7 @@ const puzzles = {
 
 	AulaVideo: {
 		text: "Sblocchi un flashback della prima superiore, ti ricordi quando tutto in questo ambiente ti sembrava tutto nuovo, è come se ci fosse un fanciullino dentro di te, che autore di ricorda?",
-		img: "blablabla",
+		img: false,
 		A: "Verga",
 		B: "Pirandello",
 		C: "Pascoli",
