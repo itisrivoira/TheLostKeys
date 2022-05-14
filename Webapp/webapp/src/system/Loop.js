@@ -25,8 +25,8 @@ const Loop = (entities, { input }) => {
 	const { player, room } = entities;
 
 	// Estraggo varie proprietà dalle entita per comodità
-	var { name } = room;
 	var { x, y, speed, pg } = player;
+	var { name } = room;
 
 	// Smezzo le coordinate del giocatore per ottenere il punto medio
 	x += 45;
@@ -34,7 +34,7 @@ const Loop = (entities, { input }) => {
 
 	// funzione che anima lo sprite di movimento
 	// Questa funzione cambierà quando aggiugerò più personaggi
-	const motion = (i, direct) => {
+	const move = (i, direct) => {
 		if (i === 5) i = 0;		// se il contatore arriva al massimo lo resetto
 		// ogni 4 click cambio immagine dove direct=direzione e frame=numero della animazione
 		player.src = require(`../assets/characters/${pg}/${direct}/${frames[parseInt(i)]}`);
@@ -45,6 +45,11 @@ const Loop = (entities, { input }) => {
 		// quindi si modifica solo una copia
 		return i;
 	}
+
+	// funzione per caricare lo sprite del pg fermo
+	const stop = direct => {
+		player.src = require(`../assets/characters/${pg}/${direct}/Walk0.png`);
+	};
 
 	// Quando l'evento si verifica faccio muovere il giocatore
 	if (payload) {
@@ -58,17 +63,12 @@ const Loop = (entities, { input }) => {
 
 				if ( !col && !ev.up ) {		// Se entrambi sono falsi posso andare avanti
 					player.y -= speed;		// Diminuisco perchè le Y crescono verso il basso
-					u = motion(u, 'up');		// Animazione
-					room.event = false;		// Nessun evento quindi il flag è false
-				} else {		// Se invece non posso muovermi carico lo sprite da fermo
-					player.src = require(`../assets/characters/${pg}/up/${frames[0]}`);
-				}
+					u = move(u, 'up');		// Animazione
+				} else 		// Se invece non posso muovermi carico lo sprite da fermo
+					stop('up');
 
-				if (ev.evType != '') {	// Se c'è l'evento
-					room.event = true;
+				if (ev.evType != '') 	// Se c'è l'evento
 					room.evType = ev.evType;	// Mi salvo il tipo di evento
-				} else
-					room.event = false;
 
 				break;
 
@@ -78,17 +78,12 @@ const Loop = (entities, { input }) => {
 
 				if ( !col && !ev.down ) {
 					player.y += speed;
-					d = motion(d, 'down');
-					room.event = false;
-				}	else{
-					player.src = require(`../assets/characters/${pg}/down/${frames[0]}`);
-				}
-
-				if (ev.evType != '') {
-					room.event = true;
-					room.evType = ev.evType;
+					d = move(d, 'down');
 				} else
-					room.event = false;
+					stop('down');
+
+				if (ev.evType != '')
+					room.evType = ev.evType;
 
 				break;
 
@@ -98,17 +93,12 @@ const Loop = (entities, { input }) => {
 
 				if ( !col && !ev.left ) {
 					player.x -= speed;
-					l = motion(l, 'left');
-					room.event = false;
-				} else{
-					player.src = require(`../assets/characters/${pg}/left/${frames[0]}`);
-				}
-
-				if (ev.evType != '') {
-					room.event = true;
-					room.evType = ev.evType;
+					l = move(l, 'left');
 				} else
-					room.event = false;
+					stop('left');
+
+				if (ev.evType != '')
+					room.evType = ev.evType;
 
 				break;
 
@@ -118,17 +108,12 @@ const Loop = (entities, { input }) => {
 
 				if ( !col && !ev.right ) {
 					player.x += speed;
-					r = motion(r, 'right');
-					room.event = false;
-				} else {
-					player.src = require(`../assets/characters/${pg}/right/${frames[0]}`);
-				}
-
-				if (ev.evType != '') {
-					room.event = true;
-					room.evType = ev.evType;
+					r = move(r, 'right');
 				} else
-					room.event = false;
+					stop('right');
+
+				if (ev.evType != '')
+					room.evType = ev.evType;
 
 				break;
 
@@ -153,8 +138,8 @@ const Loop = (entities, { input }) => {
 						player.renderer = <Player />;
 
 						const direction = ev.options.direction;		// direzione in cui il giocatore sarà rivolto
-						player.src = require(`../assets/characters/${pg}/${direction}/Walk0.png`);
-					}, 900);
+						stop(direction);
+					}, 600);
 				}
 
 				break;

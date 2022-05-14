@@ -30,7 +30,6 @@ const useEntities = () => {
 
 		room: {	// Posso inserire tutte le prop che voglio
 			name: 'PianoT',		// Nome della stanza
-			event: false,			// Da togliere
 			evType: '',				// Tipo di evento
 			evOptions: {},			// Opzioni dell'Evento
 			renderer: <Room />	// La prop renderer contiene il Componente da renderizzare a schermo

@@ -5,8 +5,8 @@
 // Elem è l'array di Object da girare (Collisioni livello Oggetto di Tiled)
 // guarda i file json per capire meglio: assets/rooms/json/
 // x e y sono le coordinate del giocatore nel suo punto medio (al centro)
-// msg è solo di debug
-export default (elem, x, y, msg) => {
+// type è per sapere se controllo collisioni o eventi
+export default (elem, x, y, type) => {
 	let dirs = {
 		down: false,	// giù
 		up: false,		// su
@@ -27,10 +27,10 @@ export default (elem, x, y, msg) => {
 			y >= (el.y - el.height - 50)
 		) {
 			dirs.down = true;
-			console.log(`${msg}: down ${el.id} x: ${x}, y: ${y}`);	// Log di debug
+			console.log(`${type}: down ${el.id} x: ${x}, y: ${y}`);	// Log di debug
 
 			// Se verifico un evento ritorno i parametri di quell'evento
-			if (msg == 'Eventi') {
+			if (type == 'Eventi') {
 				dirs.evType = el.evType;
 				dirs.options = el.options;
 			}
@@ -44,9 +44,9 @@ export default (elem, x, y, msg) => {
 			y <= (el.y - 20)			// Questo per dare un effetto 3D del giocatore
 		){
 			dirs.up = true;
-			console.log(`${msg}: up ${el.id} x: ${x}, y: ${y}`);
+			console.log(`${type}: up ${el.id} x: ${x}, y: ${y}`);
 
-			if (msg == 'Eventi') {
+			if (type == 'Eventi') {
 				dirs.evType = el.evType;
 				dirs.options = el.options;
 			}
@@ -69,9 +69,9 @@ export default (elem, x, y, msg) => {
 			y <= (el.y - 40)				// ma translata di 30 px verso l'alto per dare l'effetto 3D
 		) {
 			dirs.right = true;
-			console.log(`${msg}: right ${el.id} x: ${x}, y: ${y}`);
+			console.log(`${type}: right ${el.id} x: ${x}, y: ${y}`);
 
-			if (msg == 'Eventi') {
+			if (type == 'Eventi') {
 				dirs.evType = el.evType;
 				dirs.options = el.options;
 			}
@@ -85,9 +85,9 @@ export default (elem, x, y, msg) => {
 			y <= (el.y - 40)		// ma translata di 30 px verso l'alto per dare l'effetto 3D
 		) {
 			dirs.left = true;
-			console.log(`${msg}: left ${el.id} x: ${x}, y: ${y}`);
+			console.log(`${type}: left ${el.id} x: ${x}, y: ${y}`);
 
-			if (msg == 'Eventi') {
+			if (type == 'Eventi') {
 				dirs.evType = el.evType;
 				dirs.options = el.options;
 			}
