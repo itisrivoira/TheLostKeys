@@ -8,7 +8,7 @@ import { GameEngine } from 'react-game-engine';		// Motore di Gioco
 
 import { SettingsUI, DialogUI, DialogCtx, SettingCtx, RunCtx, EnigmaUI, GameOverUI } from '../components/components';
 import { useEventListener } from '../utils/utils';
-import entities from '../entities/entities';		// Entita di Gioco
+import useEntities from '../entities/useEntities';		// Entita di Gioco
 import system from '../system/system';		// Funzioni di Logica del Gioco
 
 import '../style/Play.css';
@@ -18,6 +18,7 @@ const Play = () => {
 	const { setSetting } = useContext(SettingCtx);		// aprire le impostazioni
 	const { setDialog } = useContext(DialogCtx);	// aprire dialoghi di prova
 	const { run, setRun } = useContext(RunCtx);			// mettere in pausa il Gioco
+	const entities = useEntities();
 
 	useEffect( () => setRun(true), []);		// se il run era false diventa true
 
@@ -50,7 +51,7 @@ const Play = () => {
 		<GameEngine
 			running={run}				// imposto l'esecuzione del gioco con un Boolean Globale
 			systems={system}			// Array di funzioni che vengono eseguite in loop
-			entities={entities()}	// Entita di gioco
+			entities={entities}	// Entita di gioco
 			className='Stage'
 		>
 			<SettingsUI	exit={true} />

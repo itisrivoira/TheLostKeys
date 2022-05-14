@@ -7,6 +7,7 @@ export const RunCtx = createContext();
 export const MusicCtx = createContext();
 export const SfxCtx = createContext();
 export const SettingCtx = createContext();
+export const PgCtx = createContext();
 
 // Children è il figlio del componente cioè quello che sta dentro
 const GlobalContext = ({children}) => {
@@ -14,13 +15,16 @@ const GlobalContext = ({children}) => {
 	const [setting, setSetting] = useState(false);	// Flag Pannello Opzioni
 	const [music, setMusic] = useState(0.5);			// Livello di Musica
 	const [sfx, setSfx] = useState(0.5);				// Livello degli Effetti Sonori
+	const [pg, setPg] = useState({}); 					// nome e velocità del personaggio
 
 	return(
 		<RunCtx.Provider value={{run, setRun}} /*Il Provider fornisce il value ai componenti sottostanti */ >
 			<MusicCtx.Provider value={{music, setMusic}}>
 				<SfxCtx.Provider value={{sfx, setSfx}}>
 					<SettingCtx.Provider value={{setting, setSetting}}>
-						{children}
+						<PgCtx.Provider value={{pg, setPg}}>
+							{children}
+						</PgCtx.Provider>
 					</SettingCtx.Provider>
 				</SfxCtx.Provider>
 			</MusicCtx.Provider>
