@@ -5,37 +5,65 @@
 */
 
 import { useEffect, useState } from "react";
-import { Container, Row, Col, Image, Fade } from "react-bootstrap";
+import { Container, Row, Col, Image } from "react-bootstrap";
 
-import { denina } from '../assets/img/img';
+import { denina, logo } from '../assets/img/img';
+import { useEventListener, useTimeout } from "../utils/utils";
 
 const SplashScreen = () => {
 	const [animate, setAnimate] = useState(true);
+	const [first, setFirst] = useState(true);
 
-	// Nascondo la schermata dopo 4,2 secondi
-	useEffect( () => {
-		const dissappear = setTimeout(() => {
-			setAnimate(false);
-		}, 4000)
+	const skip = () => setAnimate(false);
+	const change = () => setFirst(false);
 
-		return () => clearInterval(dissappear);
-	}, []);
+	useTimeout(change, 3250);
+	useTimeout(skip, 9000);
+	useEventListener('keydown', skip);
 
 	return( animate && (
 		<Container fluid className="complete d-flex align-items-center justify-content-center p-0 m-0">
-			<Row className="splash">
-				<Col className="d-flex justify-content-end">
-					<Image src={denina} fluid />
-				</Col>
-				<Col xxl={9} className="d-flex d-flex align-items-center">
-					<p className="fs-1 text-center text-white txt-pixel">
-						Presented by IIS Denina Pellico Rivoira
-					</p>
-				</Col>
-			</Row>
+			{ first ? <FirstFade/> : <SecondFade /> }
+			<SkipFade />
 		</Container>
-
 	))
-}
+};
+
+const FirstFade = () => (
+	<Row className="splash w-100">
+		<Col className="d-flex justify-content-center">
+			<Image src={denina} height={275} width={275} fluid />
+		</Col>
+		<Col xxl={8} className="d-flex d-flex align-items-center">
+			<p className="fs-1 text-center text-white txt-pixel">
+				Presented by <br/> IIS Denina Pellico Rivoira
+			</p>
+		</Col>
+	</Row>
+);
+
+const SecondFade = () => (
+	<Row className="secondSplash w-100">
+		<Col className="d-flex justify-content-center">
+			<Image src={logo} height={275} width={275} fluid />
+		</Col>
+		<Col xxl={8} className="d-flex d-flex align-items-center">
+			<p className="fs-1 text-center text-white txt-pixel">
+				Created and Developed by <br/> The Lost Key Teams
+			</p>
+		</Col>
+	</Row>
+);
+
+const SkipFade = () => (
+	<Row className="skip position-absolute bottom-0 start-50 translate-middle mb-4">
+		<Col>
+			<p className="fs-2 text-center text-white txt-pixel">
+				Press any key to skip
+			</p>
+		</Col>
+	</Row>
+)
+
 
 export default SplashScreen;
