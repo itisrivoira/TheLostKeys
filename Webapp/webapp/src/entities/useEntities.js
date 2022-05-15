@@ -23,7 +23,7 @@ const useEntities = () => {
 			x: 100,					// coordinata X iniziale
 			y: 450,					// coordinata Y iniziale
 			pg: pg.name,			// nome del pg che sto usando
-			speed: pg.speed * 2,	// velocità
+			speed: pg.speed + parseInt(pg.speed/3),	// velocità
 			src: pg.img,			// sprite
 			renderer: <Player/>
 		},

@@ -128,7 +128,6 @@ const Commands = ({show, handleClose}) => (
 	</Modal>
 )
 
-
 // Tutti i comandi del Gioco
 const listaComandi = [
 	{

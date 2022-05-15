@@ -23,9 +23,9 @@ const Audio = ({title, volume, changer}) => {
 	// Questa funzione si esegue ogni volta che cambia il volume
 	useEffect( () => {
 		if (volume <= 0.1) {
-			setDash(true);		// Disabilito il tasto +
+			setDash(true);		// Disabilito il tasto -
 		} else if (volume >= 0.9) {
-			setPlus(true);		// Disabilito il tasto -
+			setPlus(true);		// Disabilito il tasto +
 		} else {
 			setDash(false);	// Li attivo entrambi
 			setPlus(false);

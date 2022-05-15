@@ -18,7 +18,7 @@ const SplashScreen = () => {
 	const change = () => setFirst(false);
 
 	useTimeout(change, 3250);
-	useTimeout(skip, 9000);
+	useTimeout(skip, 10000);
 	useEventListener('keydown', skip);
 
 	return( animate && (
