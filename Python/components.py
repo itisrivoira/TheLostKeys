@@ -1190,7 +1190,7 @@ class GUI():
 
 		self.distanza_riga = 9 * GLOB.MULT
 
-		self.val_obj_max = 3.4
+		self.val_obj_max = 3.8
 		self.val_obj = 0
 		self.val_obj_incr = 0.05 * GLOB.MULT
 		self.obj_flag = False
