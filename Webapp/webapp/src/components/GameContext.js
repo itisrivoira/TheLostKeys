@@ -13,6 +13,7 @@ export const RoomNameCtx = createContext();
 export const ScoreCtx = createContext();
 export const DoneCtx = createContext();
 export const GameOverCtx = createContext();
+export const CloseCtx = createContext();
 
 const GameContext = ({children}) => {
 	const [dialog, setDialog] = useState(false);		// Flag Pannello Dialoghi (Forse da Tagliare)
@@ -21,8 +22,9 @@ const GameContext = ({children}) => {
 	const [score, setScore] = useState(0);				// Punteggio totale
 	const [done, setDone] = useState([1,2,3,4,5,6,7,8,9,10,11,12,13]);				// Array contenente gli enigmi già fatti
 	const [gameOver, setGameOver] = useState(false);// Flag del Game Over
-	const [listDone, setList] = useSessionStorage('done', done);
+	const [close, setClose] = useState(false);
 
+	const [listDone, setList] = useSessionStorage('done', done);
 	useEffect( () => setList(done), [done]);
 
 	return(
@@ -32,7 +34,9 @@ const GameContext = ({children}) => {
 					<ScoreCtx.Provider value={{score, setScore}}>
 						<DoneCtx.Provider value={{done, setDone}}>
 							<GameOverCtx.Provider value={{gameOver, setGameOver}}>
-								{children}
+								<CloseCtx.Provider value={{close, setClose}}>
+									{children}
+								</CloseCtx.Provider>
 							</GameOverCtx.Provider>
 						</DoneCtx.Provider>
 					</ScoreCtx.Provider>

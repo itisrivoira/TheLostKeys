@@ -4,21 +4,23 @@
 */
 
 import { useContext, useEffect } from "react";
-import { Col, Row, Figure } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { BsPauseFill, BsPlayFill } from "react-icons/bs";
 
-import { RunCtx, ScoreCtx, GameOverCtx } from "../components/components";
+import { RunCtx, ScoreCtx, CloseCtx, GameOverCtx } from "../components/components";
 
 const UHD = ({ min, sec, gameOver }) => {
 	const { run, setRun } = useContext(RunCtx);		// flag esecuzione gioco
 	const { score } = useContext(ScoreCtx);	// Punteggio del gioco
-	const { setGameOver } = useContext(GameOverCtx); // Game Over
+	const { setClose } = useContext(CloseCtx); // Game Over
+	const { setGameOver } = useContext(GameOverCtx);
 
 	// Se gameOver diventa vero allora il giocatore ha perso
 	useEffect( () => {
 		if (gameOver) {
 			setRun(false);		// Stoppo il gioco
-			setGameOver(true); // attivo il game Over
+			setClose(true);
+			setGameOver(true)	// attivo il game Over
 		}
 	}, [gameOver]);
 

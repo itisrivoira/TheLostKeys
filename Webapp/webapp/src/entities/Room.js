@@ -6,7 +6,7 @@
 import { useEffect, useContext } from "react";
 import { Image } from "react-bootstrap";
 
-import { EnigmaCtx, RunCtx, RoomNameCtx, DoneCtx } from "../components/components";
+import { EnigmaCtx, RunCtx, RoomNameCtx, DoneCtx, CloseCtx, ScoreCtx} from "../components/components";
 import { useEventListener } from "../utils/utils";
 import paths from '../paths';		// Percorsi dei png delle Stanze
 
@@ -15,6 +15,8 @@ const Room = ({name, evType}) => {
 	const { setRoom } = useContext(RoomNameCtx);
 	const { setRun } = useContext(RunCtx);
 	const { done } = useContext(DoneCtx);
+	const { setClose } = useContext(CloseCtx);
+	const { setScore } = useContext(ScoreCtx);
 
 	// Aggiorno lo stato Globale Room al cambiamento della prop event
 	useEffect( () => setRoom(name), [name]);
@@ -28,6 +30,10 @@ const Room = ({name, evType}) => {
 					setRun(false);			// Stoppo il gioco
 				} else
 					alert('Questo Enigmaa l\'ho già fatto');
+			} else if ( evType == 'Win' ) {
+				setRun(false);
+				setClose(true);
+				setScore(prev => prev + 500);
 			}
 		}
 	};

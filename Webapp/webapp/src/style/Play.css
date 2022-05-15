@@ -15,3 +15,9 @@
 	background-size: cover;
 	image-rendering: pixelated;
 }
+
+.win {
+	background: url('../assets/img/victory.png') no-repeat;
+	background-size: cover;
+	image-rendering: pixelated;
+}

@@ -7,11 +7,12 @@ import { useContext } from "react";
 import { Image, Modal, Row, Col, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-import { GameOverCtx, ScoreCtx } from "./components";
+import { GameOverCtx, ScoreCtx, CloseCtx } from "./components";
 import { Skull } from "../assets/img/img";
 
 const GameOverUI = () => {
 	const { gameOver } = useContext(GameOverCtx);
+	const { close } = useContext(CloseCtx);
 	const { score } = useContext(ScoreCtx);
 	let navigate = useNavigate();
 
@@ -20,66 +21,52 @@ const GameOverUI = () => {
 
 	return(
 		<Modal
-			show={gameOver}
+			show={close}
 			animation={false}
 			fullscreen
 		>
-			<Modal.Body className="bg-dark w-100 h-100">
-				<Row>
-					<Col className="d-flex justify-content-center">
-						<Image
-							style={{imageRendering: "pixelated"}}
-							src={Skull}
-							height={225}
-							width={225}
-						/>
-					</Col>
-				</Row>
-				<Row className="my-3">
-					<CustomText color="warning">
-						GAME
-					</CustomText>
-					<CustomText color="danger">
-						OVER
-					</CustomText>
-				</Row>
-				<Row className="my-3">
-					<Col className="text-center">
-						<p className="fs-1 txt-pixel text-white">
-							Your Final Score is: {score}
-						</p>
-					</Col>
-				</Row>
-				<Row className="my-3">
-					<Col xxl={5} className="text-end txt-pixel">
-						<Button
-							className="p-3 fs-3"
-							variant="success"
-							size="lg"
-							onClick={restart}
-						>
-							Restart
-						</Button>
-					</Col>
-					<Col xxl={2} className="text-center txt-pixel">
-						<Button
-							className="p-3 fs-3 text-white"
-							variant="info"
-							size="lg"
-						>
-							Upload
-						</Button>
-					</Col>
-					<Col xxl={5} className="text-start txt-pixel">
-						<Button
-							className="p-3 fs-3"
-							variant="danger"
-							size="lg"
-							onClick={backToMenu}
-						>
-							Exit The Game
-						</Button>
-					</Col>
+			<Modal.Body className={`bg-dark w-100 h-100 ${!gameOver && 'win'}`}>
+				{gameOver && <GameOverTitle />}
+
+				<Row className={!gameOver && "position-absolute top-50 start-50 translate-middle w-75"}>
+							<Row className="my-3">
+						<Col className="text-center">
+							<p className="fs-1 txt-pixel text-white">
+								Your Final Score is: {score}
+							</p>
+						</Col>
+					</Row>
+					<Row className="my-3">
+						<Col xxl={5} className="text-end txt-pixel">
+							<Button
+								className="p-3 fs-3"
+								variant="success"
+								size="lg"
+								onClick={restart}
+							>
+								Restart
+							</Button>
+						</Col>
+						<Col xxl={2} className="text-center txt-pixel">
+							<Button
+								className="p-3 fs-3 text-white"
+								variant="info"
+								size="lg"
+							>
+								Upload
+							</Button>
+						</Col>
+						<Col xxl={5} className="text-start txt-pixel">
+							<Button
+								className="p-3 fs-3"
+								variant="danger"
+								size="lg"
+								onClick={backToMenu}
+							>
+								Exit The Game
+							</Button>
+						</Col>
+					</Row>
 				</Row>
 			</Modal.Body>
 		</Modal>
@@ -95,5 +82,28 @@ const CustomText = ({children, color}) => (
 		</Col>
 	</Row>
 )
+
+
+const GameOverTitle = () => (<>
+	<Row>
+		<Col className="d-flex justify-content-center">
+			<Image
+				style={{imageRendering: "pixelated"}}
+				src={Skull}
+				height={225}
+				width={225}
+			/>
+		</Col>
+	</Row>
+	<Row className="my-3">
+		<CustomText color="warning">
+			GAME
+		</CustomText>
+		<CustomText color="danger">
+			OVER
+		</CustomText>
+	</Row>
+</>)
+
 
 export default GameOverUI;

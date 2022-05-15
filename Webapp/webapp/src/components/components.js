@@ -5,7 +5,7 @@ import { BtnPlay, BtnOptions, BtnRank, BtnMusic } from "./Buttons";
 import DialogUI from './DialogUI';
 import DialogText from './DialogText';
 import GlobalContext, { RunCtx, MusicCtx, SfxCtx, SettingCtx, PgCtx } from './GlobalContext';
-import GameContext, { DialogCtx, EnigmaCtx, RoomNameCtx, ScoreCtx, DoneCtx, GameOverCtx } from './GameContext';
+import GameContext, { DialogCtx, EnigmaCtx, RoomNameCtx, ScoreCtx, DoneCtx, GameOverCtx, CloseCtx } from './GameContext';
 import SettingsUI from "./SettingsUI";
 import SplashScreen from "./SplashScreen";
 import EnigmaUI from './EnigmaUI';
@@ -35,5 +35,6 @@ export {
 	SplashScreen,
 	EnigmaUI,
 	GameOverUI,
-	PgCtx
+	PgCtx,
+	CloseCtx
 };
