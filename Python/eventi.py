@@ -26,6 +26,20 @@ def testa():
         else:
             GLOB.Enigma = False
 
+
+    if main.player.evento == "enigma-risolto":
+        print("Entrato")
+        testo = "Default"
+        if GLOB.Stanza == "Chimica":
+            testo = "Ho trovato un appunto del quale dice che ci sia una chiavetta nascosta all'interno dell'armadio...|Mmmm... mi potrebbe essere utile."
+
+            testo = testo.split("|")
+
+            for t in testo:
+                d = main.Dialoghi(GLOB.scelta_char, t, 3)
+                d.stampa()
+
+
     if main.player.evento == "mappa":
         mappa = MiniMap()
         mappa.update()
@@ -36,15 +50,25 @@ def testa():
         GLOB.Piano = "0-PianoSegreto"
         main.player.evento = None
         main.stanze.setToDefault()
-
-    elif main.player.evento == "piano-1":
-        GLOB.Piano = "1-PianoTerra"
-        main.player.evento = None
-        main.stanze.setToDefault()
-        main.stanze.dizionario_flag["Corridoio"] = True
+        main.stanze.dizionario_flag["StanzaSegreta"] = True
 
         main.animazione.iFinished = False
         main.stanze.setPosition((192, 72), (146, 62))
+
+    elif main.player.evento == "piano-1":
+        last_floor = GLOB.Piano
+        GLOB.Piano = "1-PianoTerra"
+        main.player.evento = None
+        main.stanze.setToDefault()
+
+        main.animazione.iFinished = False
+
+        if last_floor == "0-PianoSegreto":
+            GLOB.Piano = "0-PianoSegreto"
+            main.stanze.dizionario_flag["Archivio1"] = True
+        else:
+            main.stanze.setPosition((192, 72), (146, 62))
+            main.stanze.dizionario_flag["Corridoio"] = True
 
     elif main.player.evento == "piano-2":
         last_floor = GLOB.Piano
@@ -178,7 +202,10 @@ def testa():
         if GLOB.Piano == "1-PianoTerra":
         
             if GLOB.Stanza == "Corridoio":
-                main.stanze.dizionario_flag["Archivio"] = True
+                if not GLOB.codice_archivio:
+                    main.stanze.dizionario_flag["Archivio0"] = True
+                else:
+                    main.stanze.dizionario_flag["Archivio1"] = True
 
             if GLOB.Stanza == "Archivio":
                 main.stanze.dizionario_flag["Corridoio"] = True
@@ -195,7 +222,6 @@ def testa():
         else:
             main.player.evento = "porta-99"
             return
-
         
 
         main.animazione.iFinished = False
@@ -411,3 +437,17 @@ def testa():
 
     if main.player.evento == "cerca-F":
         NonTrovato()
+
+
+    if main.player.evento == "codice":
+        if GLOB.Stanza == "Archivio" and not GLOB.codice_archivio:
+            codice = main.Code(4096)
+            codice.Show()
+
+            GLOB.codice_archivio = codice.risolto
+
+            if codice.risolto:
+                main.stanze.setToDefault()
+                main.stanze.dizionario_flag["Archivio1"] = True
+                main.stanze.caricaStanza()
+                main.stanze.CaricaElementi()

@@ -2,6 +2,7 @@ import global_var as GLOB
 import main
 
 percorso = "../MappaGioco/Tileset/Stanze/"
+global dizionario_flag
 
 def setPosition(posP, posC):
     global pos_portaP, pos_portaC
@@ -9,22 +10,20 @@ def setPosition(posP, posC):
     pos_portaC = posC
 
 def inizializza():
-    global dizionario_flag
-
     setToDefault()
-    dizionario_flag["Corridoio"] = True
-
 
     setPosition((152, 122), (130, -118))
 
 def setToDefault():
     global dizionario_flag
+    
 
     dizionario_flag = {
         
         "Chimica" : False,
         "Fisica" : False,
-        "Archivio" : False,
+        "Archivio0" : False,
+        "Archivio1" : False,
         "Classe1A" : False,
         "AulaMagna" : False,
         "AulaProfessori" : False,
@@ -35,6 +34,7 @@ def setToDefault():
         "AulaVideo" : False,
         "LabInformatica" : False,
         "Ripostiglio" : False,
+        "StanzaSegreta": False,
         "Corridoio" : False,
         "Corridoio1" : False,
         "Corridoio2" : False,
@@ -42,7 +42,6 @@ def setToDefault():
      }
 
 def Chimica():
-    global dizionario_flag
 
     GLOB.Piano = "1-PianoTerra"
     GLOB.Stanza = "Chimica"
@@ -55,7 +54,7 @@ def Chimica():
 
 
 def Fisica():
-    global dizionario_flag
+    
 
     GLOB.Piano = "1-PianoTerra"
     GLOB.Stanza = "Fisica"
@@ -67,21 +66,43 @@ def Fisica():
     dizionario_flag["Fisica"] = False
 
 
-def Archivio():
-    global dizionario_flag
+def Archivio0():
+    
 
+    last_floor = GLOB.Piano
     GLOB.Piano = "1-PianoTerra"
     GLOB.Stanza = "Archivio"
-    GLOB.Default_collisions = "ProvaArchivio_CollisioniStefano.csv"
-    GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaArchivio.png"
+    GLOB.Default_collisions = "ProvaArchivio_CollisioniStefano0.csv"
+    GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaArchivio0.png"
     GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaArchivioOggetti.png"
 
-    setPosition((264, 120), (-160, -118))
-    dizionario_flag["Archivio"] = False
+    if last_floor == "0-PianoSegreto":
+        main.stanze.setPosition((156, 80), (-22, -118))
+    else:
+        setPosition((264, 120), (-160, -118))
+
+    dizionario_flag["Archivio0"] = False
+
+
+def Archivio1():
+    
+    last_floor = GLOB.Piano
+    GLOB.Piano = "1-PianoTerra"
+    GLOB.Stanza = "Archivio"
+    GLOB.Default_collisions = "ProvaArchivio_CollisioniStefano1.csv"
+    GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaArchivio1.png"
+    GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaArchivioOggetti.png"
+
+    if last_floor == "0-PianoSegreto":
+        main.stanze.setPosition((156, 80), (-22, -118))
+    else:
+        setPosition((264, 120), (-160, -118))
+
+    dizionario_flag["Archivio1"] = False
 
 
 def Classe1A():
-    global dizionario_flag
+    
 
     GLOB.Piano = "2-PrimoPiano"
     GLOB.Stanza = "1A"
@@ -94,7 +115,7 @@ def Classe1A():
 
 
 def AulaMagna():
-    global dizionario_flag
+    
 
     GLOB.Piano = "2-PrimoPiano"
     GLOB.Stanza = "AulaMagna"
@@ -106,7 +127,7 @@ def AulaMagna():
     dizionario_flag["AulaMagna"] = False
 
 def AulaProfessori():
-    global dizionario_flag
+    
 
     GLOB.Piano = "2-PrimoPiano"
     GLOB.Stanza = "AulaProfessori"
@@ -119,7 +140,7 @@ def AulaProfessori():
     
 
 def LabInfo():
-    global dizionario_flag
+    
 
     GLOB.Piano = "2-PrimoPiano"
     GLOB.Stanza = "LabInfo"
@@ -131,7 +152,7 @@ def LabInfo():
     dizionario_flag["LabInfo"] = False
 
 def WCfemmine():
-    global dizionario_flag
+    
 
     GLOB.Piano = "2-PrimoPiano"
     GLOB.Stanza = "WC-Femmine"
@@ -144,7 +165,7 @@ def WCfemmine():
 
 
 def WCmaschi():
-    global dizionario_flag
+    
 
     GLOB.Piano = "2-PrimoPiano"
     GLOB.Stanza = "WC-Maschi"
@@ -156,7 +177,7 @@ def WCmaschi():
     dizionario_flag["WCmaschi"] = False
 
 def Classe4A():
-    global dizionario_flag
+    
 
     GLOB.Piano = "3-SecondoPiano"
     GLOB.Stanza = "4A"
@@ -168,7 +189,7 @@ def Classe4A():
     dizionario_flag["Classe4A"] = False
 
 def AulaVideo():
-    global dizionario_flag
+    
 
     GLOB.Piano = "3-SecondoPiano"
     GLOB.Stanza = "AulaVideo"
@@ -180,7 +201,7 @@ def AulaVideo():
     dizionario_flag["AulaVideo"] = False
 
 def LabInformatica():
-    global dizionario_flag
+    
 
     GLOB.Piano = "3-SecondoPiano"
     GLOB.Stanza = "LabInformatica"
@@ -193,7 +214,7 @@ def LabInformatica():
 
 
 def Ripostiglio():
-    global dizionario_flag
+    
 
     GLOB.Piano = "3-SecondoPiano"
     GLOB.Stanza = "Ripostiglio"
@@ -204,8 +225,20 @@ def Ripostiglio():
     setPosition((272, 118), (-100, -72))
     dizionario_flag["Ripostiglio"] = False
 
+
+def StanzaSegreta():
+    
+    GLOB.Piano = "0-PianoSegreto"
+    GLOB.Stanza = "StanzaSegreta"
+    GLOB.Default_collisions = "StanzaSegreta_collisioniStefano.csv"
+    GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/StanzaSegreta.png"
+    GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/StanzaSegretaOggetto.png"
+
+    setPosition((268, 84), (-186, -66))
+    dizionario_flag["StanzaSegreta"] = False
+
 def Corridoio():
-    global dizionario_flag
+    
 
     if GLOB.Stanza == "Chimica":
         setPosition((270, 74), (-244, 56))
@@ -226,7 +259,7 @@ def Corridoio():
 
 
 def Corridoio1():
-    global dizionario_flag
+    
 
     if GLOB.Stanza == "AulaMagna":
         setPosition((250, 116), (-262, -144))
@@ -255,7 +288,7 @@ def Corridoio1():
     dizionario_flag["Corridoio1"] = False
 
 def Corridoio2():
-    global dizionario_flag
+    
 
     if GLOB.Stanza == "4A":
         setPosition((162, 110), (-114, -148))
@@ -279,8 +312,16 @@ def Corridoio2():
 
 inizializza()
 
+
+def CaricaElementi():
+    GLOB.LoadCollisions = True
+    main.collisions.load_map(GLOB.Default_Map)
+    main.collisions.load_objects(GLOB.Default_object)
+    main.load_collisions(GLOB.Default_collisions)
+
+
 def caricaStanza():
-    global dizionario_flag
+    
 
     if not main.animazione.iFinished:
         main.collisions.load_map(GLOB.Default_Map)
@@ -292,6 +333,14 @@ def caricaStanza():
     if GLOB.Default_collisions != None:
         main.load_collisions(GLOB.Default_collisions)
 
+
+    if GLOB.Piano == "0-PianoSegreto":
+        
+        if dizionario_flag["StanzaSegreta"]:
+            StanzaSegreta()
+
+        if dizionario_flag["Archivio1"]:
+            Archivio1()
 
     if GLOB.Piano == "1-PianoTerra":
 
@@ -309,9 +358,16 @@ def caricaStanza():
         
         if dizionario_flag["Fisica"]:
             Fisica()
+
+
+        if not GLOB.codice_archivio:
         
-        if dizionario_flag["Archivio"]:
-            Archivio()
+            if dizionario_flag["Archivio0"]:
+                Archivio0()
+        else:
+
+            if dizionario_flag["Archivio1"]:
+                Archivio1()
 
     elif GLOB.Piano == "2-PrimoPiano":
     

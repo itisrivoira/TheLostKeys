@@ -102,9 +102,6 @@ class Bar():
 		screen.blit(self.image, self.rect)
 
 
-def get_font(size): # Returns Press-Start-2P in the desired size
-	return pygame.font.Font("font/font.ttf", size)
-
 class Dialoghi():
 	def __init__(self, personaggio, descrizione, text_speed):
 		
@@ -1531,3 +1528,256 @@ class MiniMap():
 
 			clock.tick(GLOB.FPS)
 			pygame.display.flip()
+
+
+
+
+
+class Key():
+    def __init__(self,text,width,height,pos,elevation):
+		#Core attributes
+        self.pressed = False
+        self.elevation = elevation
+        self.dynamic_elecation = elevation
+        self.original_y_pos = pos[1]
+
+		# top rectangle 
+        self.top_rect = pygame.Rect(pos,(width,height))
+        self.top_color = '#23272b'
+
+		# bottom rectangle 
+        self.bottom_rect = pygame.Rect(pos,(width,height))
+        self.bottom_color = '#6b7075'
+		#text
+        self.text = text
+        self.text_surf = get_font(18*int(GLOB.MULT)).render(text,True,'#FFFFFF')
+        self.text_rect = self.text_surf.get_rect(center = self.top_rect.center)
+
+        self.clicked = False
+
+        self.sec = 0.2
+        self.delay = Delay(self.sec, self.stop)
+
+        self.flag_val = False
+
+    def click(self):
+        self.clicked = True
+
+    def stop(self):
+        self.clicked = False
+
+    def draw(self):
+		# elevation logic 
+        self.top_rect.y = self.original_y_pos - self.dynamic_elecation
+        self.text_rect.center = self.top_rect.center 
+
+        self.bottom_rect.midtop = self.top_rect.midtop
+        self.bottom_rect.height = self.top_rect.height + self.dynamic_elecation
+
+        pygame.draw.rect(GLOB.screen,self.bottom_color, self.bottom_rect)
+        pygame.draw.rect(GLOB.screen,self.top_color, self.top_rect)
+        pygame.draw.rect(GLOB.screen, "#0d0e0f", self.top_rect, GLOB.MULT)
+        GLOB.screen.blit(self.text_surf, self.text_rect)
+        self.check_click()
+
+    def check_click(self):
+        self.top_color = '#23272b'
+        if self.clicked:
+            self.delay.Start()
+            self.dynamic_elecation = 0
+            self.pressed = True
+        else:
+            self.delay.ReStart()
+            self.dynamic_elecation = self.elevation
+            if self.pressed == True:
+                self.pressed = False
+                self.flag_val = True
+                
+
+    def return_value(self):
+        if self.flag_val:
+            self.flag_val = False
+            return self.text
+        else:
+            return ""
+
+
+
+class Code():
+    def __init__(self, code):
+        
+        self.len = len(str(code))
+        self.codeS = code
+        self.codeU = "ENTER CODE"
+
+        self.flag_cliccato = False
+        self.flag_stop = False
+
+        d = 40 * GLOB.MULT
+        startx = GLOB.screen_width/2 - d * 1.5
+        starty = GLOB.screen_height - d * 5.5
+
+        x1, x2, x3 = startx, startx + d, startx + d * 2
+
+        button1 = Key('1',d, d,(x1, starty + d * 0),5)
+        button2 = Key('2',d, d,(x2, starty + d * 0),5)
+        button3 = Key('3',d,d,(x3, starty + d * 0),5)
+
+        button4 = Key('4',d,d,(x1, starty + d * 1),5)
+        button5 = Key('5',d,d,(x2, starty + d * 1),5)
+        button6 = Key('6',d,d,(x3, starty + d * 1),5)
+
+        button7 = Key('7',d,d,(x1, starty + d * 2),5)
+        button8 = Key('8',d,d,(x2, starty + d * 2),5)
+        button9 = Key('9',d,d,(x3, starty + d * 2),5)
+
+
+        buttonC = Key('#',d,d,(x1, starty + d * 3),5)
+        button0 = Key('0',d,d,(x2, starty + d * 3),5)
+        buttonE = Key('C',d,d,(x3, starty + d * 3),5)
+
+        self.tastierino = {
+            
+            1 : button1, 
+            2 : button2, 
+            3 : button3, 
+            4 : button4, 
+            5 : button5, 
+            6 : button6, 
+            7 : button7, 
+            8 : button8, 
+            9 : button9, 
+            0 : button0, 
+            "C" : buttonC, 
+            "E" : buttonE
+            
+            
+        }
+
+        self.pulsanti = list(self.tastierino.values())
+
+        self.sec = 1
+        self.delay = Delay(1, self.__reset_code)
+
+        self.risolto = False
+
+        self.CanClick = True
+
+        self.corretto = "CONFERMATO"
+        self.errore = "ERRORE"
+
+
+    def __reset_code(self):
+
+        if self.codeU == self.corretto:
+            self.risolto = True
+
+        self.codeU = ""
+        self.CanClick = True
+
+
+    def __code_calculation(self):
+
+        if self.flag_cliccato and not self.flag_stop:
+            self.__reset_code()
+            self.flag_stop = True
+
+        self.Code_text = get_font(18*int(GLOB.MULT)).render(self.codeU,True,'#FFFFFF')
+        self.Code_pos = ((GLOB.screen_width/2 - self.Code_text.get_width()/2, 10 * GLOB.MULT))
+
+        self.Code_rect = pygame.Rect((GLOB.screen_width/2 - 100 * GLOB.MULT, 5 * GLOB.MULT, 200 * GLOB.MULT, 25 * GLOB.MULT))
+
+        pygame.draw.rect(GLOB.screen, "#23272b", self.Code_rect)
+
+        GLOB.screen.blit(self.Code_text, self.Code_pos)
+
+        if self.codeU == self.errore or self.codeU == self.corretto:
+            self.delay.Infinite()
+
+        if str(self.codeU) == str(self.codeS) and len(self.codeU) == self.len:
+            self.CanClick = False
+            self.codeU = self.corretto
+
+        elif len(self.codeU) == self.len and self.codeU != self.codeS and self.codeU != self.corretto:
+            self.CanClick = False
+            self.codeU = self.errore
+
+
+    def Show(self):
+
+        a = True
+        while a and not self.risolto:
+            keys_pressed = pygame.key.get_pressed()
+
+            for event in pygame.event.get():
+
+                if event.type == pygame.QUIT:
+                    a = False
+
+                if event.type == pygame.KEYDOWN:
+                    
+                    if event.key == pygame.K_ESCAPE:
+                        a = False
+
+                    if self.CanClick:
+
+                        if event.key == pygame.K_1:
+                            self.tastierino[1].click()
+
+                        if event.key == pygame.K_2:
+                            self.tastierino[2].click()
+
+                        if event.key == pygame.K_3:
+                            self.tastierino[3].click()
+
+                        if event.key == pygame.K_4:
+                            self.tastierino[4].click()
+
+                        if event.key == pygame.K_5:
+                            self.tastierino[5].click()
+
+                        if event.key == pygame.K_6:
+                            self.tastierino[6].click()
+
+                        if event.key == pygame.K_7:
+                            self.tastierino[7].click()
+
+                        if event.key == pygame.K_8:
+                            self.tastierino[8].click()
+
+                        if event.key == pygame.K_9:
+                            self.tastierino[9].click()
+
+                        if event.key == pygame.K_0:
+                            self.tastierino[0].click()
+
+                        if event.key == pygame.K_BACKSPACE:
+                            testo = ""
+
+                            self.tastierino["E"].click()
+
+                            for char in self.codeU:
+                                if self.codeU.index(char) < len(self.codeU) - 1:
+                                    testo += char
+
+                            print(testo)
+
+                            self.codeU = testo
+
+
+            GLOB.screen.fill('#DCDDD8')
+
+            for key in keys_pressed:
+                if key:
+                    self.flag_cliccato = True
+
+            for button in self.pulsanti:
+                button.draw()
+
+                if button.text != "C" and button.text != "E" and self.CanClick:
+                    self.codeU += button.return_value()
+
+            self.__code_calculation()
+
+            pygame.display.update()
+            pygame.time.Clock().tick(GLOB.FPS)

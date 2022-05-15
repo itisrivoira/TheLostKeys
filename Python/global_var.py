@@ -23,17 +23,26 @@ AU = 5
 # rapporto musica del gioco
 MU = 1
 
+# Apri il file in modalita lettura
+with open('score.txt', 'r') as f:
+    f_contest = f.readlines()
+    Record = f_contest[1]
+f.close()
+
+
 # Timer del gioco
 Timer = 5
 
 Scelta = 0
 Cam_visible = False
 
+OptionDebug = False
 Debug = False
 ShowGrid = False
 ShowFps = True
 ShowDropFrames = True
 ShowScore = True
+ShowRecord = True
 LoadCollisions = True
 
 Mappa = []
@@ -149,12 +158,18 @@ def setResources():
     global score, score_seconds, tentativo
     global inventario
 
+    global codice_archivio
+
     global enigmi_da_risolvere, enigmi_risolti
     global chiavette, chiavetta_start, chiavetta_end
     global oggetti, oggetti_start, oggetti_end
 
     global Default_Character, PlayerCanMove, PlayerCanRun, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
     global Piano, Stanza, Default_Map, Default_object, Default_collisions
+
+    # -- CODICI ---
+    
+    codice_archivio = False
 
     # --- SCORE ---
 

@@ -4,7 +4,7 @@ import pygame, os, sys
 
 #Importo i vari file e classi necessarie
 import giocatore, menu, camera, debug, collisioni
-from components import Bar, Button, Dialoghi, Dialoghi_Interattivi, Risultato, Timer, GUI
+from components import Bar, Button, Dialoghi, Dialoghi_Interattivi, Risultato, Timer, GUI, Code
 from pygame import mixer
 from animazione import Transizione
 from mostro import Keeper
@@ -112,6 +112,8 @@ def inizializza():
 
     console = debug.Debug()
 
+
+
     if GLOB.MonsterCanSpawn:
         global mostro
         mostro = Keeper((200 * GLOB.MULT, 122 * GLOB.MULT), (20 * GLOB.MULT, 0.5 * GLOB.MULT))
@@ -148,6 +150,9 @@ def load_collisions(path):
 
 
 def disegna():
+
+    if player.evento == "vittoria":
+        game_win()
 
     if GLOB.PlayerReset:
         player.finish()
@@ -218,6 +223,8 @@ def disegna():
 
                     if condizione:
                         GLOB.enigmi_da_risolvere.pop(var)
+                        player.evento = "enigma-risolto"
+                        collisioni.eventi.testa()
 
                 else:
                     messaggio_a_schermo.ChangeParamatrer(text = "SBAGLIATO!", color = "#e83838", size = 12)
@@ -250,6 +257,90 @@ def disegna():
 
     if not GLOB.PlayerCanRun:
         SetPlayer_speed()
+
+
+#Funzione GAME WIN
+def game_win():
+    sfondo = pygame.image.load("assets/victory.png").convert()
+    sfondo = pygame.transform.scale(sfondo, (sfondo.get_width() * GLOB.MULT, sfondo.get_height() * GLOB.MULT))
+
+    restarta = False
+
+    pygame.mouse.set_visible(True)
+
+    if int(GLOB.Record) < int(GLOB.score):
+
+        with open('score.txt', 'w') as f:
+            f.write("Record:\n")
+            f.write(str(GLOB.score))
+            f.close()
+            
+    while not restarta:
+
+        # Ottengo la posizione corrente del cursore del mouse
+        MENU_MOUSE_POS = pygame.mouse.get_pos()
+
+
+        distanza_riga = 30
+        posy = 150
+
+
+        PLAY_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, posy * GLOB.MULT), 
+            text_input="RESTART", font=menu.get_font(8*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=2)
+        
+        QUIT_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, (posy + distanza_riga) * GLOB.MULT), 
+                            text_input="BACK TO MENU", font=menu.get_font(8*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=2)
+
+        for event in pygame.event.get():
+            keys_pressed = pygame.key.get_pressed()
+
+            if keys_pressed[pygame.K_ESCAPE] or (event.type == pygame.MOUSEBUTTONDOWN and QUIT_BUTTON.checkForInput(MENU_MOUSE_POS)):
+                GLOB.isGameRunning = False
+                menu.main_menu()
+
+            if keys_pressed[pygame.K_RETURN] or (event.type == pygame.MOUSEBUTTONDOWN and PLAY_BUTTON.checkForInput(MENU_MOUSE_POS)):
+                pygame.mouse.set_visible(False)
+                restarta = True
+                inizializza()
+
+        GLOB.screen.blit(sfondo, (0, 0))
+
+
+        altezza = 5 * GLOB.MULT
+        size = 20
+
+        distanza = 40 * GLOB.MULT
+        distanza_riga = 20 * GLOB.MULT
+
+        starty = 25 * GLOB.MULT
+
+    
+        GAME_TEXT = get_font(size*int(GLOB.MULT)).render("HAI", True, "White")
+        GAME_POS = (GLOB.screen_width/2 - GAME_TEXT.get_width()/2, starty + distanza)
+
+        CGAME_TEXT = get_font(size*int(GLOB.MULT)).render("HAI", True, "Black")
+        CGAME_POS = (GLOB.screen_width/2 - CGAME_TEXT.get_width()/2, starty + distanza + altezza)
+
+        OVER_TEXT = get_font(size*int(GLOB.MULT)).render("VINTO", True, "Gray")
+        OVER_POS = (GLOB.screen_width/2 - OVER_TEXT.get_width()/2, starty + distanza + distanza_riga)
+
+        COVER_TEXT = get_font(size*int(GLOB.MULT)).render("VINTO", True, "Black")
+        COVER_POS = (GLOB.screen_width/2 - COVER_TEXT.get_width()/2, starty + distanza + distanza_riga + altezza)
+
+        GLOB.screen.blit(CGAME_TEXT, CGAME_POS)
+        GLOB.screen.blit(COVER_TEXT, COVER_POS)
+
+        GLOB.screen.blit(GAME_TEXT, GAME_POS)
+        GLOB.screen.blit(OVER_TEXT, OVER_POS)
+
+		
+        for button in [PLAY_BUTTON, QUIT_BUTTON]:
+            button.changeColor(MENU_MOUSE_POS)
+            button.update(GLOB.screen)
+
+
+        clock.tick(GLOB.FPS)
+        pygame.display.flip()
 
 
 #Funzione GAME OVER
@@ -671,7 +762,7 @@ def main():
                         GLOB.ShowInventory = False
 
 
-            if keys_pressed[pygame.K_F3]:
+            if keys_pressed[pygame.K_F3] and GLOB.OptionDebug:
             
                 if not GLOB.Debug:
                     GLOB.Debug = True

@@ -311,11 +311,11 @@ class Player():
         # -- PIANO --
 
         start_id = 127
-        var_max = 4
+        var_max = 3
 
         for i in range(var_max):
-            if var == (start_id + i):
-                self.evento = "piano-"+str(i)
+            if var == (start_id + i + 1):
+                self.evento = "piano-"+str(i + 1)
 
         # -- CHIAVETTE --
 
@@ -328,9 +328,21 @@ class Player():
                 self.evento = "chiavetta-"+str(i+1)
 
 
+        # -- VITTORIA --
+
+        if var == 138:
+            self.evento = "vittoria"
+
+
         if chunk_render.colliderect(object):
             
             if keys_pressed[pygame.K_e] and GLOB.PlayerCanMove:
+
+
+                # -- PIANO SEGRETO --
+
+                if var == 127:
+                    self.evento = "piano-0"
 
                 # -- PORTE --
 
@@ -345,6 +357,11 @@ class Player():
 
                 if var >= 56 and var <= 111:
                     self.evento = "enigma"
+
+
+                # -- CODICE --
+                if var == 135:
+                    self.evento = "codice"
 
 
                 #-- CERCA --
