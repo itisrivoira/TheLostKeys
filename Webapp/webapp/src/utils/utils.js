@@ -6,6 +6,7 @@ import useFullScreen from "./useFullScreen";
 import useRandomInterval from "./useRandomTimer";
 import useFetch from "./useFetch";
 import useTimeout from "./useTimeout";
+import useSessionStorage from "./useSessionStorage";
 
 export {
 	useAudio,
@@ -13,5 +14,6 @@ export {
 	useFullScreen,
 	useRandomInterval,
 	useFetch,
-	useTimeout
+	useTimeout,
+	useSessionStorage
 };

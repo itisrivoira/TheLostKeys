@@ -22,6 +22,11 @@ export default {
 		json: require("./assets/rooms/json/Archivio0.json")
 	},
 
+	Archivio1: {
+		png: require("./assets/rooms/png/Archivio1.png"),
+		json: require("./assets/rooms/json/Archivio1.json")
+	},
+
 	PianoT: {
 		png: require("./assets/rooms/png/PianoT.png"),
 		json: require("./assets/rooms/json/PianoT.json")

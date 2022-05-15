@@ -142,6 +142,12 @@ const Loop = (entities, { input }) => {
 					}, 600);
 				}
 
+				if (ev.evType == 'FinalDoor') {
+					let done = JSON.parse(sessionStorage.getItem('done'));
+					if (done.length === 13)
+						room.name = "Archivio1";
+				}
+
 				break;
 		}
 	}

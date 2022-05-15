@@ -19,7 +19,6 @@ const Room = ({name, evType}) => {
 	// Aggiorno lo stato Globale Room al cambiamento della prop event
 	useEffect( () => setRoom(name), [name]);
 
-	// Cambierò il tasto Z con probabilmente Q
 	const attivaEnigma = ev => {
 		if (ev.key == 'q') {
 			// Evento Enigma
@@ -29,9 +28,6 @@ const Room = ({name, evType}) => {
 					setRun(false);			// Stoppo il gioco
 				} else
 					alert('Questo Enigmaa l\'ho già fatto');
-
-			} else if ( evType == 'Dialog' ) {
-				console.log('Questo è un dialogo!');
 			}
 		}
 	};

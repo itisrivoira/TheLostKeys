@@ -194,15 +194,15 @@ const puzzles = {
 	},
 
 	Classe4A: {
-		text: "Questo enigma è uguale :(",
+		text: "Find 2 country in europe with letter A",
 		img: false,
-		A: "",
-		B: "",
-		C: "",
-		D: "",
-		right: "",
-		indizio: "",
-		punti: [0,2,5]
+		A: "Afghanistan- Andorra",
+		B: "Austria- Albania",
+		C: "Australia - Armenia",
+		D: "Azerbagian - Argentina",
+		right: "B",
+		indizio: "Pay attention! Countries must be in europe!",
+		punti: [0, 10, 20, 40]
 	},
 
 	AulaVideo: {
@@ -215,7 +215,19 @@ const puzzles = {
 		right: "C",
 		indizio: "autore di fine '800",
 		punti: [0, 2, 5, 10]
-	}
+	},
+
+	StanzaSegreta: {
+		text: "",
+		img: false,
+		A: "",
+		B: "",
+		C: "",
+		D: "",
+		right: "",
+		indizio: "",
+		punti: []
+	},
 }
 
 export default puzzles;

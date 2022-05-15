@@ -9,7 +9,7 @@ import players from "./players";
 
 const Select = () => {
 	const [index, setIndex] = useState(0);
-	const { pg, setPg } = useContext(PgCtx);
+	const { setPg } = useContext(PgCtx);
 	let navigate = useNavigate();
 
 	const handleSelect = eventKey => { setIndex(eventKey) };

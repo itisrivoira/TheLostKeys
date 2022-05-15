@@ -372,7 +372,13 @@
                   "width":46.6666666666667,
                   "x":334.666666666667,
                   "y":526,
-                  "evType": "FinalDoor"
+                  "evType": "Door",
+                  "options":{
+                     "dest": "StanzaSegreta",
+							"nextX": 910,
+							"nextY": 290,
+							"direction": "down"
+                  }
                }
             ],
          "opacity":1,

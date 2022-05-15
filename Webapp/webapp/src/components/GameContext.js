@@ -4,7 +4,8 @@
 	In modo da risparmiare stati inutili alla pag Menu
 */
 
-import { createContext, useState } from "react"
+import { createContext, useEffect, useState } from "react"
+import useSessionStorage from "../utils/useSessionStorage";
 
 export const DialogCtx = createContext();
 export const EnigmaCtx = createContext();
@@ -18,8 +19,11 @@ const GameContext = ({children}) => {
 	const [enigma, setEnigma] = useState(false);		// Flag UI Engigma
 	const [room, setRoom] = useState('Chimica');		// Nome stanza in cui sono
 	const [score, setScore] = useState(0);				// Punteggio totale
-	const [done, setDone] = useState([]);				// Array contenente gli enigmi già fatti
+	const [done, setDone] = useState([1,2,3,4,5,6,7,8,9,10,11,12,13]);				// Array contenente gli enigmi già fatti
 	const [gameOver, setGameOver] = useState(false);// Flag del Game Over
+	const [listDone, setList] = useSessionStorage('done', done);
+
+	useEffect( () => setList(done), [done]);
 
 	return(
 		<DialogCtx.Provider value={{dialog, setDialog}}>
