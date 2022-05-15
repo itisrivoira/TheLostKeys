@@ -17,9 +17,9 @@ export default {
 		json: require("./assets/rooms/json/Fisica.json")
 	},
 
-	Archivio: {
-		png: require("./assets/rooms/png/Archivio.png"),
-		json: require("./assets/rooms/json/Archivio.json")
+	Archivio0: {
+		png: require("./assets/rooms/png/Archivio0.png"),
+		json: require("./assets/rooms/json/Archivio0.json")
 	},
 
 	PianoT: {

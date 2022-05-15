@@ -37,7 +37,19 @@ const puzzles = {
 		punti: [0, 2, 5, 10]
 	},
 
-	Archivio:{
+	Archivio0:{
+		text: "",
+		img: false,
+		A: "",
+		B: "",
+		C: "",
+		D: "",
+		right: "",
+		indizio: "",
+		punti: []
+	},
+
+	Archivio1:{
 		text: "",
 		img: false,
 		A: "",
@@ -99,7 +111,7 @@ const puzzles = {
 
 	WCFemmine: {
 		text: "Risolvi lo schema per il passaggio di stato: da una sostanza solida come il ghiaccio qual e' il giusto ordine per passare allo stato gassoso, e poi a quello liquido come l’acqua e poi di nuovo allo stato solido?",
-		img: false,
+		img: require('../img/chimica.png'),
 		A: "Sublimazione - Liquefazione - Solidificazione",
 		B: "Liquefazione - Sublimazione - Solidificazione",
 		C: "Solidificazione - Liquefazione - Sublimazione",

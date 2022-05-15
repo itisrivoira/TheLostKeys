@@ -119,7 +119,7 @@
 						"y":433.791921664627,
 						"evType":"Door",
 						"options": {
-							 "dest": "Archivio",
+							 "dest": "Archivio0",
 							 "nextX": 880,
 							 "nextY": 440,
 							 "direction": "left"
