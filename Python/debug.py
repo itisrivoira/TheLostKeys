@@ -82,7 +82,7 @@ class Debug():
 
             GLOB.screen.blit(ENIGMA_TEXT, ENIGMA_RECT)
 
-            INVENTARIO_TEXT = main.get_font(3*int(GLOB.MULT)).render(str(GLOB.inventario.keys()), True, "White")
+            INVENTARIO_TEXT = main.get_font(3*int(GLOB.MULT)).render(str(GLOB.inventario.keys())+" | "+str(GLOB.PlayerCanCollect), True, "White")
             INVENTARIO_RECT = INVENTARIO_TEXT.get_rect(center=(100*GLOB.MULT, 90*GLOB.MULT))
 
             GLOB.screen.blit(INVENTARIO_TEXT, INVENTARIO_RECT)

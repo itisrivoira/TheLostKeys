@@ -82,5 +82,6 @@ class Cam():
 
 
     def ShowCam(self):
+        self.offset = (5 * GLOB.Moff * GLOB.MULT, 2.25 * GLOB.Moff * GLOB.MULT)
         Offset_rect = pygame.Rect(self.offset[0] + self.Player_hitbox[0], self.offset[1] + self.Player_hitbox[1], GLOB.screen_width - self.offset[0]*2 - self.Player_hitbox[0]*2, GLOB.screen_height - self.offset[1]*2 - self.Player_hitbox[1]*2)
         pygame.draw.rect(GLOB.screen, (255,0,255), Offset_rect, int(GLOB.MULT))

@@ -1,17 +1,24 @@
-import pygame, sys, random
+import pygame, random
 from components import Delay
 import global_var as GLOB
 import main
 
 
+"""
+
+    --- DA OTTIMIZZARE ---
+     
+     
+"""
+
 class Keeper():
-    def __init__(self, pos, vel, wh):
+    def __init__(self, pos, wh):
         self.x = pos[0]
         self.y = pos[1]
         self.width = wh[0]
         self.height = wh[1]
         self.default_height = self.height
-        self.vel = vel * GLOB.MULT / GLOB.Delta_Time
+        self.vel = GLOB.Monster_speed
         self.run = self.vel * 1.4
         self.x, self.y = GLOB.screen.get_rect().center
         self.line_vector = pygame.math.Vector2(1, 0)
@@ -55,19 +62,49 @@ class Keeper():
         self.lista_movimento = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5]
 
         self.value_surface = 45 * GLOB.MULT
-        self.surface = pygame.Surface((self.width, self.value_surface), pygame.SRCALPHA)
+        self.surface = pygame.Surface((self.image.get_width(), self.value_surface), pygame.SRCALPHA)
+
+        
+        self.distanza_raggio = (17 * GLOB.MULT, 22 * GLOB.MULT)
+
+        radius = 360
+
+        rot_vector = self.line_vector.rotate(self.angle) * radius
+        rot_vector1 = self.line_vector.rotate(self.angle + self.distanza) * radius
+
+        self.start_line = round(self.x + self.width/2 + self.distanza_raggio[0] + main.cam.getPositionX()), round(self.y + main.cam.getPositionY() + self.distanza_raggio[1])
+        self.end_line = round(self.x + self.width/2 + self.distanza_raggio[0] - rot_vector.x + main.cam.getPositionX()), round(self.y - rot_vector.y + main.cam.getPositionY() + self.distanza_raggio[1])
+
+
+        self.end_line1 = round(self.x + self.width/2 + self.distanza_raggio[0] - rot_vector1.x + main.cam.getPositionX()), round(self.y - rot_vector1.y + main.cam.getPositionY() + self.distanza_raggio[1])
+
+            
 
 
     def load_monsterSurface(self):
-        self.surface = pygame.Surface((self.width, self.value_surface), pygame.SRCALPHA)
-
+        self.surface = pygame.Surface((self.image.get_width(), self.value_surface), pygame.SRCALPHA)
         self.surface.blit(self.image, (0, 0))
 
         GLOB.screen.blit(self.surface, (self.x + main.cam.getPositionX(), self.y + main.cam.getPositionY()))
 
+        if GLOB.ShowMonsterRange:
+            self.superfice.fill(pygame.SRCALPHA)
+            self.superfice.set_alpha(self.transparency)
+            self.triangle = pygame.draw.polygon(surface=self.superfice, color=self.color_triangle, points=[self.end_line, self.end_line1, self.start_line])
+
+            if (self.triangle.colliderect(main.player.mesh) or self.aggr) and GLOB.MonsterCanAttack:
+                self.circle = pygame.draw.circle(self.superfice, "Red", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + main.cam.getPositionY() + self.distanza_raggio[1]), self.valore_distanza, 0)
+                
+            GLOB.screen.blit(self.superfice, (0, 0))
+        else:
+            self.superfice.fill((0, 0, 0))
+
+        if GLOB.Debug:
+            pygame.draw.rect(GLOB.screen, (255, 0, 0), self.mesh, int(GLOB.MULT))
+
 
     def setHitbox(self):
-        self.hitbox = (self.x + 20 * GLOB.MULT + main.cam.getPositionX(),  self.y + 35 * GLOB.MULT + main.cam.getPositionY(), 16 * GLOB.MULT, 16 * GLOB.MULT)
+        self.hitbox = (self.x + 20 * GLOB.MULT + main.cam.getPositionX(), self.y + 35 * GLOB.MULT + main.cam.getPositionY(), 15 * GLOB.MULT, 10 * GLOB.MULT)
         self.mesh = pygame.Rect(self.hitbox)
 
     def __setBrain(self):
@@ -86,13 +123,13 @@ class Keeper():
     def update(self):
         radius = 360
 
-        self.setHitbox()
-
         if GLOB.isPaused:
 
             self.monster_ai_brain = 0
 
         else:
+
+            self.setHitbox()
 
             if not GLOB.MonsterCanAttack:
                 self.aggr = False
@@ -106,28 +143,21 @@ class Keeper():
             rot_vector = self.line_vector.rotate(self.angle) * radius
             rot_vector1 = self.line_vector.rotate(self.angle + self.distanza) * radius
 
-            distanza = (17 * GLOB.MULT, 22 * GLOB.MULT)
-
-            start_line = round(self.x + self.width/2 + distanza[0] + main.cam.getPositionX()), round(self.y + main.cam.getPositionY() + distanza[1])
-            end_line = round(self.x + self.width/2 + distanza[0] - rot_vector.x + main.cam.getPositionX()), round(self.y - rot_vector.y + main.cam.getPositionY() + distanza[1])
+            self.start_line = round(self.x + self.width/2 + self.distanza_raggio[0] + main.cam.getPositionX()), round(self.y + main.cam.getPositionY() + self.distanza_raggio[1])
+            self.end_line = round(self.x + self.width/2 + self.distanza_raggio[0] - rot_vector.x + main.cam.getPositionX()), round(self.y - rot_vector.y + main.cam.getPositionY() + self.distanza_raggio[1])
 
 
-            end_line1 = round(self.x + self.width/2 + distanza[0] - rot_vector1.x + main.cam.getPositionX()), round(self.y - rot_vector1.y + main.cam.getPositionY() + distanza[1])
+            self.end_line1 = round(self.x + self.width/2 + self.distanza_raggio[0] - rot_vector1.x + main.cam.getPositionX()), round(self.y - rot_vector1.y + main.cam.getPositionY() + self.distanza_raggio[1])
 
-            if GLOB.ShowMonsterRange:
-                self.superfice.fill(pygame.SRCALPHA)
-                self.superfice.set_alpha(self.transparency)
-            else:
-                self.superfice.fill((0, 0, 0))
             
-            self.triangle = pygame.draw.polygon(surface=self.superfice, color=self.color_triangle, points=[end_line, end_line1, start_line])
+            self.triangle = pygame.draw.polygon(surface=self.superfice, color=self.color_triangle, points=[self.end_line, self.end_line1, self.start_line])
 
 
             if (self.triangle.colliderect(main.player.mesh) or self.aggr) and GLOB.MonsterCanAttack:
                 self.raggio_ai_brain = 0
                 self.monster_ai_brain = 0
                 self.height = 0
-                self.circle = pygame.draw.circle(self.superfice, "Red", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + main.cam.getPositionY() + distanza[1]), self.valore_distanza, 0)
+                self.circle = pygame.draw.circle(self.superfice, "Red", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + main.cam.getPositionY() + self.distanza_raggio[1]), self.valore_distanza, 0)
                 self.__setMonster(True)
                 self.aggr = True
 
@@ -135,6 +165,33 @@ class Keeper():
                 self.height = self.default_height
                 self.delay_monster.Infinite()
                 self.__setMonster(False)
+                
+
+            if self.aggr and self.circle.colliderect(main.player.mesh):
+    
+                self.setHitbox()
+
+                self.vel = GLOB.Monster_speed * GLOB.MonsterRun_speed
+
+                if (main.player.Last_keyPressed == "Left" and main.player.Last_keyPressed != "Right") or self.mesh.left > main.player.mesh.left:
+                    self.x -= self.vel
+                    self.direzione = "sinistra"
+
+                if (main.player.Last_keyPressed == "Right" and main.player.Last_keyPressed != "Left") or self.mesh.right < main.player.mesh.right:
+                    self.x += self.vel
+                    self.direzione = "destra"
+
+                if (main.player.Last_keyPressed == "Up" and main.player.Last_keyPressed != "Down") or self.mesh.top > main.player.mesh.top:
+                    self.y -= self.vel
+                    self.direzione = "alto"
+
+                if (main.player.Last_keyPressed == "Down" and main.player.Last_keyPressed != "Up") or self.mesh.bottom < main.player.mesh.bottom:
+                    self.y += self.vel
+                    self.direzione = "basso"
+
+            else:
+
+                self.aggr = False
 
 
             if self.mesh.colliderect(main.player.hitbox) and GLOB.MonsterCanAttack:
@@ -212,36 +269,8 @@ class Keeper():
                 else:
                     self.setUpPress(False)
 
-            
-            if self.aggr and self.circle.colliderect(main.player.mesh):
-
-                self.vel = self.run
-
-                if (main.player.Last_keyPressed == "Left" and main.player.Last_keyPressed != "Right") or self.hitbox[0] > main.player.hitbox[0]:
-                    self.x -= self.vel
-                    self.direzione = "sinistra"
-
-                if (main.player.Last_keyPressed == "Right" and main.player.Last_keyPressed != "Left") or self.hitbox[0] + self.hitbox[2]/2 < main.player.hitbox[0] + main.player.hitbox[2]/2:
-                    self.x += self.vel
-                    self.direzione = "destra"
-
-                if (main.player.Last_keyPressed == "Up" and main.player.Last_keyPressed != "Down") or self.hitbox[1] > main.player.hitbox[1]:
-                    self.y -= self.vel
-                    self.direzione = "alto"
-
-                if (main.player.Last_keyPressed == "Down" and main.player.Last_keyPressed != "Up") or self.hitbox[1] + self.hitbox[3]/2 < main.player.hitbox[1] + main.player.hitbox[3]/2:
-                    self.y += self.vel
-                    self.direzione = "basso"
-
-            else:
-
-                self.aggr = False
-
 
         GLOB.screen.blit(self.image, (self.x + main.cam.getPositionX(), self.y + main.cam.getPositionY()))
-        
-        if GLOB.ShowMonsterRange:
-            GLOB.screen.blit(self.superfice, (0, 0))
 
 
 
@@ -287,19 +316,19 @@ class Keeper():
 
             if value=="x":
 
-                if self.hitbox[0] >= object.x:
+                if self.mesh.right >= object.right:
                     self.x += self.vel
                     return True
-                elif self.hitbox[2] <= object.x:
+                elif self.mesh.left <= object.left:
                     self.x -= self.vel
                     return False
 
             if value=="y":
 
-                if self.hitbox[1] >= object.y:
+                if self.mesh.bottom >= object.bottom:
                     self.y += self.vel
                     return True
-                elif self.hitbox[3] <= object.y:
+                elif self.mesh.top <= object.top:
                     self.y -= self.vel
                     return False
             
@@ -307,8 +336,6 @@ class Keeper():
         if self.mesh.colliderect(object):
 
             self.monster_ai_vel = 0.25
-
-            pygame.draw.rect(GLOB.screen, "Green", self.mesh, 1)
 
             w = (self.Last_keyPressed == "Up")
             a = (self.Last_keyPressed == "Left")

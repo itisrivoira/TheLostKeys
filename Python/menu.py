@@ -327,18 +327,22 @@ def options():
                         GLOB.Scelta=4
 
                 if Screen_960x540.checkForInput(OPTIONS_MOUSE_POS):
+                    GLOB.Fullscreen = False
                     GLOB.MULT=2
                     flag_screen = True
 
                 if Screen_1440x810.checkForInput(OPTIONS_MOUSE_POS):
+                    GLOB.Fullscreen = False
                     GLOB.MULT=3
                     flag_screen = True
 
                 if Screen_1920x1080.checkForInput(OPTIONS_MOUSE_POS):
+                    GLOB.Fullscreen = False
                     GLOB.MULT=4
                     flag_screen = True
 
                 if Screen_3840x2160.checkForInput(OPTIONS_MOUSE_POS):
+                    GLOB.Fullscreen = False
                     GLOB.MULT=5
                     flag_screen = True
                 

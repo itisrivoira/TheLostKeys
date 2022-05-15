@@ -26,7 +26,6 @@ def caricaCollisione():
     global lista
     molt = 12
     for value in range(len(lista)):
-        print(lista[value])
         cubo = pygame.image.load(path+"/"+lista[value]).convert()
         centerx, centery = screen.get_width()/2 - molt * val, screen.get_height()/2 - molt * val
         # cubo1 = cubo.set_colorkey((249, 80, 6))
@@ -63,6 +62,7 @@ def caricaCollisione():
         # print(starty, startx, endy, endx)
 
         dizionario[value] = (centerx + starty, centery + startx, endy + val, endx + val)
+        print(" | " + str(lista[value]) + " | collisione: " + str(dizionario[value]))
 
 def caricaOggetti():
     global cubo, cubo1, cubo2
@@ -83,8 +83,6 @@ path = "Collisioni"
 riempi(path)
 print("\n\nla lista ",lista)
 caricaCollisione()
-
-print(dizionario)
 
 # (0, 224, 1024, 480)
 #center = (screen.get_width()/2, screen.get_height()/2)

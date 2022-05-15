@@ -144,17 +144,17 @@ class Dialoghi():
 		self.interm = 0
 
 		if text_speed == 1:
-			self.text_speed = 0.2 / GLOB.Delta_Time
+			self.text_speed = 0.1
 		elif text_speed == 2:
-			self.text_speed = 0.4 / GLOB.Delta_Time
+			self.text_speed = 0.2
 		elif text_speed == 3:
-			self.text_speed = 0.5 / GLOB.Delta_Time
+			self.text_speed = 0.25
 		elif text_speed == 4:
-			self.text_speed = 0.1 / GLOB.Delta_Time
+			self.text_speed = 0.5
 		elif text_speed == 5:
-			self.text_speed = 2 / GLOB.Delta_Time
+			self.text_speed = 1
 		else:
-			self.text_speed = 0.2 / GLOB.Delta_Time
+			self.text_speed = 0.1
 
 		self.contatore = 0
 
@@ -398,6 +398,20 @@ class Dialoghi_Interattivi():
 		self.number_selection = 0
 		self.number_selected = 0
 
+		self.flag_Tabella = False
+
+		try:
+
+			self.enigma_image = pygame.image.load("../MappaGioco/Tileset/Stanze/"+GLOB.Piano+"/"+GLOB.Stanza+"/enigmi/png/immagine.png").convert_alpha()
+			self.enigma_image = pygame.transform.scale(self.enigma_image, (self.enigma_image.get_width() * GLOB.MULT, self.enigma_image.get_height() * GLOB.MULT))
+
+			self.flag_Tabella = True
+
+		except FileNotFoundError:
+			pass
+
+
+
 		self.soluzione = self.risposte[soluzione-1]
 		self.descr = "".join(self.descr)
 		self.difficolta = difficolta
@@ -435,17 +449,17 @@ class Dialoghi_Interattivi():
 		self.interm = 0
 
 		if text_speed == 1:
-			self.text_speed = 0.2 / GLOB.Delta_Time
+			self.text_speed = 0.1
 		elif text_speed == 2:
-			self.text_speed = 0.4 / GLOB.Delta_Time
+			self.text_speed = 0.2
 		elif text_speed == 3:
-			self.text_speed = 0.5 / GLOB.Delta_Time
+			self.text_speed = 0.25
 		elif text_speed == 4:
-			self.text_speed = 0.1 / GLOB.Delta_Time
+			self.text_speed = 0.5
 		elif text_speed == 5:
-			self.text_speed = 2 / GLOB.Delta_Time
+			self.text_speed = 1
 		else:
-			self.text_speed = 0.2 / GLOB.Delta_Time
+			self.text_speed = 0.1
 
 		self.contatore = 0
 
@@ -687,7 +701,7 @@ class Dialoghi_Interattivi():
     		
 			self.__effetto_testo()
 
-			if not self.class_sfoca.flag_reverse:
+			if not self.class_sfoca.flag_reverse and not self.flag_Tabella:
 				self.__object_animation()
 
 			if self.contatore == len(self.descr):
@@ -701,11 +715,24 @@ class Dialoghi_Interattivi():
 				self.class_sfoca.flag_reverse = False
 				self.class_sfoca.val_scurisci = 0
 
-			if not self.class_sfoca.flag_reverse:
+			if not self.class_sfoca.flag_reverse and not self.flag_Tabella:
 				val = 5
 				self.vignetta = pygame.image.load("Dialoghi/Characters/"+self.oggetto+".png").convert_alpha()
 				self.vignetta = pygame.transform.scale(self.vignetta, (self.vignetta.get_width()*GLOB.MULT*val, self.vignetta.get_height()*GLOB.MULT*val))
 				GLOB.screen.blit(self.vignetta, (110*GLOB.MULT, 50*GLOB.MULT + self.val_oggetto))
+
+			if not self.class_sfoca.flag_reverse and self.flag_Tabella:
+
+				if GLOB.Stanza == "LabInfo" or GLOB.Stanza == "LabInformatica":
+					posx, posy = 115, 50
+					val = 3
+				else:
+					posx, posy = 45, 50
+					val = 2
+
+				self.enigma_image = pygame.image.load("../MappaGioco/Tileset/Stanze/"+GLOB.Piano+"/"+GLOB.Stanza+"/enigmi/png/immagine.png").convert_alpha()
+				self.enigma_image = pygame.transform.scale(self.enigma_image, (self.enigma_image.get_width() * GLOB.MULT / val, self.enigma_image.get_height() * GLOB.MULT / val))
+				GLOB.screen.blit(self.enigma_image, (posx*GLOB.MULT, posy*GLOB.MULT + self.val_oggetto))
 
 			if self.class_sfoca.flag_reverse:			
 				val = 4
@@ -1129,21 +1156,73 @@ class GUI():
 		self.player = pygame.image.load("Dialoghi/Characters/"+GLOB.scelta_char+".png").convert_alpha()
 		self.player = pygame.transform.scale(self.player, (self.player.get_width() * val_player * GLOB.MULT, self.player.get_height() * val_player * GLOB.MULT))
 
+		self.inventory = pygame.image.load("assets/inventario-1.png").convert()
+		self.inventory = pygame.transform.scale(self.inventory, (self.inventory.get_width() * GLOB.MULT, self.inventory.get_height() * GLOB.MULT))
+
+		self.descr = pygame.image.load("assets/inventario-2.png").convert()
+		self.descr = pygame.transform.scale(self.descr, (self.descr.get_width() * GLOB.MULT, self.descr.get_height() * GLOB.MULT))
+
 		self.max = self.bar.get_width() - GLOB.MULT
 
 		self.color_bar = "#64ad5a"
 
-		self.recupero = 3.7 - self.speed
+		self.recupero = (5 - self.speed) / GLOB.Delta_Time
 
 		self.barra_esaurita = pygame.Rect((84 * GLOB.MULT, GLOB.screen_height - 22 * GLOB.MULT, self.bar.get_width(), self.bar.get_height()))
 		self.barra_stamina = pygame.Rect((84 * GLOB.MULT, GLOB.screen_height - 22 * GLOB.MULT, self.max, self.bar.get_height()))
 
+		self.surface = pygame.Surface((GLOB.screen_width, GLOB.screen_height))
+		self.trasparenza = 20
+
+		self.distanza_oggetti = 10 * GLOB.MULT
+
+		self.flag_descrizione = False
+
+		self.selection = 0
+		self.selected_element = 0
+
+		self.char_limit = 27
+
+		self.surface.fill((0,0,0))
+		self.contenuto = False
+
+		self.descrizione = ""
+
+		self.distanza_riga = 9 * GLOB.MULT
+
+		self.val_obj_max = 3.4
+		self.val_obj = 0
+		self.val_obj_incr = 0.05 * GLOB.MULT
+		self.obj_flag = False
+
+		self.DESCR1_TEXT = get_font(3*int(GLOB.MULT)).render("Default", True, "White")
+		self.DESCR1_POS = (self.inventory.get_width() + 10 * GLOB.MULT, 120 * GLOB.MULT)
+		
+		self.DESCR2_TEXT = self.DESCR1_TEXT
+		self.DESCR2_POS = self.DESCR1_POS
+		
+		self.DESCR3_TEXT = self.DESCR1_TEXT
+		self.DESCR3_POS = self.DESCR1_POS
+		
+		self.DESCR4_TEXT = self.DESCR1_TEXT
+		self.DESCR4_POS = self.DESCR1_POS
+
 	def __stamina_calculation(self):
     		
-		divisore = 3.5
+		flag = True
+    		
+		self.speed = GLOB.PlayerRun_speed
 
-		if GLOB.PlayerIsRunning:
-			self.max -= self.speed * GLOB.MULT / divisore
+		if not (GLOB.PLayerMovement["up"] or GLOB.PLayerMovement["down"] or GLOB.PLayerMovement["right"] or GLOB.PLayerMovement["left"]):
+			self.recupero = (7 - self.speed) / GLOB.Delta_Time
+			flag = False
+		else:
+			self.recupero = (5 - self.speed) / GLOB.Delta_Time
+
+		moltiplicatore =  1.5
+
+		if GLOB.PlayerIsRunning and flag:
+			self.max -= self.speed * moltiplicatore
 		
 		elif not GLOB.PlayerIsRunning and self.max < self.bar.get_width() - GLOB.MULT:
 			self.max += self.recupero
@@ -1161,20 +1240,89 @@ class GUI():
 
 		self.barra_esaurita = pygame.Rect((84 * GLOB.MULT, GLOB.screen_height - 22 * GLOB.MULT, self.bar.get_width(), self.bar.get_height()))
 		self.barra_stamina = pygame.Rect((84 * GLOB.MULT, GLOB.screen_height - 22 * GLOB.MULT, self.max, self.bar.get_height()))
+
+	def __calcolaOggetti(self):
 	
+		def Cerca(event):
+    
+			for value in range(len(self.descrizione)):
+				var = self.char_limit * event - 1 - value
+				
+				try:
+					if (self.descrizione[var] == " "):
+						return value
+				except IndexError:
+					return 0
+		
+		oggetti = list(GLOB.inventario.values())
+		molt = 1.4
+		self.immagine = pygame.transform.scale(oggetti[self.selected_element][0], (oggetti[self.selected_element][0].get_width() * molt, oggetti[self.selected_element][0].get_height() * molt))
+
+		if oggetti[self.selected_element][1]:
+			testo = oggetti[self.selected_element][2]
+		else:
+			testo = "???"
+
+		z = int(len(testo) / self.char_limit + 0.99)
+		val = self.char_limit * z - len(testo)
+
+		for i in range(val):
+			testo += " "
+			
+		a, b, c, d = "", "", "", ""
+		l = 0
+
+		self.descrizione = testo
+
+		for char in self.descrizione:
+
+			if l < self.char_limit - Cerca(1) - 1 and l < self.char_limit:
+				a += char
+		
+			if l < self.char_limit * 2 - Cerca(2) - 2 and l < self.char_limit * 2 and l > self.char_limit - Cerca(1) - 1:
+				b += char
+
+			if l < self.char_limit * 3 - Cerca(3) - 1 and l < self.char_limit * 3 and l > self.char_limit * 2 - Cerca(2) - 1:
+				c += char
+
+			if l < self.char_limit * 4 - Cerca(4) and l < self.char_limit * 4 and l > self.char_limit * 3 - Cerca(3) - 1:
+				d += char
+			
+
+			l += 1
+		
+		self.DESCR1_TEXT = get_font(3*int(GLOB.MULT)).render(a, True, "White")
+		self.DESCR1_POS = (self.inventory.get_width() + 10 * GLOB.MULT, 120 * GLOB.MULT)
+
+		self.DESCR2_TEXT = get_font(3*int(GLOB.MULT)).render(b, True, "White")
+		self.DESCR2_POS = (self.inventory.get_width() + 10 * GLOB.MULT, 120 * GLOB.MULT + self.distanza_riga)
+
+		self.DESCR3_TEXT = get_font(3*int(GLOB.MULT)).render(c, True, "White")
+		self.DESCR3_POS = (self.inventory.get_width() + 10 * GLOB.MULT, 120 * GLOB.MULT + self.distanza_riga * 2)
+
+		self.DESCR4_TEXT = get_font(3*int(GLOB.MULT)).render(d, True, "White")
+		self.DESCR4_POS = (self.inventory.get_width() + 10 * GLOB.MULT, 120 * GLOB.MULT + self.distanza_riga * 3)
+
+	def __effettoOggetto(self):
+		
+		if self.val_obj >= self.val_obj_max:
+			self.obj_flag = False
+		elif self.val_obj <= -self.val_obj_max:
+			self.obj_flag = True
+
+		
+		if self.obj_flag:
+			self.val_obj += self.val_obj_incr
+		else:
+			self.val_obj -= self.val_obj_incr
+
 	def show(self):
     		
 		if not GLOB.isPaused and GLOB.PlayerCanMove:
 			self.__stamina_calculation()
-    		
-		GLOB.screen.blit(self.first, (0, GLOB.screen_height - self.first.get_height()))
-		GLOB.screen.blit(self.second, (34 * GLOB.MULT, GLOB.screen_height - 63 * GLOB.MULT))
-		GLOB.screen.blit(self.player, (33.6 * GLOB.MULT, GLOB.screen_height - 65 * GLOB.MULT))
-		GLOB.screen.blit(self.third, (22 * GLOB.MULT, GLOB.screen_height - 75 * GLOB.MULT))
 
-		GLOB.screen.blit(self.timer, (GLOB.screen_width/2 - self.timer.get_width()/2, 26 * GLOB.MULT))
 
-		altezza = 2 * GLOB.MULT
+		altezza = 1.8 * GLOB.MULT
 		size = 8
 
 		
@@ -1184,23 +1332,143 @@ class GUI():
 		else:
 			name = GLOB.scelta_char
 			posx = 37 * GLOB.MULT
-    
-		NAME_TEXT = get_font(size*int(GLOB.MULT)).render(name, True, "White")
-		NAME_POS = (posx, GLOB.screen_height - 20 * GLOB.MULT)
-
-		CNAME_TEXT = get_font(size*int(GLOB.MULT)).render(name, True, "Black")
-		CNAME_POS = (posx, GLOB.screen_height - 20 * GLOB.MULT + altezza)
 
 
+		
 		if self.max <= 0:
 			pygame.draw.rect(GLOB.screen, "#ad5a5a", self.barra_esaurita)
 
-		pygame.draw.rect(GLOB.screen, self.color_bar, self.barra_stamina)
-		GLOB.screen.blit(self.bar, (84 * GLOB.MULT, GLOB.screen_height - 22 * GLOB.MULT))
 
-		GLOB.screen.blit(CNAME_TEXT, CNAME_POS)
-		GLOB.screen.blit(NAME_TEXT, NAME_POS)
+		def disegna():
+    		
+			GLOB.screen.blit(self.first, (0, GLOB.screen_height - self.first.get_height()))
+			GLOB.screen.blit(self.second, (34 * GLOB.MULT, GLOB.screen_height - 63 * GLOB.MULT))
+			GLOB.screen.blit(self.player, (33.6 * GLOB.MULT, GLOB.screen_height - 65 * GLOB.MULT))
+			GLOB.screen.blit(self.third, (22 * GLOB.MULT, GLOB.screen_height - 75 * GLOB.MULT))
+		
+			NAME_TEXT = get_font(size*int(GLOB.MULT)).render(name, True, "White")
+			NAME_POS = (posx, GLOB.screen_height - 20 * GLOB.MULT)
 
+			CNAME_TEXT = get_font(size*int(GLOB.MULT)).render(name, True, "Black")
+			CNAME_POS = (posx, GLOB.screen_height - 20 * GLOB.MULT + altezza)
+
+			pygame.draw.rect(GLOB.screen, self.color_bar, self.barra_stamina)
+			GLOB.screen.blit(self.bar, (84 * GLOB.MULT, GLOB.screen_height - 22 * GLOB.MULT))
+
+			GLOB.screen.blit(CNAME_TEXT, CNAME_POS)
+			GLOB.screen.blit(NAME_TEXT, NAME_POS)
+
+		def controlla(v):
+    			
+			if  v < 0:
+				v = len(GLOB.inventario) - 1
+			elif v > len(GLOB.inventario) - 1:
+				v = 0
+
+			self.selected_element = v
+			self.selection = v
+
+		def imposta_colore(num_risposta):
+			default_color = "#c2c2c2"
+			selected_color = "White"
+			if self.selected_element == num_risposta:
+				return selected_color	
+			else:
+				return default_color
+
+		disegna()
+		GLOB.screen.blit(self.timer, (GLOB.screen_width/2 - self.timer.get_width()/2, 26 * GLOB.MULT))
+
+
+		def inventario():
+			self.surface.set_alpha(self.trasparenza)
+
+			GLOB.screen.blit(self.surface, (0, 0))
+			GLOB.screen.blit(self.inventory, (0, 0))
+
+			INVENTARIO_TEXT = get_font(10*int(GLOB.MULT)).render("- Inventario -", True, "White")
+			INVENTARIO_POS = (self.inventory.get_width()/2 - INVENTARIO_TEXT.get_width()/2, 20 * GLOB.MULT)
+
+			GLOB.screen.blit(INVENTARIO_TEXT, INVENTARIO_POS)
+
+			if self.flag_descrizione:
+				GLOB.screen.blit(self.descr, (self.inventory.get_width(), 0))
+
+
+			if not self.contenuto:
+				NAME_TEXT = get_font(5*int(GLOB.MULT)).render("- Inventario Vuoto -", True, "White")
+				NAME_POS = (self.inventory.get_width()/2 - NAME_TEXT.get_width()/2, self.inventory.get_height()/2 - NAME_TEXT.get_height()/2)
+				GLOB.screen.blit(NAME_TEXT, NAME_POS)
+
+			i = 0
+			for oggetto in GLOB.inventario:
+    				
+				if not oggetto in GLOB.inventario:
+					self.contenuto = False
+				else:
+					self.contenuto = True
+
+				NAME_TEXT = get_font(5*int(GLOB.MULT)).render("- "+ str(oggetto), True, imposta_colore(i))
+				NAME_POS = (22 * GLOB.MULT, 65 * GLOB.MULT + self.distanza_oggetti * i)
+				GLOB.screen.blit(NAME_TEXT, NAME_POS)
+
+
+				if self.flag_descrizione and self.contenuto:
+					self.__calcolaOggetti()
+					self.__effettoOggetto()
+
+					GLOB.screen.blit(self.immagine, (self.inventory.get_width() + self.descr.get_width()/2 - self.immagine.get_width()/2, 30 * GLOB.MULT + self.val_obj))
+					
+					GLOB.screen.blit(self.DESCR1_TEXT, self.DESCR1_POS)
+
+					GLOB.screen.blit(self.DESCR2_TEXT, self.DESCR2_POS)
+
+					GLOB.screen.blit(self.DESCR3_TEXT, self.DESCR3_POS)
+
+					GLOB.screen.blit(self.DESCR4_TEXT, self.DESCR4_POS)
+
+				i += 1
+
+
+
+		while GLOB.ShowInventory and not GLOB.isPaused:
+    			
+    			
+			for event in pygame.event.get():
+				keys_pressed = pygame.key.get_pressed()
+				if event.type == pygame.KEYDOWN:
+					
+					if event.key == pygame.K_TAB or event.key == pygame.K_ESCAPE:
+						
+						if not GLOB.ShowInventory:
+							GLOB.ShowInventory = True
+						
+						elif GLOB.ShowInventory:
+							GLOB.PlayerReset = True
+							GLOB.ShowInventory = False
+					
+
+					if event.key == pygame.K_q and self.contenuto:
+						
+						if not self.flag_descrizione:
+							self.flag_descrizione = True
+						
+						elif self.flag_descrizione:
+							self.flag_descrizione = False
+
+					if keys_pressed[pygame.K_UP]:
+						self.selection -= 1
+						controlla(self.selection)
+
+					if keys_pressed[pygame.K_DOWN]:
+						self.selection += 1
+						controlla(self.selection)
+
+			inventario()
+			disegna()
+
+			pygame.time.Clock().tick(GLOB.FPS)
+			pygame.display.flip()
 
 class MiniMap():
 	def __init__(self):
@@ -1254,6 +1522,7 @@ class MiniMap():
 					sys.exit()
 
 				if keys_pressed[pygame.K_ESCAPE]:
+					GLOB.PlayerReset = True
 					possoIniziare = True
 
 			GLOB.screen.blit(self.image, (0, 0))

@@ -1,3 +1,4 @@
+import random
 import main
 import global_var as GLOB
 from components import MiniMap
@@ -102,7 +103,7 @@ def testa():
 
         main.animazione.iFinished = False
     
-    if main.player.evento == "porta-1":
+    elif main.player.evento == "porta-1":
         main.player.evento = None
         main.stanze.setToDefault()
 
@@ -123,7 +124,7 @@ def testa():
         main.animazione.iFinished = False
 
 
-    if main.player.evento == "porta-2":
+    elif main.player.evento == "porta-2":
         main.player.evento = None
         main.stanze.setToDefault()
 
@@ -142,43 +143,8 @@ def testa():
 
         main.animazione.iFinished = False
 
-    if main.player.evento == "porta-3":
-        main.player.evento = None
-        main.stanze.setToDefault()
 
-        main.player.evento = "porta-99"
-        return        
-
-        main.animazione.iFinished = False
-
-    if main.player.evento == "porta-4":
-        main.player.evento = None
-        main.stanze.setToDefault()
-
-        main.player.evento = "porta-99"
-        return        
-
-        main.animazione.iFinished = False
-
-    if main.player.evento == "porta-5":
-        main.player.evento = None
-        main.stanze.setToDefault()
-
-        main.player.evento = "porta-99"
-        return        
-
-        main.animazione.iFinished = False
-
-    if main.player.evento == "porta-6":
-        main.player.evento = None
-        main.stanze.setToDefault()
-
-        main.player.evento = "porta-99"
-        return        
-
-        main.animazione.iFinished = False
-
-    if main.player.evento == "porta-7":
+    elif main.player.evento == "porta-7":
         main.player.evento = None
         main.stanze.setToDefault()
 
@@ -204,7 +170,7 @@ def testa():
 
         main.animazione.iFinished = False
 
-    if main.player.evento == "porta-8":
+    elif main.player.evento == "porta-8":
         main.player.evento = None
         main.stanze.setToDefault()
 
@@ -235,7 +201,7 @@ def testa():
         main.animazione.iFinished = False
 
 
-    if main.player.evento == "porta-9":
+    elif main.player.evento == "porta-9":
         main.player.evento = None
         main.stanze.setToDefault()
 
@@ -256,7 +222,7 @@ def testa():
         main.animazione.iFinished = False
 
 
-    if main.player.evento == "porta-10":
+    elif main.player.evento == "porta-10":
         main.player.evento = None
         main.stanze.setToDefault()
 
@@ -277,7 +243,7 @@ def testa():
 
         main.animazione.iFinished = False
 
-    if main.player.evento == "porta-11":
+    elif main.player.evento == "porta-11":
         main.player.evento = None
         main.stanze.setToDefault()
 
@@ -306,7 +272,7 @@ def testa():
         main.animazione.iFinished = False
 
 
-    if main.player.evento == "porta-12":
+    elif main.player.evento == "porta-12":
         main.player.evento = None
         main.stanze.setToDefault()
 
@@ -325,102 +291,123 @@ def testa():
 
         main.animazione.iFinished = False
 
-    if main.player.evento == "porta-13":
-        main.player.evento = None
-        main.stanze.setToDefault()
-
+    if main.player.evento == "porta-3" or main.player.evento == "porta-4" or main.player.evento == "porta-5" or main.player.evento == "porta-6" or main.player.evento == "porta-13" or main.player.evento == "porta-14":
         main.player.evento = "porta-99"
         return
 
-        main.animazione.iFinished = False
+
+    # print(GLOB.PlayerCanCollect)
+    if GLOB.PlayerCanCollect:
+
+        if main.player.evento == "chiavetta-1":
+            var = "Fisica"
+            GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
+            GLOB.inventario["chiavetta-1"] = (GLOB.chiavette[var][2], False, "Proprietario: Tommaso Dalbesio - Files: stringhe.c")
+            main.player.evento = None
 
 
-    if main.player.evento == "chiavetta-1":
-        var = "Fisica"
-        print(GLOB.chiavette[var][1])
-        GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
-        GLOB.inventario["chiavetta-1"] = (False, "Proprietario: Tommaso Dalbesio - Files: stringhe.c")
-        print(GLOB.inventario)
-        main.player.evento = None
+        if main.player.evento == "chiavetta-2":
+            var = "1A"
+            GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
+            GLOB.inventario["chiavetta-2"] = (GLOB.chiavette[var][2], False, "Proprietario: Stefano Senestro - Files: stringhe.c")
+            main.player.evento = None
 
 
-    if main.player.evento == "chiavetta-2":
-        var = "1A"
-        print(GLOB.chiavette[var][1])
-        GLOB.chiavette[var] = (GLOB.chiavette[var][1], False, GLOB.chiavette[var][2])
-        GLOB.inventario["chiavetta-2"] = (False, "Proprietario: Stefano Senestro - Files: stringhe.c")
-        print(GLOB.inventario)
-        main.player.evento = None
+        if main.player.evento == "chiavetta-3":
+            var = "WC-Femmine"
+            GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
+            GLOB.inventario["chiavetta-3"] = (GLOB.chiavette[var][2], False, "Proprietario: Aleksandra Venezia - Files: stringhe.c")
+            main.player.evento = None
 
 
-    if main.player.evento == "chiavetta-3":
-        var = "WC-Femmine"
-        print(GLOB.chiavette[var][1])
-        GLOB.chiavette[var] = (GLOB.chiavette[var][2], False, GLOB.chiavette[var][2])
-        GLOB.inventario["chiavetta-3"] = (False, "Proprietario: Aleksandra Venezia - Files: stringhe.c")
-        print(GLOB.inventario)
-        main.player.evento = None
+        if main.player.evento == "chiavetta-4":
+            var = "AulaMagna"
+            GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
+            GLOB.inventario["chiavetta-4"] = (GLOB.chiavette[var][2], False, "Proprietario: Matteo Seimandi - Files: stringhe.c")
+            main.player.evento = None
 
 
-    if main.player.evento == "chiavetta-4":
-        var = "AulaMagna"
-        print(GLOB.chiavette[var][1])
-        GLOB.chiavette[var] = (GLOB.chiavette[var][3], False, GLOB.chiavette[var][2])
-        GLOB.inventario["chiavetta-4"] = (False, "Proprietario: Matteo Seimandi - Files: stringhe.c")
-        print(GLOB.inventario)
-        main.player.evento = None
+        if main.player.evento == "chiavetta-5":
+            var = "AulaProfessori"
+            GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
+            GLOB.inventario["chiavetta-5"] = (GLOB.chiavette[var][2], False, "Proprietario: Giuseppe Di Biase - Files: stringhe.c")
+            main.player.evento = None
 
 
-    if main.player.evento == "chiavetta-5":
-        var = "AulaProfessori"
-        print(GLOB.chiavette[var][1])
-        GLOB.chiavette[var] = (GLOB.chiavette[var][4], False, GLOB.chiavette[var][2])
-        GLOB.inventario["chiavetta-5"] = (False, "Proprietario: Giuseppe Di Biase - Files: stringhe.c")
-        print(GLOB.inventario)
-        main.player.evento = None
+        if main.player.evento == "chiavetta-6":
+            var = "LabInfo"
+            GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
+            GLOB.inventario["chiavetta-6"] = (GLOB.chiavette[var][2], False, "Proprietario: Giulio Dajani - Files: stringhe.c")
+            main.player.evento = None
 
 
-    if main.player.evento == "chiavetta-6":
-        var = "LabInfo"
-        print(GLOB.chiavette[var][1])
-        GLOB.chiavette[var] = (GLOB.chiavette[var][5], False, GLOB.chiavette[var][2])
-        GLOB.inventario["chiavetta-6"] = (False, "Proprietario: Giulio Dajani - Files: stringhe.c")
-        print(GLOB.inventario)
-        main.player.evento = None
+        if main.player.evento == "chiavetta-7":
+            var = "4A"
+            GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
+            GLOB.inventario["chiavetta-7"] = (GLOB.chiavette[var][2], False, "Proprietario: Marco Giachero - Files: stringhe.c")
+            main.player.evento = None
 
 
-    if main.player.evento == "chiavetta-7":
-        var = "4A"
-        print(GLOB.chiavette[var][1])
-        GLOB.chiavette[var] = (GLOB.chiavette[var][6], False, GLOB.chiavette[var][2])
-        GLOB.inventario["chiavetta-7"] = (False, "Proprietario: Marco Giachero - Files: stringhe.c")
-        print(GLOB.inventario)
-        main.player.evento = None
+        if main.player.evento == "chiavetta-8":
+            var = "AulaVideo"
+            GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
+            GLOB.inventario["chiavetta-8"] = (GLOB.chiavette[var][2], False, "Proprietario: Chiara Bossolasco - Files: stringhe.c")
+            main.player.evento = None
 
 
-    if main.player.evento == "chiavetta-8":
-        var = "AulaVideo"
-        print(GLOB.chiavette[var][1])
-        GLOB.chiavette[var] = (GLOB.chiavette[var][7], False, GLOB.chiavette[var][2])
-        GLOB.inventario["chiavetta-8"] = (False, "Proprietario: Chiara Bossolasco - Files: stringhe.c")
-        print(GLOB.inventario)
-        main.player.evento = None
+        if main.player.evento == "chiavetta-9":
+            var = "LabInformatica"
+            GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
+            GLOB.inventario["chiavetta-9"] = (GLOB.chiavette[var][2], False, "Proprietario: Mattia Barbero - Files: stringhe.c")
+            main.player.evento = None
 
 
-    if main.player.evento == "chiavetta-9":
-        var = "LabInformatica"
-        print(GLOB.chiavette[var][1])
-        GLOB.chiavette[var] = (GLOB.chiavette[var][8], False, GLOB.chiavette[var][2])
-        GLOB.inventario["chiavetta-9"] = (False, "Proprietario: Mattia Barbero - Files: stringhe.c")
-        print(GLOB.inventario)
-        main.player.evento = None
+        if main.player.evento == "chiavetta-10":
+            var = "Ripostiglio"
+            GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
+            GLOB.inventario["chiavetta-10"] = (GLOB.chiavette[var][2], False, "Proprietario: Lorenzo Ferrato - Files: stringhe.c")
+            main.player.evento = None
 
 
-    if main.player.evento == "chiavetta-10":
-        var = "Ripostiglio"
-        print(GLOB.chiavette[var][1])
-        GLOB.chiavette[var] = (GLOB.chiavette[var][9], False, GLOB.chiavette[var][2])
-        GLOB.inventario["chiavetta-10"] = (False, "Proprietario: Lorenzo Ferrato - Files: stringhe.c")
-        print(GLOB.inventario)
-        main.player.evento = None
+
+    def Cerca(o):
+        try:
+            GLOB.inventario[o]
+            return False
+
+        except KeyError:
+            return True
+
+
+    def NonTrovato():
+        risposte = ["Non ho trovato nulla", "Sembrerebbe che non ci sia nulla", "Niente.", "Qua non c'è nulla."]
         
+        d = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 3)
+        d.stampa()
+        GLOB.PlayerReset = True
+        main.player.evento = None
+
+
+    if main.player.evento == "cerca-T":
+        oggetto = "Default"
+        descrizione = "Default"
+
+        if GLOB.Stanza == "AulaProfessori":
+            oggetto = "Libro Karl Marx"
+            descrizione = "All'interno c'è uno strano post-it con su scritto: \"1917\""
+
+        if Cerca(oggetto):
+            GLOB.inventario[oggetto] = (GLOB.oggetti[1][2], True, descrizione)
+        else:
+            NonTrovato()
+            return
+
+        risposte = ["Trovato "+str(oggetto), "Ho trovato "+str(oggetto)]
+        d = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 3)
+        d.stampa()
+        GLOB.PlayerReset = True
+        main.player.evento = None
+
+
+    if main.player.evento == "cerca-F":
+        NonTrovato()

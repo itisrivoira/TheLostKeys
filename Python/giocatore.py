@@ -325,7 +325,7 @@ class Player():
 
         for i in range(var_max):
             if var == (start_id + i):
-                self.evento = "chiavetta-"+str(i)   
+                self.evento = "chiavetta-"+str(i+1)
 
 
         if chunk_render.colliderect(object):
@@ -335,7 +335,7 @@ class Player():
                 # -- PORTE --
 
                 start_id = 112
-                var_max = 13
+                var_max = 14
 
                 for i in range(var_max):
                     if var == (start_id + i):
@@ -347,6 +347,14 @@ class Player():
                     self.evento = "enigma"
 
 
+                #-- CERCA --
+
+                if var == 136:
+                    self.evento = "cerca-T"
+                elif var == 137:
+                    self.evento = "cerca-F"
+
+
                 # -- PLANIMETRIA --
 
                 elif var == 126:
@@ -355,6 +363,7 @@ class Player():
                 print(var, self.evento)             
 
     def update(self):
+
         self.setVelocitaX(0)
         self.setVelocitaY(0)
 
@@ -362,6 +371,16 @@ class Player():
         getDown = self.getDownPress()
         getLeft = self.getLeftPress()
         getRight = self.getRightPress()
+
+        GLOB.PLayerMovement = {
+            
+            "up": getUp, 
+            "down": getDown, 
+            "left": getLeft, 
+            "right": getRight, 
+            
+            
+        }
 
         condition_1 = getLeft and getUp and not(getRight and getDown)
         condition_2 = getLeft and getDown and not(getRight and getUp)

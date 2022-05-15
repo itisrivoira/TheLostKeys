@@ -70,7 +70,7 @@ def SetPlayer_sprite():
 
 #funzione di default
 def inizializza():
-    global console, player, cam, timer, clock, collisions, animazione, messaggio_a_schermo, Gui, mostro
+    global console, player, cam, timer, clock, collisions, animazione, messaggio_a_schermo, Gui
 
     GLOB.isGameRunning = True
     GLOB.isPaused = False
@@ -113,7 +113,8 @@ def inizializza():
     console = debug.Debug()
 
     if GLOB.MonsterCanSpawn:
-        mostro = Keeper((200 * GLOB.MULT, 122 * GLOB.MULT), 1.4, (10 * GLOB.MULT, 0.5 * GLOB.MULT))
+        global mostro
+        mostro = Keeper((200 * GLOB.MULT, 122 * GLOB.MULT), (20 * GLOB.MULT, 0.5 * GLOB.MULT))
 
 
 def load_collisions(path):
@@ -148,12 +149,19 @@ def load_collisions(path):
 
 def disegna():
 
+    if GLOB.PlayerReset:
+        player.finish()
+        SetPlayer_speed()
+        GLOB.PlayerReset = False
+
     if animazione.flag_changeBg:
         animazione.ImpostaSfondo()
 
     if animazione.iFinished:
         GLOB.PlayerCanMove = True
+        GLOB.MonsterCanAttack = True
     else:
+        GLOB.MonsterCanAttack = False
         GLOB.PlayerIsRunning = False
         GLOB.PlayerCanMove = False
         player.setAllkeys(False)
@@ -221,6 +229,7 @@ def disegna():
     
     except NameError:
         pass
+    
 
     # MOSTRO LA GUI A SCHERMO
     Gui.show()
@@ -653,6 +662,13 @@ def main():
                         GLOB.ShowGrid = True
                     elif GLOB.ShowGrid:
                         GLOB.ShowGrid = False
+
+                if event.key == pygame.K_TAB and animazione.iFinished and not animazione.flag_caricamento:
+                                
+                    if not GLOB.ShowInventory:
+                        GLOB.ShowInventory = True
+                    elif GLOB.ShowInventory:
+                        GLOB.ShowInventory = False
 
 
             if keys_pressed[pygame.K_F3]:

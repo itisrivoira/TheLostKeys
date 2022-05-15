@@ -33,12 +33,14 @@ Debug = False
 ShowGrid = False
 ShowFps = True
 ShowDropFrames = True
+ShowScore = True
 LoadCollisions = True
 
 Mappa = []
 
 isGameRunning = False
 isPaused = False
+ShowInventory = False
 
 KeyPressed = ""
 
@@ -50,13 +52,16 @@ Drop_Frames = False
 
 
 # -- MOSTRO
-ShowMonsterRange = False
 MonsterCanSpawn = False
+ShowMonsterRange = False
 MonsterCanAttack = True
 
+Monster_speed = 1 * MULT / Delta_Time
+MonsterRun_speed = 1.4
 
-Player_speed = 2 * MULT
-PlayerRun_speed = 3 * MULT
+Player_speed = 2 * MULT / Delta_Time
+PlayerRun_speed = 3
+PlayerReset = False
 
 Player_default_speed = Player_speed
 
@@ -66,12 +71,27 @@ PlayerWalkingVD = []
 PlayerWalkingVU = []
 
 # STATISTICHE
-# Vel - Chimica - Storia - Inglese - Fisica - Matematica - Informatica - Italiano - Sistemi - TPSIT
-Senex_Stat = [ 5, 8, 6, 7, 3, 6, 6, 5, 4, 10 ]
-Seima_Stat = [ 2, 8, 10, 8, 9, 10, 10, 8, 10, 10 ]
-Aleks_Stat = [ 5, 10, 10, 6, 2, 7, 8, 10, 7, 2 ]
-Beppe_Stat = [ 6, 2, 8, 4, 2, 6, 6, 5, 9, 7 ]
-Dark_Stat = [ 3, 8, 7, 9, 10, 8, 6, 7, 6, 2 ]
+#  Chimica - Storia - Inglese - Fisica - Matematica - Informatica - Italiano - Sistemi - TPSIT
+
+Senex_Evaluations = [ 8, 6, 7, 3, 6, 6, 5, 4, 10 ]
+Seima_Evaluations = [ 8, 10, 8, 9, 10, 10, 8, 10, 10 ]
+Aleks_Evaluations = [ 10, 10, 6, 2, 7, 8, 10, 7, 2 ]
+Beppe_Evaluations = [ 2, 8, 4, 2, 6, 6, 5, 9, 7 ]
+Dark_Evaluations = [ 8, 7, 9, 10, 8, 6, 7, 6, 2 ]
+
+# Max = 13
+# Senex_Stat = [ int(Max - (sum(Senex_Evaluations))/len(Senex_Evaluations)) ] + Senex_Evaluations
+# Seima_Stat = [ int(Max - (sum(Seima_Evaluations))/len(Seima_Evaluations)) ] + Seima_Evaluations
+# Aleks_Stat = [ int(Max - (sum(Aleks_Evaluations))/len(Aleks_Evaluations)) ] + Aleks_Evaluations
+# Beppe_Stat = [ int(Max - (sum(Beppe_Evaluations))/len(Beppe_Evaluations)) ] + Beppe_Evaluations
+# Dark_Stat = [ int(Max - (sum(Dark_Evaluations))/len(Dark_Evaluations)) ] + Dark_Evaluations
+
+# Vel
+Senex_Stat = [ 5 ] + Senex_Evaluations
+Seima_Stat = [ 2 ] + Seima_Evaluations
+Aleks_Stat = [ 5 ] + Aleks_Evaluations
+Beppe_Stat = [ 6 ] + Beppe_Evaluations
+Dark_Stat  = [ 3 ] + Dark_Evaluations
 
 Stats = ( Senex_Stat, Seima_Stat, Aleks_Stat, Beppe_Stat, Dark_Stat )
 
@@ -125,22 +145,32 @@ def setCharacter():
 
 setCharacter()
 
-ShowScore = True
 def setResources():
-    global score, score_seconds, tentativo, enigmi_da_risolvere, enigmi_risolti, chiavette, chiavetta_start, chiavetta_end, inventario
-    global Default_Character, Piano, Stanza, Default_Map, Default_object, Default_collisions, PlayerCanMove, PlayerCanRun, PlayerIsWalking, PlayerIsRunning
+    global score, score_seconds, tentativo
+    global inventario
+
+    global enigmi_da_risolvere, enigmi_risolti
+    global chiavette, chiavetta_start, chiavetta_end
+    global oggetti, oggetti_start, oggetti_end
+
+    global Default_Character, PlayerCanMove, PlayerCanRun, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
+    global Piano, Stanza, Default_Map, Default_object, Default_collisions
 
     # --- SCORE ---
+
     score = 0
     score_seconds = 0
 
     # --- ENIGMI ---
 
     tentativo = {}
-    enigmi_da_risolvere = ["Fisica", "1A", "WC-Femmine", "AulaMagna", "AulaProfessori", "LabInfo", "4A", "AulaVideo", "LabInformatica", "Ripostiglio"]
+    enigmi_da_risolvere = ["Fisica", "1A", "WC-Femmine", "AulaMagna", "AulaProfessori", "LabInfo", "4A", "AulaVideo", "LabInformatica", "Ripostiglio", "Chimica"]
     enigmi_risolti = []
 
     # --- INVENTARIO ---
+
+
+        # CHIAVETTE
 
     chiavette = {}
     chiavetta_start = 140
@@ -158,6 +188,27 @@ def setResources():
     chiavetta_start = 140
 
 
+
+        # OGGETTI
+
+    oggetti = {}
+    oggetti_start = 154
+    molt_oggetto = 2
+    oggetti_end = 3
+
+    for i in range(oggetti_end):
+        immagine = pygame.image.load("Collectibles/oggetto-"+str(i)+".png").convert_alpha()
+        immagine = pygame.transform.scale(immagine, (immagine.get_width() * MULT * molt_oggetto, immagine.get_height() * MULT * molt_oggetto))
+        oggetti[i] = (oggetti_start, True, immagine)
+        oggetti_start += 1
+        print( "| "+str(i)+": " +str(oggetti[i][0])+" - "+str(oggetti[i][1])+ "| ")
+
+    oggetti_start = 154
+    oggetti_end = oggetti_start + oggetti_end
+
+    PlayerCanCollect = False
+
+
     inventario = {}
     Default_Character = 'Characters/Senex/WalkOrizontal/Walk0.png'
 
@@ -172,5 +223,14 @@ def setResources():
 
     PlayerIsWalking = True
     PlayerIsRunning = False
+
+    PLayerMovement = {
+            
+    "up": False, 
+    "down": False, 
+    "left": False, 
+    "right": False, 
+            
+    }
 
 setResources()
