@@ -31,12 +31,12 @@ f.close()
 
 
 # Timer del gioco
-Timer = 5
+Timer = 10
 
 Scelta = 0
 Cam_visible = False
 
-OptionDebug = False
+OptionDebug = True
 Debug = False
 ShowGrid = False
 ShowFps = True

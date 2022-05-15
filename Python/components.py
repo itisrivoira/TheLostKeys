@@ -1665,6 +1665,7 @@ class Code():
 
         self.corretto = "CONFERMATO"
         self.errore = "ERRORE"
+        self.errore_default = self.errore
 
 
     def __reset_code(self):
@@ -1700,6 +1701,24 @@ class Code():
 
         elif len(self.codeU) == self.len and self.codeU != self.codeS and self.codeU != self.corretto:
             self.CanClick = False
+
+            self.errore = self.errore_default
+
+            if self.codeU == "1234":
+                self.errore = "Sicuramente"
+
+            if self.codeU == "0690":
+                self.errore = "Furbacchione"
+
+            if self.codeU == "1492":
+                self.errore = "America"
+
+            if self.codeU == "0000":
+                self.errore = "Gesu'"
+
+            if self.codeU == "2001":
+                self.errore = "Divertente"
+
             self.codeU = self.errore
 
 

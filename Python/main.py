@@ -155,6 +155,8 @@ def disegna():
         game_win()
 
     if GLOB.PlayerReset:
+        SetPlayer_sprite()
+        player.setAllkeys(False)
         player.finish()
         SetPlayer_speed()
         GLOB.PlayerReset = False
@@ -210,7 +212,7 @@ def disegna():
 
             if Enigma.isFinished:
                 if Enigma.risultato:
-                    messaggio_a_schermo.ChangeParamatrer(text = "CORRETTO!", color = "#70c73e", size = 12)
+                    messaggio_a_schermo.ChangeParamatrer(text = "ENIGMA RISOLTO!", color = "#70c73e", size = 12)
                     condizione = False
                     var = 0
 
@@ -227,7 +229,7 @@ def disegna():
                         collisioni.eventi.testa()
 
                 else:
-                    messaggio_a_schermo.ChangeParamatrer(text = "SBAGLIATO!", color = "#e83838", size = 12)
+                    messaggio_a_schermo.ChangeParamatrer(text = "RIPROVA", color = "#e83838", size = 12)
 
                 if messaggio_a_schermo.isFinished:
                     Enigma.risultato = None
@@ -244,17 +246,6 @@ def disegna():
     # MOSTRO IL TIMER
     timer.Show()
 
-    if player.evento == "porta-99":
-
-        risposte = ["la porta sembra chiusa", "non si apre", "è bloccata"]
-        player.finish()
-        player.setAllkeys(False)
-        GLOB.PlayerIsRunning = False
-        c = Dialoghi(GLOB.scelta_char, random.choice(risposte), 3)
-        c.stampa()
-        player.evento = None
-        SetPlayer_speed()
-
     if not GLOB.PlayerCanRun:
         SetPlayer_speed()
 
@@ -267,6 +258,10 @@ def game_win():
     restarta = False
 
     pygame.mouse.set_visible(True)
+
+    var_win = 300
+    
+    GLOB.score += var_win
 
     if int(GLOB.Record) < int(GLOB.score):
 
@@ -313,6 +308,15 @@ def game_win():
         distanza_riga = 20 * GLOB.MULT
 
         starty = 25 * GLOB.MULT
+
+        SCORE_TEXT = get_font(7*int(GLOB.MULT)).render("score: "+str(GLOB.score), True, "White")
+        SCORE_POS = (GLOB.screen_width/2 - SCORE_TEXT.get_width()/2, starty + 90 * GLOB.MULT)
+
+        RECORD_TEXT = get_font(7*int(GLOB.MULT)).render("record: "+str(GLOB.Record), True, "White")
+        RECORD_POS = (GLOB.screen_width/2 - RECORD_TEXT.get_width()/2, starty + 100 * GLOB.MULT)
+
+        GLOB.screen.blit(SCORE_TEXT, SCORE_POS)
+        GLOB.screen.blit(RECORD_TEXT, RECORD_POS)
 
     
         GAME_TEXT = get_font(size*int(GLOB.MULT)).render("HAI", True, "White")
