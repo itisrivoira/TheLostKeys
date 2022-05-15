@@ -23,12 +23,6 @@ AU = 5
 # rapporto musica del gioco
 MU = 1
 
-# Apri il file in modalita lettura
-with open('score.txt', 'r') as f:
-    f_contest = f.readlines()
-    Record = f_contest[1]
-f.close()
-
 
 # Timer del gioco
 Timer = 10
@@ -155,7 +149,7 @@ def setCharacter():
 setCharacter()
 
 def setResources():
-    global score, score_seconds, tentativo
+    global score, score_seconds, tentativo, Record
     global inventario
 
     global codice_archivio
@@ -175,6 +169,12 @@ def setResources():
 
     score = 0
     score_seconds = 0
+
+    # Apri il file in modalita lettura
+    with open('score.txt', 'r') as f:
+        f_contest = f.readlines()
+        Record = f_contest[1]
+    f.close()
 
     # --- ENIGMI ---
 

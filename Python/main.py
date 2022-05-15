@@ -265,9 +265,11 @@ def game_win():
 
     if int(GLOB.Record) < int(GLOB.score):
 
+        GLOB.Record = GLOB.score
+
         with open('score.txt', 'w') as f:
             f.write("Record:\n")
-            f.write(str(GLOB.score))
+            f.write(str(GLOB.Record))
             f.close()
             
     while not restarta:
