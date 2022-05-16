@@ -1,10 +1,9 @@
-import random
 import pandas as pd
 import pygame, os, sys
 
 #Importo i vari file e classi necessarie
 import giocatore, menu, camera, debug, collisioni
-from components import Bar, Button, Dialoghi, Dialoghi_Interattivi, Risultato, Timer, GUI, Code
+from components import Bar, Button, Dialoghi, Dialoghi_Interattivi, Risultato, Timer, GUI, Code, MiniMap
 from pygame import mixer
 from animazione import Transizione
 from mostro import Keeper
@@ -49,7 +48,6 @@ def SetPlayer_sprite():
 
         # Ordino i file e gli appendo ad una lista, in modo che le animazioni siano lineari e ordinate
         FileNames.sort()
-        sorted(FileNames)
 
         for filename in FileNames:
             if percorso == Folder_walkO:
@@ -143,10 +141,10 @@ def load_collisions(path):
 
     for i in GLOB.Mappa[1]:
         if i >= 0 and i < 56:
-            CanCollide = True
+            NOevent = True
         elif i >= 56 and i < 125:
-            CanCollide = False
-        collisions.render(lista = GLOB.Mappa[0], var = i, hitbox = CanCollide)
+            NOevent = False
+        collisions.render(lista = GLOB.Mappa[0], var = i, hitbox = NOevent)
 
 
 def disegna():
@@ -259,7 +257,9 @@ def game_win():
 
     pygame.mouse.set_visible(True)
 
-    var_win = 300
+    d = int(((timer.getMinutes() * 60 + timer.getSeconds()) * 1.6) + 0.1)
+
+    var_win = 300 + d
     
     GLOB.score += var_win
 

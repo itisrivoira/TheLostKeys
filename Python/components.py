@@ -1076,7 +1076,6 @@ class Sfoca():
         self.Start()
         GLOB.screen.blit(self.superficie, (0, 0))
 
-
 class Risultato():
 	def __init__(self, text, color, size, delay_scomparsa):
 		self.text = text
@@ -1476,10 +1475,8 @@ class MiniMap():
 		print(GLOB.Piano, GLOB.Stanza)
 
 	def update(self):
-		if GLOB.Piano == "0-PianoSegreto":
-			self.path_image = "Piano-0"
 		
-		elif GLOB.Piano == "1-PianoTerra":
+		if GLOB.Piano == "1-PianoTerra":
 			self.path_image = "Piano-1"
 			self.pos_player = 250 * GLOB.MULT, 105 * GLOB.MULT
 
@@ -1528,9 +1525,6 @@ class MiniMap():
 
 			clock.tick(GLOB.FPS)
 			pygame.display.flip()
-
-
-
 
 
 class Key():
@@ -1600,8 +1594,6 @@ class Key():
             return self.text
         else:
             return ""
-
-
 
 class Code():
     def __init__(self, code):

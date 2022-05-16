@@ -186,7 +186,7 @@ class Player():
             elif r and not l:
                 self.current_spriteWOR += self.getAnimationSpeed() / GLOB.Delta_Time
 
-                if self.current_spriteWOR >= len(self.animationWO)or self.getLeftPress():
+                if self.current_spriteWOR >= len(self.animationWO) or self.getLeftPress():
                     self.current_spriteWOR = 0
                     
                 self.image = self.animationWO[int(self.current_spriteWOR)]

@@ -1,7 +1,6 @@
 import random
 import main
 import global_var as GLOB
-from components import MiniMap
 
 def testa():
 
@@ -218,7 +217,7 @@ def testa():
 
 
     if main.player.evento == "mappa":
-        mappa = MiniMap()
+        mappa = main.MiniMap()
         mappa.update()
         main.player.setAllkeys(False)
         main.SetPlayer_speed()
