@@ -1,5 +1,6 @@
+import random
 import global_var as GLOB
-import pygame, sys
+import pygame, sys, os, re
 from pygame import mixer
 
 """
@@ -1792,3 +1793,217 @@ class Code():
 
             pygame.display.update()
             pygame.time.Clock().tick(GLOB.FPS)
+
+
+
+
+class Pc():
+	def __init__(self):
+		
+		div = 1.4
+		self.vignetta = pygame.image.load("assets/vignetta-risposta.png").convert_alpha()
+		self.vignetta = pygame.transform.scale(self.vignetta, (self.vignetta.get_width() * GLOB.MULT / div, self.vignetta.get_height() * GLOB.MULT / div))
+
+		self.contenuto = False
+		self.distanza_oggetti = 20 * GLOB.MULT
+
+
+
+		self.selection = 0
+		self.selected_element = 0
+
+		self.elementi_riga = 4
+		self.molt_riga_start = 0
+		self.molt_riga_end = 1
+
+		self.molt_riga_value = 0
+
+		self.ciclo = True
+		
+		self.id_chiavetta = 0
+		
+		self.CanIUse = True
+  
+		self.chiavette = []
+  
+		self.__filtra()
+		print(self.chiavette)
+  
+  
+	def __filtra(self):
+		oggetti_inventario = list(GLOB.inventario.keys())
+			
+		c = False
+		
+		if len(oggetti_inventario) != 0:
+			for oggetto in oggetti_inventario:
+				if "chiavetta" in str(oggetto):
+					self.chiavette.append(oggetto)
+					c = True
+
+		print(self.chiavette)
+		self.chiavette.sort(key=lambda f: int(re.sub('\D', '', f)))
+					
+
+		if c == False:
+			self.CanIUse = False
+
+	def __calcola_testo(self):
+
+		def imposta_colore(num_risposta):
+			default_color = "#c2c2c2"
+			selected_color = "White"
+			if self.selected_element == num_risposta:
+				return selected_color	
+			else:
+				return default_color
+
+
+
+		if self.CanIUse: 
+      
+			GLOB.screen.blit(self.vignetta, (25 * GLOB.MULT, 10 * GLOB.MULT))
+   
+			i = 0
+			for oggetto in self.chiavette:
+				
+
+				ls = self.elementi_riga * self.molt_riga_start
+				lf = self.elementi_riga * self.molt_riga_end
+
+
+				# condizione1 = (int((oggetto[-1])) >= ls + 1 and (int((oggetto[-1])) <= lf))
+				
+				# condizione2 = (int((oggetto[-2] + oggetto[-1])) >= ls + 1 and (int((oggetto[-2] + oggetto[-1])) <= lf))
+    
+				condizione1 = (self.selection) >= ls and (self.selection <= lf)
+				
+				condizione2 = (int((oggetto[-2] + oggetto[-1])) >= ls + 1 and (int((oggetto[-2] + oggetto[-1])) <= lf))
+    
+    
+				posy =  18 * GLOB.MULT + self.distanza_oggetti * (i - self.molt_riga_value)
+
+
+				if condizione1:
+					NAME_TEXT = get_font(7*int(GLOB.MULT)).render("- "+ str(oggetto), True, imposta_colore(i))
+					if posy < 90 * GLOB.MULT and posy >= 18 * GLOB.MULT:
+						NAME_POS = (35 * GLOB.MULT, posy)
+						GLOB.screen.blit(NAME_TEXT, NAME_POS)					
+				
+
+				i += 1
+
+		else:
+			risposte = ["Credo di non avere le chiavette neccessarie richieste.", "Forse dovrei prima cercare altre chiavette", "Questa macchina ha Windows sopra... Meglio starne alla larga"]
+			d = Dialoghi(GLOB.scelta_char, random.choice(risposte), 3)
+			d.stampa()
+			self.ciclo = False
+	
+	def __memorizza(self):
+
+
+
+		def find():
+			item = list(GLOB.inventario.items())
+
+			c = False
+			for oggetti in item:
+				if oggetti[0] == self.chiavette[self.selected_element]:
+					chiavetta = oggetti[0]
+					c = True
+
+			print(chiavetta)
+			if c:
+				return chiavetta
+
+			else:
+				return 0
+
+
+		if not GLOB.inventario[find()][1]:
+			oggetto = GLOB.inventario[find()]
+			GLOB.inventario[find()] = (oggetto[0], True, oggetto[2])
+
+			descrizione = "Sto Elaborando...|Quasi Fatto...| "+str(GLOB.inventario[find()][2]+"|In attesa ...|")
+
+			descrizione = descrizione.split("|")
+
+			for frase in descrizione:
+				d = Dialoghi("pc", frase, 3)
+				d.stampa()
+		
+		else:
+
+			descrizione = "Sto Elaborando...|Quasi Fatto...|Hai già analizzato il contenuto di questa chiavetta...|In attesa ...|"
+
+			descrizione = descrizione.split("|")
+
+			for frase in descrizione:
+				d = Dialoghi("pc", frase, 3)
+				d.stampa()
+
+	def show(self):
+
+
+		def controlla(v):
+			if  v < 0:
+				v = len(GLOB.inventario) - 1
+			elif v > len(GLOB.inventario) - 1:
+				v = 0
+
+			self.selected_element = v
+			self.selection = v
+			
+			if self.selection < 0:
+				self.selection = len(GLOB.inventario) - 1
+			elif self.selection > len(GLOB.inventario) - 1:
+				self.selection = 0
+
+			if self.selection >= (self.elementi_riga * 0) and self.selection < (self.elementi_riga * 1) or self.selection > len(GLOB.inventario):
+				self.molt_riga_start = 0
+				self.molt_riga_end = 1
+				self.molt_riga_value = 0
+
+			if self.selection >= (self.elementi_riga * 1) and self.selection < (self.elementi_riga * 2):
+				self.molt_riga_start = 1
+				self.molt_riga_end = 2
+				self.molt_riga_value = 4
+
+			if self.selection >= (self.elementi_riga * 2) and self.selection < (self.elementi_riga * 5):
+				self.molt_riga_start = 2
+				self.molt_riga_end = 3
+				self.molt_riga_value = 8
+			
+
+
+		while self.ciclo:
+			
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT or event.type == pygame.MOUSEBUTTONDOWN:
+					self.ciclo = False
+
+
+				if event.type == pygame.KEYDOWN:
+
+					if event.key == pygame.K_ESCAPE:
+						self.ciclo = False
+
+					if event.key == pygame.K_UP:
+						self.selection -= 1
+						controlla(self.selection)
+
+					if event.key == pygame.K_DOWN:
+						self.selection += 1
+						controlla(self.selection)
+
+					if event.key == pygame.K_RETURN:
+						print("Cliccato")
+						self.selected_element = self.selection
+						self.__memorizza()
+
+					# print("| oggetto selezionato: %d | molt-riga START: %d | molt-riga END: %d" % (self.selection, self.molt_riga_start, self.molt_riga_end))
+
+			self.__calcola_testo()
+
+			pygame.time.Clock().tick(GLOB.FPS)
+			pygame.display.flip()

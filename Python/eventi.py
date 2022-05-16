@@ -215,6 +215,24 @@ def testa():
                 d = main.Dialoghi(GLOB.scelta_char, t, 3)
                 d.stampa()
 
+        if GLOB.Stanza == "AulaVideo":
+            testo = "Pascoli...|Chissa' se nella libreria della scuola ci potrebbe essere quello che sto cercando."
+
+            testo = testo.split("|")
+
+            for t in testo:
+                d = main.Dialoghi(GLOB.scelta_char, t, 3)
+                d.stampa()
+
+        if GLOB.Stanza == "LabInfo":
+            testo = "Scratch... che ricordi, chissa' se tra questi pc ce ne sarà uno funzionante..."
+
+            testo = testo.split("|")
+
+            for t in testo:
+                d = main.Dialoghi(GLOB.scelta_char, t, 3)
+                d.stampa()
+
 
     if main.player.evento == "mappa":
         mappa = main.MiniMap()
@@ -222,280 +240,289 @@ def testa():
         main.player.setAllkeys(False)
         main.SetPlayer_speed()
 
-    if main.player.evento == "piano-0":
-        GLOB.Piano = "0-PianoSegreto"
-        main.player.evento = None
-        main.stanze.setToDefault()
-        main.stanze.dizionario_flag["StanzaSegreta"] = True
 
-        main.animazione.iFinished = False
-        main.stanze.setPosition((192, 72), (146, 62))
+    def piano():
 
-    elif main.player.evento == "piano-1":
-        last_floor = GLOB.Piano
-        GLOB.Piano = "1-PianoTerra"
-        main.player.evento = None
-        main.stanze.setToDefault()
-
-        main.animazione.iFinished = False
-
-        if last_floor == "0-PianoSegreto":
+        if main.player.evento == "piano-0":
             GLOB.Piano = "0-PianoSegreto"
-            main.stanze.dizionario_flag["Archivio1"] = True
-        else:
+            main.player.evento = None
+            main.stanze.setToDefault()
+            main.stanze.dizionario_flag["StanzaSegreta"] = True
+
+            main.animazione.iFinished = False
             main.stanze.setPosition((192, 72), (146, 62))
-            main.stanze.dizionario_flag["Corridoio"] = True
 
-    elif main.player.evento == "piano-2":
-        last_floor = GLOB.Piano
-        GLOB.Piano = "2-PrimoPiano"
-        main.player.evento = None
-        main.stanze.setToDefault()
-        main.stanze.dizionario_flag["Corridoio1"] = True
+        elif main.player.evento == "piano-1":
+            last_floor = GLOB.Piano
+            GLOB.Piano = "1-PianoTerra"
+            main.player.evento = None
+            main.stanze.setToDefault()
 
-        main.animazione.iFinished = False
+            main.animazione.iFinished = False
 
-        if last_floor == "1-PianoTerra":
-            main.stanze.setPosition((274, 110), (-312, -148))
-        elif last_floor == "3-SecondoPiano":
-            main.stanze.setPosition((244, 110), (-312, -148))
-        else:
-            main.stanze.setPosition((260, 110), (-312, -148))
-
-    elif main.player.evento == "piano-3":
-        GLOB.Piano = "3-SecondoPiano"
-        main.player.evento = None
-        main.stanze.setToDefault()
-        main.stanze.dizionario_flag["Corridoio2"] = True
-
-        main.animazione.iFinished = False
-        main.stanze.setPosition((270, 110), (-326, -148))
-
-    elif main.player.evento == "piano-4":
-        Blocca()
-        return
-
-
-    if main.player.evento == "porta-0":
-        main.player.evento = None
-        main.stanze.setToDefault()
-
-        if GLOB.Piano == "1-PianoTerra":
-        
-            if GLOB.Stanza == "Corridoio":
-                main.stanze.dizionario_flag["Fisica"] = True
-
-            if GLOB.Stanza == "Fisica":
+            if last_floor == "0-PianoSegreto":
+                GLOB.Piano = "0-PianoSegreto"
+                main.stanze.dizionario_flag["Archivio1"] = True
+            else:
+                main.stanze.setPosition((192, 72), (146, 62))
                 main.stanze.dizionario_flag["Corridoio"] = True
 
-        elif GLOB.Piano == "2-PrimoPiano":
-                    
-            if GLOB.Stanza == "Corridoio":
-                main.stanze.dizionario_flag["LabInfo"] = True
+        elif main.player.evento == "piano-2":
+            last_floor = GLOB.Piano
+            GLOB.Piano = "2-PrimoPiano"
+            main.player.evento = None
+            main.stanze.setToDefault()
+            main.stanze.dizionario_flag["Corridoio1"] = True
 
-            if GLOB.Stanza == "LabInfo":
-                main.stanze.dizionario_flag["Corridoio1"] = True
+            main.animazione.iFinished = False
 
-        else:
+            if last_floor == "1-PianoTerra":
+                main.stanze.setPosition((274, 110), (-312, -148))
+            elif last_floor == "3-SecondoPiano":
+                main.stanze.setPosition((244, 110), (-312, -148))
+            else:
+                main.stanze.setPosition((260, 110), (-312, -148))
+
+        elif main.player.evento == "piano-3":
+            GLOB.Piano = "3-SecondoPiano"
+            main.player.evento = None
+            main.stanze.setToDefault()
+            main.stanze.dizionario_flag["Corridoio2"] = True
+
+            main.animazione.iFinished = False
+            main.stanze.setPosition((270, 110), (-326, -148))
+
+        elif main.player.evento == "piano-4":
             Blocca()
-            return
+            return False
 
-        main.animazione.iFinished = False
+    def porte():
     
-    elif main.player.evento == "porta-1":
-        main.player.evento = None
-        main.stanze.setToDefault()
+        if main.player.evento == "porta-0":
+            main.player.evento = None
+            main.stanze.setToDefault()
 
-
-        if GLOB.Piano == "2-PrimoPiano":
+            if GLOB.Piano == "1-PianoTerra":
             
-            if GLOB.Stanza == "Corridoio":
-                main.stanze.dizionario_flag["WCmaschi"] = True
+                if GLOB.Stanza == "Corridoio":
+                    main.stanze.dizionario_flag["Fisica"] = True
 
-            if GLOB.Stanza == "WC-Maschi":
-                main.stanze.dizionario_flag["Corridoio1"] = True
+                if GLOB.Stanza == "Fisica":
+                    main.stanze.dizionario_flag["Corridoio"] = True
 
-        else:
-            Blocca()
-            return
+            elif GLOB.Piano == "2-PrimoPiano":
+                        
+                if GLOB.Stanza == "Corridoio":
+                    main.stanze.dizionario_flag["LabInfo"] = True
+
+                if GLOB.Stanza == "LabInfo":
+                    main.stanze.dizionario_flag["Corridoio1"] = True
+
+            else:
+                Blocca()
+                return False
+
+            main.animazione.iFinished = False
         
-
-        main.animazione.iFinished = False
-
-
-    elif main.player.evento == "porta-2":
-        main.player.evento = None
-        main.stanze.setToDefault()
+        elif main.player.evento == "porta-1":
+            main.player.evento = None
+            main.stanze.setToDefault()
 
 
-        if GLOB.Piano == "1-PianoTerra":
-        
-            if GLOB.Stanza == "Corridoio":
-                main.stanze.dizionario_flag["Chimica"] = True
+            if GLOB.Piano == "2-PrimoPiano":
+                
+                if GLOB.Stanza == "Corridoio":
+                    main.stanze.dizionario_flag["WCmaschi"] = True
 
-            if GLOB.Stanza == "Chimica":
-                main.stanze.dizionario_flag["Corridoio"] = True
+                if GLOB.Stanza == "WC-Maschi":
+                    main.stanze.dizionario_flag["Corridoio1"] = True
 
-        else:
-            Blocca()
-            return
-
-        main.animazione.iFinished = False
-
-
-    elif main.player.evento == "porta-7":
-        main.player.evento = None
-        main.stanze.setToDefault()
-
-        if GLOB.Piano == "2-PrimoPiano":
+            else:
+                Blocca()
+                return False
             
-            if GLOB.Stanza == "Corridoio":
-                main.stanze.dizionario_flag["Classe1A"] = True
 
-            if GLOB.Stanza == "1A":
-                main.stanze.dizionario_flag["Corridoio1"] = True
+            main.animazione.iFinished = False
 
-        elif GLOB.Piano == "3-SecondoPiano":
+
+        elif main.player.evento == "porta-2":
+            main.player.evento = None
+            main.stanze.setToDefault()
+
+
+            if GLOB.Piano == "1-PianoTerra":
+            
+                if GLOB.Stanza == "Corridoio":
+                    main.stanze.dizionario_flag["Chimica"] = True
+
+                if GLOB.Stanza == "Chimica":
+                    main.stanze.dizionario_flag["Corridoio"] = True
+
+            else:
+                Blocca()
+                return False
+
+            main.animazione.iFinished = False
+
+
+        elif main.player.evento == "porta-7":
+            main.player.evento = None
+            main.stanze.setToDefault()
+
+            if GLOB.Piano == "2-PrimoPiano":
+                
+                if GLOB.Stanza == "Corridoio":
+                    main.stanze.dizionario_flag["Classe1A"] = True
+
+                if GLOB.Stanza == "1A":
+                    main.stanze.dizionario_flag["Corridoio1"] = True
+
+            elif GLOB.Piano == "3-SecondoPiano":
+                        
+                if GLOB.Stanza == "Corridoio":
+                    main.stanze.dizionario_flag["AulaVideo"] = True
+
+                if GLOB.Stanza == "AulaVideo":
+                    main.stanze.dizionario_flag["Corridoio2"] = True
+
+            else:
+                Blocca()
+                return False
+
+            main.animazione.iFinished = False
+
+        elif main.player.evento == "porta-8":
+            main.player.evento = None
+            main.stanze.setToDefault()
+
+
+            if GLOB.Piano == "1-PianoTerra":
+            
+                if GLOB.Stanza == "Corridoio":
+                    if not GLOB.codice_archivio:
+                        main.stanze.dizionario_flag["Archivio0"] = True
+                    else:
+                        main.stanze.dizionario_flag["Archivio1"] = True
+
+                if GLOB.Stanza == "Archivio":
+                    main.stanze.dizionario_flag["Corridoio"] = True
+
+
+            elif GLOB.Piano == "2-PrimoPiano":
+                
+                if GLOB.Stanza == "Corridoio":
+                    main.stanze.dizionario_flag["AulaMagna"] = True
+
+                if GLOB.Stanza == "AulaMagna":
+                    main.stanze.dizionario_flag["Corridoio1"] = True
+
+            else:
+                Blocca()
+                return False
+            
+
+            main.animazione.iFinished = False
+
+
+        elif main.player.evento == "porta-9":
+            main.player.evento = None
+            main.stanze.setToDefault()
+
+            
+            if GLOB.Piano == "3-SecondoPiano":
+                
+                if GLOB.Stanza == "Corridoio":
+                    main.stanze.dizionario_flag["Classe4A"] = True
+
+                if GLOB.Stanza == "4A":
+                    main.stanze.dizionario_flag["Corridoio2"] = True
+
+            else:
+                Blocca()
+                return False
+            
+
+            main.animazione.iFinished = False
+
+
+        elif main.player.evento == "porta-10":
+            main.player.evento = None
+            main.stanze.setToDefault()
+
+
+            if GLOB.Piano == "2-PrimoPiano":
+                
+                if GLOB.Stanza == "Corridoio":
+                    main.stanze.dizionario_flag["WCfemmine"] = True
+
+                if GLOB.Stanza == "WC-Femmine":
+                    main.stanze.dizionario_flag["Corridoio1"] = True
+
+
+            else:
+                Blocca()
+                return False
+            
+
+            main.animazione.iFinished = False
+
+        elif main.player.evento == "porta-11":
+            main.player.evento = None
+            main.stanze.setToDefault()
+
+
+            if GLOB.Piano == "2-PrimoPiano":
+                
+                if GLOB.Stanza == "Corridoio":
+                    main.stanze.dizionario_flag["AulaProfessori"] = True
+
+                if GLOB.Stanza == "AulaProfessori":
+                    main.stanze.dizionario_flag["Corridoio1"] = True
+
+
+            elif GLOB.Piano == "3-SecondoPiano":
                     
-            if GLOB.Stanza == "Corridoio":
-                main.stanze.dizionario_flag["AulaVideo"] = True
+                if GLOB.Stanza == "Corridoio":
+                    main.stanze.dizionario_flag["LabInformatica"] = True
 
-            if GLOB.Stanza == "AulaVideo":
-                main.stanze.dizionario_flag["Corridoio2"] = True
+                if GLOB.Stanza == "LabInformatica":
+                    main.stanze.dizionario_flag["Corridoio2"] = True
 
-        else:
+            else:
+                Blocca()
+                return False
+
+            main.animazione.iFinished = False
+
+
+        elif main.player.evento == "porta-12":
+            main.player.evento = None
+            main.stanze.setToDefault()
+
+
+            if GLOB.Piano == "3-SecondoPiano":
+                    
+                if GLOB.Stanza == "Corridoio":
+                    main.stanze.dizionario_flag["Ripostiglio"] = True
+
+                if GLOB.Stanza == "Ripostiglio":
+                    main.stanze.dizionario_flag["Corridoio2"] = True
+
+            else:
+                Blocca()
+                return False
+
+            main.animazione.iFinished = False
+
+        if main.player.evento == "porta-3" or main.player.evento == "porta-4" or main.player.evento == "porta-5" or main.player.evento == "porta-6" or main.player.evento == "porta-13" or main.player.evento == "porta-14":
             Blocca()
-            return
-
-        main.animazione.iFinished = False
-
-    elif main.player.evento == "porta-8":
-        main.player.evento = None
-        main.stanze.setToDefault()
+            return False
 
 
-        if GLOB.Piano == "1-PianoTerra":
-        
-            if GLOB.Stanza == "Corridoio":
-                if not GLOB.codice_archivio:
-                    main.stanze.dizionario_flag["Archivio0"] = True
-                else:
-                    main.stanze.dizionario_flag["Archivio1"] = True
-
-            if GLOB.Stanza == "Archivio":
-                main.stanze.dizionario_flag["Corridoio"] = True
 
 
-        elif GLOB.Piano == "2-PrimoPiano":
-            
-            if GLOB.Stanza == "Corridoio":
-                main.stanze.dizionario_flag["AulaMagna"] = True
-
-            if GLOB.Stanza == "AulaMagna":
-                main.stanze.dizionario_flag["Corridoio1"] = True
-
-        else:
-            Blocca()
-            return
-        
-
-        main.animazione.iFinished = False
-
-
-    elif main.player.evento == "porta-9":
-        main.player.evento = None
-        main.stanze.setToDefault()
-
-        
-        if GLOB.Piano == "3-SecondoPiano":
-            
-            if GLOB.Stanza == "Corridoio":
-                main.stanze.dizionario_flag["Classe4A"] = True
-
-            if GLOB.Stanza == "4A":
-                main.stanze.dizionario_flag["Corridoio2"] = True
-
-        else:
-            Blocca()
-            return
-        
-
-        main.animazione.iFinished = False
-
-
-    elif main.player.evento == "porta-10":
-        main.player.evento = None
-        main.stanze.setToDefault()
-
-
-        if GLOB.Piano == "2-PrimoPiano":
-            
-            if GLOB.Stanza == "Corridoio":
-                main.stanze.dizionario_flag["WCfemmine"] = True
-
-            if GLOB.Stanza == "WC-Femmine":
-                main.stanze.dizionario_flag["Corridoio1"] = True
-
-
-        else:
-            Blocca()
-            return  
-        
-
-        main.animazione.iFinished = False
-
-    elif main.player.evento == "porta-11":
-        main.player.evento = None
-        main.stanze.setToDefault()
-
-
-        if GLOB.Piano == "2-PrimoPiano":
-            
-            if GLOB.Stanza == "Corridoio":
-                main.stanze.dizionario_flag["AulaProfessori"] = True
-
-            if GLOB.Stanza == "AulaProfessori":
-                main.stanze.dizionario_flag["Corridoio1"] = True
-
-
-        elif GLOB.Piano == "3-SecondoPiano":
-                
-            if GLOB.Stanza == "Corridoio":
-                main.stanze.dizionario_flag["LabInformatica"] = True
-
-            if GLOB.Stanza == "LabInformatica":
-                main.stanze.dizionario_flag["Corridoio2"] = True
-
-        else:
-            Blocca()
-            return
-
-        main.animazione.iFinished = False
-
-
-    elif main.player.evento == "porta-12":
-        main.player.evento = None
-        main.stanze.setToDefault()
-
-
-        if GLOB.Piano == "3-SecondoPiano":
-                
-            if GLOB.Stanza == "Corridoio":
-                main.stanze.dizionario_flag["Ripostiglio"] = True
-
-            if GLOB.Stanza == "Ripostiglio":
-                main.stanze.dizionario_flag["Corridoio2"] = True
-
-        else:
-            Blocca()
-            return
-
-        main.animazione.iFinished = False
-
-    if main.player.evento == "porta-3" or main.player.evento == "porta-4" or main.player.evento == "porta-5" or main.player.evento == "porta-6" or main.player.evento == "porta-13" or main.player.evento == "porta-14":
-        Blocca()
+    if piano() == False or porte() == False:
         return
-
 
     # print(GLOB.PlayerCanCollect)
     if GLOB.PlayerCanCollect:
@@ -571,6 +598,18 @@ def testa():
 
             return
 
+        if GLOB.Stanza == "LabInfo" and CheckEnimga("LabInfo"):
+            oggetto = "chiavetta-6"
+
+            if Controlla(oggetto):
+                main.player.evento = oggetto
+                AggiungiChiavetta()
+                Trovato(oggetto)
+            else:
+                NonTrovato()
+
+            return
+
         if Controlla(oggetto):
             try:
                 GLOB.inventario[oggetto] = (GLOB.oggetti[tipo][2], True, descrizione)
@@ -600,3 +639,12 @@ def testa():
                 main.stanze.dizionario_flag["Archivio1"] = True
                 main.stanze.caricaStanza()
                 main.stanze.CaricaElementi()
+
+
+    if main.player.evento == "vittoria":
+        main.game_win()
+
+
+    if main.player.evento == "pc":
+        pc = main.Pc()
+        pc.show()

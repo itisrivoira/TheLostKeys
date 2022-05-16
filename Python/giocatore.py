@@ -352,6 +352,11 @@ class Player():
                 elif var == 131:
                     self.evento = "piano-4"
 
+                # -- PC --
+
+                if var == 134:
+                    self.evento = "pc"
+
                 # -- PORTE --
 
                 start_id = 112
