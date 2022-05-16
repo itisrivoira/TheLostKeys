@@ -10,13 +10,13 @@ import { useNavigate } from "react-router-dom";
 import { GameOverCtx, ScoreCtx, CloseCtx } from "./components";
 import { Skull } from "../assets/img/img";
 
-const GameOverUI = () => {
+const GameCloseUI = () => {
 	const { gameOver } = useContext(GameOverCtx);
 	const { close } = useContext(CloseCtx);
 	const { score } = useContext(ScoreCtx);
 	let navigate = useNavigate();
 
-	const restart = () => { window.location.reload() };
+	const restart = () => navigate('../select', {replace: true});
 	const backToMenu = () => { navigate('../menu', {replace: true}) };
 
 	return(
@@ -27,9 +27,15 @@ const GameOverUI = () => {
 		>
 			<Modal.Body className={`bg-dark w-100 h-100 ${!gameOver && 'win'}`}>
 				{gameOver && <GameOverTitle />}
-
 				<Row className={!gameOver && "position-absolute top-50 start-50 translate-middle w-75"}>
-							<Row className="my-3">
+					{
+						!gameOver
+						&&
+						<p className="fs-1 text-white text-center">
+							You Win!!!
+						</p>
+					}
+					<Row className="my-3">
 						<Col className="text-center">
 							<p className="fs-1 txt-pixel text-white">
 								Your Final Score is: {score}
@@ -83,7 +89,6 @@ const CustomText = ({children, color}) => (
 	</Row>
 )
 
-
 const GameOverTitle = () => (<>
 	<Row>
 		<Col className="d-flex justify-content-center">
@@ -106,4 +111,4 @@ const GameOverTitle = () => (<>
 </>)
 
 
-export default GameOverUI;
+export default GameCloseUI;

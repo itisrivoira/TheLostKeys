@@ -9,7 +9,7 @@ import GameContext, { DialogCtx, EnigmaCtx, RoomNameCtx, ScoreCtx, DoneCtx, Game
 import SettingsUI from "./SettingsUI";
 import SplashScreen from "./SplashScreen";
 import EnigmaUI from './EnigmaUI';
-import GameOverUI from './GameOverUI';
+import GameCloseUI from './GameCloseUI';
 
 export {
 	Audio,
@@ -34,7 +34,7 @@ export {
 	SettingsUI,
 	SplashScreen,
 	EnigmaUI,
-	GameOverUI,
+	GameCloseUI,
 	PgCtx,
 	CloseCtx
 };

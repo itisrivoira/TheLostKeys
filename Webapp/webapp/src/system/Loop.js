@@ -22,7 +22,7 @@ const Loop = (entities, { input }) => {
 	// payload è l'oggetto ritornato quando un evento si verifica
 	const { payload } = input.find(x => x.name === "onKeyDown") || {};
 	// Estraggo le entità player e room definite nel file entities.js
-	const { player, room } = entities;
+	const { player, room, uhd } = entities;
 
 	// Estraggo varie proprietà dalle entita per comodità
 	var { x, y, speed, pg } = player;
@@ -147,6 +147,9 @@ const Loop = (entities, { input }) => {
 					if (done.length === 13)
 						room.name = "Archivio1";
 				}
+
+				if (ev.evType == 'Win')
+					uhd.gameWin = true;
 
 				break;
 		}
