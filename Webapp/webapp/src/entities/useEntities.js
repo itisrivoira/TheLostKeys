@@ -36,9 +36,10 @@ const useEntities = () => {
 		},
 
 		uhd: {
-			min: 0,		// minuti
-			sec: 5,		// secondi
+			min: 10,		// minuti
+			sec: 0,		// secondi
 			gameOver: false,
+			gameWin: false,
 			renderer: <UHD />
 		}
 	};
