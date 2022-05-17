@@ -519,6 +519,5 @@ def main_menu():
         clock.tick(GLOB.FPS) # setto i FramesPerSecond
 
         pygame.display.flip()
-        pygame.display.update()
 
 main_menu()

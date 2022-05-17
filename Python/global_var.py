@@ -1,3 +1,5 @@
+from dis import show_code
+import random
 import pygame
 from pygame.locals import *
 
@@ -23,20 +25,14 @@ AU = 5
 # rapporto musica del gioco
 MU = 1
 
-# Apri il file in modalita lettura
-with open('score.txt', 'r') as f:
-    f_contest = f.readlines()
-    Record = f_contest[1]
-f.close()
-
 
 # Timer del gioco
-Timer = 5
+Timer = 10
 
 Scelta = 0
 Cam_visible = False
 
-OptionDebug = False
+OptionDebug = True
 Debug = False
 ShowGrid = False
 ShowFps = True
@@ -155,10 +151,10 @@ def setCharacter():
 setCharacter()
 
 def setResources():
-    global score, score_seconds, tentativo
+    global score, score_seconds, tentativo, Record
     global inventario
 
-    global codice_archivio
+    global codice, codice_archivio, ShowCodice
 
     global enigmi_da_risolvere, enigmi_risolti
     global chiavette, chiavetta_start, chiavetta_end
@@ -170,16 +166,41 @@ def setResources():
     # -- CODICI ---
     
     codice_archivio = False
+    codice = str(random.randint(0, 9999))
+    
+    l = ""
+    if len(codice) == 0:
+        l = "0000"+codice
+    elif len(codice) == 1:
+        l = "000"+codice
+    elif len(codice) == 2:
+        l = "00"+codice
+    elif len(codice) == 3:
+        l = "0"+codice
+    elif len(codice) == 4:
+        l = ""+codice
+        
+    codice = l
+        
+        
+        
+    ShowCodice = False
 
     # --- SCORE ---
 
     score = 0
     score_seconds = 0
 
+    # Apri il file in modalita lettura
+    with open('score.txt', 'r') as f:
+        f_contest = f.readlines()
+        Record = f_contest[1]
+    f.close()
+
     # --- ENIGMI ---
 
     tentativo = {}
-    enigmi_da_risolvere = ["Fisica", "1A", "WC-Femmine", "AulaMagna", "AulaProfessori", "LabInfo", "4A", "AulaVideo", "LabInformatica", "Ripostiglio", "Chimica"]
+    enigmi_da_risolvere = ["Fisica", "1A", "WC-Femmine", "AulaMagna", "AulaProfessori", "LabInfo", "4A", "AulaVideo", "LabInformatica", "Ripostiglio", "Chimica", "Corridoio", "Archivio"]
     enigmi_risolti = []
 
     # --- INVENTARIO ---
@@ -193,14 +214,17 @@ def setResources():
 
     for i in enigmi_da_risolvere:
         tentativo[i] = 0
-        immagine = pygame.image.load("Collectibles/chiavetta-"+str(enigmi_da_risolvere.index(i) + 1)+".png").convert_alpha()
-        immagine = pygame.transform.scale(immagine, (immagine.get_width() * MULT * molt_chiavetta, immagine.get_height() * MULT * molt_chiavetta))
-        chiavette[i] = (chiavetta_start, True, immagine)
-        chiavetta_start += 1
-        chiavetta_end = chiavetta_start
-        print( "| "+str(i)+": " +str(chiavette[i][0])+" - "+str(chiavette[i][1])+ "| ")
+        
+        if enigmi_da_risolvere.index(i)+1 <= 12:
+            immagine = pygame.image.load("Collectibles/chiavetta-"+str(enigmi_da_risolvere.index(i) + 1)+".png").convert_alpha()
+            immagine = pygame.transform.scale(immagine, (immagine.get_width() * MULT * molt_chiavetta, immagine.get_height() * MULT * molt_chiavetta))
+            chiavette[i] = (chiavetta_start, True, immagine)
+            chiavetta_start += 1
+            chiavetta_end = chiavetta_start
+            print( "| "+str(i)+": " +str(chiavette[i][0])+" - "+str(chiavette[i][1])+ "| - chiavetta-"+str(enigmi_da_risolvere.index(i) + 1))
 
     chiavetta_start = 140
+    
 
 
 

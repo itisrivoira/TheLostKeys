@@ -8,17 +8,27 @@ import { useContext } from "react";
 	cioè importare decine di componenti in una sola riga
 */
 import { SplashScreen, SettingsUI, BtnPlay, BtnOptions, BtnRank, BtnMusic, SettingCtx } from '../components/components';
+import { menuSound } from "../assets/sounds/sounds";
+import { useAudio } from "../utils/utils";
 
 import '../style/Menu.css';
 import '../style/Font.css';
 
 const Menu = () => {
 	const { setSetting } = useContext(SettingCtx);		// recupero funzione globale
-	let navigate = useNavigate();			// questo serve per navigare fra gli EndPoint
+	const [playing, toggle] = useAudio(menuSound);
+	const navigate = useNavigate();			// questo serve per navigare fra gli EndPoint
 
 	const openSettings = () => setSetting(true);		// Aprire le impostazioni
-	const play = () => navigate('../select', {replace: true});		// Passare alla pagina di gioco
-	const rank = () => navigate('../rank', {replace: true});		// Passare alla classifica
+	const play = () => {			// Passare alla pagina di gioco
+		toggle();
+		navigate('../select', {replace: true});
+	}
+
+	const rank = () => {			// Passare alla classifica
+		toggle();
+		navigate('../rank', {replace: true});
+	}
 
 	/*
 		Row e Col sono dei componenti Bootstrap che permettono di suddividere le pagine in righe e colonne

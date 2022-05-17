@@ -9,9 +9,9 @@ import { BsPauseFill, BsPlayFill } from "react-icons/bs";
 
 import { RunCtx, ScoreCtx, CloseCtx, GameOverCtx } from "../components/components";
 
-const UHD = ({ min, sec, gameOver }) => {
+const UHD = ({ min, sec, gameOver, gameWin }) => {
 	const { run, setRun } = useContext(RunCtx);		// flag esecuzione gioco
-	const { score } = useContext(ScoreCtx);	// Punteggio del gioco
+	const { score, setScore } = useContext(ScoreCtx);	// Punteggio del gioco
 	const { setClose } = useContext(CloseCtx); // Game Over
 	const { setGameOver } = useContext(GameOverCtx);
 
@@ -23,6 +23,14 @@ const UHD = ({ min, sec, gameOver }) => {
 			setGameOver(true)	// attivo il game Over
 		}
 	}, [gameOver]);
+
+	useEffect( () => {
+		if (gameWin) {
+			setRun(false);
+			setClose(true);
+			setScore( prev => prev + 500 + sec + min * 60);
+		}
+	}, [gameWin]);
 
 	return(
 		<Row className="position-absolute top-0 start-50 translate-middle-x w-50">

@@ -186,7 +186,7 @@ class Player():
             elif r and not l:
                 self.current_spriteWOR += self.getAnimationSpeed() / GLOB.Delta_Time
 
-                if self.current_spriteWOR >= len(self.animationWO)or self.getLeftPress():
+                if self.current_spriteWOR >= len(self.animationWO) or self.getLeftPress():
                     self.current_spriteWOR = 0
                     
                 self.image = self.animationWO[int(self.current_spriteWOR)]
@@ -311,11 +311,16 @@ class Player():
         # -- PIANO --
 
         start_id = 127
-        var_max = 3
+        var_max = 2
 
-        for i in range(var_max):
-            if var == (start_id + i + 1):
-                self.evento = "piano-"+str(i + 1)
+        if var == 128:
+            self.evento = "piano-1"
+
+        elif var == 129:
+            self.evento = "piano-2"
+
+        elif var == 130:
+            self.evento = "piano-3"
 
         # -- CHIAVETTE --
 
@@ -344,6 +349,14 @@ class Player():
                 if var == 127:
                     self.evento = "piano-0"
 
+                elif var == 131:
+                    self.evento = "piano-4"
+
+                # -- PC --
+
+                if var == 134:
+                    self.evento = "pc"
+
                 # -- PORTE --
 
                 start_id = 112
@@ -357,6 +370,12 @@ class Player():
 
                 if var >= 56 and var <= 111:
                     self.evento = "enigma"
+
+
+                # -- MACCHINETTA --
+
+                if var == 132:
+                    self.evento = "macchinetta"
 
 
                 # -- CODICE --
@@ -377,7 +396,8 @@ class Player():
                 elif var == 126:
                     self.evento = "mappa"
 
-                print(var, self.evento)             
+                if GLOB.Debug:
+                    print(var, self.evento, GLOB.Stanza, GLOB.Piano)             
 
     def update(self):
 
