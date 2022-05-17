@@ -1,12 +1,13 @@
 // Pannello delle Impostazioni
 
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Col, Button, Modal, Row, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { BsKeyboard } from "react-icons/bs";
 
-import { useFullScreen } from "../utils/utils";
+import { useFullScreen, useAudio } from "../utils/utils";
 import { Audio, MusicCtx, SfxCtx, SettingCtx, RunCtx } from './components';
+import { menuSound, backSound } from "../assets/sounds/sounds";
 
 const SettingsUI = ({exit}) => {
 	const { fullScreen, toggle } = useFullScreen();		// Hook che mi permette di attivare/disattivare il FullScreen
@@ -15,11 +16,18 @@ const SettingsUI = ({exit}) => {
 	const { music, setMusic } = useContext(MusicCtx);		// Livello Musica
 	const { sfx, setSfx } = useContext(SfxCtx);				// Livello Effetti Sonori
 
+	const [play, toggleAudio] = useAudio(menuSound, false);
+	const [sound, toggleBack] = useAudio(backSound, false);
 	const [com, setCom] = useState(false);		// stato per il Pannello Comandi
 	const navigate = useNavigate();			// Per navigare fra gli EndPoint
 
 	const openCommands = () => setCom(true);		// Attivo Il Pannello delle Instruzioni
 	const closeCommands = () => setCom(false);
+
+	useEffect(() => {
+		if(setting)
+			toggleAudio()
+	}, [setting]);
 
 	// Torno al Menu
 	const backToMenu = () => {
@@ -29,6 +37,7 @@ const SettingsUI = ({exit}) => {
 
 	// Chiudo questo Pannello
 	const handleClose = () => {
+		toggleBack();
 		setSetting(false);
 		if ( !run ) setRun(true);
 	}

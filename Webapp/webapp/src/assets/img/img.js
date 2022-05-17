@@ -8,7 +8,6 @@ import penRank from "./penRank.png"
 import penPlayWhite from "./penPlayWhite.png";
 import penOptionsWhite from "./penOptionsWhite.png";
 import penRankWhite from "./penRankWhite.png";
-import narratore from './Narratore.png';
 import Documento from './Documento.png';
 import Skull from "./skull.png";
 
@@ -21,7 +20,6 @@ export {
 	penPlayWhite,
 	penRankWhite,
 	penOptionsWhite,
-	narratore,
 	Documento,
 	Skull
 };
