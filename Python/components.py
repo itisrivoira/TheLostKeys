@@ -1,7 +1,7 @@
 import random
 import global_var as GLOB
 import pygame, sys, os, re
-from pygame import mixer
+from pygame import K_ESCAPE, mixer
 
 """
     ---  Classe genera un pulsante a schermo un pulsante cliccabile	---
@@ -359,7 +359,7 @@ class Dialoghi():
 					sys.exit()
 
     				
-				if event.type == pygame.MOUSEBUTTONDOWN or keys_pressed[pygame.K_SPACE]:
+				if event.type == pygame.MOUSEBUTTONDOWN or keys_pressed[pygame.K_SPACE] or keys_pressed[K_ESCAPE]:
 					possoIniziare = True
 
 				#delay.ActualState()
@@ -1266,7 +1266,7 @@ class GUI():
 		for i in range(val):
 			testo += " "
 			
-		a, b, c, d = "", "", "", ""
+		a, b, c, d, e, f = "", "", "", "", "", ""
 		l = 0
 
 		self.descrizione = testo
@@ -1284,6 +1284,12 @@ class GUI():
 
 			if l < self.char_limit * 4 - Cerca(4) and l < self.char_limit * 4 and l > self.char_limit * 3 - Cerca(3) - 1:
 				d += char
+    
+			if l < self.char_limit * 5 - Cerca(5) and l < self.char_limit * 5 and l > self.char_limit * 4 - Cerca(4) - 1:
+				e += char
+    
+			if l < self.char_limit * 6 - Cerca(6) and l < self.char_limit * 6 and l > self.char_limit * 5 - Cerca(5) - 1:
+				e += char
 			
 
 			l += 1
@@ -1299,6 +1305,12 @@ class GUI():
 
 		self.DESCR4_TEXT = get_font(3*int(GLOB.MULT)).render(d, True, "White")
 		self.DESCR4_POS = (self.inventory.get_width() + 10 * GLOB.MULT, 120 * GLOB.MULT + self.distanza_riga * 3)
+  
+		self.DESCR5_TEXT = get_font(3*int(GLOB.MULT)).render(e, True, "White")
+		self.DESCR5_POS = (self.inventory.get_width() + 10 * GLOB.MULT, 120 * GLOB.MULT + self.distanza_riga * 4)
+  
+		self.DESCR6_TEXT = get_font(3*int(GLOB.MULT)).render(f, True, "White")
+		self.DESCR6_POS = (self.inventory.get_width() + 10 * GLOB.MULT, 120 * GLOB.MULT + self.distanza_riga * 5)
 
 	def __effettoOggetto(self):
 		
@@ -1423,6 +1435,10 @@ class GUI():
 					GLOB.screen.blit(self.DESCR3_TEXT, self.DESCR3_POS)
 
 					GLOB.screen.blit(self.DESCR4_TEXT, self.DESCR4_POS)
+     
+					GLOB.screen.blit(self.DESCR5_TEXT, self.DESCR5_POS)
+     
+					GLOB.screen.blit(self.DESCR6_TEXT, self.DESCR6_POS)
 
 				i += 1
 
@@ -1841,7 +1857,6 @@ class Pc():
 					self.chiavette.append(oggetto)
 					c = True
 
-		print(self.chiavette)
 		self.chiavette.sort(key=lambda f: int(re.sub('\D', '', f)))
 					
 
@@ -1877,9 +1892,6 @@ class Pc():
 				# condizione2 = (int((oggetto[-2] + oggetto[-1])) >= ls + 1 and (int((oggetto[-2] + oggetto[-1])) <= lf))
     
 				condizione1 = (self.selection) >= ls and (self.selection <= lf)
-				
-				condizione2 = (int((oggetto[-2] + oggetto[-1])) >= ls + 1 and (int((oggetto[-2] + oggetto[-1])) <= lf))
-    
     
 				posy =  18 * GLOB.MULT + self.distanza_oggetti * (i - self.molt_riga_value)
 
@@ -1912,7 +1924,6 @@ class Pc():
 					chiavetta = oggetti[0]
 					c = True
 
-			print(chiavetta)
 			if c:
 				return chiavetta
 
@@ -1928,9 +1939,22 @@ class Pc():
 
 			descrizione = descrizione.split("|")
 
+			flag = False
+			if self.chiavette[self.selected_element] == "chiavetta-10":
+				descrizione[2] = "ERRORE - DISPOSITIVO DEVICE NON RICONOSCIUTO!"
+				descrizione.pop(-1)
+				descrizione.pop(-1)
+				flag = True
+
 			for frase in descrizione:
 				d = Dialoghi("pc", frase, 3)
 				d.stampa()
+    
+			if flag:
+				c = Dialoghi(GLOB.scelta_char, "Ma aspetta... Questa e' la chiavetta per le macchinette, ecco perche' non funzionava", 3)
+				c.stampa()
+				c = Dialoghi(GLOB.scelta_char, "", 3)
+				c.stampa()
 		
 		else:
 
@@ -1947,16 +1971,18 @@ class Pc():
 
 		def controlla(v):
 			if  v < 0:
-				v = len(GLOB.inventario) - 1
-			elif v > len(GLOB.inventario) - 1:
+				v = len(self.chiavette) - 1
+			elif v > len(self.chiavette) - 1:
 				v = 0
 
 			self.selected_element = v
 			self.selection = v
 			
 			if self.selection < 0:
-				self.selection = len(GLOB.inventario) - 1
-			elif self.selection > len(GLOB.inventario) - 1:
+				self.selection = len(self.chiavette) - 1
+			elif self.selection > len(self.chiavette) - 1:
+				self.selection = 0
+			elif len(self.chiavette) == 1:
 				self.selection = 0
 
 			if self.selection >= (self.elementi_riga * 0) and self.selection < (self.elementi_riga * 1) or self.selection > len(GLOB.inventario):
@@ -1997,7 +2023,6 @@ class Pc():
 						controlla(self.selection)
 
 					if event.key == pygame.K_RETURN:
-						print("Cliccato")
 						self.selected_element = self.selection
 						self.__memorizza()
 

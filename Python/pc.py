@@ -12,7 +12,7 @@ def get_font(size):
     return pygame.font.Font("font/retro.ttf", size)
 
 
-chiavette = list(GLOB.chiavette.values())
+chiavette = list(GLOB.enigmi_da_risolvere)
 
 # c = 10
 # for elemento in chiavette:

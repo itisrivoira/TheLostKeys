@@ -11,35 +11,35 @@ def testa():
         if main.player.evento == "chiavetta-1":
             var = "Fisica"
             GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
-            GLOB.inventario["chiavetta-1"] = (GLOB.chiavette[var][2], False, "Proprietario: Tommaso Dalbesio - Files: stringhe.c")
+            GLOB.inventario["chiavetta-1"] = (GLOB.chiavette[var][2], False, "Proprietario: Tommaso Dalbesio - Files: ziopera.pkt")
             main.player.evento = None
 
 
         if main.player.evento == "chiavetta-2":
             var = "1A"
             GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
-            GLOB.inventario["chiavetta-2"] = (GLOB.chiavette[var][2], False, "Proprietario: Stefano Senestro - Files: stringhe.c")
+            GLOB.inventario["chiavetta-2"] = (GLOB.chiavette[var][2], False, "Proprietario: Stefano Senestro - Files: TheLostKeys.py")
             main.player.evento = None
 
 
         if main.player.evento == "chiavetta-3":
             var = "WC-Femmine"
             GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
-            GLOB.inventario["chiavetta-3"] = (GLOB.chiavette[var][2], False, "Proprietario: Aleksandra Venezia - Files: stringhe.c")
+            GLOB.inventario["chiavetta-3"] = (GLOB.chiavette[var][2], False, "Proprietario: Aleksandra Venezia - Files: ciauu.py")
             main.player.evento = None
 
 
         if main.player.evento == "chiavetta-4":
             var = "AulaMagna"
             GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
-            GLOB.inventario["chiavetta-4"] = (GLOB.chiavette[var][2], False, "Proprietario: Matteo Seimandi - Files: stringhe.c")
+            GLOB.inventario["chiavetta-4"] = (GLOB.chiavette[var][2], False, "Proprietario: Matteo Seimandi - Files: App.js")
             main.player.evento = None
 
 
         if main.player.evento == "chiavetta-5":
             var = "AulaProfessori"
             GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
-            GLOB.inventario["chiavetta-5"] = (GLOB.chiavette[var][2], False, "Proprietario: Giuseppe Di Biase - Files: stringhe.c")
+            GLOB.inventario["chiavetta-5"] = (GLOB.chiavette[var][2], False, "Proprietario: Giuseppe Di Biase - Files: stringhedibrutto.c")
             main.player.evento = None
 
 
@@ -53,28 +53,35 @@ def testa():
         if main.player.evento == "chiavetta-7":
             var = "4A"
             GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
-            GLOB.inventario["chiavetta-7"] = (GLOB.chiavette[var][2], False, "Proprietario: Marco Giachero - Files: stringhe.c")
+            GLOB.inventario["chiavetta-7"] = (GLOB.chiavette[var][2], False, "Proprietario: Lorenzo Ferrato - Files: Ilmiocodice.sql")
             main.player.evento = None
 
 
         if main.player.evento == "chiavetta-8":
             var = "AulaVideo"
             GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
-            GLOB.inventario["chiavetta-8"] = (GLOB.chiavette[var][2], False, "Proprietario: Chiara Bossolasco - Files: stringhe.c")
+            GLOB.inventario["chiavetta-8"] = (GLOB.chiavette[var][2], False, "Proprietario: Arvind Pal - Files: onlyCss.css index.html")
             main.player.evento = None
 
 
         if main.player.evento == "chiavetta-9":
             var = "LabInformatica"
             GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
-            GLOB.inventario["chiavetta-9"] = (GLOB.chiavette[var][2], False, "Proprietario: Mattia Barbero - Files: stringhe.c")
+            GLOB.inventario["chiavetta-9"] = (GLOB.chiavette[var][2], False, "Proprietario: Alberto Boaglio - Files: BoaCompanySite")
             main.player.evento = None
 
 
         if main.player.evento == "chiavetta-10":
             var = "Ripostiglio"
             GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
-            GLOB.inventario["chiavetta-10"] = (GLOB.chiavette[var][2], False, "Proprietario: Lorenzo Ferrato - Files: stringhe.c")
+            GLOB.inventario["chiavetta-10"] = (GLOB.chiavette[var][2], False, "E' la chiavetta per le macchinette...")
+            main.player.evento = None
+            
+            
+        if main.player.evento == "chiavetta-11":
+            var = "Corridoio"
+            GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
+            GLOB.inventario["chiavetta-11"] = (GLOB.chiavette[var][2], False, "Sono pesante, andavo di moda negli anni '80, e con me almeno una volta ci hai parlato, che cosa sono?")
             main.player.evento = None
 
 
@@ -107,6 +114,18 @@ def testa():
             GLOB.inventario[o]
             return False
 
+        except KeyError:
+            return True
+        
+    
+    def ControllaContenuto(o):
+        try:
+                        
+            print(GLOB.inventario[o])
+            if GLOB.inventario[o][1]:
+                return False
+            else:
+                return True
         except KeyError:
             return True
 
@@ -152,6 +171,20 @@ def testa():
         
         if GLOB.Stanza == "WC-Femmine" and Controlla("Ghiaccio"):
             condizione = False
+            
+            
+        if GLOB.Stanza == "Corridoio" and GLOB.Piano == "3-SecondoPiano" and ControllaContenuto("chiavetta-10"):
+            condizione = False
+            
+            risposte = ["Sembra un distributore di merendine", "Cosa farei per un duplo", "Strano che non sia ancora stata distrutta, sarebbero state merendine gratis..."]
+            
+            d = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 3)
+            d.stampa()
+            
+            
+        if GLOB.Stanza == "Archivio" and ControllaContenuto("Chiavetta-11"):
+            condizione = False
+            
 
         if condizione:
             GLOB.Enigma = True
@@ -160,7 +193,6 @@ def testa():
 
 
     if main.player.evento == "enigma-risolto":
-        print("Entrato")
         testo = "Default"
         if GLOB.Stanza == "Chimica":
             testo = "Ho trovato un appunto del quale dice che ci sia una chiavetta nascosta all'interno dell'armadio...|Mmmm... mi potrebbe essere utile."
@@ -206,7 +238,7 @@ def testa():
                 d = main.Dialoghi(GLOB.scelta_char, t, 3)
                 d.stampa()
 
-        if GLOB.Stanza == "Archivio":
+        if GLOB.Stanza == "AulaProfessori":
             testo = "Interessante.|Forse potrei provare a vedere nella libreria se c'e' qualcosa di interessante"
 
             testo = testo.split("|")
@@ -226,6 +258,30 @@ def testa():
 
         if GLOB.Stanza == "LabInfo":
             testo = "Scratch... che ricordi, chissa' se tra questi pc ce ne sarà uno funzionante..."
+
+            testo = testo.split("|")
+
+            for t in testo:
+                d = main.Dialoghi(GLOB.scelta_char, t, 3)
+                d.stampa()
+                
+        if GLOB.Stanza == "Corridoio":
+            
+            if Cerca("chiavetta-10"):
+                main.player.evento = "chiavetta-11"
+                AggiungiChiavetta()
+            
+            
+            testo = "Si, evvai!!| Oltretutto inserendo il codice 4096 nella macchinetta, mi ha dato un'altra chiavetta!|Andiamo ad analizzarne il contenuto!"
+
+            testo = testo.split("|")
+
+            for t in testo:
+                d = main.Dialoghi(GLOB.scelta_char, t, 3)
+                d.stampa()
+                
+        if GLOB.Stanza == "Archivio":
+            testo = "Ce l'ho fatta!!.|Oltretutto c'è pure uno strano codice dietro al foglio...|C'è scritto: '"+str(GLOB.codice)+"'"
 
             testo = testo.split("|")
 
@@ -558,7 +614,7 @@ def testa():
         if GLOB.Stanza == "AulaProfessori":
             tipo = 1
             oggetto = "Libro Karl Marx"
-            descrizione = "All'interno c'è uno strano post-it con su scritto: \"1917\""
+            descrizione = "All'interno c'è uno strano post-it con su scritto: \"1917\", e ci sono anche dei rimasugli di carta igienica, ma da dove arriveranno?"
 
         if GLOB.Stanza == "AulaMagna" and VerificaEnigmi():
             oggetto = "chiavetta-4"
@@ -629,7 +685,7 @@ def testa():
 
     if main.player.evento == "codice":
         if GLOB.Stanza == "Archivio" and not GLOB.codice_archivio:
-            codice = main.Code(4096)
+            codice = main.Code(GLOB.codice)
             codice.Show()
 
             GLOB.codice_archivio = codice.risolto

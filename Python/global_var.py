@@ -1,3 +1,4 @@
+import random
 import pygame
 from pygame.locals import *
 
@@ -12,7 +13,7 @@ Player_proportion = 1 # Divisore della grandezza del giocatore
 FPS = 30 * Delta_Time
 
 # rapporto di proporzione allo schermo NON INFERIORE AD 1
-MULT = 3
+MULT = 4
 
 # rapporto offset telecamera dello schermo MAX 40
 Moff = 30
@@ -50,7 +51,7 @@ KeyPressed = ""
 Dialogo = False
 Enigma = False
 
-Fullscreen = False
+Fullscreen = True
 Drop_Frames = False
 
 
@@ -152,7 +153,7 @@ def setResources():
     global score, score_seconds, tentativo, Record
     global inventario
 
-    global codice_archivio
+    global codice, codice_archivio
 
     global enigmi_da_risolvere, enigmi_risolti
     global chiavette, chiavetta_start, chiavetta_end
@@ -179,7 +180,7 @@ def setResources():
     # --- ENIGMI ---
 
     tentativo = {}
-    enigmi_da_risolvere = ["Fisica", "1A", "WC-Femmine", "AulaMagna", "AulaProfessori", "LabInfo", "4A", "AulaVideo", "LabInformatica", "Ripostiglio", "Chimica"]
+    enigmi_da_risolvere = ["Fisica", "1A", "WC-Femmine", "AulaMagna", "AulaProfessori", "LabInfo", "4A", "AulaVideo", "LabInformatica", "Ripostiglio", "Chimica", "Corridoio", "Archivio"]
     enigmi_risolti = []
 
     # --- INVENTARIO ---
@@ -193,14 +194,19 @@ def setResources():
 
     for i in enigmi_da_risolvere:
         tentativo[i] = 0
-        immagine = pygame.image.load("Collectibles/chiavetta-"+str(enigmi_da_risolvere.index(i) + 1)+".png").convert_alpha()
-        immagine = pygame.transform.scale(immagine, (immagine.get_width() * MULT * molt_chiavetta, immagine.get_height() * MULT * molt_chiavetta))
-        chiavette[i] = (chiavetta_start, True, immagine)
-        chiavetta_start += 1
-        chiavetta_end = chiavetta_start
-        print( "| "+str(i)+": " +str(chiavette[i][0])+" - "+str(chiavette[i][1])+ "| ")
+        
+        if enigmi_da_risolvere.index(i)+1 <= 12:
+            immagine = pygame.image.load("Collectibles/chiavetta-"+str(enigmi_da_risolvere.index(i) + 1)+".png").convert_alpha()
+            immagine = pygame.transform.scale(immagine, (immagine.get_width() * MULT * molt_chiavetta, immagine.get_height() * MULT * molt_chiavetta))
+            chiavette[i] = (chiavetta_start, True, immagine)
+            chiavetta_start += 1
+            chiavetta_end = chiavetta_start
+            print( "| "+str(i)+": " +str(chiavette[i][0])+" - "+str(chiavette[i][1])+ "| - chiavetta-"+str(enigmi_da_risolvere.index(i) + 1))
 
     chiavetta_start = 140
+    
+    
+    codice = random.randint(0, 9999)
 
 
 

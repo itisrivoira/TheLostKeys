@@ -100,7 +100,7 @@ def inizializza():
     Gui = GUI()
 
     # Messaggio visualizzabile a schermo
-    messaggio_a_schermo = Risultato(text = "Esempio", color = "White", size = 12, delay_scomparsa = 2)
+    messaggio_a_schermo = Risultato(text = "Esempio", color = "White", size = 12, delay_scomparsa = 1)
     messaggio_a_schermo.Stop()
 
     timer = Timer(minutes = GLOB.Timer, molt_sec = 1, event = game_over)
