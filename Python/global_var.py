@@ -1,3 +1,4 @@
+from dis import show_code
 import random
 import pygame
 from pygame.locals import *
@@ -153,7 +154,7 @@ def setResources():
     global score, score_seconds, tentativo, Record
     global inventario
 
-    global codice, codice_archivio
+    global codice, codice_archivio, ShowCodice
 
     global enigmi_da_risolvere, enigmi_risolti
     global chiavette, chiavetta_start, chiavetta_end
@@ -165,6 +166,25 @@ def setResources():
     # -- CODICI ---
     
     codice_archivio = False
+    codice = str(random.randint(0, 9999))
+    
+    l = ""
+    if len(codice) == 0:
+        l = "0000"+codice
+    elif len(codice) == 1:
+        l = "000"+codice
+    elif len(codice) == 2:
+        l = "00"+codice
+    elif len(codice) == 3:
+        l = "0"+codice
+    elif len(codice) == 4:
+        l = ""+codice
+        
+    codice = l
+        
+        
+        
+    ShowCodice = False
 
     # --- SCORE ---
 
@@ -205,8 +225,6 @@ def setResources():
 
     chiavetta_start = 140
     
-    
-    codice = random.randint(0, 9999)
 
 
 

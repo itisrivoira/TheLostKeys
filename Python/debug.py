@@ -106,6 +106,16 @@ class Debug():
             FPS_RECT = FPS_TEXT.get_rect(center=(GLOB.screen_width-40*GLOB.MULT, 20*GLOB.MULT))
 
             GLOB.screen.blit(FPS_TEXT, FPS_RECT)
+            
+        if GLOB.ShowCodice:
+            COD_TEXT = main.get_font(8*int(GLOB.MULT)).render(str(GLOB.codice), True, "White")
+            COD_RECT = COD_TEXT.get_rect(center=(GLOB.screen_width/2, 13*GLOB.MULT))
+            
+            COV_TEXT = main.get_font(8*int(GLOB.MULT)).render(str(GLOB.codice), True, "Black")
+            COV_RECT = COV_TEXT.get_rect(center=(GLOB.screen_width/2, 14*GLOB.MULT))
+
+            GLOB.screen.blit(COV_TEXT, COV_RECT)
+            GLOB.screen.blit(COD_TEXT, COD_RECT)
 
         if GLOB.ShowDropFrames:
 
