@@ -14,7 +14,7 @@ import '../style/Font.css';
 
 const Menu = () => {
 	const { setSetting } = useContext(SettingCtx);		// recupero funzione globale
-	let navigate = useNavigate();			// questo serve per navigare fra gli EndPoint
+	const navigate = useNavigate();			// questo serve per navigare fra gli EndPoint
 
 	const openSettings = () => setSetting(true);		// Aprire le impostazioni
 	const play = () => navigate('../select', {replace: true});		// Passare alla pagina di gioco
