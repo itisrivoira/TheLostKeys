@@ -12,7 +12,7 @@ Player_proportion = 1 # Divisore della grandezza del giocatore
 FPS = 30 * Delta_Time
 
 # rapporto di proporzione allo schermo NON INFERIORE AD 1
-MULT = 4
+MULT = 3
 
 # rapporto offset telecamera dello schermo MAX 40
 Moff = 30
@@ -50,7 +50,7 @@ KeyPressed = ""
 Dialogo = False
 Enigma = False
 
-Fullscreen = True
+Fullscreen = False
 Drop_Frames = False
 
 
