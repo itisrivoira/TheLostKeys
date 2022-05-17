@@ -30,6 +30,7 @@ def setToDefault():
         "LabInfo" : False,
         "WCfemmine" : False,
         "WCmaschi" : False,
+        "Classe1D" : False,
         "Classe4A" : False,
         "AulaVideo" : False,
         "LabInformatica" : False,
@@ -175,6 +176,19 @@ def WCmaschi():
 
     setPosition((272, 120), (-264, -120))
     dizionario_flag["WCmaschi"] = False
+    
+    
+def Classe1D():
+    GLOB.Piano = "2-PrimoPiano"
+    GLOB.Stanza = "1D"
+    GLOB.Default_collisions = "1d_CollisioniPY.csv"
+    GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/1d.png"
+    GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/1doggetti.png"
+
+    setPosition((272, 74), (-264, -90))
+    dizionario_flag["Classe1D"] = False
+    
+    
 
 def Classe4A():
     
@@ -278,6 +292,9 @@ def Corridoio1():
 
     elif GLOB.Stanza == "WC-Maschi": 
         setPosition((152, 122), (120, -144))
+        
+    elif GLOB.Stanza == "1D": 
+        setPosition((190, 124), (-58, -138))
 
     GLOB.Piano = "2-PrimoPiano"
     GLOB.Stanza = "Corridoio"
@@ -397,6 +414,9 @@ def caricaStanza():
 
         if dizionario_flag["WCmaschi"]:
             WCmaschi()
+            
+        if dizionario_flag["Classe1D"]:
+            Classe1D()
 
 
     elif GLOB.Piano == "3-SecondoPiano":

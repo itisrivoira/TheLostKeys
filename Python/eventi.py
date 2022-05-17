@@ -7,7 +7,8 @@ def testa():
 # ---- GESTIONE EVENTI ----
 
     def AggiungiChiavetta():
-    
+        
+        main.Gui.inventory_sound.play()
         if main.player.evento == "chiavetta-1":
             var = "Fisica"
             GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
@@ -425,6 +426,25 @@ def testa():
                 return False
 
             main.animazione.iFinished = False
+            
+            
+        elif main.player.evento == "porta-5":
+            main.player.evento = None
+            main.stanze.setToDefault()
+            
+            if GLOB.Piano == "2-PrimoPiano":
+                    
+                if GLOB.Stanza == "Corridoio":
+                    main.stanze.dizionario_flag["Classe1D"] = True
+
+                if GLOB.Stanza == "1D":
+                    main.stanze.dizionario_flag["Corridoio1"] = True
+                    
+            else:
+                Blocca()
+                return False
+            
+            main.animazione.iFinished = False
 
 
         elif main.player.evento == "porta-7":
@@ -576,12 +596,14 @@ def testa():
 
             main.animazione.iFinished = False
 
-        if main.player.evento == "porta-3" or main.player.evento == "porta-4" or main.player.evento == "porta-5" or main.player.evento == "porta-6" or main.player.evento == "porta-13" or main.player.evento == "porta-14":
+        if main.player.evento == "porta-3" or main.player.evento == "porta-4" or main.player.evento == "porta-6" or main.player.evento == "porta-13" or main.player.evento == "porta-14":
             Blocca()
             return False
+        
+    if type(main.player.evento) == str:
 
-
-
+        if "porta" in main.player.evento:
+            main.Gui.door_sound.play()
 
     if piano() == False or porte() == False:
         return
@@ -608,6 +630,7 @@ def testa():
 
 
     if main.player.evento == "cerca-T":
+        main.Gui.inventory_sound.play()
         GLOB.PlayerReset = True
         oggetto = "Default"
         descrizione = "Default"
@@ -687,6 +710,7 @@ def testa():
 
 
     if main.player.evento == "cerca-F":
+        main.Gui.inventory_sound.play()
         NonTrovato()
         GLOB.PlayerReset = True
 

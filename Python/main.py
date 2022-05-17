@@ -171,6 +171,7 @@ def controllo_condizioni():
 
 
 def Stampa_messaggio():
+    Stanza = GLOB.Stanza
     if GLOB.Enigma:
         messaggio_a_schermo.ReStart()
 
@@ -186,7 +187,7 @@ def Stampa_messaggio():
 
                     for value in range(len(GLOB.enigmi_da_risolvere)):
 
-                        if GLOB.enigmi_da_risolvere[value] == GLOB.Stanza:
+                        if GLOB.enigmi_da_risolvere[value] == Stanza:
                             GLOB.enigmi_risolti.append(GLOB.enigmi_da_risolvere[value])
                             condizione = True
                             var = value
@@ -346,6 +347,7 @@ def main():
 
         if LEFT and not RIGHT and not(condition_1 and condition_2):
             player.setLeftPress(IsPressed)
+            player.flag_delay = True
 
             if IsPressed:
                 player.animate()
@@ -355,6 +357,7 @@ def main():
             
         elif RIGHT and not LEFT and not(condition_3 and condition_4):    
             player.setRightPress(IsPressed)
+            player.flag_delay = True
 
             if IsPressed:
                 player.animate()
@@ -364,6 +367,7 @@ def main():
 
         elif UP and not DOWN and not(condition_1 and condition_3):
             player.setUpPress(IsPressed)
+            player.flag_delay = True
 
             if IsPressed:
                 player.animate()
@@ -373,6 +377,7 @@ def main():
             
         elif DOWN and not UP and not(condition_2 and condition_4):
             player.setDownPress(IsPressed)
+            player.flag_delay = True
 
             if IsPressed:
                 player.animate()
@@ -382,6 +387,8 @@ def main():
 
         elif event.key == pygame.K_LSHIFT:
             if IsPressed and GLOB.PlayerCanRun:
+                
+                player.flag_delay = True
 
                 GLOB.PlayerIsWalking = False
                 GLOB.PlayerIsRunning = True
@@ -439,6 +446,7 @@ def main():
                                 
                     if not GLOB.ShowInventory:
                         GLOB.ShowInventory = True
+                        Gui.inventory_sound.play()
                     elif GLOB.ShowInventory:
                         GLOB.ShowInventory = False
 

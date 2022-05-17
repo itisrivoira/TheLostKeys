@@ -1015,6 +1015,11 @@ class Delay():
         if not self.__flag:
             self.__min = 0
             self.__flag = True
+            
+    def Stop(self):
+        if self.__flag:
+            self.__flag = False
+            self.__min = 0
 
     # | Imposta il delay a infinito |
     def Infinite(self):
@@ -1194,15 +1199,11 @@ class GUI():
 
 		self.DESCR1_TEXT = get_font(3*int(GLOB.MULT)).render("Default", True, "White")
 		self.DESCR1_POS = (self.inventory.get_width() + 10 * GLOB.MULT, 120 * GLOB.MULT)
-		
-		self.DESCR2_TEXT = self.DESCR1_TEXT
-		self.DESCR2_POS = self.DESCR1_POS
-		
-		self.DESCR3_TEXT = self.DESCR1_TEXT
-		self.DESCR3_POS = self.DESCR1_POS
-		
-		self.DESCR4_TEXT = self.DESCR1_TEXT
-		self.DESCR4_POS = self.DESCR1_POS
+  
+		self.inventory_sound = mixer.Sound("suoni/inventory-sound.wav")
+		self.inventory_flag = False
+  
+		self.door_sound = mixer.Sound("suoni/door.wav")
 
 	def __stamina_calculation(self):
     		
@@ -1326,6 +1327,9 @@ class GUI():
 			self.val_obj -= self.val_obj_incr
 
 	def show(self):
+     
+		self.inventory_sound.set_volume(0.3*GLOB.AU)
+		self.door_sound.set_volume(0.4*GLOB.AU)
     		
 		if not GLOB.isPaused and GLOB.PlayerCanMove:
 			self.__stamina_calculation()
@@ -1390,6 +1394,7 @@ class GUI():
 
 
 		def inventario():
+      
 			self.surface.set_alpha(self.trasparenza)
 
 			GLOB.screen.blit(self.surface, (0, 0))
@@ -1455,6 +1460,7 @@ class GUI():
 						
 						if not GLOB.ShowInventory:
 							GLOB.ShowInventory = True
+							self.inventory_flag = True
 						
 						elif GLOB.ShowInventory:
 							GLOB.PlayerReset = True

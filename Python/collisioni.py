@@ -155,7 +155,7 @@ class Map():
                         self.check_objects = False
                         
                         for i in range(len(GLOB.enigmi_risolti)):
-                            if GLOB.Stanza != "Archivio":
+                            if GLOB.Stanza != "Archivio" and GLOB.Stanza != "StanzaSegreta":
                                 if GLOB.chiavette[GLOB.enigmi_risolti[i]][0] == var and GLOB.chiavette[GLOB.enigmi_risolti[i]][1]:
                                     self.check_objects = True
                                     GLOB.screen.blit(GLOB.chiavette[GLOB.enigmi_risolti[i]][2], (x * GLOB.MULT + main.cam.getPositionX() + self.tiles_risoluzione, y * GLOB.MULT + main.cam.getPositionY() + self.valore_fluttua * GLOB.MULT))
