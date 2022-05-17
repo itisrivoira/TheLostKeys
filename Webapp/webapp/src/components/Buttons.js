@@ -89,7 +89,7 @@ export const BtnMusic = () => {
 	useEffect( () => {
 		setDelay1([8000, playing ? 13000 : null]);
 		setDelay2([4000, playing ? 8000 : null]);
-	}, [playing])
+	}, [playing]);
 
 	// quando esco dalla home Page devo disattivare la pioggia e i fulmini
 	useEffect( () => {
@@ -98,7 +98,7 @@ export const BtnMusic = () => {
 			pause1();
 			pause2();
 		}
-	}, [])
+	}, []);
 
 	return(
 		<Button variant="secondary" onClick={toggleAudio}>

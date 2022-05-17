@@ -4,16 +4,22 @@ import { useState, useContext } from "react";
 import { Container, Row, Col, Button, Carousel, Image, ProgressBar } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
+import { charSound } from "../assets/sounds/sounds";
+import { useAudio } from "../utils/utils";
 import { PgCtx } from "../components/components";
 import players from "./players";
 
 const Select = () => {
 	const [index, setIndex] = useState(0);
+	const [play, toggle] = useAudio(charSound);
 	const { setPg } = useContext(PgCtx);
 	const navigate = useNavigate();
 
 	const backToMenu = () => navigate('../menu', {replace: true});
-	const handleSelect = eventKey => { setIndex(eventKey) };
+	const handleSelect = eventKey => {
+		if (!play) toggle();
+		setIndex(eventKey);
+	};
 	const confirmPg = () => {
 		setPg({
 			name: players[index].name,					// nome del personaggio

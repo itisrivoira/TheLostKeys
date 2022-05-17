@@ -4,8 +4,8 @@ USE TheLostKeys;
 
 CREATE TABLE IF NOT EXISTS utente(
 	Nickname varchar(25) NOT NULL,
-	Password varchar(32) NOT NULL,
-	Email varchar(70) NOT NULL,
+	Password varchar(32) ,
+	Email varchar(70) ,
 	PRIMARY KEY (Nickname)
 	);
 

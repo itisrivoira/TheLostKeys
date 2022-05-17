@@ -7,6 +7,9 @@ import { useEffect, useState } from "react";
 import { Row, Col, Button, ProgressBar } from "react-bootstrap";
 import { BsPlusLg, BsDashLg } from "react-icons/bs";		// queste sono le icone della libreria React-Icons
 
+import { changeSound } from "../assets/sounds/sounds";
+import { useAudio } from "../utils/utils";
+
 /*
 	Title: Titolo della barra
 	Volume: Livello del volume
@@ -16,9 +19,16 @@ import { BsPlusLg, BsDashLg } from "react-icons/bs";		// queste sono le icone de
 const Audio = ({title, volume, changer}) => {
 	const [dash, setDash] = useState(false);		// flag di disabilitazione tasto +
 	const [plus, setPlus] = useState(false);		// flag di disabilitazione tasto -
+	const [play, toggle] = useAudio(changeSound, false);
 
-	const increase = () => {changer(prev => prev + 0.1)}		// aumento il volume
-	const reduce = () => {changer(prev => prev - 0.1)}			// diminuisce il volume
+	const increase = () => {		// aumento il volume
+		if (!play) toggle();
+		changer(prev => prev + 0.1);
+	};
+	const reduce = () => {			// diminuisce il volume
+		if (!play) toggle();
+		changer(prev => prev - 0.1);
+	}
 
 	// Questa funzione si esegue ogni volta che cambia il volume
 	useEffect( () => {
