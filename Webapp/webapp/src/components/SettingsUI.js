@@ -16,7 +16,7 @@ const SettingsUI = ({exit}) => {
 	const { sfx, setSfx } = useContext(SfxCtx);				// Livello Effetti Sonori
 
 	const [com, setCom] = useState(false);		// stato per il Pannello Comandi
-	let navigate = useNavigate();			// Per navigare fra gli EndPoint
+	const navigate = useNavigate();			// Per navigare fra gli EndPoint
 
 	const openCommands = () => setCom(true);		// Attivo Il Pannello delle Instruzioni
 	const closeCommands = () => setCom(false);
@@ -104,7 +104,6 @@ const BtnCommads = ({callback}) => (
 	</Row>
 );
 
-
 const Commands = ({show, handleClose}) => (
 	<Modal
 		show={show}			// flag per l'attivazione del modal
@@ -143,7 +142,6 @@ const LoadCommands = () => (
 		<hr className="my-2" key={index}/>
 	</>))
 );
-
 
 // Tutti i comandi del Gioco
 const listaComandi = [

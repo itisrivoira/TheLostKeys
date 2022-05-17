@@ -6,7 +6,7 @@
 // guarda i file json per capire meglio: assets/rooms/json/
 // x e y sono le coordinate del giocatore nel suo punto medio (al centro)
 // type è per sapere se controllo collisioni o eventi
-export default (elem, x, y, type) => {
+const check = (elem, x, y, type) => {
 	let dirs = {
 		down: false,	// giù
 		up: false,		// su
@@ -30,7 +30,7 @@ export default (elem, x, y, type) => {
 			console.log(`${type}: down ${el.id} x: ${x}, y: ${y}`);	// Log di debug
 
 			// Se verifico un evento ritorno i parametri di quell'evento
-			if (type == 'Eventi') {
+			if (type === 'Eventi') {
 				dirs.evType = el.evType;
 				dirs.options = el.options;
 			}
@@ -46,7 +46,7 @@ export default (elem, x, y, type) => {
 			dirs.up = true;
 			console.log(`${type}: up ${el.id} x: ${x}, y: ${y}`);
 
-			if (type == 'Eventi') {
+			if (type === 'Eventi') {
 				dirs.evType = el.evType;
 				dirs.options = el.options;
 			}
@@ -71,7 +71,7 @@ export default (elem, x, y, type) => {
 			dirs.right = true;
 			console.log(`${type}: right ${el.id} x: ${x}, y: ${y}`);
 
-			if (type == 'Eventi') {
+			if (type === 'Eventi') {
 				dirs.evType = el.evType;
 				dirs.options = el.options;
 			}
@@ -87,7 +87,7 @@ export default (elem, x, y, type) => {
 			dirs.left = true;
 			console.log(`${type}: left ${el.id} x: ${x}, y: ${y}`);
 
-			if (type == 'Eventi') {
+			if (type === 'Eventi') {
 				dirs.evType = el.evType;
 				dirs.options = el.options;
 			}
@@ -96,3 +96,5 @@ export default (elem, x, y, type) => {
 
 	return dirs;
 }
+
+export default check;

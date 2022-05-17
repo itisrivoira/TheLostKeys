@@ -14,7 +14,7 @@ const GameCloseUI = () => {
 	const { gameOver } = useContext(GameOverCtx);
 	const { close } = useContext(CloseCtx);
 	const { score } = useContext(ScoreCtx);
-	let navigate = useNavigate();
+	const navigate = useNavigate();
 
 	const restart = () => navigate('../select', {replace: true});
 	const backToMenu = () => { navigate('../menu', {replace: true}) };
@@ -43,35 +43,9 @@ const GameCloseUI = () => {
 						</Col>
 					</Row>
 					<Row className="my-3">
-						<Col xxl={5} className="text-end txt-pixel">
-							<Button
-								className="p-3 fs-3"
-								variant="success"
-								size="lg"
-								onClick={restart}
-							>
-								Restart
-							</Button>
-						</Col>
-						<Col xxl={2} className="text-center txt-pixel">
-							<Button
-								className="p-3 fs-3 text-white"
-								variant="info"
-								size="lg"
-							>
-								Upload
-							</Button>
-						</Col>
-						<Col xxl={5} className="text-start txt-pixel">
-							<Button
-								className="p-3 fs-3"
-								variant="danger"
-								size="lg"
-								onClick={backToMenu}
-							>
-								Exit The Game
-							</Button>
-						</Col>
+						<Restart callback={restart} />
+						<Upload />
+						<Exit callback={backToMenu} />
 					</Row>
 				</Row>
 			</Modal.Body>
@@ -110,5 +84,42 @@ const GameOverTitle = () => (<>
 	</Row>
 </>)
 
+const Upload = () => (
+	<Col xxl={2} className="text-center txt-pixel">
+		<Button
+			className="p-3 fs-3 text-white"
+			variant="info"
+			size="lg"
+		>
+			Upload
+		</Button>
+	</Col>
+);
+
+const Exit = ({callback}) => (
+	<Col xxl={5} className="text-start txt-pixel">
+		<Button
+			className="p-3 fs-3"
+			variant="danger"
+			size="lg"
+			onClick={callback}
+		>
+			Exit The Game
+		</Button>
+	</Col>
+);
+
+const Restart = ({callback}) => (
+	<Col xxl={5} className="text-end txt-pixel">
+		<Button
+			className="p-3 fs-3"
+			variant="success"
+			size="lg"
+			onClick={callback}
+		>
+			Restart
+		</Button>
+	</Col>
+);
 
 export default GameCloseUI;
