@@ -184,7 +184,7 @@
 					"type":"",
 					"visible":true,
 					"width":48,
-					"x":1104.04858299595,
+					"x":1133.04858299595,
 					"y":718.2995951417,
 					"evType":"Door",
 					"options": {
@@ -193,7 +193,98 @@
 						"nextY": 520,
 						"direction": "up"
 					}
-				}
+				},
+                            {
+                                   "gid":5321,
+                                   "height":48,
+                                   "id":27,
+                                   "name":"",
+                                   "rotation":0,
+                                   "type":"",
+                                   "visible":true,
+                                   "width":48,
+                                   "x":1296.82591093117,
+                                   "y":677.635627530364,
+                                   "evType": "emptyDoor"
+                            },
+                            {
+                                   "gid":5321,
+                                   "height":48,
+                                   "id":42,
+                                   "name":"",
+                                   "rotation":0,
+                                   "type":"",
+                                   "visible":true,
+                                   "width":48,
+                                   "x":1391.70850202429,
+                                   "y":432.145748987854,
+                                   "evType": "emptyDoor"
+                            },
+                            {
+                                   "gid":5321,
+                                   "height":48,
+                                   "id":41,
+                                   "name":"",
+                                   "rotation":0,
+                                   "type":"",
+                                   "visible":true,
+                                   "width":48,
+                                   "x":1391.70850202429,
+                                   "y":335.757085020243,
+                                   "evType": "emptyDoor"
+                            },
+                            {
+                                   "gid":5321,
+                                   "height":48,
+                                   "id":40,
+                                   "name":"",
+                                   "rotation":0,
+                                   "type":"",
+                                   "visible":true,
+                                   "width":48,
+                                   "x":1390.2024291498,
+                                   "y":236.356275303644,
+                                   "evType": "emptyDoor"
+                            },
+                            {
+                                   "gid":5321,
+                                   "height":48,
+                                   "id":31,
+                                   "name":"",
+                                   "rotation":0,
+                                   "type":"",
+                                   "visible":true,
+                                   "width":48,
+                                   "x":528.728744939271,
+                                   "y":679.141700404858,
+                                   "evType": "emptyDoor"
+                            },
+                            {
+                                   "gid":5321,
+                                   "height":48,
+                                   "id":33,
+                                   "name":"",
+                                   "rotation":0,
+                                   "type":"",
+                                   "visible":true,
+                                   "width":48,
+                                   "x":385.651821862348,
+                                   "y":676.12955465587,
+                                   "evType": "emptyDoor"
+                            },
+                            {
+                                   "gid":5321,
+                                   "height":48,
+                                   "id":35,
+                                   "name":"",
+                                   "rotation":0,
+                                   "type":"",
+                                   "visible":true,
+                                   "width":48,
+                                   "x":241.068825910931,
+                                   "y":683.65991902834,
+                                   "evType": "emptyDoor"
+                            }
 			]
 		  },
         {
@@ -466,29 +557,17 @@
                  "y":715.287449392713
                 },
                 {
-                 "gid":5321,
-                 "height":48,
-                 "id":25,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":1156.76113360324,
-                 "y":679.141700404858
-                },
-                {
-                 "gid":5321,
-                 "height":48,
-                 "id":27,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":1296.82591093117,
-                 "y":677.635627530364
-                },
+                     "gid":5321,
+                     "height":48,
+                     "id":24,
+                     "name":"",
+                     "rotation":0,
+                     "type":"",
+                     "visible":true,
+                     "width":48,
+                     "x":1106.85425101215,
+                     "y":675.287449392713
+              },
                 {
                  "gid":5321,
                  "height":48,
@@ -516,18 +595,6 @@
                 {
                  "gid":5321,
                  "height":48,
-                 "id":31,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":528.728744939271,
-                 "y":679.141700404858
-                },
-                {
-                 "gid":5321,
-                 "height":48,
                  "id":32,
                  "name":"",
                  "rotation":0,
@@ -540,18 +607,6 @@
                 {
                  "gid":5321,
                  "height":48,
-                 "id":33,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":385.651821862348,
-                 "y":676.12955465587
-                },
-                {
-                 "gid":5321,
-                 "height":48,
                  "id":34,
                  "name":"",
                  "rotation":0,
@@ -560,18 +615,6 @@
                  "width":48,
                  "x":384.145748987854,
                  "y":721.311740890688
-                },
-                {
-                 "gid":5321,
-                 "height":48,
-                 "id":35,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":241.068825910931,
-                 "y":683.65991902834
                 },
                 {
                  "gid":5321,
@@ -596,42 +639,6 @@
                  "width":48,
                  "x":94.9797570850202,
                  "y":718.2995951417
-                },
-                {
-                 "gid":5321,
-                 "height":48,
-                 "id":40,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":1390.2024291498,
-                 "y":236.356275303644
-                },
-                {
-                 "gid":5321,
-                 "height":48,
-                 "id":41,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":1391.70850202429,
-                 "y":335.757085020243
-                },
-                {
-                 "gid":5321,
-                 "height":48,
-                 "id":42,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":1391.70850202429,
-                 "y":432.145748987854
                 }
               ],
          "opacity":1,
