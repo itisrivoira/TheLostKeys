@@ -12,37 +12,6 @@ app.use(cors({
 
 app.use(express.urlencoded({extended: true}));//necessario per il funzionamento del post
 
-/*
-app.get('/login', (req, res) => {
-	const arrayUser = [];
-
-	const con = mysql.createConnection({
-		host: 'localhost',
-		user: 'root',
-		password: '',
-		database: 'thelostkeys'
-	});
-
-	const query = "SELECT * FROM utente"; 
-
-	con.query(query, (err, result) => {
-		if (err) {
-			console.log(err.message);
-			throw err;
-		}
-
-		result.map( value => {
-			arrayUser.push({
-				name: value.Nickname,
-				email: value.Email,
-			
-			})
-		});
-
-		res.send(JSON.stringify(arrayUser));
-	});
-})*/
-
 //1 endpoint per l'invio al client dell'id, punteggio e nome del giocatore
 app.get('/rank', (req, res) => {
 	const array = [];
@@ -105,6 +74,70 @@ app.post('/upload', (req, res) => {
 			});
 		}
 	})
+
+
+
+	
+})
+
+
+app.post('/controllo', (req, res) => {
+	const arrayUtenti = [];
+	const nick = req.body.nick;
+	const score = req.body.score;
+	const time = req.body.time;
+
+	const con = mysql.createConnection({
+		host: 'localhost',
+		user: 'root',
+		password: '',
+		database: 'thelostkeys'
+	});
+
+	const elencoUtenti = "SELECT Nickname FROM utente"; // la query ritorna tutti i nomi degli utenti nel DB 
+
+	con.query(elencoUtenti, (err, result) => {
+		if (err) {
+			console.log(err.message);
+			throw err;
+		}
+	
+
+		result.map( value => {
+			arrayUtenti.push({
+				utente:value.Nickname//array con tutti i nomi degli utenti 
+			})
+		});
+
+		res.send(JSON.stringify(arrayUtenti));
+
+		arrayUtenti.forEach(el => {
+			if(el.utente != $utente){
+				
+			}else{
+				const inserisciNuovoUtente =  `INSERT INTO utente (Nickname) VALUES ('${nick}')`;//inserisco anche l'utente 
+				const inserisciNuovaPartita =  `INSERT INTO partita (Tempo,PunteggioMassimo,Nick) VALUES ('${time}','${score}','${nick}')`; //inserisco la partita relativa
+				con.query(inserisciNuovoUtente, (err, result) => {
+					if (err) {
+						console.log(err.message);
+						throw err;
+					}
+					
+				});
+
+				con.inserisciNuovaPartita(inserisciNuovoUtente, (err, result) => {
+					if (err) {
+						console.log(err.message);
+						throw err;
+					}
+					
+				});
+			}
+			
+
+			
+		});
+	});
 })
 
 
