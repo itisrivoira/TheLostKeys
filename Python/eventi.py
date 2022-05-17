@@ -121,7 +121,7 @@ def testa():
     def ControllaContenuto(o):
         try:
                         
-            print(GLOB.inventario[o])
+            print(GLOB.inventario[o][1])
             if GLOB.inventario[o][1]:
                 return False
             else:
@@ -182,7 +182,7 @@ def testa():
             d.stampa()
             
             
-        if GLOB.Stanza == "Archivio" and ControllaContenuto("Chiavetta-11"):
+        if GLOB.Stanza == "Archivio" and ControllaContenuto("chiavetta-11"):
             condizione = False
             
 
@@ -190,6 +190,8 @@ def testa():
             GLOB.Enigma = True
         else:
             GLOB.Enigma = False
+            
+        GLOB.PlayerReset = True
 
 
     if main.player.evento == "enigma-risolto":
@@ -282,12 +284,16 @@ def testa():
                 
         if GLOB.Stanza == "Archivio":
             testo = "Ce l'ho fatta!!.|Oltretutto c'è pure uno strano codice dietro al foglio...|C'è scritto: '"+str(GLOB.codice)+"'"
+            
+            GLOB.ShowCodice = True
 
             testo = testo.split("|")
 
             for t in testo:
                 d = main.Dialoghi(GLOB.scelta_char, t, 3)
                 d.stampa()
+                
+        GLOB.PlayerReset = True
 
 
     if main.player.evento == "mappa":
@@ -602,6 +608,7 @@ def testa():
 
 
     if main.player.evento == "cerca-T":
+        GLOB.PlayerReset = True
         oggetto = "Default"
         descrizione = "Default"
 
@@ -681,6 +688,7 @@ def testa():
 
     if main.player.evento == "cerca-F":
         NonTrovato()
+        GLOB.PlayerReset = True
 
 
     if main.player.evento == "codice":

@@ -1615,7 +1615,7 @@ class Key():
 class Code():
     def __init__(self, code):
         
-        self.len = len(str(code))
+        self.len = len(code)
         self.codeS = code
         self.codeU = "ENTER CODE"
 
