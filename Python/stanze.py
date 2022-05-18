@@ -159,7 +159,7 @@ def WCfemmine():
     GLOB.Stanza = "WC-Femmine"
     GLOB.Default_collisions = "WCfemmine_CollisioniPY.csv"
     GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/WCfemmine.png"
-    GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/WCfemmineOggetti.png"
+    GLOB.Default_object = None
 
     setPosition((214, 70), (-146, -22))
     dizionario_flag["WCfemmine"] = False

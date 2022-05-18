@@ -148,6 +148,18 @@ def load_collisions(path):
 
 
 def controllo_condizioni():
+    if GLOB.ShowComand and not animazione.flag_caricamento:
+        testo = "Ciao! Io sono verga e saro' la tua guida di questo viaggio!|Per muoverti clicca le freccie direzionali o WASD|Per correre tieni premuto SHIFT|Per aprire l'inventario premi TAB e per vedere le informazioni dettagliate premere Q|Per interagire con gli oggetti premere E|Detto questo, hai compito, trova tutte le chiavette, e vinci! Buona fortuna!"
+
+        testo = testo.split("|")
+
+        for frase in testo:
+            d = Dialoghi("Verga", frase, 3)
+            d.stampa()
+
+        GLOB.ShowComand = False
+
+
     if GLOB.PlayerReset:
         SetPlayer_sprite()
         player.setAllkeys(False)
