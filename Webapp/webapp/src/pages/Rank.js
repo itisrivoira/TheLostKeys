@@ -59,7 +59,7 @@ const Rank = () => {
 			<Row className="my-4 px-3">
 				<Col className="pe-5">
 					<ListHead />
-					<ListGroup variant="flush">
+					<ListGroup variant="flush" style={{maxHeight: 520, overflowY: "scroll"}}>
 						{loadItems()}
 					</ListGroup>
 				</Col>

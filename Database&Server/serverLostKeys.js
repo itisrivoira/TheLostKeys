@@ -11,7 +11,7 @@ app.use(cors({
 app.use(express.urlencoded({extended: true}));//necessario per il funzionamento del post
 app.use(express.json());//necessario per recuperare il json
 
-//1 endpoint per l'invio della classifica alla pagina rank.js  
+//1 endpoint per l'invio della classifica alla pagina rank.js
 app.get('/rank', (req, res) => {
 	const array = [];
 
@@ -34,7 +34,8 @@ app.get('/rank', (req, res) => {
 			array.push({
 				id: value.Id,
 				points: value.Punteggio,
-				player: value.Nick
+				player: value.Nick,
+				pg: value.Personaggio
 			})
 		});
 
@@ -42,12 +43,12 @@ app.get('/rank', (req, res) => {
 	});
 });
 
-//2 endpoint per il caricamento della partita 
+//2 endpoint per il caricamento della partita
 app.post('/upload', (req, res) => {
 	const nick = req.body.nick;
 	const score = req.body.score;
 	const personaggio = req.body.pg;
-	let highscore;
+	const arrayUtenti = [];
 
 	console.log('nick: ' + nick + ' score: ' + score);
 
@@ -57,22 +58,59 @@ app.post('/upload', (req, res) => {
 		password: '',
 		database: 'TheLostKeys'
 	});
-	const elencoUtenti = "SELECT Nickname FROM utente"; 
+	const elencoUtenti = "SELECT Nickname FROM utente";
 	con.query(elencoUtenti, (err, result) => {
 		if (err) {
 			console.log(err.message);
 			throw err;
 		}
+
 		result.map( value => {
 			arrayUtenti.push({
 				utente:value.Nickname
 			})
 		});
 
-		arrayUtenti.forEach(el => {
+		if (!arrayUtenti.includes(nick)) {
+			const inserisciNuovoUtente =  `INSERT INTO utente (Nickname) VALUES ('${nick}')`;
+				const inserisciNuovaPartita =  `INSERT INTO partita (Punteggio, Nick, Personaggio) VALUES ('${score}','${nick}', '${personaggio}')`;
+				con.query(inserisciNuovoUtente, (err, result) => {
+					if (err) {
+						console.log(err.message);
+						throw err;
+					}
+				});
+				con.query(inserisciNuovaPartita, (err, result) => {
+					if (err){
+						console.log(err.message);
+						throw err;
+					}
+				});
+		} else {
+			const	check = `SELECT Punteggio FROM partita WHERE Nick = '${nick}'`;
+				con.query(check, (err, result) => {
+					if (err) {
+						console.log(err.message);
+						throw err;
+					}
+					let highscore = result[0].Punteggio;
+					if (score > highscore){
+						const load = `UPDATE partita SET Punteggio = '${score}' WHERE Nick = '${nick}'`;
+						con.query(load, (err, result) => {
+							if(err) {
+								console.log(err.message);
+								throw err;
+							}
+						});
+					}
+				})
+
+		}
+
+		/*arrayUtenti.forEach(el => {
 			if(el.utente != nick){
 				const inserisciNuovoUtente =  `INSERT INTO utente (Nickname) VALUES ('${nick}')`;
-				const inserisciNuovaPartita =  `INSERT INTO partita (Punteggio, Nick, Personaggio) VALUES ('${score}','${nick}', '${personaggio}')`; 
+				const inserisciNuovaPartita =  `INSERT INTO partita (Punteggio, Nick, Personaggio) VALUES ('${score}','${nick}', '${personaggio}')`;
 				con.query(inserisciNuovoUtente, (err, result) => {
 					if (err) {
 						console.log(err.message);
@@ -104,10 +142,8 @@ app.post('/upload', (req, res) => {
 					}
 				})
 			}
-		});
+		});*/
 	});
 })
 
 app.listen(4000);
-
-  
