@@ -7,29 +7,36 @@ import { useContext } from "react";
 import { Image, Modal, Row, Col, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-import { GameOverCtx, ScoreCtx, CloseCtx } from "./components";
+import { GameOverCtx, ScoreCtx, CloseCtx, NamePlayerCtx, PgCtx } from "./components";
 import { Skull } from "../assets/img/img";
 
 const GameCloseUI = () => {
 	const { gameOver } = useContext(GameOverCtx);
 	const { close } = useContext(CloseCtx);
 	const { score } = useContext(ScoreCtx);
+	const { namePlayer } = useContext(NamePlayerCtx);
+	const { pg } = useContext(PgCtx);
 	const navigate = useNavigate();
 
 	const restart = () => navigate('../select', {replace: true});
-	const backToMenu = () => { navigate('../menu', {replace: true}) };
+	const backToMenu = () => navigate('../menu', {replace: true});
 
 	const upload = () => {
 		fetch('http://127.0.0.1:4000/upload', {
 			method: 'POST',
 			headers: {'Content-Type': 'application/json', 'Accept':'application/json'},
 			body: JSON.stringify({
-				nick: 'Seima',
-				score: 2000,
-				pg: 'Personaggio Giocabile'
+				nick: namePlayer,
+				score: score,
+				pg: pg.name
 			})
+		}).then(res => {
+			if(res.ok)
+				alert('Upload Effettuato!');
+			else
+				alert('Ulpoad Fallito!');
 		})
-	}
+	};
 
 	return(
 		<Modal
