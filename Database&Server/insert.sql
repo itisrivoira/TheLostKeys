@@ -1,0 +1,2 @@
+INSERT INTO `utente` (`Nickname`, `Password`, `Email`) VALUES ('admin', 'admin', NULL);
+INSERT INTO `partita` (`Id`, `Tempo`, `PunteggioMassimo`, `Giocatore`, `Nick`) VALUES (NULL, '00:30:11', '100', 'Alekss', 'admin'); 
