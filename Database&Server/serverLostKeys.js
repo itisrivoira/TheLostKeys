@@ -84,7 +84,6 @@ app.post('/controllo', (req, res) => {
 	const arrayUtenti = [];
 	const nick = req.body.nick;
 	const score = req.body.score;
-	const time = req.body.time;
 
 	const con = mysql.createConnection({
 		host: 'localhost',
@@ -113,9 +112,8 @@ app.post('/controllo', (req, res) => {
 		arrayUtenti.forEach(el => {
 			if(el.utente != $utente){
 
-			}else{
-				const inserisciNuovoUtente =  `INSERT INTO utente (Nickname) VALUES ('${nick}')`;//inserisco anche l'utente
-				const inserisciNuovaPartita =  `INSERT INTO partita (Tempo,PunteggioMassimo,Nick) VALUES ('${time}','${score}','${nick}')`; //inserisco la partita relativa
+				const inserisciNuovoUtente =  `INSERT INTO utente (Nickname) VALUES ('${nick}')`;//inserisco l'utente
+				const inserisciNuovaPartita =  `INSERT INTO partita (Tempo,PunteggioMassimo,Nick) VALUES ('${score}','${nick}')`; //inserisco la partita relativa
 				con.query(inserisciNuovoUtente, (err, result) => {
 					if (err) {
 						console.log(err.message);
@@ -124,13 +122,15 @@ app.post('/controllo', (req, res) => {
 
 				});
 
-				con.inserisciNuovaPartita(inserisciNuovoUtente, (err, result) => {
+				con.query(inserisciNuovaPartita, (err, result) => {
 					if (err) {
 						console.log(err.message);
 						throw err;
 					}
 
 				});
+
+				
 			}
 
 
@@ -140,4 +140,4 @@ app.post('/controllo', (req, res) => {
 })
 
 
-app.listen(4000);
+app.listen(3000);
