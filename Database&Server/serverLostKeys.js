@@ -10,6 +10,7 @@ app.use(cors({
 
 
 app.use(express.urlencoded({extended: true}));//necessario per il funzionamento del post
+app.use(express.json());
 
 //1 endpoint per l'invio al client dell'id, punteggio e nome del giocatore
 app.get('/rank', (req, res) => {
@@ -22,7 +23,7 @@ app.get('/rank', (req, res) => {
 		database: 'TheLostKeys'
 	});
 
-	const query = "SELECT * FROM partita ORDER BY punteggioMassimo DESC"; // la query viene fatta in background quindi siamo obbligati a mandare il json nella funzione
+	const query = "SELECT * FROM partita ORDER BY Punteggio DESC"; // la query viene fatta in background quindi siamo obbligati a mandare il json nella funzione
 
 	con.query(query, (err, result) => {
 		if (err) {
@@ -47,6 +48,8 @@ app.post('/upload', (req, res) => {
 	const nick = req.body.nick;
 	const score = req.body.score;
 	let highscore;
+
+	console.log('nick: ' + nick + ' score: ' + score);
 
 	const con = mysql.createConnection({
 		host: 'localhost',
@@ -113,7 +116,7 @@ app.post('/controllo', (req, res) => {
 			if(el.utente != $utente){
 
 				const inserisciNuovoUtente =  `INSERT INTO utente (Nickname) VALUES ('${nick}')`;//inserisco l'utente
-				const inserisciNuovaPartita =  `INSERT INTO partita (Tempo,PunteggioMassimo,Nick) VALUES ('${score}','${nick}')`; //inserisco la partita relativa
+				const inserisciNuovaPartita =  `INSERT INTO partita (Punteggio, Nick) VALUES ('${score}','${nick}')`; //inserisco la partita relativa
 				con.query(inserisciNuovoUtente, (err, result) => {
 					if (err) {
 						console.log(err.message);
@@ -130,7 +133,7 @@ app.post('/controllo', (req, res) => {
 
 				});
 
-				
+
 			}
 
 
@@ -140,4 +143,4 @@ app.post('/controllo', (req, res) => {
 })
 
 
-app.listen(3000);
+app.listen(4000);

@@ -19,6 +19,18 @@ const GameCloseUI = () => {
 	const restart = () => navigate('../select', {replace: true});
 	const backToMenu = () => { navigate('../menu', {replace: true}) };
 
+	const upload = () => {
+		fetch('http://127.0.0.1:4000/upload', {
+			method: 'POST',
+			headers: {'Content-Type': 'application/json', 'Accept':'application/json'},
+			body: JSON.stringify({
+				nick: 'Seima',
+				score: 2000,
+				pg: 'Personaggio Giocabile'
+			})
+		})
+	}
+
 	return(
 		<Modal
 			show={close}
@@ -44,7 +56,7 @@ const GameCloseUI = () => {
 					</Row>
 					<Row className="my-3">
 						<Restart callback={restart} />
-						<Upload />
+						<Upload callback={upload} />
 						<Exit callback={backToMenu} />
 					</Row>
 				</Row>
@@ -84,12 +96,13 @@ const GameOverTitle = () => (<>
 	</Row>
 </>)
 
-const Upload = () => (
+const Upload = ({callback}) => (
 	<Col xxl={2} className="text-center txt-pixel">
 		<Button
 			className="p-3 fs-3 text-white"
 			variant="info"
 			size="lg"
+			onClick={callback}
 		>
 			Upload
 		</Button>
