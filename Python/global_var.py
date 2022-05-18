@@ -32,7 +32,7 @@ Timer = 10
 Scelta = 0
 Cam_visible = False
 
-OptionDebug = True
+OptionDebug = False
 Debug = False
 ShowGrid = False
 ShowFps = True
