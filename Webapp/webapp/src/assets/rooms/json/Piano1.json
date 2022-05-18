@@ -257,7 +257,13 @@
                                    "width":48,
                                    "x":528.728744939271,
                                    "y":679.141700404858,
-                                   "evType": "emptyDoor"
+                                   "evType": "Door",
+                                   "options": {
+                                          "dest": "Classe1D",
+                                         "nextX": 1080,
+                                          "nextY": 319,
+                                          "direction": "left"
+                                   }
                             },
                             {
                                    "gid":5321,

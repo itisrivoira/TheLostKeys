@@ -13,18 +13,6 @@ const puzzles = {
 		punti: [0, 10, 20, 40]
 	},
 
-	PianoT:{
-		text: "",
-		img: false,
-		A: "",
-		B: "",
-		C: "",
-		D: "",
-		right: "",
-		indizio: "",
-		punti: []
-	},
-
 	Fisica:{
 		text: "Cosa c’e' all’inizio dell’onda elettromagnetica, al centro dell’atomo, e alla fine di uno spettrometro?",
 		img: false,
@@ -35,30 +23,6 @@ const puzzles = {
 		right: "C",
 		indizio: "A volte la risposta e' quella più semplice se si pensa alla lettera",
 		punti: [0, 2, 5, 10]
-	},
-
-	Archivio0:{
-		text: "",
-		img: false,
-		A: "",
-		B: "",
-		C: "",
-		D: "",
-		right: "",
-		indizio: "",
-		punti: []
-	},
-
-	Archivio1:{
-		text: "",
-		img: false,
-		A: "",
-		B: "",
-		C: "",
-		D: "",
-		right: "",
-		indizio: "",
-		punti: []
 	},
 
 	AulaMagna:{
@@ -97,18 +61,6 @@ const puzzles = {
 		punti: [0, 10, 20, 40]
 	},
 
-	WCMaschi: {
-		text: "",
-		img: false,
-		A: "",
-		B: "",
-		C: "",
-		D: "",
-		right: "",
-		indizio: "",
-		punti: []
-	},
-
 	WCFemmine: {
 		text: "Risolvi lo schema per il passaggio di stato: da una sostanza solida come il ghiaccio qual e' il giusto ordine per passare allo stato gassoso, e poi a quello liquido come l’acqua e poi di nuovo allo stato solido?",
 		img: require('../img/chimica.png'),
@@ -121,7 +73,7 @@ const puzzles = {
 		punti: [0, 2, 5, 10]
 	},
 
-	CLasse1D: {
+	Classe1D: {
 		text: "Cosa usi per misurare la lunghezza, il tempo la corrente e la temperatura?",
 		img: false,
 		A: "metri- secondi- Ampere- Kelvin",
@@ -145,18 +97,6 @@ const puzzles = {
 		punti: [0, 10, 20, 40]
 	},
 
-	Piano1: {
-		text: "",
-		img: false,
-		A: "",
-		B: "",
-		C: "",
-		D: "",
-		right: "",
-		indizio: "",
-		punti: []
-	},
-
 	Piano2: {
 		text: "Quanto fa 2^12 sapendo che 2^6 fa 64?",
 		img: false,
@@ -171,7 +111,7 @@ const puzzles = {
 
 	LabInfo2: {
 		text: "Determinare il valore di A a fine esecuzione",
-		img: false,
+		img: require('../img/info2.png'),
 		A: "5",
 		B: "10",
 		C: "3",
@@ -228,6 +168,66 @@ const puzzles = {
 		indizio: "",
 		punti: []
 	},
+
+	Piano1: {
+		text: "",
+		img: false,
+		A: "",
+		B: "",
+		C: "",
+		D: "",
+		right: "",
+		indizio: "",
+		punti: []
+	},
+
+	WCMaschi: {
+		text: "",
+		img: false,
+		A: "",
+		B: "",
+		C: "",
+		D: "",
+		right: "",
+		indizio: "",
+		punti: []
+	},
+
+	Archivio0:{
+		text: "",
+		img: false,
+		A: "",
+		B: "",
+		C: "",
+		D: "",
+		right: "",
+		indizio: "",
+		punti: []
+	},
+
+	Archivio1:{
+		text: "",
+		img: false,
+		A: "",
+		B: "",
+		C: "",
+		D: "",
+		right: "",
+		indizio: "",
+		punti: []
+	},
+
+	PianoT:{
+		text: "",
+		img: false,
+		A: "",
+		B: "",
+		C: "",
+		D: "",
+		right: "",
+		indizio: "",
+		punti: []
+	}
 }
 
 export default puzzles;

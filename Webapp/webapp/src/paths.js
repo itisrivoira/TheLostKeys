@@ -37,6 +37,11 @@ export default {
 		json: require("./assets/rooms/json/Classe1A.json")
 	},
 
+	Classe1D: {
+		png: require("./assets/rooms/png/Classe1D.png"),
+		json: require("./assets/rooms/json/Classe1D.json")
+	},
+
 	AulaMagna: {
 		png: require("./assets/rooms/png/AulaMagna.png"),
 		json: require("./assets/rooms/json/AulaMagna.json")
