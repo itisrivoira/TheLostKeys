@@ -22,7 +22,7 @@ app.get('/rank', (req, res) => {
 		database: 'TheLostKeys'
 	});
 
-	const query = "SELECT * FROM partita ORDER BY Punteggio DESC"; // la query viene fatta in background quindi siamo obbligati a mandare il json nella funzione
+	const query = "SELECT * FROM partita ORDER BY Punteggio DESC"; 
 
 	con.query(query, (err, result) => {
 		if (err) {
@@ -107,42 +107,7 @@ app.post('/upload', (req, res) => {
 
 		}
 
-		/*arrayUtenti.forEach(el => {
-			if(el.utente != nick){
-				const inserisciNuovoUtente =  `INSERT INTO utente (Nickname) VALUES ('${nick}')`;
-				const inserisciNuovaPartita =  `INSERT INTO partita (Punteggio, Nick, Personaggio) VALUES ('${score}','${nick}', '${personaggio}')`;
-				con.query(inserisciNuovoUtente, (err, result) => {
-					if (err) {
-						console.log(err.message);
-						throw err;
-					}
-				});
-				con.query(inserisciNuovaPartita, (err, result) => {
-					if (err){
-						console.log(err.message);
-						throw err;
-					}
-				});
-			}else{
-			const	check = `SELECT Punteggio FROM partita WHERE Nick = '${nick}'`;
-				con.query(check, (err, result) => {
-					if (err) {
-						console.log(err.message);
-						throw err;
-					}
-					let highscore = result[0].Punteggio;
-					if (score > highscore){
-						const load = `UPDATE partita SET Punteggio = '${score}' WHERE Nick = '${nick}'`;
-						con.query(load, (err, result) => {
-							if(err) {
-								console.log(err.message);
-								throw err;
-							}
-						});
-					}
-				})
-			}
-		});*/
+		
 	});
 })
 
