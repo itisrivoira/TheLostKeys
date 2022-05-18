@@ -99,7 +99,7 @@ class Player():
         
     def __playSounds(self):
         passo = random.choice(self.soundsFootsteps)
-        passo.set_volume(0.02*GLOB.AU)
+        passo.set_volume(0.2*GLOB.AU)
         passo.play()
 
 

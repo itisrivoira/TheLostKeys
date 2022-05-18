@@ -70,6 +70,8 @@ PlayerReset = False
 
 Player_default_speed = Player_speed
 
+ShowComand = True
+
 # Inizializzazione lista di animazione camminata
 PlayerWalkingO = []
 PlayerWalkingVD = []
@@ -200,7 +202,7 @@ def setResources():
     # --- ENIGMI ---
 
     tentativo = {}
-    enigmi_da_risolvere = ["Fisica", "1A", "WC-Femmine", "AulaMagna", "AulaProfessori", "LabInfo", "4A", "AulaVideo", "LabInformatica", "Ripostiglio", "Chimica", "Corridoio", "Archivio"]
+    enigmi_da_risolvere = ["Fisica", "1A", "WC-Femmine", "AulaMagna", "AulaProfessori", "LabInfo", "4A", "AulaVideo", "LabInformatica", "Ripostiglio", "Chimica", "Corridoio", "Archivio", "1D"]
     enigmi_risolti = []
 
     # --- INVENTARIO ---
