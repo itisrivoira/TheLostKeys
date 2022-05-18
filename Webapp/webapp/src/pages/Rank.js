@@ -1,16 +1,18 @@
 // Classifica del Gioco con record del giocatore
 
 import { useNavigate } from "react-router-dom";
-import { Container, Row, Col, Button, ListGroup } from "react-bootstrap";
+import { Container, Row, Col, Button, ListGroup, Image } from "react-bootstrap";
 import { useEffect, useState } from "react";
 
-import { useAudio } from "../utils/utils";
+import { useAudio, useFetch } from "../utils/utils";
 import { menuSound } from "../assets/sounds/sounds";
+
+import imgDialogs from "../assets/characters/Dialog/Dialog";
 
 const Rank = () => {
 	const [data, setData] = useState([]);
-	const navigate = useNavigate();
 	const [play, toggle] = useAudio(menuSound);
+	const navigate = useNavigate();
 
 	const backToMenu = () => navigate('../menu', {replace: true});
 
@@ -29,13 +31,21 @@ const Rank = () => {
 		data.map( (value, index) => (
 			<ListGroup.Item variant="dark">
 				<Row className="txt-pixel fs-2 text-center">
-					<Col xxl={2}>
+					<Col xxl={1}>
 						{index}
 					</Col>
-					<Col xxl={5}>
+					<Col xxl={4}>
 						{value.player}
 					</Col>
-					<Col xxl={5}>
+					<Col xxl={4}>
+						<Image
+							height={70}
+							width={70}
+							src={imgDialogs[value.pg]}
+							style={{imageRendering: "pixelated"}}
+						/>
+					</Col>
+					<Col xxl={3}>
 						{value.points}
 					</Col>
 				</Row>
@@ -44,13 +54,10 @@ const Rank = () => {
 	);
 
 	return(
-		<Container className="w-100 h-100 bg-dark" fluid>
+		<Container className="w-100 h-100 bg-dark px-3" fluid>
 			<Title />
-			<Row className="my-4">
-				<Col xxl={4}>
-					Your HighScore is
-				</Col>
-				<Col xxl={8} className="pe-5">
+			<Row className="my-4 px-3">
+				<Col className="pe-5">
 					<ListHead />
 					<ListGroup variant="flush">
 						{loadItems()}
@@ -92,13 +99,16 @@ const Back = ({callback}) => (
 // Intestazione della classifica
 const ListHead = () => (
 	<Row className="text-white fw-bold fs-2 txt-pixel border-bottom border-3 text-center pb-2">
-		<Col xxl={2}>
+		<Col xxl={1}>
 			#
 		</Col>
-		<Col xxl={5}>
+		<Col xxl={4}>
 			Nickname
 		</Col>
-		<Col xxl={5}>
+		<Col xxl={4}>
+			Character
+		</Col>
+		<Col xxl={3}>
 			Points
 		</Col>
 	</Row>

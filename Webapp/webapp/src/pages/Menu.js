@@ -1,13 +1,13 @@
 // Pagina Menu Principale
 
 import { Col, Container, Row } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useContext, useEffect } from "react";
 /*
 	Con i File Export posso fare cose di questro tipo
 	cioè importare decine di componenti in una sola riga
 */
-import { SplashScreen, SettingsUI, BtnPlay, BtnOptions, BtnRank, BtnMusic, SettingCtx } from '../components/components';
+import { SplashScreen, SettingsUI, BtnPlay, BtnOptions, BtnRank, BtnMusic, SettingCtx, NamePlayerCtx } from '../components/components';
 import { menuSound } from "../assets/sounds/sounds";
 import { useAudio } from "../utils/utils";
 
@@ -18,6 +18,13 @@ const Menu = () => {
 	const { setSetting } = useContext(SettingCtx);		// recupero funzione globale
 	const [playing, toggle] = useAudio(menuSound);
 	const navigate = useNavigate();			// questo serve per navigare fra gli EndPoint
+	const { setNamePlayer } = useContext(NamePlayerCtx);
+	const [searchParams] = useSearchParams();
+
+	useEffect( () => {
+		let nick = searchParams.get('nick');
+		setNamePlayer(nick);
+	}, []);
 
 	const openSettings = () => setSetting(true);		// Aprire le impostazioni
 	const play = () => {			// Passare alla pagina di gioco

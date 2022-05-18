@@ -3,7 +3,7 @@
 import Audio from './Audio';
 import { BtnPlay, BtnOptions, BtnRank, BtnMusic } from "./Buttons";
 import DialogUI from './DialogUI';
-import GlobalContext, { RunCtx, MusicCtx, SfxCtx, SettingCtx, PgCtx } from './GlobalContext';
+import GlobalContext, { RunCtx, MusicCtx, SfxCtx, SettingCtx, PgCtx, NamePlayerCtx } from './GlobalContext';
 import GameContext, { DialogCtx, EnigmaCtx, RoomNameCtx, ScoreCtx, DoneCtx, GameOverCtx, CloseCtx } from './GameContext';
 import SettingsUI from "./SettingsUI";
 import SplashScreen from "./SplashScreen";
@@ -34,5 +34,6 @@ export {
 	EnigmaUI,
 	GameCloseUI,
 	PgCtx,
-	CloseCtx
+	CloseCtx,
+	NamePlayerCtx
 };
