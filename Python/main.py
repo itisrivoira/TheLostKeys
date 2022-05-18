@@ -148,6 +148,18 @@ def load_collisions(path):
 
 
 def controllo_condizioni():
+    if GLOB.ShowComand and not animazione.flag_caricamento:
+        testo = "Ciao! Io sono verga e saro' la tua guida di questo viaggio!|Per muoverti clicca le freccie direzionali o WASD|Per correre tieni premuto SHIFT|Per aprire l'inventario premi TAB e per vedere le informazioni dettagliate premere Q|Per interagire con gli oggetti premere E|Detto questo, hai compito, trova tutte le chiavette, e vinci! Buona fortuna!"
+
+        testo = testo.split("|")
+
+        for frase in testo:
+            d = Dialoghi("Verga", frase, 3)
+            d.stampa()
+
+        GLOB.ShowComand = False
+
+
     if GLOB.PlayerReset:
         SetPlayer_sprite()
         player.setAllkeys(False)
@@ -171,6 +183,7 @@ def controllo_condizioni():
 
 
 def Stampa_messaggio():
+    Stanza = GLOB.Stanza
     if GLOB.Enigma:
         messaggio_a_schermo.ReStart()
 
@@ -186,7 +199,7 @@ def Stampa_messaggio():
 
                     for value in range(len(GLOB.enigmi_da_risolvere)):
 
-                        if GLOB.enigmi_da_risolvere[value] == GLOB.Stanza:
+                        if GLOB.enigmi_da_risolvere[value] == Stanza:
                             GLOB.enigmi_risolti.append(GLOB.enigmi_da_risolvere[value])
                             condizione = True
                             var = value
@@ -346,6 +359,7 @@ def main():
 
         if LEFT and not RIGHT and not(condition_1 and condition_2):
             player.setLeftPress(IsPressed)
+            player.flag_delay = True
 
             if IsPressed:
                 player.animate()
@@ -355,6 +369,7 @@ def main():
             
         elif RIGHT and not LEFT and not(condition_3 and condition_4):    
             player.setRightPress(IsPressed)
+            player.flag_delay = True
 
             if IsPressed:
                 player.animate()
@@ -364,6 +379,7 @@ def main():
 
         elif UP and not DOWN and not(condition_1 and condition_3):
             player.setUpPress(IsPressed)
+            player.flag_delay = True
 
             if IsPressed:
                 player.animate()
@@ -373,6 +389,7 @@ def main():
             
         elif DOWN and not UP and not(condition_2 and condition_4):
             player.setDownPress(IsPressed)
+            player.flag_delay = True
 
             if IsPressed:
                 player.animate()
@@ -382,6 +399,8 @@ def main():
 
         elif event.key == pygame.K_LSHIFT:
             if IsPressed and GLOB.PlayerCanRun:
+                
+                player.flag_delay = True
 
                 GLOB.PlayerIsWalking = False
                 GLOB.PlayerIsRunning = True
@@ -439,6 +458,7 @@ def main():
                                 
                     if not GLOB.ShowInventory:
                         GLOB.ShowInventory = True
+                        Gui.inventory_sound.play()
                     elif GLOB.ShowInventory:
                         GLOB.ShowInventory = False
 

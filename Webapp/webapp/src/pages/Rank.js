@@ -2,11 +2,40 @@
 
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button, ListGroup } from "react-bootstrap";
+import { useEffect, useState } from "react";
 
 const Rank = () => {
-	let navigate = useNavigate();
+	const navigate = useNavigate();
+	const [data, setData] = useState([]);
 
 	const backToMenu = () => navigate('../menu', {replace: true});
+
+	useEffect( () => {
+		fetch('http://127.0.0.1:4000/rank', {
+			method: "GET",
+			headers: {"Content-Type": "application/json"}
+		})
+		.then( res => res.json())
+		.then( data => setData(data));
+	}, []);
+
+	const loadItems = () => (
+		data.map( (value, index) => (
+			<ListGroup.Item variant="dark">
+				<Row className="txt-pixel fs-2 text-center">
+					<Col xxl={2}>
+						{index}
+					</Col>
+					<Col xxl={5}>
+						{value.player}
+					</Col>
+					<Col xxl={5}>
+						{value.points}
+					</Col>
+				</Row>
+			</ListGroup.Item>
+		))
+	);
 
 	return(
 		<Container className="w-100 h-100 bg-dark" fluid>
@@ -17,8 +46,8 @@ const Rank = () => {
 				</Col>
 				<Col xxl={8} className="pe-5">
 					<ListHead />
-					<ListGroup>
-
+					<ListGroup variant="flush">
+						{loadItems()}
 					</ListGroup>
 				</Col>
 			</Row>
@@ -57,19 +86,16 @@ const Back = ({callback}) => (
 // Intestazione della classifica
 const ListHead = () => (
 	<Row className="text-white fw-bold fs-2 txt-pixel border-bottom border-3 text-center pb-2">
-		<Col xxl={1}>
+		<Col xxl={2}>
 			#
 		</Col>
-		<Col xxl={4}>
+		<Col xxl={5}>
 			Nickname
 		</Col>
-		<Col xxl={3}>
+		<Col xxl={5}>
 			Points
 		</Col>
-		<Col xxl={4}>
-			Date
-		</Col>
 	</Row>
-)
+);
 
 export default Rank;

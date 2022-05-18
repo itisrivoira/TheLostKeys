@@ -1,5 +1,8 @@
+import random
 import pygame, os
 import global_var as GLOB
+from pygame import mixer
+from components import Delay
 
 
 """
@@ -66,22 +69,39 @@ class Player():
 
         # animazione di walking
         self.animationWO = char_image[2]
-        self.current_spriteWOL = 0 # indica il corrente sprite generato e ciclato
-        self.current_spriteWOR = 0 # indica il corrente sprite generato e ciclato
+        self.current_spriteWOL = 0.9 # indica il corrente sprite generato e ciclato
+        self.current_spriteWOR = 0.9 # indica il corrente sprite generato e ciclato
 
         self.animationWVD = char_image[0]
-        self.current_spriteWVD = 0
+        self.current_spriteWVD = 0.9
 
         self.animationWVU = char_image[0]
-        self.current_spriteWVU = 0
+        self.current_spriteWVU = 0.9
         
         # setta l'immagine di animazione attuale di walking
         self.image = self.animationWVD[0]
 
         # Evento Interazione Oggetti
         self.evento = None
+        
+        self.soundsFootsteps = [mixer.Sound("suoni/footstep1.wav"),  mixer.Sound("suoni/footstep2.wav")]
+        
+        self.flag_delay = True
+        self.setDelay(0.3)
 
 # ---------- self.set() ----------
+
+    def setDelay(self, v):
+        if self.flag_delay:
+            self.delay_sound = Delay(v, self.__playSounds)
+            self.flag_delay = False
+        
+        
+    def __playSounds(self):
+        passo = random.choice(self.soundsFootsteps)
+        passo.set_volume(0.2*GLOB.AU)
+        passo.play()
+
 
     def setPositionX(self, x):
         self.x = x
@@ -179,7 +199,7 @@ class Player():
                 self.current_spriteWOL += self.getAnimationSpeed() / GLOB.Delta_Time
  
                 if self.current_spriteWOL >= len(self.animationWO) or self.getRightPress():
-                    self.current_spriteWOL = 0
+                    self.current_spriteWOL = 0.9
 
                 self.image = self.animationWO[int(self.current_spriteWOL)]
         
@@ -187,7 +207,7 @@ class Player():
                 self.current_spriteWOR += self.getAnimationSpeed() / GLOB.Delta_Time
 
                 if self.current_spriteWOR >= len(self.animationWO) or self.getLeftPress():
-                    self.current_spriteWOR = 0
+                    self.current_spriteWOR = 0.9
                     
                 self.image = self.animationWO[int(self.current_spriteWOR)]
 
@@ -195,7 +215,7 @@ class Player():
                 self.current_spriteWVD += self.getAnimationSpeed() / GLOB.Delta_Time
 
                 if self.current_spriteWVD >= len(self.animationWVD):
-                    self.current_spriteWVD = 0
+                    self.current_spriteWVD = 0.9
             
                 self.image = self.animationWVD[int(self.current_spriteWVD)]
 
@@ -203,7 +223,7 @@ class Player():
                 self.current_spriteWVU += self.getAnimationSpeed() / GLOB.Delta_Time
 
                 if self.current_spriteWVU >= len(self.animationWVU):
-                    self.current_spriteWVU = 0
+                    self.current_spriteWVU = 0.9
                 
                 self.image = self.animationWVU[int(self.current_spriteWVU)]
 
@@ -298,7 +318,7 @@ class Player():
                 Confronta("x")
 
         else:
-            if (self.current_spriteWOL or self.current_spriteWOR or self.current_spriteWVD or self.current_spriteWVU) > 0:
+            if (self.current_spriteWOL or self.current_spriteWOR or self.current_spriteWVD or self.current_spriteWVU) > 0.9:
                 self.collision_state["top"] = False
                 self.collision_state["bottom"] = False
                 self.collision_state["left"] = False
@@ -400,6 +420,8 @@ class Player():
                     print(var, self.evento, GLOB.Stanza, GLOB.Piano)             
 
     def update(self):
+        
+        self.setIsRunning(GLOB.PlayerIsRunning)
 
         self.setVelocitaX(0)
         self.setVelocitaY(0)
@@ -431,9 +453,11 @@ class Player():
         if self.getIsRunning():
             slow *= run
             normal *= run
+            self.setDelay(normal / (run * 2))
         else:
             slow = 0.15
             normal = 0.4
+            self.setDelay(normal-0.1)
 
         if condition_1:
             self.setVelocitaY(-GLOB.Player_speed)
@@ -486,6 +510,11 @@ class Player():
 
         if (getLeft and getRight) or (getUp and getDown):
             self.finish()
+            
+        if self.getIsWalking() or self.getIsRunning():
+            self.delay_sound.Infinite()
+        else:
+            self.delay_sound.Stop()
 
         self.x += self.getVelocitaX()
         self.y += self.getVelocitaY()
@@ -506,10 +535,10 @@ class Player():
 
     def finish(self):
         self.setIsWalking(False)
-        self.current_spriteWOL = 0
-        self.current_spriteWOR = 0
-        self.current_spriteWVD = 0
-        self.current_spriteWVU = 0
+        self.current_spriteWOL = 0.9
+        self.current_spriteWOR = 0.9
+        self.current_spriteWVD = 0.9
+        self.current_spriteWVU = 0.9
 
         self.character = pygame.image.load(
             os.path.join(self.Name_animationWVD,'Walk0.png')).convert_alpha()

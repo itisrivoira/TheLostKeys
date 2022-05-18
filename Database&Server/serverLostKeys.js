@@ -3,7 +3,6 @@
 const express = require('express');
 const mysql = require('mysql');
 const cors = require('cors');//necessario per i permessi
-const res = require('express/lib/response');
 const app = express();
 app.use(cors({
 	origin: '*'
@@ -20,10 +19,10 @@ app.get('/rank', (req, res) => {
 		host: 'localhost',
 		user: 'root',
 		password: '',
-		database: 'thelostkeys'
+		database: 'TheLostKeys'
 	});
 
-	const query = "SELECT * FROM partita ORDER BY punteggioMassimo DESC"; // la query viene fatta in background quindi siamo obbligati a mandare il json nella funzione 
+	const query = "SELECT * FROM partita ORDER BY punteggioMassimo DESC"; // la query viene fatta in background quindi siamo obbligati a mandare il json nella funzione
 
 	con.query(query, (err, result) => {
 		if (err) {
@@ -41,13 +40,13 @@ app.get('/rank', (req, res) => {
 
 		res.send(JSON.stringify(array));
 	});
-})
+});
 
-//2 endpoint per l'invio al server del punteggio Massimo 
+//2 endpoint per l'invio al server del punteggio Massimo
 app.post('/upload', (req, res) => {
 	const nick = req.body.nick;
 	const score = req.body.score;
-	let highscore; 
+	let highscore;
 
 	const con = mysql.createConnection({
 		host: 'localhost',
@@ -77,7 +76,7 @@ app.post('/upload', (req, res) => {
 
 
 
-	
+
 })
 
 
@@ -94,18 +93,18 @@ app.post('/controllo', (req, res) => {
 		database: 'thelostkeys'
 	});
 
-	const elencoUtenti = "SELECT Nickname FROM utente"; // la query ritorna tutti i nomi degli utenti nel DB 
+	const elencoUtenti = "SELECT Nickname FROM utente"; // la query ritorna tutti i nomi degli utenti nel DB
 
 	con.query(elencoUtenti, (err, result) => {
 		if (err) {
 			console.log(err.message);
 			throw err;
 		}
-	
+
 
 		result.map( value => {
 			arrayUtenti.push({
-				utente:value.Nickname//array con tutti i nomi degli utenti 
+				utente:value.Nickname//array con tutti i nomi degli utenti
 			})
 		});
 
@@ -113,16 +112,16 @@ app.post('/controllo', (req, res) => {
 
 		arrayUtenti.forEach(el => {
 			if(el.utente != $utente){
-				
+
 			}else{
-				const inserisciNuovoUtente =  `INSERT INTO utente (Nickname) VALUES ('${nick}')`;//inserisco anche l'utente 
+				const inserisciNuovoUtente =  `INSERT INTO utente (Nickname) VALUES ('${nick}')`;//inserisco anche l'utente
 				const inserisciNuovaPartita =  `INSERT INTO partita (Tempo,PunteggioMassimo,Nick) VALUES ('${time}','${score}','${nick}')`; //inserisco la partita relativa
 				con.query(inserisciNuovoUtente, (err, result) => {
 					if (err) {
 						console.log(err.message);
 						throw err;
 					}
-					
+
 				});
 
 				con.inserisciNuovaPartita(inserisciNuovoUtente, (err, result) => {
@@ -130,16 +129,15 @@ app.post('/controllo', (req, res) => {
 						console.log(err.message);
 						throw err;
 					}
-					
+
 				});
 			}
-			
 
-			
+
+
 		});
 	});
 })
 
 
-app.listen(3000);
-
+app.listen(4000);
