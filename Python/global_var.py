@@ -1,4 +1,3 @@
-from dis import show_code
 import random
 import pygame
 from pygame.locals import *
@@ -8,6 +7,8 @@ TITLE = "The Lost Keys"
 # Valori di proporzione
 
 Delta_Time = 2 # Delta_Time (Congliabile 1/2)
+Default_DeltaTime = Delta_Time
+
 Player_proportion = 1 # Divisore della grandezza del giocatore
 
 #FPS
@@ -32,7 +33,7 @@ Timer = 10
 Scelta = 0
 Cam_visible = False
 
-OptionDebug = False
+OptionDebug = True
 Debug = False
 ShowGrid = False
 ShowFps = True
@@ -120,8 +121,10 @@ if Fullscreen:
 else:
     screen = pygame.display.set_mode((screen_width,screen_height))
 
-pygame.display.set_caption(TITLE)
 
+logo = pygame.image.load("assets/Logo.png").convert_alpha()
+pygame.display.set_caption(TITLE)
+pygame.display.set_icon(logo)
 
 def setCharacter():
     global Player_speed, Player_default_speed, PlayerRun_speed, scelta_char, scelta_rep
@@ -168,21 +171,16 @@ def setResources():
     # -- CODICI ---
     
     codice_archivio = False
-    codice = str(random.randint(0, 9999))
     
-    l = ""
-    if len(codice) == 0:
-        l = "0000"+codice
-    elif len(codice) == 1:
-        l = "000"+codice
-    elif len(codice) == 2:
-        l = "00"+codice
-    elif len(codice) == 3:
-        l = "0"+codice
-    elif len(codice) == 4:
-        l = ""+codice
-        
-    codice = l
+    value_cod_max = 9999
+    codice = str(random.randint(0, value_cod_max))
+    
+    l = "0"
+    z = len(str(value_cod_max)) - len(codice)
+
+
+    for i in range(z):
+        codice = l + str(codice)
         
         
         
@@ -202,7 +200,7 @@ def setResources():
     # --- ENIGMI ---
 
     tentativo = {}
-    enigmi_da_risolvere = ["Fisica", "1A", "WC-Femmine", "AulaMagna", "AulaProfessori", "LabInfo", "4A", "AulaVideo", "LabInformatica", "Ripostiglio", "Chimica", "Corridoio", "Archivio", "1D"]
+    enigmi_da_risolvere = ["Fisica", "1A", "WC-Femmine", "AulaMagna", "AulaProfessori", "LabInfo", "4A", "AulaVideo", "LabInformatica", "Ripostiglio", "1D", "Corridoio", "Chimica", "Archivio"]
     enigmi_risolti = []
 
     # --- INVENTARIO ---

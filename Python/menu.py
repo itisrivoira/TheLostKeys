@@ -1,8 +1,9 @@
 import pygame, sys, os, time, random
-from components import Button, Bar
-from pygame import mixer
+from components import Button, Bar, Delay
+from pygame import MOUSEBUTTONDOWN, mixer
 import global_var as GLOB
 
+from pyvidplayer import Video
 import main, animazione
 from global_var import screen
 from pioggia import Rain
@@ -16,6 +17,8 @@ pygame.init()
 """
 
 pygame.display.set_caption(GLOB.TITLE)
+
+
 
 def get_font(size): # Returns Press-Start-2P in the desired size
     return pygame.font.Font("font/font.ttf", size)
@@ -449,7 +452,7 @@ def main_menu():
 
         MENU_MOUSE_POS = pygame.mouse.get_pos()
 
-        MENU_TEXT = get_font(12*int(GLOB.MULT)).render("THE LOST KEY", True, "#e9eef7")
+        MENU_TEXT = get_font(12*int(GLOB.MULT)).render(GLOB.TITLE.upper(), True, "#e9eef7")
         MENU_RECT = MENU_TEXT.get_rect(center=(GLOB.screen_width/6, 70*GLOB.MULT))
 
         PLAY_BUTTON = Button(image=pygame.image.load("assets/Play Rect.png").convert_alpha(), pos=(GLOB.screen_width/6, 110*GLOB.MULT), 
@@ -520,4 +523,35 @@ def main_menu():
 
         pygame.display.flip()
 
-main_menu()
+
+
+video = Video("video/Presentazione.mp4")
+video.set_size((GLOB.screen_width, GLOB.screen_height))
+
+def SetVideoToFalse():
+    global VideoFinito
+    video.close()
+    VideoFinito = True
+
+delay_video = Delay(110, SetVideoToFalse)
+
+def intro():
+    global VideoFinito
+    VideoFinito = False
+    
+    while not VideoFinito:
+        
+        delay_video.Start()
+        video.draw(GLOB.screen, (0, 0))
+        pygame.display.update()
+        
+        for event in pygame.event.get():
+            
+            if event.type == pygame.KEYDOWN or event.type == MOUSEBUTTONDOWN:
+                SetVideoToFalse()
+                
+    main_menu()
+    
+    
+    
+intro()

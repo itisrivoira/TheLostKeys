@@ -1200,10 +1200,11 @@ class GUI():
 		self.DESCR1_TEXT = get_font(3*int(GLOB.MULT)).render("Default", True, "White")
 		self.DESCR1_POS = (self.inventory.get_width() + 10 * GLOB.MULT, 120 * GLOB.MULT)
   
-		self.inventory_sound = mixer.Sound("suoni/inventory-sound.wav")
+		self.inventory_sound = mixer.Sound("suoni/menu-sound.wav")
 		self.inventory_flag = False
   
 		self.door_sound = mixer.Sound("suoni/door.wav")
+		self.door_sound_locked = mixer.Sound("suoni/door-locked.wav")
 
 	def __stamina_calculation(self):
     		
@@ -1330,6 +1331,7 @@ class GUI():
      
 		self.inventory_sound.set_volume(0.3*GLOB.AU)
 		self.door_sound.set_volume(0.4*GLOB.AU)
+		self.door_sound_locked.set_volume(0.4*GLOB.AU)
     		
 		if not GLOB.isPaused and GLOB.PlayerCanMove:
 			self.__stamina_calculation()
@@ -1576,8 +1578,12 @@ class Key():
         self.delay = Delay(self.sec, self.stop)
 
         self.flag_val = False
+        
+        self.sound_button = mixer.Sound("suoni/KeySound.wav")
 
     def click(self):
+        self.sound_button.set_volume(0.2 * GLOB.AU)
+        self.sound_button.play()
         self.clicked = True
 
     def stop(self):
@@ -1681,6 +1687,9 @@ class Code():
         self.corretto = "CONFERMATO"
         self.errore = "ERRORE"
         self.errore_default = self.errore
+        
+        self.sound_errorCode = mixer.Sound("suoni/errorSound_Code.wav")
+        self.sound_correctCode = mixer.Sound("suoni/correctSound_Code.wav")
 
 
     def __reset_code(self):
@@ -1711,10 +1720,14 @@ class Code():
             self.delay.Infinite()
 
         if str(self.codeU) == str(self.codeS) and len(self.codeU) == self.len:
+            self.sound_correctCode.set_volume(0.2 * GLOB.AU)
+            self.sound_correctCode.play()
             self.CanClick = False
             self.codeU = self.corretto
 
         elif len(self.codeU) == self.len and self.codeU != self.codeS and self.codeU != self.corretto:
+            self.sound_errorCode.set_volume(0.2 * GLOB.AU)
+            self.sound_errorCode.play()
             self.CanClick = False
 
             self.errore = self.errore_default
@@ -1849,7 +1862,11 @@ class Pc():
 		self.chiavette = []
   
 		self.__filtra()
-		print(self.chiavette)
+		
+		self.on_sound = mixer.Sound("suoni/pc-on.wav")
+		self.off_sound = mixer.Sound("suoni/pc-off.wav")
+  
+		self.flag_sound = True
   
   
 	def __filtra(self):
@@ -1881,7 +1898,10 @@ class Pc():
 
 
 
-		if self.CanIUse: 
+		if self.CanIUse:
+			if self.flag_sound:
+				self.on_sound.play()
+				self.flag_sound = False
       
 			GLOB.screen.blit(self.vignetta, (25 * GLOB.MULT, 10 * GLOB.MULT))
    
@@ -1973,6 +1993,9 @@ class Pc():
 				d.stampa()
 
 	def show(self):
+     
+		self.on_sound.set_volume(0.2 * GLOB.AU)
+		self.off_sound.set_volume(0.2 * GLOB.AU)
 
 
 		def controlla(v):
@@ -2019,6 +2042,7 @@ class Pc():
 
 					if event.key == pygame.K_ESCAPE:
 						self.ciclo = False
+						self.off_sound.play()
 
 					if event.key == pygame.K_UP:
 						self.selection -= 1

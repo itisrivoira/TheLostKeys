@@ -457,7 +457,7 @@ class Player():
         else:
             slow = 0.15
             normal = 0.4
-            self.setDelay(normal-0.1)
+            self.setDelay(normal-0.15)
 
         if condition_1:
             self.setVelocitaY(-GLOB.Player_speed)
@@ -540,12 +540,11 @@ class Player():
         self.current_spriteWVD = 0.9
         self.current_spriteWVU = 0.9
 
-        self.character = pygame.image.load(
-            os.path.join(self.Name_animationWVD,'Walk0.png')).convert_alpha()
+        self.character = pygame.image.load(str(self.Name_animationWVD)+"/Walk0.png").convert_alpha()
+        self.character = pygame.transform.scale(self.character, (self.width, self.height))
 
     def load_playerSurface(self):
         self.surface = pygame.Surface((self.width, self.value_surface), pygame.SRCALPHA)
 
         self.surface.blit(self.character, (0, 0))
-
         GLOB.screen.blit(self.surface, (self.getPositionX(), self.getPositionY()))

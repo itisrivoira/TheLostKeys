@@ -65,6 +65,22 @@ def SetPlayer_sprite():
     riempi(Folder_walkO)
     riempi(Folder_walkVD)
     riempi(Folder_walkVU)
+    
+    
+def ChangeDeltaTime(f):
+    
+    if f:
+        GLOB.Delta_Time = 1
+        GLOB.FPS = 30 * GLOB.Delta_Time
+        GLOB.Player_default_speed *= GLOB.Default_DeltaTime
+        GLOB.Player_speed *= GLOB.Default_DeltaTime
+        timer.Pause()
+    else:
+        GLOB.Delta_Time = GLOB.Default_DeltaTime
+        GLOB.FPS = 30 * GLOB.Delta_Time
+        GLOB.Player_default_speed /= GLOB.Default_DeltaTime
+        GLOB.Player_speed /= GLOB.Default_DeltaTime  
+        timer.DePause()
 
 #funzione di default
 def inizializza():
@@ -149,7 +165,12 @@ def load_collisions(path):
 
 def controllo_condizioni():
     if GLOB.ShowComand and not animazione.flag_caricamento:
-        testo = "Ciao! Io sono verga e saro' la tua guida di questo viaggio!|Per muoverti clicca le freccie direzionali o WASD|Per correre tieni premuto SHIFT|Per aprire l'inventario premi TAB e per vedere le informazioni dettagliate premere Q|Per interagire con gli oggetti premere E|Detto questo, hai compito, trova tutte le chiavette, e vinci! Buona fortuna!"
+        testo1 = "Ciao! Io sono verga e saro' la tua guida di questo viaggio!|Per muoverti clicca le freccie direzionali o WASD|Per correre tieni premuto SHIFT|"
+        testo2 = "Per aprire l'inventario premi TAB e per vedere le informazioni dettagliate premere Q|Per interagire con gli oggetti premere E|"
+        testo3 = "Detto questo, hai un compito, trova tutte le chiavette, e vinci! Buona fortuna!"
+        
+        testo = testo1 + testo2 + testo3
+
 
         testo = testo.split("|")
 
@@ -256,7 +277,8 @@ def disegna():
     Gui.show()
 
     # MOSTRO IL TIMER
-    timer.Show()
+    if not GLOB.Debug:
+        timer.Show()
 
     if not GLOB.PlayerCanRun:
         SetPlayer_speed()
@@ -411,6 +433,7 @@ def main():
 
                 GLOB.PlayerIsWalking = True
                 GLOB.PlayerIsRunning = False
+                player.flag_delay = True
 
                 player.setIsRunning(GLOB.PlayerCanRun)
                 GLOB.Player_speed = GLOB.Player_default_speed
@@ -464,13 +487,16 @@ def main():
 
 
             if keys_pressed[pygame.K_F3] and GLOB.OptionDebug:
-            
+                            
                 if not GLOB.Debug:
                     GLOB.Debug = True
                     GLOB.Cam_visible = True
                 elif GLOB.Debug:
                     GLOB.Debug = False
                     GLOB.Cam_visible = False
+
+                GLOB.ShowCodice = GLOB.Debug                    
+                ChangeDeltaTime(GLOB.Debug)
 
             if GLOB.Debug:
 
