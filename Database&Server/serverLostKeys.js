@@ -33,7 +33,7 @@ app.get('/rank', (req, res) => {
 		result.map( value => {
 			array.push({
 				id: value.Id,
-				points: value.PunteggioMassimo,
+				points: value.Punteggio,
 				player: value.Nick
 			})
 		});
@@ -52,19 +52,19 @@ app.post('/upload', (req, res) => {
 		host: 'localhost',
 		user: 'root',
 		password: '',
-		database: 'thelostkeys'
+		database: 'TheLostKeys'
 	});
 
-	const	check = `SELECT PunteggioMassimo FROM partita WHERE Nick = '${nick}'`;
+	const	check = `SELECT Punteggio FROM partita WHERE Nick = '${nick}'`;
 	con.query(check, (err, result) => {
 		if (err) {
 			console.log(err.message);
 			throw err;
 		}
 
-		let highscore = result[0].PunteggioMassimo;
+		let highscore = result[0].Punteggio;
 		if (score > highscore) {
-			const load = `UPDATE partita SET PunteggioMassimo = '${score}' WHERE Nick = '${nick}'`;
+			const load = `UPDATE partita SET Punteggio = '${score}' WHERE Nick = '${nick}'`;
 			con.query(load, (err, result) => {
 				if (err) {
 					console.log(err.message);
@@ -89,7 +89,7 @@ app.post('/controllo', (req, res) => {
 		host: 'localhost',
 		user: 'root',
 		password: '',
-		database: 'thelostkeys'
+		database: 'TheLostKeys'
 	});
 
 	const elencoUtenti = "SELECT Nickname FROM utente"; // la query ritorna tutti i nomi degli utenti nel DB
