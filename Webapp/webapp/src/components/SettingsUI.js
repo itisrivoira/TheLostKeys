@@ -33,14 +33,14 @@ const SettingsUI = ({exit}) => {
 	const backToMenu = () => {
 		navigate('../menu', {replace: true});
 		setSetting(false);
-	}
+	};
 
 	// Chiudo questo Pannello
 	const handleClose = () => {
 		toggleBack();
 		setSetting(false);
 		if ( !run ) setRun(true);
-	}
+	};
 
 	return(
 		<Modal

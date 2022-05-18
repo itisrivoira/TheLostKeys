@@ -4,11 +4,17 @@ import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button, ListGroup } from "react-bootstrap";
 import { useEffect, useState } from "react";
 
+import { useAudio } from "../utils/utils";
+import { menuSound } from "../assets/sounds/sounds";
+
 const Rank = () => {
-	const navigate = useNavigate();
 	const [data, setData] = useState([]);
+	const navigate = useNavigate();
+	const [play, toggle] = useAudio(menuSound);
 
 	const backToMenu = () => navigate('../menu', {replace: true});
+
+	useEffect( toggle, []);
 
 	useEffect( () => {
 		fetch('http://127.0.0.1:4000/rank', {
