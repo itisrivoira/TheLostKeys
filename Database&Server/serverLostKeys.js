@@ -1,5 +1,4 @@
 // Server Node js The Lost Keys
-
 const express = require('express');
 const mysql = require('mysql');
 const cors = require('cors');//necessario per i permessi
@@ -10,9 +9,9 @@ app.use(cors({
 
 
 app.use(express.urlencoded({extended: true}));//necessario per il funzionamento del post
-app.use(express.json());
+app.use(express.json());//necessario per recuperare il json
 
-//1 endpoint per l'invio al client dell'id, punteggio e nome del giocatore
+//1 endpoint per l'invio della classifica alla pagina rank.js  
 app.get('/rank', (req, res) => {
 	const array = [];
 
@@ -43,10 +42,11 @@ app.get('/rank', (req, res) => {
 	});
 });
 
-//2 endpoint per l'invio al server del punteggio Massimo
+//2 endpoint per il caricamento della partita 
 app.post('/upload', (req, res) => {
 	const nick = req.body.nick;
 	const score = req.body.score;
+	const personaggio = req.body.pg;
 	let highscore;
 
 	console.log('nick: ' + nick + ' score: ' + score);
@@ -57,90 +57,57 @@ app.post('/upload', (req, res) => {
 		password: '',
 		database: 'TheLostKeys'
 	});
-
-	const	check = `SELECT Punteggio FROM partita WHERE Nick = '${nick}'`;
-	con.query(check, (err, result) => {
-		if (err) {
-			console.log(err.message);
-			throw err;
-		}
-
-		let highscore = result[0].Punteggio;
-		if (score > highscore) {
-			const load = `UPDATE partita SET Punteggio = '${score}' WHERE Nick = '${nick}'`;
-			con.query(load, (err, result) => {
-				if (err) {
-					console.log(err.message);
-					throw err;
-				}
-			});
-		}
-	})
-
-
-
-
-})
-
-
-app.post('/controllo', (req, res) => {
-	const arrayUtenti = [];
-	const nick = req.body.nick;
-	const score = req.body.score;
-
-	const con = mysql.createConnection({
-		host: 'localhost',
-		user: 'root',
-		password: '',
-		database: 'TheLostKeys'
-	});
-
-	const elencoUtenti = "SELECT Nickname FROM utente"; // la query ritorna tutti i nomi degli utenti nel DB
-
+	const elencoUtenti = "SELECT Nickname FROM utente"; 
 	con.query(elencoUtenti, (err, result) => {
 		if (err) {
 			console.log(err.message);
 			throw err;
 		}
-
-
 		result.map( value => {
 			arrayUtenti.push({
-				utente:value.Nickname//array con tutti i nomi degli utenti
+				utente:value.Nickname
 			})
 		});
 
-		res.send(JSON.stringify(arrayUtenti));
-
 		arrayUtenti.forEach(el => {
-			if(el.utente != $utente){
-
-				const inserisciNuovoUtente =  `INSERT INTO utente (Nickname) VALUES ('${nick}')`;//inserisco l'utente
-				const inserisciNuovaPartita =  `INSERT INTO partita (Punteggio, Nick) VALUES ('${score}','${nick}')`; //inserisco la partita relativa
+			if(el.utente != nick){
+				const inserisciNuovoUtente =  `INSERT INTO utente (Nickname) VALUES ('${nick}')`;
+				const inserisciNuovaPartita =  `INSERT INTO partita (Punteggio, Nick, Personaggio) VALUES ('${score}','${nick}', '${personaggio}')`; 
 				con.query(inserisciNuovoUtente, (err, result) => {
 					if (err) {
 						console.log(err.message);
 						throw err;
 					}
-
 				});
-
 				con.query(inserisciNuovaPartita, (err, result) => {
+					if (err){
+						console.log(err.message);
+						throw err;
+					}
+				});
+			}else{
+			const	check = `SELECT Punteggio FROM partita WHERE Nick = '${nick}'`;
+				con.query(check, (err, result) => {
 					if (err) {
 						console.log(err.message);
 						throw err;
 					}
-
-				});
-
-
+					let highscore = result[0].Punteggio;
+					if (score > highscore){
+						const load = `UPDATE partita SET Punteggio = '${score}' WHERE Nick = '${nick}'`;
+						con.query(load, (err, result) => {
+							if(err) {
+								console.log(err.message);
+								throw err;
+							}
+						});
+					}
+				})
 			}
-
-
-
 		});
 	});
 })
 
-
 app.listen(4000);
+
+  
