@@ -525,32 +525,36 @@ def main_menu():
 
 
 
-video = Video("video/Presentazione.mp4")
-video.set_size((GLOB.screen_width, GLOB.screen_height))
 
 def SetVideoToFalse():
-    global VideoFinito
-    video.close()
+    global VideoFinito, video
+    video.set_volume(0)
     VideoFinito = True
-    
-delay_video = Delay(video.duration - 1.1, SetVideoToFalse)
+    video.close()
+
 
 def intro():
-    global VideoFinito
-    VideoFinito = False
+    global VideoFinito, video
     
+    video = Video("video/Presentazione.mp4")
+    video.set_size((GLOB.screen_width, GLOB.screen_height))
+    delay_video = Delay(video.duration - 1.38, SetVideoToFalse)
+    
+    print(video.duration)
+    
+    VideoFinito = False
     while not VideoFinito:
-        
-        delay_video.Start()
-        video.draw(GLOB.screen, (0, 0))
         
         for event in pygame.event.get():
             
-            if event.type == pygame.KEYDOWN or event.type == MOUSEBUTTONDOWN:
+            if event.type == pygame.KEYDOWN or event.type == MOUSEBUTTONDOWN or event.type == pygame.QUIT:
                 SetVideoToFalse()
                 
+        delay_video.Start()
+        video.draw(GLOB.screen, (0, 0))
+                
         pygame.time.Clock().tick(GLOB.FPS)
-        pygame.display.update()
+        pygame.display.flip()
                 
     main_menu()
     

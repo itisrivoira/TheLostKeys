@@ -26,7 +26,6 @@ AU = 5
 # rapporto musica del gioco
 MU = 1
 
-
 # Timer del gioco
 Timer = 10
 

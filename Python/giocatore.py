@@ -511,7 +511,7 @@ class Player():
         if (getLeft and getRight) or (getUp and getDown):
             self.finish()
             
-        if self.getIsWalking() or self.getIsRunning():
+        if self.getIsWalking() or self.getIsRunning() and (GLOB.PLayerMovement["up"] or GLOB.PLayerMovement["down"] or GLOB.PLayerMovement["right"] or GLOB.PLayerMovement["left"]):
             self.delay_sound.Infinite()
         else:
             self.delay_sound.Stop()
