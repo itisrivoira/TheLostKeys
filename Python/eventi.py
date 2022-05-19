@@ -79,11 +79,22 @@ def testa():
             main.player.evento = None
             
             
+            
         if main.player.evento == "chiavetta-11":
+            var = "1D"
+            GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
+            GLOB.inventario["chiavetta-11"] = (GLOB.chiavette[var][2], False, "Proprietario: Mattia Barbero - Files: Italian_Ripper.py IlBarbista.sql")
+            main.player.evento = None
+            
+            
+        if main.player.evento == "chiavetta-12":
             var = "Corridoio"
             GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
-            GLOB.inventario["chiavetta-11"] = (GLOB.chiavette[var][2], False, "Sono pesante, andavo di moda negli anni '80, e con me almeno una volta ci hai parlato, che cosa sono?")
+            GLOB.inventario["chiavetta-12"] = (GLOB.chiavette[var][2], False, "Sono pesante, andavo di moda negli anni '80 / '90, e con me almeno una volta ci hai parlato, che cosa sono?")
             main.player.evento = None
+            
+            
+            
 
 
 
@@ -100,6 +111,7 @@ def testa():
 
 
     def Blocca():
+        main.Gui.door_sound_locked.play()
         main.player.evento = "porta-99"
         risposte = ["la porta sembra chiusa", "non si apre", "è bloccata"]
         main.player.finish()
@@ -183,7 +195,7 @@ def testa():
             d.stampa()
             
             
-        if GLOB.Stanza == "Archivio" and ControllaContenuto("chiavetta-11"):
+        if GLOB.Stanza == "Archivio" and ControllaContenuto("chiavetta-12"):
             condizione = False
             
 
@@ -200,12 +212,6 @@ def testa():
         if GLOB.Stanza == "Chimica":
             testo = "Ho trovato un appunto del quale dice che ci sia una chiavetta nascosta all'interno dell'armadio...|Mmmm... mi potrebbe essere utile."
 
-            testo = testo.split("|")
-
-            for t in testo:
-                d = main.Dialoghi(GLOB.scelta_char, t, 3)
-                d.stampa()
-
         if GLOB.Stanza == "WC-Femmine":
             oggetto = "Ghiaccio"
 
@@ -216,80 +222,37 @@ def testa():
 
                 testo = "Wow!|Chi se lo sarebbe aspettato di trovare una chiavetta all'interno del ghiaccio|Magari potrei cercare un PC per vedere il suo contenuto."
 
-                testo = testo.split("|")
-
-                for t in testo:
-                    d = main.Dialoghi(GLOB.scelta_char, t, 3)
-                    d.stampa()
-
         if GLOB.Stanza == "AulaMagna":
-            testo = "Mmmm.|Forse la prossima chiavetta a qualcosa a che fare con una sedia."
-
-            testo = testo.split("|")
-
-            for t in testo:
-                d = main.Dialoghi(GLOB.scelta_char, t, 3)
-                d.stampa()
-
+            testo = "Mmmm.|Forse la prossima chiavetta ha qualcosa a che fare con una sedia."
 
         if GLOB.Stanza == "1A":
             testo = "Pensavo piu' difficile...|Ad ogni modo che cos'e' quella strana cosa tra i gessetti della lavagna?!?"
 
-            testo = testo.split("|")
-
-            for t in testo:
-                d = main.Dialoghi(GLOB.scelta_char, t, 3)
-                d.stampa()
-
         if GLOB.Stanza == "AulaProfessori":
             testo = "Interessante.|Forse potrei provare a vedere nella libreria se c'e' qualcosa di interessante"
-
-            testo = testo.split("|")
-
-            for t in testo:
-                d = main.Dialoghi(GLOB.scelta_char, t, 3)
-                d.stampa()
 
         if GLOB.Stanza == "AulaVideo":
             testo = "Pascoli...|Chissa' se nella libreria della scuola ci potrebbe essere quello che sto cercando."
 
-            testo = testo.split("|")
-
-            for t in testo:
-                d = main.Dialoghi(GLOB.scelta_char, t, 3)
-                d.stampa()
-
         if GLOB.Stanza == "LabInfo":
             testo = "Scratch... che ricordi, chissa' se tra questi pc ce ne sarà uno funzionante..."
-
-            testo = testo.split("|")
-
-            for t in testo:
-                d = main.Dialoghi(GLOB.scelta_char, t, 3)
-                d.stampa()
                 
         if GLOB.Stanza == "Corridoio":
             
             if Cerca("chiavetta-10"):
-                main.player.evento = "chiavetta-11"
+                main.player.evento = "chiavetta-12"
                 AggiungiChiavetta()
             
             
             testo = "Si, evvai!!| Oltretutto inserendo il codice 4096 nella macchinetta, mi ha dato un'altra chiavetta!|Andiamo ad analizzarne il contenuto!"
-
-            testo = testo.split("|")
-
-            for t in testo:
-                d = main.Dialoghi(GLOB.scelta_char, t, 3)
-                d.stampa()
                 
         if GLOB.Stanza == "Archivio":
             testo = "Ce l'ho fatta!!.|Oltretutto c'è pure uno strano codice dietro al foglio...|C'è scritto: '"+str(GLOB.codice)+"'"
             
             GLOB.ShowCodice = True
-
+        
+        if testo != "Default":
             testo = testo.split("|")
-
             for t in testo:
                 d = main.Dialoghi(GLOB.scelta_char, t, 3)
                 d.stampa()
@@ -384,7 +347,8 @@ def testa():
             else:
                 Blocca()
                 return False
-
+            
+            main.Gui.door_sound.play()
             main.animazione.iFinished = False
         
         elif main.player.evento == "porta-1":
@@ -405,6 +369,7 @@ def testa():
                 return False
             
 
+            main.Gui.door_sound.play()
             main.animazione.iFinished = False
 
 
@@ -425,6 +390,7 @@ def testa():
                 Blocca()
                 return False
 
+            main.Gui.door_sound.play()
             main.animazione.iFinished = False
             
             
@@ -443,7 +409,8 @@ def testa():
             else:
                 Blocca()
                 return False
-            
+
+            main.Gui.door_sound.play()            
             main.animazione.iFinished = False
 
 
@@ -471,6 +438,7 @@ def testa():
                 Blocca()
                 return False
 
+            main.Gui.door_sound.play()
             main.animazione.iFinished = False
 
         elif main.player.evento == "porta-8":
@@ -502,7 +470,7 @@ def testa():
                 Blocca()
                 return False
             
-
+            main.Gui.door_sound.play()
             main.animazione.iFinished = False
 
 
@@ -523,7 +491,7 @@ def testa():
                 Blocca()
                 return False
             
-
+            main.Gui.door_sound.play()
             main.animazione.iFinished = False
 
 
@@ -545,7 +513,7 @@ def testa():
                 Blocca()
                 return False
             
-
+            main.Gui.door_sound.play()
             main.animazione.iFinished = False
 
         elif main.player.evento == "porta-11":
@@ -574,6 +542,7 @@ def testa():
                 Blocca()
                 return False
 
+            main.Gui.door_sound.play()
             main.animazione.iFinished = False
 
 
@@ -594,16 +563,13 @@ def testa():
                 Blocca()
                 return False
 
+            main.Gui.door_sound.play()
             main.animazione.iFinished = False
 
         if main.player.evento == "porta-3" or main.player.evento == "porta-4" or main.player.evento == "porta-6" or main.player.evento == "porta-13" or main.player.evento == "porta-14":
             Blocca()
             return False
         
-    if type(main.player.evento) == str:
-
-        if "porta" in main.player.evento:
-            main.Gui.door_sound.play()
 
     if piano() == False or porte() == False:
         return

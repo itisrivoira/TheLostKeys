@@ -69,6 +69,8 @@ const Loop = (entities, { input }) => {
 
 				if (ev.evType != '') 	// Se c'è l'evento
 					room.evType = ev.evType;	// Mi salvo il tipo di evento
+				else
+					room.evType = '';
 
 				break;
 
@@ -84,6 +86,8 @@ const Loop = (entities, { input }) => {
 
 				if (ev.evType != '')
 					room.evType = ev.evType;
+				else
+					room.evType = '';
 
 				break;
 
@@ -99,6 +103,8 @@ const Loop = (entities, { input }) => {
 
 				if (ev.evType != '')
 					room.evType = ev.evType;
+				else
+					room.evType = '';
 
 				break;
 
@@ -114,6 +120,8 @@ const Loop = (entities, { input }) => {
 
 				if (ev.evType != '')
 					room.evType = ev.evType;
+				else
+					room.evType = '';
 
 				break;
 

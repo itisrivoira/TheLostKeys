@@ -1200,10 +1200,11 @@ class GUI():
 		self.DESCR1_TEXT = get_font(3*int(GLOB.MULT)).render("Default", True, "White")
 		self.DESCR1_POS = (self.inventory.get_width() + 10 * GLOB.MULT, 120 * GLOB.MULT)
   
-		self.inventory_sound = mixer.Sound("suoni/inventory-sound.wav")
+		self.inventory_sound = mixer.Sound("suoni/menu-sound.wav")
 		self.inventory_flag = False
   
 		self.door_sound = mixer.Sound("suoni/door.wav")
+		self.door_sound_locked = mixer.Sound("suoni/door-locked.wav")
 
 	def __stamina_calculation(self):
     		
@@ -1330,6 +1331,7 @@ class GUI():
      
 		self.inventory_sound.set_volume(0.3*GLOB.AU)
 		self.door_sound.set_volume(0.4*GLOB.AU)
+		self.door_sound_locked.set_volume(0.4*GLOB.AU)
     		
 		if not GLOB.isPaused and GLOB.PlayerCanMove:
 			self.__stamina_calculation()
@@ -1576,8 +1578,12 @@ class Key():
         self.delay = Delay(self.sec, self.stop)
 
         self.flag_val = False
+        
+        self.sound_button = mixer.Sound("suoni/KeySound.wav")
 
     def click(self):
+        self.sound_button.set_volume(0.2 * GLOB.AU)
+        self.sound_button.play()
         self.clicked = True
 
     def stop(self):
@@ -1681,6 +1687,9 @@ class Code():
         self.corretto = "CONFERMATO"
         self.errore = "ERRORE"
         self.errore_default = self.errore
+        
+        self.sound_errorCode = mixer.Sound("suoni/errorSound_Code.wav")
+        self.sound_correctCode = mixer.Sound("suoni/correctSound_Code.wav")
 
 
     def __reset_code(self):
@@ -1711,10 +1720,14 @@ class Code():
             self.delay.Infinite()
 
         if str(self.codeU) == str(self.codeS) and len(self.codeU) == self.len:
+            self.sound_correctCode.set_volume(0.2 * GLOB.AU)
+            self.sound_correctCode.play()
             self.CanClick = False
             self.codeU = self.corretto
 
         elif len(self.codeU) == self.len and self.codeU != self.codeS and self.codeU != self.corretto:
+            self.sound_errorCode.set_volume(0.2 * GLOB.AU)
+            self.sound_errorCode.play()
             self.CanClick = False
 
             self.errore = self.errore_default
@@ -1790,13 +1803,19 @@ class Code():
 
                             self.tastierino["E"].click()
 
+                            i = 0
                             for char in self.codeU:
-                                if self.codeU.index(char) < len(self.codeU) - 1:
+                                if i < len(self.codeU) - 1:
                                     testo += char
-
-                            print(testo)
-
+                                    
+                                i += 1
+                                
                             self.codeU = testo
+                                
+                        if event.key == pygame.K_TAB:
+                            self.tastierino["E"].click()
+                            
+                            self.__init__(GLOB.codice)
 
 
             GLOB.screen.fill('#DCDDD8')
@@ -1823,7 +1842,7 @@ class Pc():
 	def __init__(self):
 		
 		div = 1.4
-		self.vignetta = pygame.image.load("assets/vignetta-risposta.png").convert_alpha()
+		self.vignetta = pygame.image.load("assets/terminale.png").convert_alpha()
 		self.vignetta = pygame.transform.scale(self.vignetta, (self.vignetta.get_width() * GLOB.MULT / div, self.vignetta.get_height() * GLOB.MULT / div))
 
 		self.contenuto = False
@@ -1849,7 +1868,11 @@ class Pc():
 		self.chiavette = []
   
 		self.__filtra()
-		print(self.chiavette)
+		
+		self.on_sound = mixer.Sound("suoni/pc-on.wav")
+		self.off_sound = mixer.Sound("suoni/pc-off.wav")
+  
+		self.flag_sound = True
   
   
 	def __filtra(self):
@@ -1872,8 +1895,8 @@ class Pc():
 	def __calcola_testo(self):
 
 		def imposta_colore(num_risposta):
-			default_color = "#c2c2c2"
-			selected_color = "White"
+			default_color = "#1f9038"
+			selected_color = "#28ce4c"
 			if self.selected_element == num_risposta:
 				return selected_color	
 			else:
@@ -1881,7 +1904,10 @@ class Pc():
 
 
 
-		if self.CanIUse: 
+		if self.CanIUse:
+			if self.flag_sound:
+				self.on_sound.play()
+				self.flag_sound = False
       
 			GLOB.screen.blit(self.vignetta, (25 * GLOB.MULT, 10 * GLOB.MULT))
    
@@ -1903,7 +1929,7 @@ class Pc():
 
 
 				if condizione1:
-					NAME_TEXT = get_font(7*int(GLOB.MULT)).render("- "+ str(oggetto), True, imposta_colore(i))
+					NAME_TEXT = get_font(7*int(GLOB.MULT)).render("> "+ str(oggetto), True, imposta_colore(i))
 					if posy < 90 * GLOB.MULT and posy >= 18 * GLOB.MULT:
 						NAME_POS = (35 * GLOB.MULT, posy)
 						GLOB.screen.blit(NAME_TEXT, NAME_POS)					
@@ -1973,6 +1999,9 @@ class Pc():
 				d.stampa()
 
 	def show(self):
+     
+		self.on_sound.set_volume(0.2 * GLOB.AU)
+		self.off_sound.set_volume(0.2 * GLOB.AU)
 
 
 		def controlla(v):
@@ -2019,6 +2048,7 @@ class Pc():
 
 					if event.key == pygame.K_ESCAPE:
 						self.ciclo = False
+						self.off_sound.play()
 
 					if event.key == pygame.K_UP:
 						self.selection -= 1

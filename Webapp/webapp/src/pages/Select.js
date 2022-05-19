@@ -1,10 +1,10 @@
 // Selezione per i personaggi
 
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Container, Row, Col, Button, Carousel, Image, ProgressBar } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-import { charSound } from "../assets/sounds/sounds";
+import { charSound, menuSound } from "../assets/sounds/sounds";
 import { useAudio } from "../utils/utils";
 import { PgCtx } from "../components/components";
 import players from "./players";
@@ -12,8 +12,11 @@ import players from "./players";
 const Select = () => {
 	const [index, setIndex] = useState(0);
 	const [play, toggle] = useAudio(charSound);
+	const [playing, toggle2] = useAudio(menuSound);
 	const { setPg } = useContext(PgCtx);
 	const navigate = useNavigate();
+
+	useEffect( toggle2, []);
 
 	const backToMenu = () => navigate('../menu', {replace: true});
 	const handleSelect = eventKey => {
