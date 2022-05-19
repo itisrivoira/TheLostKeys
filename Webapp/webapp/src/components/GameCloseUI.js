@@ -50,7 +50,7 @@ const GameCloseUI = () => {
 					{
 						!gameOver
 						&&
-						<p className="fs-1 text-white text-center">
+						<p className="display-3 text-white txt-pixel text-center">
 							You Win!!!
 						</p>
 					}

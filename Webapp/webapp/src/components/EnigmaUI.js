@@ -73,7 +73,10 @@ const EnimaUI = () => {
 		// quando l'utente esaurisce i tentativi gli rivelo la risposta corretta e chiude
 		if (tentativi === 0) {
 			alert('La risposta giusta era la: ' + puzzle.right);
-			setTentativi(0);
+			setDone(prev => [...prev, room]);	// Aggiungo il nome dell'enigma fra quelli già fatt
+			setTentativi(3);			// Resetto il numero di Tentativi
+			setIndizio(false);		// Resetto l'indizio
+			setText(true);
 			close();
 		}
 	}, [tentativi]);
