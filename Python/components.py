@@ -1803,13 +1803,19 @@ class Code():
 
                             self.tastierino["E"].click()
 
+                            i = 0
                             for char in self.codeU:
-                                if self.codeU.index(char) < len(self.codeU) - 1:
+                                if i < len(self.codeU) - 1:
                                     testo += char
-
-                            print(testo)
-
+                                    
+                                i += 1
+                                
                             self.codeU = testo
+                                
+                        if event.key == pygame.K_TAB:
+                            self.tastierino["E"].click()
+                            
+                            self.__init__(GLOB.codice)
 
 
             GLOB.screen.fill('#DCDDD8')
@@ -1836,7 +1842,7 @@ class Pc():
 	def __init__(self):
 		
 		div = 1.4
-		self.vignetta = pygame.image.load("assets/vignetta-risposta.png").convert_alpha()
+		self.vignetta = pygame.image.load("assets/terminale.png").convert_alpha()
 		self.vignetta = pygame.transform.scale(self.vignetta, (self.vignetta.get_width() * GLOB.MULT / div, self.vignetta.get_height() * GLOB.MULT / div))
 
 		self.contenuto = False
@@ -1889,8 +1895,8 @@ class Pc():
 	def __calcola_testo(self):
 
 		def imposta_colore(num_risposta):
-			default_color = "#c2c2c2"
-			selected_color = "White"
+			default_color = "#1f9038"
+			selected_color = "#28ce4c"
 			if self.selected_element == num_risposta:
 				return selected_color	
 			else:
@@ -1923,7 +1929,7 @@ class Pc():
 
 
 				if condizione1:
-					NAME_TEXT = get_font(7*int(GLOB.MULT)).render("- "+ str(oggetto), True, imposta_colore(i))
+					NAME_TEXT = get_font(7*int(GLOB.MULT)).render("> "+ str(oggetto), True, imposta_colore(i))
 					if posy < 90 * GLOB.MULT and posy >= 18 * GLOB.MULT:
 						NAME_POS = (35 * GLOB.MULT, posy)
 						GLOB.screen.blit(NAME_TEXT, NAME_POS)					

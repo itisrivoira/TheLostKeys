@@ -532,8 +532,8 @@ def SetVideoToFalse():
     global VideoFinito
     video.close()
     VideoFinito = True
-
-delay_video = Delay(110, SetVideoToFalse)
+    
+delay_video = Delay(video.duration - 1.1, SetVideoToFalse)
 
 def intro():
     global VideoFinito
@@ -543,12 +543,14 @@ def intro():
         
         delay_video.Start()
         video.draw(GLOB.screen, (0, 0))
-        pygame.display.update()
         
         for event in pygame.event.get():
             
             if event.type == pygame.KEYDOWN or event.type == MOUSEBUTTONDOWN:
                 SetVideoToFalse()
+                
+        pygame.time.Clock().tick(GLOB.FPS)
+        pygame.display.update()
                 
     main_menu()
     

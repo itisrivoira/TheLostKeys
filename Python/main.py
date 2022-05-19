@@ -72,15 +72,14 @@ def ChangeDeltaTime(f):
     if f:
         GLOB.Delta_Time = 1
         GLOB.FPS = 30 * GLOB.Delta_Time
-        GLOB.Player_default_speed *= GLOB.Default_DeltaTime
-        GLOB.Player_speed *= GLOB.Default_DeltaTime
         timer.Pause()
     else:
         GLOB.Delta_Time = GLOB.Default_DeltaTime
         GLOB.FPS = 30 * GLOB.Delta_Time
-        GLOB.Player_default_speed /= GLOB.Default_DeltaTime
-        GLOB.Player_speed /= GLOB.Default_DeltaTime  
         timer.DePause()
+        
+    SetPlayer_sprite()
+    SetPlayer_speed()
 
 #funzione di default
 def inizializza():

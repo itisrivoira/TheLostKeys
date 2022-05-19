@@ -223,7 +223,7 @@ def testa():
                 testo = "Wow!|Chi se lo sarebbe aspettato di trovare una chiavetta all'interno del ghiaccio|Magari potrei cercare un PC per vedere il suo contenuto."
 
         if GLOB.Stanza == "AulaMagna":
-            testo = "Mmmm.|Forse la prossima chiavetta a qualcosa a che fare con una sedia."
+            testo = "Mmmm.|Forse la prossima chiavetta ha qualcosa a che fare con una sedia."
 
         if GLOB.Stanza == "1A":
             testo = "Pensavo piu' difficile...|Ad ogni modo che cos'e' quella strana cosa tra i gessetti della lavagna?!?"
