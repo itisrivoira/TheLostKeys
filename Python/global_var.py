@@ -1,5 +1,4 @@
-import random
-import pygame
+import pygame, os, random
 from pygame.locals import *
 
 TITLE = "The Lost Keys"
@@ -192,6 +191,11 @@ def setResources():
     score_seconds = 0
 
     # Apri il file in modalita lettura
+    if not os.path.exists("score.txt"):
+        with open('score.txt', 'w') as f:
+            f.write("Record:\n0")
+        f.close()
+        
     with open('score.txt', 'r') as f:
         f_contest = f.readlines()
         Record = f_contest[1]
