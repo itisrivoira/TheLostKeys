@@ -9,6 +9,15 @@ def testa():
     def AggiungiChiavetta():
         
         main.Gui.inventory_sound.play()
+        
+        if main.player.evento == GLOB.RandomKey:
+            var = GLOB.RandomRoom
+            GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
+            GLOB.inventario[GLOB.RandomKey] = (GLOB.chiavette[var][2], False, "Sono pesante, andavo di moda negli anni '80 / '90, e con me almeno una volta ci hai parlato, che cosa sono?")
+            main.player.evento = None
+            return
+        
+        
         if main.player.evento == "chiavetta-1":
             var = "Fisica"
             GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
@@ -90,12 +99,8 @@ def testa():
         if main.player.evento == "chiavetta-12":
             var = "Corridoio"
             GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
-            GLOB.inventario["chiavetta-12"] = (GLOB.chiavette[var][2], False, "Sono pesante, andavo di moda negli anni '80 / '90, e con me almeno una volta ci hai parlato, che cosa sono?")
+            GLOB.inventario["chiavetta-12"] = (GLOB.chiavette[var][2], False, "Proprietario: Marco Rolando - Files: rollysong.mp3")
             main.player.evento = None
-            
-            
-            
-
 
 
 
@@ -186,7 +191,7 @@ def testa():
             condizione = False
             
             
-        if GLOB.Stanza == "Corridoio" and GLOB.Piano == "3-SecondoPiano" and ControllaContenuto("chiavetta-10"):
+        if GLOB.Stanza == "Corridoio" and GLOB.Piano == "3-SecondoPiano" and ControllaContenuto("chiavetta-10") or GLOB.RandomKey == "chiavetta-10":
             condizione = False
             
             risposte = ["Sembra un distributore di merendine", "Cosa farei per un duplo", "Strano che non sia ancora stata distrutta, sarebbero state merendine gratis..."]
@@ -195,7 +200,7 @@ def testa():
             d.stampa()
             
             
-        if GLOB.Stanza == "Archivio" and ControllaContenuto("chiavetta-12"):
+        if GLOB.Stanza == "Archivio" and ControllaContenuto(GLOB.RandomKey):
             condizione = False
             
 
@@ -237,7 +242,7 @@ def testa():
         if GLOB.Stanza == "LabInfo":
             testo = "Scratch... che ricordi, chissa' se tra questi pc ce ne sarà uno funzionante..."
                 
-        if GLOB.Stanza == "Corridoio":
+        if GLOB.Stanza == "Corridoio" and GLOB.Piano == "3-SecondoPiano":
             
             if Cerca("chiavetta-10"):
                 main.player.evento = "chiavetta-12"
@@ -247,7 +252,7 @@ def testa():
             testo = "Si, evvai!!| Oltretutto inserendo il codice 4096 nella macchinetta, mi ha dato un'altra chiavetta!|Andiamo ad analizzarne il contenuto!"
                 
         if GLOB.Stanza == "Archivio":
-            testo = "Ce l'ho fatta!!.|Oltretutto c'è pure uno strano codice dietro al foglio...|C'è scritto: '"+str(GLOB.codice)+"'"
+            testo = "Ce l'ho fatta!!|Oltretutto c'è pure uno strano codice dietro al foglio...|C'è scritto: '"+str(GLOB.codice)+"'"
             
             GLOB.ShowCodice = True
         

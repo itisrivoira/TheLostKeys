@@ -180,6 +180,7 @@ class Dialoghi():
 		self.keySound.set_volume(0.01*GLOB.AU)
   
 		self.flag_skippa = True
+		self.iFinished = False
 
 	def __effetto_testo(self):
     		
@@ -311,6 +312,10 @@ class Dialoghi():
 			self.ritardo = 0
 		else:
 			self.ritardo += self.text_speed
+   
+   
+		if self.contatore >= len(self.full_description):
+			self.iFinished = True
 
 		
 		#print("Delay: "+str(round(self.delay, 1))+" | Intero: "+str(int(self.delay+0.1))+" | Lunghezza: "+str(len(self.descr))+" | Contatore: "+str(self.contatore)+" | Max: "+str((self.delay+1)))
@@ -365,11 +370,12 @@ class Dialoghi():
         
 					if event.key == pygame.K_SPACE or event.key == pygame.K_ESCAPE:
         
-						if self.flag_skippa:
+						if self.flag_skippa and not self.iFinished:
 							self.__init__(self.personaggio, self.full_description, 5)
 							self.flag_skippa = False
+							self.CanIplay_sound = False
 						
-						elif not self.flag_skippa:
+						else:
 							possoIniziare = True
 
 				#delay.ActualState()

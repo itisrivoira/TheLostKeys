@@ -162,6 +162,7 @@ def setResources():
 
     global enigmi_da_risolvere, enigmi_risolti
     global chiavette, chiavetta_start, chiavetta_end
+    global RandomKey, RandomRoom
     global oggetti, oggetti_start, oggetti_end
 
     global Default_Character, PlayerCanMove, PlayerCanRun, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
@@ -211,6 +212,11 @@ def setResources():
     chiavetta_start = 140
     molt_chiavetta = 2
 
+
+    RandomKey = "chiavetta-"+str(random.randint(1, 12))
+    print("Chiavetta Random:",RandomKey)
+
+
     for i in enigmi_da_risolvere:
         tentativo[i] = 0
         
@@ -220,9 +226,14 @@ def setResources():
             chiavette[i] = (chiavetta_start, True, immagine)
             chiavetta_start += 1
             chiavetta_end = chiavetta_start
+            
+            if "chiavetta-"+str(enigmi_da_risolvere.index(i) + 1) == RandomKey:
+                RandomRoom = i
+                
             print( "| "+str(i)+": " +str(chiavette[i][0])+" - "+str(chiavette[i][1])+ "| - chiavetta-"+str(enigmi_da_risolvere.index(i) + 1))
 
     chiavetta_start = 140
+
     
 
 

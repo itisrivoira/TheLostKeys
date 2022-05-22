@@ -538,7 +538,7 @@ def intro():
     
     video = Video("video/Presentazione.mp4")
     video.set_size((GLOB.screen_width, GLOB.screen_height))
-    delay_video = Delay(video.duration - 1.38, SetVideoToFalse)
+    delay_video = Delay(video.duration - 3.8, SetVideoToFalse)
     
     print(video.duration)
     
