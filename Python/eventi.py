@@ -191,7 +191,7 @@ def testa():
             condizione = False
             
             
-        if GLOB.Stanza == "Corridoio" and GLOB.Piano == "3-SecondoPiano" and ControllaContenuto("chiavetta-10") or GLOB.RandomKey == "chiavetta-10":
+        if GLOB.Stanza == "Corridoio" and GLOB.Piano == "3-SecondoPiano" and ControllaContenuto("chiavetta-10"):
             condizione = False
             
             risposte = ["Sembra un distributore di merendine", "Cosa farei per un duplo", "Strano che non sia ancora stata distrutta, sarebbero state merendine gratis..."]
