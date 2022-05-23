@@ -540,8 +540,6 @@ def intro():
     video.set_size((GLOB.screen_width, GLOB.screen_height))
     delay_video = Delay(video.duration - 3.8, SetVideoToFalse)
     
-    print(video.duration)
-    
     VideoFinito = False
     while not VideoFinito:
         

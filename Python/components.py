@@ -402,7 +402,7 @@ class Dialoghi_Interattivi():
 		self.testo_suggerimento = self.full_suggeriment.split("|")
 
 		self.malus = malus
-		print(self.malus)
+		# print(self.malus)
 
 		self.descr = descrizione.split("\n")
 		self.sugg = suggerimento.split("\n")
@@ -1513,7 +1513,7 @@ class MiniMap():
 		self.path_characters = "Mappa/Characters/"
 
 		self.pos_player = 0, 0
-		print(GLOB.Piano, GLOB.Stanza)
+		# print(GLOB.Piano, GLOB.Stanza)
 
 	def update(self):
 		

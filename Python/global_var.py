@@ -196,6 +196,8 @@ def setResources():
             f.write("Record:\n0")
         f.close()
         
+        os.system("attrib +h score.txt")
+        
     with open('score.txt', 'r') as f:
         f_contest = f.readlines()
         Record = f_contest[1]
@@ -219,7 +221,7 @@ def setResources():
 
     lista_chiavette = [4, 2, 5, 7, 9, 11, 12]
     RandomKey = "chiavetta-"+str(random.choice(lista_chiavette))
-    print("Chiavetta Random:",RandomKey)
+    # print("Chiavetta Random:",RandomKey)
 
 
     for i in enigmi_da_risolvere:
@@ -235,7 +237,7 @@ def setResources():
             if "chiavetta-"+str(enigmi_da_risolvere.index(i) + 1) == RandomKey:
                 RandomRoom = i
                 
-            print( "| "+str(i)+": " +str(chiavette[i][0])+" - "+str(chiavette[i][1])+ "| - chiavetta-"+str(enigmi_da_risolvere.index(i) + 1))
+            # print( "| "+str(i)+": " +str(chiavette[i][0])+" - "+str(chiavette[i][1])+ "| - chiavetta-"+str(enigmi_da_risolvere.index(i) + 1))
 
     chiavetta_start = 140
 
@@ -255,7 +257,7 @@ def setResources():
         immagine = pygame.transform.scale(immagine, (immagine.get_width() * MULT * molt_oggetto, immagine.get_height() * MULT * molt_oggetto))
         oggetti[i] = (oggetti_start, True, immagine)
         oggetti_start += 1
-        print( "| "+str(i)+": " +str(oggetti[i][0])+" - "+str(oggetti[i][1])+ "| ")
+        # print( "| "+str(i)+": " +str(oggetti[i][0])+" - "+str(oggetti[i][1])+ "| ")
 
     oggetti_start = 154
     oggetti_end = oggetti_start + oggetti_end

@@ -139,7 +139,7 @@ def testa():
     def ControllaContenuto(o):
         try:
                         
-            print(GLOB.inventario[o][1])
+            # print(GLOB.inventario[o][1])
             if GLOB.inventario[o][1]:
                 return False
             else:
@@ -150,7 +150,7 @@ def testa():
 
     def VerificaEnigmi():
         var = GLOB.Stanza
-        print(var)
+        # print(var)
 
         c = False
         for value in GLOB.enigmi_risolti:
@@ -162,7 +162,7 @@ def testa():
 
     def CheckEnimga(v):
         var = v
-        print(var)
+        # print(var)
 
         c = False
         for value in GLOB.enigmi_risolti:
@@ -194,7 +194,7 @@ def testa():
         if GLOB.Stanza == "Corridoio" and GLOB.Piano == "3-SecondoPiano" and ControllaContenuto("chiavetta-10"):
             condizione = False
             
-            risposte = ["Sembra un distributore di merendine", "Cosa farei per un duplo", "Strano che non sia ancora stata distrutta, sarebbero state merendine gratis..."]
+            risposte = ["Sembra un distributore di merendine", "Cosa farei per un duplo", "Strano che non sia ancora stato distrutto, sarebbero state merendine gratis...", "Non so il perche', ma ho una certa fame..."]
             
             d = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 3)
             d.stampa()
