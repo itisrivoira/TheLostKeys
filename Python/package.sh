@@ -2,6 +2,7 @@
 
 # Pacchetti da installare
 
+sudo apt-get install pip
 pip3 install pygame
 pip3 install pygame --version
 pip3 install pandas
