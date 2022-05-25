@@ -7,3 +7,8 @@ Per avviare il programma fare
 
 # Moduli richiesti:
 ## - Pandas `pip3 install pandas`
+
+## - Ffpyplayer pip3 install ffpyplayer
+
+## - Mediainfo pip3 install pymediainfo
+## sudo apt-get install -y libmediainfo-dev
