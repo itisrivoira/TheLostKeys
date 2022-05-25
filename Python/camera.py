@@ -1,4 +1,4 @@
-import pygame
+import pygame, random
 import main
 import global_var as GLOB
 
@@ -30,6 +30,10 @@ class Cam():
 
     def getPositionY(self):
         return self.y
+
+    def screen_shake(self):
+        intervallo = 5
+        self.y = self.y + random.randint(-intervallo, intervallo)
 
         
     def update(self):

@@ -56,12 +56,12 @@ Drop_Frames = False
 
 
 # -- MOSTRO
-MonsterCanSpawn = False
+MonsterCanSpawn = True
 ShowMonsterRange = False
 MonsterCanAttack = True
 
-Monster_speed = 1 * MULT / Delta_Time
-MonsterRun_speed = 1.4
+Monster_speed = 0.8 * MULT / Delta_Time
+MonsterRun_speed = 1.2
 
 Player_speed = 2 * MULT / Delta_Time
 PlayerRun_speed = 3
@@ -75,6 +75,11 @@ ShowComand = True
 PlayerWalkingO = []
 PlayerWalkingVD = []
 PlayerWalkingVU = []
+
+MonsterWO = []
+MonsterWVD = []
+MonsterWVU= []
+MonsterAngry = []
 
 # STATISTICHE
 #  Chimica - Storia - Inglese - Fisica - Matematica - Informatica - Italiano - Sistemi - TPSIT

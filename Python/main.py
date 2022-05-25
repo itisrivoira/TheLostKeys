@@ -255,7 +255,7 @@ def disegna():
 
     player.update()
 
-    if GLOB.MonsterCanSpawn:
+    if GLOB.MonsterCanSpawn and not GLOB.isPaused:
         mostro.update()
 
     collisions.render_objects((0,0))
@@ -265,8 +265,8 @@ def disegna():
     player.load_playerSurface()
 
 
-    if GLOB.MonsterCanSpawn:
-        mostro.load_monsterSurface()
+    # if GLOB.MonsterCanSpawn:
+    #     mostro.load_monsterSurface()
 
     animazione.disegna()
 
