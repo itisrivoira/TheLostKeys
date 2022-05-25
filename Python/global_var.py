@@ -1,5 +1,4 @@
-import random
-import pygame
+import pygame, os, random
 from pygame.locals import *
 
 TITLE = "The Lost Keys"
@@ -25,7 +24,6 @@ AU = 5
 
 # rapporto musica del gioco
 MU = 1
-
 
 # Timer del gioco
 Timer = 10
@@ -163,6 +161,7 @@ def setResources():
 
     global enigmi_da_risolvere, enigmi_risolti
     global chiavette, chiavetta_start, chiavetta_end
+    global RandomKey, RandomRoom
     global oggetti, oggetti_start, oggetti_end
 
     global Default_Character, PlayerCanMove, PlayerCanRun, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
@@ -192,6 +191,13 @@ def setResources():
     score_seconds = 0
 
     # Apri il file in modalita lettura
+    if not os.path.exists("score.txt"):
+        with open('score.txt', 'w') as f:
+            f.write("Record:\n0")
+        f.close()
+        
+        os.system("attrib +h score.txt")
+        
     with open('score.txt', 'r') as f:
         f_contest = f.readlines()
         Record = f_contest[1]
@@ -212,6 +218,12 @@ def setResources():
     chiavetta_start = 140
     molt_chiavetta = 2
 
+
+    lista_chiavette = [4, 2, 5, 7, 9, 11, 12]
+    RandomKey = "chiavetta-"+str(random.choice(lista_chiavette))
+    # print("Chiavetta Random:",RandomKey)
+
+
     for i in enigmi_da_risolvere:
         tentativo[i] = 0
         
@@ -221,9 +233,14 @@ def setResources():
             chiavette[i] = (chiavetta_start, True, immagine)
             chiavetta_start += 1
             chiavetta_end = chiavetta_start
-            print( "| "+str(i)+": " +str(chiavette[i][0])+" - "+str(chiavette[i][1])+ "| - chiavetta-"+str(enigmi_da_risolvere.index(i) + 1))
+            
+            if "chiavetta-"+str(enigmi_da_risolvere.index(i) + 1) == RandomKey:
+                RandomRoom = i
+                
+            # print( "| "+str(i)+": " +str(chiavette[i][0])+" - "+str(chiavette[i][1])+ "| - chiavetta-"+str(enigmi_da_risolvere.index(i) + 1))
 
     chiavetta_start = 140
+
     
 
 
@@ -240,7 +257,7 @@ def setResources():
         immagine = pygame.transform.scale(immagine, (immagine.get_width() * MULT * molt_oggetto, immagine.get_height() * MULT * molt_oggetto))
         oggetti[i] = (oggetti_start, True, immagine)
         oggetti_start += 1
-        print( "| "+str(i)+": " +str(oggetti[i][0])+" - "+str(oggetti[i][1])+ "| ")
+        # print( "| "+str(i)+": " +str(oggetti[i][0])+" - "+str(oggetti[i][1])+ "| ")
 
     oggetti_start = 154
     oggetti_end = oggetti_start + oggetti_end

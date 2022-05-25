@@ -22,7 +22,7 @@ app.get('/rank', (req, res) => {
 		database: 'TheLostKeys'
 	});
 
-	const query = "SELECT * FROM partita ORDER BY Punteggio DESC"; 
+	const query = "SELECT * FROM partita ORDER BY Punteggio DESC";
 
 	con.query(query, (err, result) => {
 		if (err) {
@@ -107,7 +107,7 @@ app.post('/upload', (req, res) => {
 
 		}
 
-		
+
 	});
 })
 

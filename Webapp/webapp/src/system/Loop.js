@@ -152,7 +152,7 @@ const Loop = (entities, { input }) => {
 
 				if (ev.evType == 'FinalDoor') {
 					let done = JSON.parse(sessionStorage.getItem('done'));
-					if (done.length === 13)
+					if (done.length >= 13)
 						room.name = "Archivio1";
 				}
 

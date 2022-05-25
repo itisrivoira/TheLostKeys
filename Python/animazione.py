@@ -1,46 +1,7 @@
 import pygame, sys
 import global_var as GLOB
+from components import Delay
 import main
-
-class Delay():
-    def __init__(self, sec, event):
-        self.__min = 0
-        self.__max = sec * GLOB.FPS
-        self.__increment = 1
-        self.__function = event
-        self.__flag = True
-        self.__times = 0
-
-    # | Avvia il delay -> Poi si interromperà |
-    def Start(self):
-        if self.__flag:
-            self.__min += self.__increment
-
-            if int(self.__min) >= self.__max:
-                self.__function()
-                self.__flag = False
-
-    # | Restarta il delay |
-    def ReStart(self):
-        if not self.__flag:
-            self.__min = 0
-            self.__flag = True
-
-    # | Imposta il delay a infinito |
-    def Infinite(self):
-        self.ReStart()
-        self.Start()
-
-    def TotTimes(self, val):
-        if self.__times <= val:
-            self.ReStart()
-            self.Start()
-            self.__times += 1
-
-    # | Stampa lo stato attuale del delay |
-    def ActualState(self):
-        print("| Current Second: %d | Max Seconds: %d | Function: %s |" %(self.__min/GLOB.FPS, self.__max/GLOB.FPS, self.__function))
-
 
 
 class Transizione():
@@ -107,7 +68,7 @@ class Transizione():
                     main.cam.x = main.stanze.pos_portaC[0] * GLOB.MULT
                     main.cam.y = main.stanze.pos_portaC[1] * GLOB.MULT
                     
-                    print(main.stanze.pos_portaP, main.stanze.pos_portaC)
+                    # print(main.stanze.pos_portaP, main.stanze.pos_portaC)
 
             if self.val_sgrana >= 310 or self.val_scurisci >= 255:
                 self.__loadImagesANDconvert()

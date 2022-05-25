@@ -818,11 +818,15 @@ def game_win():
     if int(GLOB.Record) < int(GLOB.score):
 
         GLOB.Record = GLOB.score
+        
+        os.system("attrib -h score.txt")
 
         with open('score.txt', 'w') as f:
             f.write("Record:\n")
             f.write(str(GLOB.Record))
             f.close()
+            
+        os.system("attrib +h score.txt")
             
     while not restarta:
 

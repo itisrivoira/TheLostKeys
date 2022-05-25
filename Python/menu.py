@@ -1,11 +1,11 @@
 import pygame, sys, os, time, random
 from components import Button, Bar, Delay
-from pygame import MOUSEBUTTONDOWN, mixer
+from pygame import mixer
 import global_var as GLOB
 
 from pyvidplayer import Video
-import main, animazione
 from global_var import screen
+import main
 from pioggia import Rain
 
 pygame.init()
@@ -16,11 +16,8 @@ pygame.init()
 
 """
 
-pygame.display.set_caption(GLOB.TITLE)
 
-
-
-def get_font(size): # Returns Press-Start-2P in the desired size
+def get_font(size):
     return pygame.font.Font("font/font.ttf", size)
 
 def play():
@@ -425,11 +422,6 @@ def main_menu():
     mixer.music.set_volume(0.01*GLOB.AU)
     mixer.music.play(-1)	# La setto a -1 che indica un loop quindi a infinito
 
-    # musica = mixer.Sound("suoni/musica1.wav")
-    # musica.set_volume(0.2*GLOB.MU)
-    # musica.stop()
-    # musica.play(-1)	# La setto a -1 che indica un loop quindi a infinito
-
     BG_School = pygame.image.load("assets/ScuolaHorror.png").convert()
     BG_School = pygame.transform.scale(BG_School, (BG_School.get_width()*GLOB.MULT/4,BG_School.get_height()*GLOB.MULT/4))
 
@@ -489,6 +481,13 @@ def main_menu():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+                
+            if event.type == pygame.KEYDOWN:
+    
+                if event.key == pygame.K_F2:
+                    mixer.music.stop()
+                    intro()
+                
             if event.type == pygame.MOUSEBUTTONDOWN:
                 button_sound = mixer.Sound("suoni/menu-sound.wav")
                 button_sound.set_volume(0.16*GLOB.AU)
@@ -519,41 +518,40 @@ def main_menu():
 
             screen.blit(tuono, (0, 0))
         
-        clock.tick(GLOB.FPS) # setto i FramesPerSecond
+        clock.tick(GLOB.FPS)
 
         pygame.display.flip()
 
 
 
-video = Video("video/Presentazione.mp4")
-video.set_size((GLOB.screen_width, GLOB.screen_height))
-
 def SetVideoToFalse():
-    global VideoFinito
-    video.close()
+    global VideoFinito, video
     VideoFinito = True
-    
-delay_video = Delay(video.duration - 1.1, SetVideoToFalse)
+    video.close()
+
 
 def intro():
-    global VideoFinito
-    VideoFinito = False
+    global VideoFinito, video
     
+    video = Video("video/Presentazione.mp4")
+    video.set_size((GLOB.screen_width, GLOB.screen_height))
+    delay_video = Delay(video.duration - 3.8, SetVideoToFalse)
+    
+    VideoFinito = False
     while not VideoFinito:
-        
-        delay_video.Start()
-        video.draw(GLOB.screen, (0, 0))
         
         for event in pygame.event.get():
             
-            if event.type == pygame.KEYDOWN or event.type == MOUSEBUTTONDOWN:
+            if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.QUIT:
                 SetVideoToFalse()
                 
+        delay_video.Start()
+        video.draw(GLOB.screen, (0, 0))
+                
         pygame.time.Clock().tick(GLOB.FPS)
-        pygame.display.update()
+        pygame.display.flip()
                 
     main_menu()
-    
-    
-    
+
+
 intro()

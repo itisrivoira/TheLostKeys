@@ -1,7 +1,7 @@
 import random
 import global_var as GLOB
 import pygame, sys, os, re
-from pygame import K_ESCAPE, mixer
+from pygame import mixer
 
 """
     ---  Classe genera un pulsante a schermo un pulsante cliccabile	---
@@ -107,6 +107,7 @@ class Dialoghi():
 	def __init__(self, personaggio, descrizione, text_speed):
 		
 		self.personaggio = personaggio
+		self.full_description = descrizione
 		self.descr = descrizione
 		self.descr = descrizione.split("\n")
 		self.descr = "".join(self.descr)
@@ -177,6 +178,9 @@ class Dialoghi():
 
 		self.keySound = mixer.Sound("suoni/char-sound.wav")
 		self.keySound.set_volume(0.01*GLOB.AU)
+  
+		self.flag_skippa = True
+		self.iFinished = False
 
 	def __effetto_testo(self):
     		
@@ -308,6 +312,10 @@ class Dialoghi():
 			self.ritardo = 0
 		else:
 			self.ritardo += self.text_speed
+   
+   
+		if self.contatore >= len(self.full_description):
+			self.iFinished = True
 
 		
 		#print("Delay: "+str(round(self.delay, 1))+" | Intero: "+str(int(self.delay+0.1))+" | Lunghezza: "+str(len(self.descr))+" | Contatore: "+str(self.contatore)+" | Max: "+str((self.delay+1)))
@@ -352,15 +360,23 @@ class Dialoghi():
 				self.cooldown_interm = 0
 
 			for event in pygame.event.get():
-				keys_pressed = pygame.key.get_pressed()
     
 				if event.type == pygame.QUIT:
 					pygame.quit()
 					sys.exit()
 
     				
-				if event.type == pygame.MOUSEBUTTONDOWN or keys_pressed[pygame.K_SPACE] or keys_pressed[K_ESCAPE]:
-					possoIniziare = True
+				if event.type == pygame.KEYDOWN:
+        
+					if event.key == pygame.K_SPACE or event.key == pygame.K_ESCAPE:
+        
+						if self.flag_skippa and not self.iFinished:
+							self.__init__(self.personaggio, self.full_description, 5)
+							self.flag_skippa = False
+							self.CanIplay_sound = False
+						
+						else:
+							possoIniziare = True
 
 				#delay.ActualState()
 
@@ -386,7 +402,7 @@ class Dialoghi_Interattivi():
 		self.testo_suggerimento = self.full_suggeriment.split("|")
 
 		self.malus = malus
-		print(self.malus)
+		# print(self.malus)
 
 		self.descr = descrizione.split("\n")
 		self.sugg = suggerimento.split("\n")
@@ -1218,13 +1234,13 @@ class GUI():
 		else:
 			self.recupero = (5 - self.speed) / GLOB.Delta_Time
 
-		moltiplicatore =  1.5
+		moltiplicatore =  0.5
 
 		if GLOB.PlayerIsRunning and flag:
-			self.max -= self.speed * moltiplicatore
-		
+			self.max -= (self.speed * moltiplicatore) * GLOB.MULT
+ 		
 		elif not GLOB.PlayerIsRunning and self.max < self.bar.get_width() - GLOB.MULT:
-			self.max += self.recupero
+			self.max += (self.recupero * moltiplicatore) * GLOB.MULT / 2
 
 
 		if self.max > self.bar.get_width() - GLOB.MULT - 1:
@@ -1349,10 +1365,6 @@ class GUI():
 			posx = 37 * GLOB.MULT
 
 
-		
-		if self.max <= 0:
-			pygame.draw.rect(GLOB.screen, "#ad5a5a", self.barra_esaurita)
-
 
 		def disegna():
     		
@@ -1368,6 +1380,10 @@ class GUI():
 			CNAME_POS = (posx, GLOB.screen_height - 20 * GLOB.MULT + altezza)
 
 			pygame.draw.rect(GLOB.screen, self.color_bar, self.barra_stamina)
+   
+			if self.max <= 0:
+				pygame.draw.rect(GLOB.screen, "#ad5a5a", self.barra_esaurita)
+    
 			GLOB.screen.blit(self.bar, (84 * GLOB.MULT, GLOB.screen_height - 22 * GLOB.MULT))
 
 			GLOB.screen.blit(CNAME_TEXT, CNAME_POS)
@@ -1497,7 +1513,7 @@ class MiniMap():
 		self.path_characters = "Mappa/Characters/"
 
 		self.pos_player = 0, 0
-		print(GLOB.Piano, GLOB.Stanza)
+		# print(GLOB.Piano, GLOB.Stanza)
 
 	def update(self):
 		
