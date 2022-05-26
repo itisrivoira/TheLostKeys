@@ -14,7 +14,7 @@ Player_proportion = 1 # Divisore della grandezza del giocatore
 FPS = 30 * Delta_Time
 
 # rapporto di proporzione allo schermo NON INFERIORE AD 1
-MULT = 4
+MULT = 3
 
 # rapporto offset telecamera dello schermo MAX 40
 Moff = 30
@@ -51,7 +51,10 @@ KeyPressed = ""
 Dialogo = False
 Enigma = False
 
-Fullscreen = True
+PlayerHasChangedRoom = False
+MonsterHasChangedRoom = False
+
+Fullscreen = False
 Drop_Frames = False
 
 Player_speed = 2 * MULT / Delta_Time
@@ -61,7 +64,10 @@ PlayerReset = False
 # -- MOSTRO
 MonsterCanSpawn = True
 ShowMonsterRange = False
-MonsterCanAttack = True
+MonsterCanAttack = False
+
+
+SecondDiffPos = 5
 
 Player_default_speed = Player_speed
 
@@ -127,7 +133,6 @@ pygame.display.set_icon(logo)
 
 def setCharacter():
     global Player_speed, Player_default_speed, PlayerRun_speed, scelta_char, scelta_rep
-    global Monster_speed, MonsterRun_speed, setMostro
     Player_speed = 2 * MULT / Delta_Time / Player_proportion
     Player_default_speed = Player_speed
 
@@ -152,13 +157,16 @@ def setCharacter():
 
     scelta_rep = "/" + scelta_char
 
-    # -- MOSTRO
-    Monster_speed = Player_speed - 0.8 * MULT / Delta_Time
-    MonsterRun_speed = PlayerRun_speed / 1.1
 
-    setMostro = True
+def setMonster():
+    global Monster_speed, MonsterRun_speed, Monster_default_speed
+    # -- MOSTRO
+    Monster_speed = Player_default_speed - 0.8 * MULT / Delta_Time
+    Monster_default_speed = Monster_speed
+    MonsterRun_speed = PlayerRun_speed / 1.05
 
 setCharacter()
+setMonster()
 
 
 
@@ -173,6 +181,8 @@ def setResources():
     global RandomKey, RandomRoom
     global oggetti, oggetti_start, oggetti_end
 
+    global MonsterActualFloor, MonsterActualRoom
+    
     global Default_Character, PlayerCanMove, PlayerCanRun, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
     global Piano, Stanza, Default_Map, Default_object, Default_collisions
 
@@ -297,5 +307,8 @@ def setResources():
     "right": False, 
             
     }
+    
+    MonsterActualRoom = Stanza
+    MonsterActualFloor = Piano
 
 setResources()

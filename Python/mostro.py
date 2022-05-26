@@ -2,7 +2,7 @@ import pygame, random, os, re
 from components import Delay
 import global_var as GLOB
 import main
-
+from pygame import mixer
 
 """
 
@@ -54,12 +54,9 @@ class Keeper():
         self.width = wh[0]
         self.height = wh[1]
         self.default_height = self.height
-        self.vel = GLOB.Monster_speed
         self.x, self.y = GLOB.screen.get_rect().center
         self.line_vector = pygame.math.Vector2(1, 0)
         self.angle = 90
-
-        self.default_speed = self.vel
 
         self.monster_ai_vel = 0.5
         self.default_monster_ai_vel = self.monster_ai_vel
@@ -79,7 +76,7 @@ class Keeper():
 
         self.flag_CanStartAttack = False
 
-        self.valore_distanza = 180 * GLOB.MULT
+        self.valore_distanza = 200 * GLOB.MULT
         self.setHitbox()
 
         self.__left_pressed = False
@@ -89,10 +86,11 @@ class Keeper():
 
         self.superfice = pygame.Surface((GLOB.screen_width, GLOB.screen_height))        
         
-        self.current_spriteWO = 0
-        self.current_spriteWVU = 0
-        self.current_spriteWVD = 0
-        self.current_spriteAngry = 0
+        self.start_valueAnimation = 0.7
+        self.current_spriteWO = self.start_valueAnimation
+        self.current_spriteWVU = self.start_valueAnimation
+        self.current_spriteWVD = self.start_valueAnimation
+        self.current_spriteAngry = self.start_valueAnimation
         
         self.Name_animationWVD = Folder_walkVD
         self.Name_animationWVU = Folder_walkVU
@@ -106,10 +104,42 @@ class Keeper():
         self.luce_image = pygame.image.load("assets/luce.png").convert_alpha()
         self.luce_image = pygame.transform.scale(self.luce_image, (self.char_w, self.char_h))
 
-        self.value_surface = 50 * GLOB.MULT
+        self.value_surface = 45 * GLOB.MULT
         self.transparenza = 40
-
+        
+        
         self.ICollide = False
+
+        self.collision_state = {
+            
+            "top": False,
+            "bottom": False,
+            "left": False,
+            "right": False,
+            
+        }
+        
+        self.Sound_Angry = mixer.Sound("suoni/AngryMonster.wav")
+
+
+        self.__setMovement()
+        
+        self.delay_movement = Delay(0.8, self.__setMovement)
+        
+        mult = 1.2
+        self.ombra = pygame.image.load("assets/ombra.png").convert_alpha()
+        self.ombra = pygame.transform.scale(self.ombra, (self.ombra.get_width()*GLOB.MULT/GLOB.Player_proportion * mult,self.ombra.get_height()*GLOB.MULT/GLOB.Player_proportion * mult))
+
+
+    def __setMovement(self):
+        
+        self.flag_movement = {
+            
+            "up": True,
+            "down": True,
+            "left": True,
+            "right": True,
+        }
         
         
 
@@ -122,11 +152,6 @@ class Keeper():
         self.monster_ai_brain = random.choice(lista_valori)
         
     def character_update(self, c):
-
-        if GLOB.setMostro:
-            self.vel = GLOB.Monster_speed
-            self.default_speed = self.vel
-            GLOB.setMostro = False
         
         if not GLOB.isPaused:
             self.current_spriteWO += 0.2 / GLOB.Delta_Time
@@ -134,30 +159,30 @@ class Keeper():
             self.current_spriteWVU += 0.2 / GLOB.Delta_Time
 
         if c == 1:
-            if self.current_spriteWO >= len( GLOB.PlayerWalkingO):
-                self.current_spriteWO = 0
+            if self.current_spriteWO >= len(GLOB.PlayerWalkingO):
+                self.current_spriteWO = self.start_valueAnimation
             
             immagine = GLOB.PlayerWalkingO[int(self.current_spriteWO)]
             self.image = pygame.image.load(Folder_walkO + "/" + immagine).convert_alpha()
     
         if c == 2:
             if self.current_spriteWO >= len(GLOB.PlayerWalkingO):
-                self.current_spriteWO = 0
+                self.current_spriteWO = self.start_valueAnimation
             
             immagine = pygame.image.load(Folder_walkO + "/" + GLOB.PlayerWalkingO[int(self.current_spriteWO)]).convert_alpha()
             immagine_flip = pygame.transform.flip(immagine, True, False)
             self.image = immagine_flip
             
-        if c == 3:
-            if self.current_spriteWVD >= len( GLOB.PlayerWalkingVD):
-                self.current_spriteWVD = 0
+        if c == 3 or c == 0:
+            if self.current_spriteWVD >= len(GLOB.PlayerWalkingVD):
+                self.current_spriteWVD = self.start_valueAnimation
             
             immagine = GLOB.PlayerWalkingVD[int(self.current_spriteWVD)]
             self.image = pygame.image.load(Folder_walkVD + "/" + immagine).convert_alpha()
             
         if c == 4:
-            if self.current_spriteWVU >= len( GLOB.PlayerWalkingVU):
-                self.current_spriteWVU = 0
+            if self.current_spriteWVU >= len(GLOB.PlayerWalkingVU):
+                self.current_spriteWVU = self.start_valueAnimation
             
             immagine = GLOB.PlayerWalkingVU[int(self.current_spriteWVU)]
             self.image = pygame.image.load(Folder_walkVU + "/" + immagine).convert_alpha()
@@ -169,9 +194,14 @@ class Keeper():
             if not GLOB.isPaused:
                 self.current_spriteAngry += 0.2 / GLOB.Delta_Time
             
-            if self.current_spriteAngry >= len(GLOB.MonsterAngry):
+            if self.current_spriteAngry >= len(GLOB.MonsterAngry) or self.monster_ai_brain != -1:
                 self.flag_CanStartAttack = True
                 self.current_spriteAngry = 0
+                self.Sound_Angry.stop()
+                
+            if self.current_spriteAngry >= 4 and self.current_spriteAngry < 4.2:
+                self.Sound_Angry.set_volume(0.4 * GLOB.AU)
+                self.Sound_Angry.play()
                 
             if self.current_spriteAngry >= 7:
                 main.cam.screen_shake()
@@ -181,11 +211,13 @@ class Keeper():
             
             
     def finish(self):
-        self.current_spriteAngry = 0
-        self.current_spriteWO = 0
-        self.current_spriteWVU = 0
-        self.current_spriteWVD = 0
-        self.character_update(3)
+        self.current_spriteAngry = self.start_valueAnimation
+        self.current_spriteWO = self.start_valueAnimation
+        self.current_spriteWVU = self.start_valueAnimation
+        self.current_spriteWVD = self.start_valueAnimation
+        
+        if self.monster_ai_brain != -1:
+            self.character_update(0)
         self.image = pygame.transform.scale(self.image, (self.char_w, self.char_h))
 
     def load_monsterSurface(self):
@@ -199,15 +231,32 @@ class Keeper():
 
         if GLOB.Debug:
             pygame.draw.rect(GLOB.screen, "Green", self.mesh, GLOB.MULT)
-            pygame.draw.rect(GLOB.screen, "Red", pygame.Rect((self.x + main.cam.getPositionX(), self.y + main.cam.getPositionY(), self.image.get_width(), self.image.get_height())), GLOB.MULT)
+            # pygame.draw.rect(GLOB.screen, "Red", pygame.Rect((self.x + main.cam.getPositionX(), self.y + main.cam.getPositionY(), self.image.get_width(), self.image.get_height())), GLOB.MULT)
 
 
 
     def update(self):
         radius = 360
+        
+        self.velocitaTilesM = round(((24 * GLOB.MULT) / GLOB.Monster_speed) / GLOB.FPS, 2)
+        self.velocitaTilesG = round(((24 * GLOB.MULT) / GLOB.Player_speed) / GLOB.FPS, 2)
+        
+        # self.diff = round(((self.x + main.cam.getPositionX() + self.y + main.cam.getPositionY()) * self.velocitaTilesM - ((main.player.x + main.player.y) * self.velocitaTilesG)) / GLOB.FPS, 2)
+        
+        self.line = pygame.draw.line(self.superfice, "Red", (self.mesh.centerx, self.mesh.centery), (main.player.mesh.centerx, main.player.mesh.centery), GLOB.MULT)
+        self.lung = round(((self.line.bottomright[0] / GLOB.MULT + self.line.bottomright[1] / GLOB.MULT) - (self.line.bottomleft[0] / GLOB.MULT + self.line.bottomleft[1] / GLOB.MULT)), 6)
+        self.diff = round((self.lung / GLOB.FPS) + 5 / GLOB.Delta_Time, 2)
+        
+        if not main.animazione.flag_room:
+            GLOB.SecondDiffPos = self.diff
+        
+        if GLOB.Debug:
+            print(self.diff)
 
         self.setHitbox()
-        
+        self.delay_movement.Start()
+
+            
         if self.monster_ai_brain:
             if self.monster_ai_brain == int(self.monster_ai_brain):
                 self.character_update(self.monster_ai_brain)
@@ -251,11 +300,11 @@ class Keeper():
             
             self.character_update(5)
             
-            if self.flag_CanStartAttack:
+            if self.flag_CanStartAttack and GLOB.MonsterCanAttack:
                 self.raggio_ai_brain = 0
                 self.monster_ai_brain = 0
                 self.height = 0
-                self.circle = pygame.draw.circle(self.superfice, "Red", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza, 0)
+                self.circle = pygame.draw.circle(self.superfice, "Red", (self.x + self.image.get_width()/2 + main.cam.getPositionX() + distanza[0], self.y + self.image.get_height()/2 + main.cam.getPositionY() + distanza[1]), self.valore_distanza, 0)
                 self.color_triangle = (255, 0, 0)
                 self.aggr = True
 
@@ -270,6 +319,8 @@ class Keeper():
             self.color_triangle = (255, 0, 0)
 
         self.image = pygame.transform.scale(self.image, (self.char_w, self.char_h))
+        
+        GLOB.screen.blit(self.ombra, (self.x - distanza[0] + 11.2 * GLOB.MULT + main.cam.getPositionX(), self.y-10*GLOB.MULT/GLOB.Player_proportion + main.cam.getPositionY()))
         GLOB.screen.blit(self.image, (self.x + main.cam.getPositionX(), self.y + main.cam.getPositionY()))
 
         if GLOB.ShowMonsterRange or GLOB.Debug:
@@ -283,27 +334,30 @@ class Keeper():
 
         if not self.aggr:
 
-            self.vel = self.default_speed
-
             if self.monster_ai_brain == 1.5:
                 self.direzione = "destra-basso"
                 self.angle = 180
+                self.Last_keyPressed = "Null"
 
             if self.monster_ai_brain == 2.5:
                 self.direzione = "sinistra-basso"
                 self.angle = 270
+                self.Last_keyPressed = "Null"
 
             if self.monster_ai_brain == 3.5:
                 self.direzione = "sinistra-alto"
                 self.angle = 0
+                self.Last_keyPressed = "Null"
 
             if self.monster_ai_brain == 4.5:
                 self.direzione = "destra-alto"
                 self.angle = 90
+                self.Last_keyPressed = "Null"
 
             
             if self.monster_ai_brain == 0:
                 self.direzione = "fermo"
+                self.Last_keyPressed = "Null"
             
             if self.monster_ai_brain == 1:
                 self.direzione = "destra"
@@ -322,80 +376,74 @@ class Keeper():
             
             if self.monster_ai_brain == 4:
                 self.direzione = "alto"
-                self.Last_keyPressed = "Top"
+                self.Last_keyPressed = "Up"
                 self.angle = 45
 
             # print(self.monster_ai_brain, self.direzione)
 
+
             # -- DESTRA --
             if ((self.monster_ai_brain == 1 or self.monster_ai_brain == 1.5 or self.monster_ai_brain == 4.5) and self.monster_ai_brain):
-                self.x += self.vel
+                self.x += GLOB.Monster_speed
                 self.setRightPress(True)
             else:
                 self.setRightPress(False)
 
             # -- SINISTRA --
             if ((self.monster_ai_brain == 2 or self.monster_ai_brain == 2.5 or self.monster_ai_brain == 3.5)):
-                self.x -= self.vel
+                self.x -= GLOB.Monster_speed
                 self.setLeftPress(True)
             else:
                 self.setLeftPress(False)
             
             # -- BASSO --
             if ((self.monster_ai_brain == 3 or self.monster_ai_brain == 1.5 or self.monster_ai_brain == 2.5)):
-                self.y += self.vel
+                self.y += GLOB.Monster_speed
                 self.setDownPress(True)
             else:
                 self.setDownPress(False)
 
             # -- ALTO --
             if ((self.monster_ai_brain == 4 or self.monster_ai_brain == 4.5 or self.monster_ai_brain == 3.5)):
-                self.y -= self.vel
+                self.y -= GLOB.Monster_speed
                 self.setUpPress(True)
             else:
                 self.setUpPress(False)
 
         
-        if self.aggr and self.circle.colliderect(main.player.hitbox) and not self.ICollide and not GLOB.isPaused:
-
-            self.vel = self.default_speed * GLOB.MonsterRun_speed
-
-            mv = ""
-
-            if main.player.Last_keyPressed != "Null":
-                mv = main.player.Last_keyPressed
-
-            if (main.player.Last_keyPressed == "Left" and main.player.Last_keyPressed != "Right") or self.mesh.right > main.player.mesh.right:
-                self.x -= self.vel
+        if self.aggr and self.circle.colliderect(main.player.hitbox) and not GLOB.isPaused:
+            
+            GLOB.Monster_speed = GLOB.Monster_default_speed * GLOB.MonsterRun_speed
+        
+            if self.mesh.right > main.player.mesh.right - 2 * GLOB.MULT and self.flag_movement["right"]:
+                self.x -= GLOB.Monster_speed
                 self.direzione = "sinistra"
-                
-            if self.mesh.right == main.player.mesh.right:
                 self.monster_ai_brain = 2
 
 
-            if (main.player.Last_keyPressed == "Right" and main.player.Last_keyPressed != "Left") or self.mesh.left < main.player.mesh.left:
-                self.x += self.vel
+            if self.mesh.left < main.player.mesh.left + 2 * GLOB.MULT and self.flag_movement["left"]:
+                self.x += GLOB.Monster_speed
                 self.direzione = "destra"
-
-
-            if self.mesh.left == main.player.mesh.left:
                 self.monster_ai_brain = 1
 
-            if (main.player.Last_keyPressed == "Up" and main.player.Last_keyPressed != "Down") or self.mesh.bottom > main.player.mesh.bottom:
-                self.y -= self.vel
-                self.direzione = "alto"
 
-            if self.mesh.bottom == main.player.mesh.bottom:
+            if self.mesh.bottom > main.player.mesh.bottom + 2 * GLOB.MULT and self.flag_movement["up"]:
+                self.y -= GLOB.Monster_speed
+                self.direzione = "alto"
                 self.monster_ai_brain = 4
 
-            if (main.player.Last_keyPressed == "Down" and main.player.Last_keyPressed != "Up") or self.mesh.top < main.player.mesh.top:
-                self.y += self.vel
-                self.direzione = "basso"
 
-            if self.mesh.top == main.player.mesh.top:
+            if self.mesh.top < main.player.mesh.top - 2 * GLOB.MULT and self.flag_movement["down"]:
+                self.y += GLOB.Monster_speed
+                self.direzione = "basso"
                 self.monster_ai_brain = 3
+                
+            
+            self.Last_keyPressed = "Null"
 
         else:
+            
+            GLOB.setMonster()
             
             self.flag_CanStartAttack = False
             self.aggr = False
@@ -461,38 +509,45 @@ class Keeper():
 
     def HasCollision(self, object):
         
-        def Confronta(value):   # Creo una funziona dato che la utilizzo piu' volte e se gli passo "x" fa una cosa mentre se gli passo "y" ne fa un'altra
-            
-            #self.finish()    # ogni volta che collido stoppo l'animazione del player
+        def Confronta(value):
+    
+            if value=="x":
 
-            if value=="x":  # confronto il valore passato
+                if self.mesh.right >= object.right:
+                    self.x += GLOB.Monster_speed + GLOB.MULT
+                    self.collision_state["right"] = True
+                    self.flag_movement["left"] = False
 
-                if self.mesh.right >= object.right:  # confronto se la posizione del player delle x è maggiore o uguale della posizione delle x dell'oggetto di cui ho collisione
-                    self.x += self.vel   # ogni volta che collido vado a settare la posizione del player indietro grazie alla sua velocità
-                    return True # ritorno un valore perchè dopo lo vado ad utilizzare
+                    
                 elif self.mesh.left <= object.left:
-                    self.x -= self.vel    # ogni volta che collido vado a settare la posizione del player indietro grazie alla sua velocità
-                    return False # ritorno un valore perchè dopo lo vado ad utilizzare
+                    self.x -= GLOB.Monster_speed + GLOB.MULT
+                    self.collision_state["left"] = True
+                    self.flag_movement["right"] = False
 
-            if value=="y":  # confronto il valore passato
 
-                if self.mesh.bottom >= object.bottom:  # confronto se la posizione del player delle y è maggiore o uguale della posizione delle y dell'oggetto di cui ho collisione
-                    self.y += self.vel    # ogni volta che collido vado a settare la posizione del player indietro grazie alla sua velocità
-                    return True # ritorno un valore perchè dopo lo vado ad utilizzare
+
+            if value=="y":
+
+                if self.mesh.bottom >= object.bottom:
+                    self.y += GLOB.Monster_speed + GLOB.MULT
+                    self.collision_state["bottom"] = True
+                    self.flag_movement["up"] = False
+                    
                 elif self.mesh.top <= object.top:
-                    self.y -= self.vel    # ogni volta che collido vado a settare la posizione del player indietro grazie alla sua velocità
-                    return False # ritorno un valore perchè dopo lo vado ad utilizzare
+                    self.y -= GLOB.Monster_speed + GLOB.MULT
+                    self.collision_state["top"] = True
+                    self.flag_movement["down"] = False
+
             
 
-        if self.mesh.colliderect(object):   # Metodo di pygame che confronta se due rettangoli collidono
+        if self.mesh.colliderect(object):
 
+            self.finish()
+            
+            self.delay_movement.ReStart()
+            
             self.ICollide = True
             
-            self.finish()
-
-            self.monster_ai_vel = 0.25
-
-            # Setto diverse variabili per non ripeterli nei confronti
             w = (self.Last_keyPressed == "Up")
             a = (self.Last_keyPressed == "Left")
             
@@ -506,63 +561,42 @@ class Keeper():
             c1 =  (self.getUpPress() and a or self.getDownPress() and a)
             d1 =  (self.getUpPress() and d or self.getDownPress() and d)
 
-            # print("\n\nSinistro o Destro and Sù: ",str(a1))
-            # print("Sinistro o Destro and Giù: ",str(b1))
-            # print("Alto o Basso and Sinistra: ",str(c1))
-            # print("Alto o Basso and Destra: ",str(d1))
 
-            # print("\nup: "+str(self.getUpPress())+" |down: "+str(self.getDownPress())+" |left: "+str(self.getLeftPress())+" |right: "+str(self.getRightPress())+"\n")
-            
-            if self.Last_keyPressed != "Null":  # Confronto se il giocatore è fermo o si sta muovendo
+            if self.Last_keyPressed != "Null":
 
-                if (a1 or b1) and (not c1 and not d1):  # se è stato premuto il pulsante destro/sinistro e NON quello alto o basso mentre si ha una collisione allora:
+                if (a1 or b1) and (not c1 and not d1):
 
-                    Confronta("x")  # richiamo la funzione
-
-                    if Confronta("x"):  # se la funzione mi ritorna True allora:
-                        self.setLeftPress(False)
-
-                        if self.aggr:
-                            self.setRightPress(True)
-                            self.monster_ai_brain = 1
-                    else:  # se la funzione mi ritorna False allora:
-                        self.setRightPress(False)
-
-                        if self.aggr:
-                            self.setLeftPress(True)
-                            self.monster_ai_brain = 2
-
-                    self.Last_keyPressed = "Null"   # Variabile usata per non dare errori dato che l'ultimo pulsante cliccato sono l'insieme di due in contemporanea
+                    Confronta("x")
+                    self.Last_keyPressed = "Null"
 
                     
-                if (c1 or d1) and (not a1 and not b1):  # se è stato premuto il pulsante alto/basso e NON con quello sinistro o destro mentre si ha una collisione allora:
+                if (c1 or d1) and (not a1 and not b1):
 
-                    Confronta("y")  # richiamo la funzione
-
-                    if Confronta("y"):  # se la funzione mi ritorna True allora:
-                        self.setUpPress(False)
-             
-                        if self.aggr:
-                            self.setDownPress(True)
-                            self.monster_ai_brain = 3
-                    else:  # se la funzione mi ritorna False allora:
-                        self.setDownPress(False)
-             
-                        if self.aggr:
-                            self.setUpPress(True)
-                            self.monster_ai_brain = 4
-                    self.Last_keyPressed = "Null"   # Variabile usata per non dare errori dato che l'ultimo pulsante cliccato sono l'insieme di due in contemporanea
+                    Confronta("y")
+                    self.Last_keyPressed = "Null"
                     
 
-                if (self.getRightPress() or self.getLeftPress() or a or d) and (not w and not s):   # Qua altri confronti con unicamente con un pulante a volta cliccato sinistra/destra
+                if (self.getRightPress() or self.getLeftPress() or a or d) and (not w and not s):
                     Confronta("x")
                 
-                if (self.getUpPress() or self.getDownPress() or w or s) and (not d and not a):   # Qua altri confronti con unicamente con un pulante a volta cliccato alto/basso
+                if (self.getUpPress() or self.getDownPress() or w or s) and (not d and not a):
                     Confronta("y")
             else:
                 Confronta("y")
                 Confronta("x")
-                #self.setAllkeys(None)
+            #self.setAllkeys(None)
+            
         else:
+            
             self.ICollide = False
+            
+            self.collision_state = {
+                
+                "top": False,
+                "bottom": False,
+                "left": False,
+                "right": False,
+                
+            }
+            
             self.monster_ai_vel = self.default_monster_ai_vel

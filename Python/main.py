@@ -25,6 +25,7 @@ def SetPlayer_speed():
     """
 
     GLOB.setCharacter()
+    GLOB.setMonster()
 
 def SetPlayer_sprite():
     global Folder_walkO, Folder_walkVD, Folder_walkVU
@@ -129,7 +130,7 @@ def inizializza():
 
     if GLOB.MonsterCanSpawn:
         global mostro
-        mostro = Keeper((200 * GLOB.MULT, 122 * GLOB.MULT), (20 * GLOB.MULT, 0.5 * GLOB.MULT))
+        mostro = Keeper((200 * GLOB.MULT, 122 * GLOB.MULT), (20 * GLOB.MULT, 0.4 * GLOB.MULT))
 
 
 def load_collisions(path):
@@ -258,7 +259,7 @@ def disegna():
 
     player.update()
 
-    if GLOB.MonsterCanSpawn:
+    if GLOB.MonsterCanSpawn and animazione.iFinished and GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
         mostro.update()
 
     collisions.render_objects((0,0))
@@ -267,7 +268,7 @@ def disegna():
 
     player.load_playerSurface()
 
-    if GLOB.MonsterCanSpawn:
+    if GLOB.MonsterCanSpawn and animazione.iFinished and GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
         mostro.load_monsterSurface()
 
     animazione.disegna()

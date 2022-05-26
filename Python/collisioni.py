@@ -125,7 +125,7 @@ class Map():
         if GLOB.Debug:
             pygame.draw.rect(GLOB.screen, (0,255,0), chunck_render, int(GLOB.MULT))
             
-            if GLOB.MonsterCanSpawn:
+            if GLOB.MonsterCanSpawn and GLOB.Stanza == GLOB.MonsterActualRoom:
                 pygame.draw.rect(GLOB.screen, (0,0,255), chunck_render_m, int(GLOB.MULT))
 
         for valore_y in range(len(lista)):

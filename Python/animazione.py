@@ -28,6 +28,36 @@ class Transizione():
 
         self.flag_caricamento = True
         self.__loadImagesANDconvert()
+        
+        self.flag_room = False
+        
+        self.setDelay()
+        
+        
+        
+    def setDelay(self):
+        if not self.flag_room:
+            self.delay_monsterRoom = Delay(GLOB.SecondDiffPos, self.ChangeRoom)
+            self.delay_monsterRoom.ReStart()
+        
+    def ChangeRoom(self):
+        if self.flag_room:
+            GLOB.PlayerHasChangedRoom = True
+            self.flag_room = False
+            self.delay_monsterRoom.ReStart()
+            
+            
+        if main.mostro.aggr and GLOB.PlayerHasChangedRoom:
+                        
+            main.mostro.x = main.stanze.pos_portaP[0] * GLOB.MULT - main.stanze.pos_portaC[0] * GLOB.MULT
+            main.mostro.y = main.stanze.pos_portaP[1] * GLOB.MULT - main.stanze.pos_portaC[1] * GLOB.MULT
+            
+            GLOB.MonsterHasChangedRoom = True
+            GLOB.MonsterActualRoom = GLOB.Stanza
+            GLOB.MonsterActualFloor = GLOB.Piano
+            
+        GLOB.PlayerHasChangedRoom = False
+        GLOB.MonsterHasChangedRoom = False
 
     def Start(self):
         self.__delay.Infinite()
@@ -46,6 +76,7 @@ class Transizione():
         
     def sgrana(self):
         self.val_caricamento += 0.5
+        
         if self.iFinished:
             self.flag_changeBg = True
 
@@ -67,6 +98,9 @@ class Transizione():
 
                     main.cam.x = main.stanze.pos_portaC[0] * GLOB.MULT
                     main.cam.y = main.stanze.pos_portaC[1] * GLOB.MULT
+                    
+                    self.setDelay()
+                    self.flag_room = True
                     
                     # print(main.stanze.pos_portaP, main.stanze.pos_portaC)
 
@@ -152,6 +186,9 @@ class Transizione():
         GLOB.screen.blit(VALUE_TEXT, VALUE_RECT)
 
     def disegna(self):
+        
+        self.delay_monsterRoom.Start()
+        
         if self.flag_caricamento:
             self.Start()
             if self.iFinished:

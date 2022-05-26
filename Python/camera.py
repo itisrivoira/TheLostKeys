@@ -34,7 +34,7 @@ class Cam():
     def screen_shake(self):
 
         if not GLOB.isPaused:
-            intervallo = 5
+            intervallo = 1 * GLOB.MULT
             random_value = random.randint(-intervallo, intervallo)
             self.y += random_value
             main.player.y += random_value
