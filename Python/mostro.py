@@ -54,7 +54,7 @@ class Keeper():
         self.width = wh[0]
         self.height = wh[1]
         self.default_height = self.height
-        self.vel = GLOB.Monster_speed * GLOB.MULT / GLOB.Delta_Time
+        self.vel = GLOB.Monster_speed
         self.x, self.y = GLOB.screen.get_rect().center
         self.line_vector = pygame.math.Vector2(1, 0)
         self.angle = 90
@@ -79,7 +79,7 @@ class Keeper():
 
         self.flag_CanStartAttack = False
 
-        self.valore_distanza = 220 * GLOB.MULT
+        self.valore_distanza = 180 * GLOB.MULT
         self.setHitbox()
 
         self.__left_pressed = False
@@ -105,7 +105,8 @@ class Keeper():
 
         self.luce_image = pygame.image.load("assets/luce.png").convert_alpha()
         self.luce_image = pygame.transform.scale(self.luce_image, (self.char_w, self.char_h))
-        
+
+        self.value_surface = 50 * GLOB.MULT
         self.transparenza = 40
 
         self.ICollide = False
@@ -113,7 +114,7 @@ class Keeper():
         
 
     def setHitbox(self):
-        self.hitbox = (self.x + 20 * GLOB.MULT + main.cam.getPositionX(),  self.y + 35 * GLOB.MULT + main.cam.getPositionY(), 16 * GLOB.MULT, 16 * GLOB.MULT)
+        self.hitbox = (self.x + 20 * GLOB.MULT /GLOB.Player_proportion + main.cam.getPositionX(),  self.y + 35 * GLOB.MULT /GLOB.Player_proportion + main.cam.getPositionY(), 15 * GLOB.MULT, 10 * GLOB.MULT)
         self.mesh = pygame.Rect(self.hitbox)
 
     def __setBrain(self):
@@ -121,10 +122,16 @@ class Keeper():
         self.monster_ai_brain = random.choice(lista_valori)
         
     def character_update(self, c):
+
+        if GLOB.setMostro:
+            self.vel = GLOB.Monster_speed
+            self.default_speed = self.vel
+            GLOB.setMostro = False
         
-        self.current_spriteWO += 0.2 / GLOB.Delta_Time
-        self.current_spriteWVD += 0.2 / GLOB.Delta_Time
-        self.current_spriteWVU += 0.2 / GLOB.Delta_Time
+        if not GLOB.isPaused:
+            self.current_spriteWO += 0.2 / GLOB.Delta_Time
+            self.current_spriteWVD += 0.2 / GLOB.Delta_Time
+            self.current_spriteWVU += 0.2 / GLOB.Delta_Time
 
         if c == 1:
             if self.current_spriteWO >= len( GLOB.PlayerWalkingO):
@@ -158,8 +165,9 @@ class Keeper():
         if c == 5 and not self.flag_CanStartAttack:
             
             self.monster_ai_brain = -1
-            
-            self.current_spriteAngry += 0.2 / GLOB.Delta_Time
+
+            if not GLOB.isPaused:
+                self.current_spriteAngry += 0.2 / GLOB.Delta_Time
             
             if self.current_spriteAngry >= len(GLOB.MonsterAngry):
                 self.flag_CanStartAttack = True
@@ -178,6 +186,22 @@ class Keeper():
         self.current_spriteWVU = 0
         self.current_spriteWVD = 0
         self.character_update(3)
+        self.image = pygame.transform.scale(self.image, (self.char_w, self.char_h))
+
+    def load_monsterSurface(self):
+        self.surface = pygame.Surface((self.char_w, self.value_surface), pygame.SRCALPHA)
+
+        self.surface.blit(self.image, (0, 0))
+        GLOB.screen.blit(self.surface, (self.x + main.cam.getPositionX(), self.y + main.cam.getPositionY()))
+
+        if self.aggr:
+            GLOB.screen.blit(self.luce_image, (self.x + main.cam.getPositionX(), self.y + main.cam.getPositionY()))
+
+        if GLOB.Debug:
+            pygame.draw.rect(GLOB.screen, "Green", self.mesh, GLOB.MULT)
+            pygame.draw.rect(GLOB.screen, "Red", pygame.Rect((self.x + main.cam.getPositionX(), self.y + main.cam.getPositionY(), self.image.get_width(), self.image.get_height())), GLOB.MULT)
+
+
 
     def update(self):
         radius = 360
@@ -231,24 +255,25 @@ class Keeper():
                 self.raggio_ai_brain = 0
                 self.monster_ai_brain = 0
                 self.height = 0
-                self.circle = pygame.draw.circle(self.superfice, "Red", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + main.cam.getPositionY() + distanza[1]), self.valore_distanza, 0)
-                self.color_rect = (255, 0, 255)
+                self.circle = pygame.draw.circle(self.superfice, "Red", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza, 0)
                 self.color_triangle = (255, 0, 0)
                 self.aggr = True
 
         else:
             self.height = self.default_height
-            self.delay_monster.Infinite()
+
+            if not GLOB.isPaused:
+                self.delay_monster.Infinite()
+            else:
+                self.monster_ai_brain = 0
+            
             self.color_triangle = (255, 0, 0)
-            self.color_rect = (255, 0, 0)
 
         self.image = pygame.transform.scale(self.image, (self.char_w, self.char_h))
         GLOB.screen.blit(self.image, (self.x + main.cam.getPositionX(), self.y + main.cam.getPositionY()))
 
-        if self.aggr:
-            GLOB.screen.blit(self.luce_image, (self.x + main.cam.getPositionX(), self.y + main.cam.getPositionY()))
-
-        GLOB.screen.blit(self.superfice, (0, 0))
+        if GLOB.ShowMonsterRange or GLOB.Debug:
+            GLOB.screen.blit(self.superfice, (0, 0))
 
             # pygame.draw.line(GLOB.screen, (5,80,255), start_line, end_line, 8)
             # pygame.draw.line(GLOB.screen, (255,80,5), start_line, end_line1, 8)
@@ -331,34 +356,50 @@ class Keeper():
                 self.setUpPress(False)
 
         
-        if self.aggr and self.circle.colliderect(main.player.hitbox) and not self.ICollide:
+        if self.aggr and self.circle.colliderect(main.player.hitbox) and not self.ICollide and not GLOB.isPaused:
 
             self.vel = self.default_speed * GLOB.MonsterRun_speed
+
+            mv = ""
+
+            if main.player.Last_keyPressed != "Null":
+                mv = main.player.Last_keyPressed
 
             if (main.player.Last_keyPressed == "Left" and main.player.Last_keyPressed != "Right") or self.mesh.right > main.player.mesh.right:
                 self.x -= self.vel
                 self.direzione = "sinistra"
+                
+            if self.mesh.right == main.player.mesh.right:
                 self.monster_ai_brain = 2
+
 
             if (main.player.Last_keyPressed == "Right" and main.player.Last_keyPressed != "Left") or self.mesh.left < main.player.mesh.left:
                 self.x += self.vel
                 self.direzione = "destra"
+
+
+            if self.mesh.left == main.player.mesh.left:
                 self.monster_ai_brain = 1
 
             if (main.player.Last_keyPressed == "Up" and main.player.Last_keyPressed != "Down") or self.mesh.bottom > main.player.mesh.bottom:
                 self.y -= self.vel
                 self.direzione = "alto"
+
+            if self.mesh.bottom == main.player.mesh.bottom:
                 self.monster_ai_brain = 4
 
             if (main.player.Last_keyPressed == "Down" and main.player.Last_keyPressed != "Up") or self.mesh.top < main.player.mesh.top:
                 self.y += self.vel
                 self.direzione = "basso"
+
+            if self.mesh.top == main.player.mesh.top:
                 self.monster_ai_brain = 3
 
         else:
             
             self.flag_CanStartAttack = False
             self.aggr = False
+            # self.monster_ai_brain = -1
 
 
         # GLOB.screen.blit(self.image, (self.x + cam.getPositionX(), self.y + cam.getPositionY()))
@@ -450,8 +491,6 @@ class Keeper():
             self.finish()
 
             self.monster_ai_vel = 0.25
-
-            pygame.draw.rect(GLOB.screen, "Green", self.mesh, 1)
 
             # Setto diverse variabili per non ripeterli nei confronti
             w = (self.Last_keyPressed == "Up")

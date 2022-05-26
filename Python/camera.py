@@ -32,10 +32,12 @@ class Cam():
         return self.y
 
     def screen_shake(self):
-        intervallo = 5
-        random_value = random.randint(-intervallo, intervallo)
-        self.y += random_value
-        main.player.y += random_value
+
+        if not GLOB.isPaused:
+            intervallo = 5
+            random_value = random.randint(-intervallo, intervallo)
+            self.y += random_value
+            main.player.y += random_value
 
         
     def update(self):

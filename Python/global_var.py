@@ -26,7 +26,7 @@ AU = 5
 MU = 1
 
 # Timer del gioco
-Timer = 10
+Timer = 15
 
 Scelta = 0
 Cam_visible = False
@@ -54,18 +54,14 @@ Enigma = False
 Fullscreen = True
 Drop_Frames = False
 
+Player_speed = 2 * MULT / Delta_Time
+PlayerRun_speed = 3
+PlayerReset = False
 
 # -- MOSTRO
 MonsterCanSpawn = True
 ShowMonsterRange = False
 MonsterCanAttack = True
-
-Monster_speed = 0.8 * MULT / Delta_Time
-MonsterRun_speed = 1.2
-
-Player_speed = 2 * MULT / Delta_Time
-PlayerRun_speed = 3
-PlayerReset = False
 
 Player_default_speed = Player_speed
 
@@ -131,6 +127,7 @@ pygame.display.set_icon(logo)
 
 def setCharacter():
     global Player_speed, Player_default_speed, PlayerRun_speed, scelta_char, scelta_rep
+    global Monster_speed, MonsterRun_speed, setMostro
     Player_speed = 2 * MULT / Delta_Time / Player_proportion
     Player_default_speed = Player_speed
 
@@ -155,8 +152,15 @@ def setCharacter():
 
     scelta_rep = "/" + scelta_char
 
+    # -- MOSTRO
+    Monster_speed = Player_speed - 0.8 * MULT / Delta_Time
+    MonsterRun_speed = PlayerRun_speed / 1.1
+
+    setMostro = True
 
 setCharacter()
+
+
 
 def setResources():
     global score, score_seconds, tentativo, Record

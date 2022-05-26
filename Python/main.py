@@ -240,6 +240,9 @@ def Stampa_messaggio():
     except NameError:
         pass
 
+    if timer.getMinutes() == 0 and timer.getSeconds() < 20:
+        cam.screen_shake()
+
 def disegna():
 
     timer.Start()
@@ -255,7 +258,7 @@ def disegna():
 
     player.update()
 
-    if GLOB.MonsterCanSpawn and not GLOB.isPaused:
+    if GLOB.MonsterCanSpawn:
         mostro.update()
 
     collisions.render_objects((0,0))
@@ -264,9 +267,8 @@ def disegna():
 
     player.load_playerSurface()
 
-
-    # if GLOB.MonsterCanSpawn:
-    #     mostro.load_monsterSurface()
+    if GLOB.MonsterCanSpawn:
+        mostro.load_monsterSurface()
 
     animazione.disegna()
 

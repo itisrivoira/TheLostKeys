@@ -120,7 +120,7 @@ class Map():
         chunck_render = pygame.Rect(main.player.x + 7 * GLOB.MULT /GLOB.Player_proportion, main.player.y + 19 * GLOB.MULT /GLOB.Player_proportion, chunck, chunck)
         
         if GLOB.MonsterCanSpawn:
-            chunck_render_m = pygame.Rect(main.mostro.x + 12 * GLOB.MULT + main.cam.getPositionX(),  main.mostro.y + 25 * GLOB.MULT + main.cam.getPositionY(), chunck, chunck)
+            chunck_render_m = pygame.Rect(main.mostro.x + 7 * GLOB.MULT /GLOB.Player_proportion + main.cam.getPositionX(),  main.mostro.y + 19 * GLOB.MULT /GLOB.Player_proportion + main.cam.getPositionY(), chunck, chunck)
 
         if GLOB.Debug:
             pygame.draw.rect(GLOB.screen, (0,255,0), chunck_render, int(GLOB.MULT))
