@@ -14,7 +14,7 @@ Player_proportion = 1 # Divisore della grandezza del giocatore
 FPS = 30 * Delta_Time
 
 # rapporto di proporzione allo schermo NON INFERIORE AD 1
-MULT = 3
+MULT = 4
 
 # rapporto offset telecamera dello schermo MAX 40
 Moff = 30
@@ -54,7 +54,7 @@ Enigma = False
 PlayerHasChangedRoom = False
 MonsterHasChangedRoom = False
 
-Fullscreen = False
+Fullscreen = True
 Drop_Frames = False
 
 Player_speed = 2 * MULT / Delta_Time
