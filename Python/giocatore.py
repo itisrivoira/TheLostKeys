@@ -395,7 +395,7 @@ class Player():
                 # -- MACCHINETTA --
 
                 if var == 132:
-                    self.evento = "macchinetta"
+                    self.evento = "nascondiglio"
 
 
                 # -- CODICE --

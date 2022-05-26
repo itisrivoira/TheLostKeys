@@ -97,6 +97,7 @@ class Keeper():
         self.Name_animationWO = Folder_walkO
         self.Name_animationAngry = Folder_angry
         
+        self.velocita_sprite = 0.1
         self.character_update(3)
         
         self.char_w, self.char_h = self.image.get_width() * GLOB.MULT / GLOB.Player_proportion, self.image.get_height() * GLOB.MULT / GLOB.Player_proportion
@@ -154,9 +155,9 @@ class Keeper():
     def character_update(self, c):
         
         if not GLOB.isPaused:
-            self.current_spriteWO += 0.2 / GLOB.Delta_Time
-            self.current_spriteWVD += 0.2 / GLOB.Delta_Time
-            self.current_spriteWVU += 0.2 / GLOB.Delta_Time
+            self.current_spriteWO += self.velocita_sprite / GLOB.Delta_Time
+            self.current_spriteWVD += self.velocita_sprite / GLOB.Delta_Time
+            self.current_spriteWVU += self.velocita_sprite / GLOB.Delta_Time
 
         if c == 1:
             if self.current_spriteWO >= len(GLOB.PlayerWalkingO):
@@ -196,7 +197,7 @@ class Keeper():
             
             if self.current_spriteAngry >= len(GLOB.MonsterAngry) or self.monster_ai_brain != -1:
                 self.flag_CanStartAttack = True
-                self.current_spriteAngry = 0
+                self.current_spriteAngry = self.start_valueAnimation
                 self.Sound_Angry.stop()
                 
             if self.current_spriteAngry >= 4 and self.current_spriteAngry < 4.2:
@@ -208,6 +209,9 @@ class Keeper():
             
             immagine = GLOB.MonsterAngry[int(self.current_spriteAngry)]
             self.image = pygame.image.load(Folder_angry + "/" + immagine).convert_alpha()
+            
+        if self.current_spriteAngry > self.start_valueAnimation and self.monster_ai_brain != -1:
+            self.current_spriteAngry = self.start_valueAnimation
             
             
     def finish(self):
@@ -237,6 +241,10 @@ class Keeper():
 
     def update(self):
         radius = 360
+        
+        if main.player.evento == "nascondiglio":
+            self.aggr = False
+            self.flag_CanStartAttack = False
         
         self.velocitaTilesM = round(((24 * GLOB.MULT) / GLOB.Monster_speed) / GLOB.FPS, 2)
         self.velocitaTilesG = round(((24 * GLOB.MULT) / GLOB.Player_speed) / GLOB.FPS, 2)
@@ -296,7 +304,7 @@ class Keeper():
         # pygame.draw.line(GLOB.screen, (5,80,255), start_line, end_line, 8)
         # pygame.draw.line(GLOB.screen, (255,80,5), start_line, end_line1, 8)
 
-        if (self.triangle.colliderect(main.player.hitbox) or self.aggr) and GLOB.MonsterCanAttack:
+        if (self.triangle.colliderect(main.player.hitbox) or self.aggr) and GLOB.MonsterCanAttack and main.player.evento != "nascondiglio":
             
             self.character_update(5)
             
@@ -329,7 +337,7 @@ class Keeper():
             # pygame.draw.line(GLOB.screen, (5,80,255), start_line, end_line, 8)
             # pygame.draw.line(GLOB.screen, (255,80,5), start_line, end_line1, 8)
 
-        if self.mesh.colliderect(main.player.hitbox) and GLOB.MonsterCanAttack:
+        if self.mesh.colliderect(main.player.hitbox) and GLOB.MonsterCanAttack and main.player.evento != "nascondiglio":
             main.game_over()
 
         if not self.aggr:
@@ -414,6 +422,8 @@ class Keeper():
         if self.aggr and self.circle.colliderect(main.player.hitbox) and not GLOB.isPaused:
             
             GLOB.Monster_speed = GLOB.Monster_default_speed * GLOB.MonsterRun_speed
+            
+            self.velocita_sprite = 0.25
         
             if self.mesh.right > main.player.mesh.right - 2 * GLOB.MULT and self.flag_movement["right"]:
                 self.x -= GLOB.Monster_speed
@@ -444,7 +454,7 @@ class Keeper():
         else:
             
             GLOB.setMonster()
-            
+            self.velocita_sprite = 0.1
             self.flag_CanStartAttack = False
             self.aggr = False
             # self.monster_ai_brain = -1

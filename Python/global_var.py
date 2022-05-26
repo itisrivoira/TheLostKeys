@@ -238,9 +238,9 @@ def setResources():
     molt_chiavetta = 2
 
 
-    lista_chiavette = [4, 2, 5, 7, 9, 11, 12]
+    lista_chiavette = [4, 2, 5, 7, 8, 9, 11, 12]
     RandomKey = "chiavetta-"+str(random.choice(lista_chiavette))
-    # print("Chiavetta Random:",RandomKey)
+    print("Chiavetta Random:",RandomKey)
 
 
     for i in enigmi_da_risolvere:
