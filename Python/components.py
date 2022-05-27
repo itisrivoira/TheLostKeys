@@ -1758,17 +1758,17 @@ class Code():
             if self.codeU == "1234":
                 self.errore = "Sicuramente"
 
-            if self.codeU == "0690":
-                self.errore = "Furbacchione"
+            if self.codeU == "0690" or self.codeU == "6969":
+                self.errore = ";-)"
 
             if self.codeU == "1492":
                 self.errore = "America"
 
-            if self.codeU == "0000":
+            if self.codeU == "0000" or self.codeU == "3333":
                 self.errore = "Gesu'"
-
-            if self.codeU == "2001":
-                self.errore = "Divertente"
+                
+            if self.codeU == "0911":
+                self.errore = " 2001 "
 
             self.codeU = self.errore
 

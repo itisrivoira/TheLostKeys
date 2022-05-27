@@ -384,6 +384,8 @@ def main():
         condition_4 = getRight and getDown and not(getLeft and getUp)
 
         if LEFT and not RIGHT and not(condition_1 and condition_2):
+            GLOB.PlayerIsMoving = IsPressed
+            
             player.setLeftPress(IsPressed)
             player.flag_delay = True
 
@@ -393,7 +395,9 @@ def main():
             else:
                 player.finish()
             
-        elif RIGHT and not LEFT and not(condition_3 and condition_4):    
+        elif RIGHT and not LEFT and not(condition_3 and condition_4):
+            GLOB.PlayerIsMoving = IsPressed
+            
             player.setRightPress(IsPressed)
             player.flag_delay = True
 
@@ -404,6 +408,8 @@ def main():
                 player.finish()
 
         elif UP and not DOWN and not(condition_1 and condition_3):
+            GLOB.PlayerIsMoving = IsPressed
+            
             player.setUpPress(IsPressed)
             player.flag_delay = True
 
@@ -414,6 +420,8 @@ def main():
                 player.finish()
             
         elif DOWN and not UP and not(condition_2 and condition_4):
+            GLOB.PlayerIsMoving = IsPressed
+            
             player.setDownPress(IsPressed)
             player.flag_delay = True
 
@@ -424,6 +432,7 @@ def main():
                 player.finish()
 
         elif event.key == pygame.K_LSHIFT:
+            
             if IsPressed and GLOB.PlayerCanRun:
                 
                 player.flag_delay = True
@@ -445,6 +454,7 @@ def main():
         elif not UP and player.getUpPress() or not DOWN and player.getDownPress():
             player.setAllkeys(False)    # Evita che ci siano input zombie
             player.finish()
+            
 
     # SETTO ENIGMI - DIALOGHI
     dialoghi()

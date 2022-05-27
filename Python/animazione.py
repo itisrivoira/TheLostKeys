@@ -45,19 +45,20 @@ class Transizione():
             GLOB.PlayerHasChangedRoom = True
             self.flag_room = False
             self.delay_monsterRoom.ReStart()
+        
+        if GLOB.MonsterCanSpawn:
             
-            
-        if main.mostro.aggr and GLOB.PlayerHasChangedRoom and GLOB.SecondDiffPos < 4:
-                        
-            main.mostro.x = main.stanze.pos_portaP[0] * GLOB.MULT - main.stanze.pos_portaC[0] * GLOB.MULT
-            main.mostro.y = main.stanze.pos_portaP[1] * GLOB.MULT - main.stanze.pos_portaC[1] * GLOB.MULT
-            
-            GLOB.MonsterHasChangedRoom = True
-            GLOB.MonsterActualRoom = GLOB.Stanza
-            GLOB.MonsterActualFloor = GLOB.Piano
-            
-        GLOB.PlayerHasChangedRoom = False
-        GLOB.MonsterHasChangedRoom = False
+            if main.mostro.aggr and GLOB.PlayerHasChangedRoom and GLOB.SecondDiffPos < 4:
+                            
+                main.mostro.x = main.stanze.pos_portaP[0] * GLOB.MULT - main.stanze.pos_portaC[0] * GLOB.MULT
+                main.mostro.y = main.stanze.pos_portaP[1] * GLOB.MULT - main.stanze.pos_portaC[1] * GLOB.MULT
+                
+                GLOB.MonsterHasChangedRoom = True
+                GLOB.MonsterActualRoom = GLOB.Stanza
+                GLOB.MonsterActualFloor = GLOB.Piano
+                
+            GLOB.PlayerHasChangedRoom = False
+            GLOB.MonsterHasChangedRoom = False
 
     def Start(self):
         self.__delay.Infinite()

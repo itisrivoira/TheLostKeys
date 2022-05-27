@@ -14,7 +14,7 @@ Player_proportion = 1 # Divisore della grandezza del giocatore
 FPS = 30 * Delta_Time
 
 # rapporto di proporzione allo schermo NON INFERIORE AD 1
-MULT = 4
+MULT = 3
 
 # rapporto offset telecamera dello schermo MAX 40
 Moff = 30
@@ -23,7 +23,7 @@ Moff = 30
 AU = 5
 
 # rapporto musica del gioco
-MU = 1
+MU = 0
 
 # Timer del gioco
 Timer = 15
@@ -54,7 +54,7 @@ Enigma = False
 PlayerHasChangedRoom = False
 MonsterHasChangedRoom = False
 
-Fullscreen = True
+Fullscreen = False
 Drop_Frames = False
 
 Player_speed = 2 * MULT / Delta_Time
@@ -186,7 +186,7 @@ def setResources():
 
     global MonsterActualFloor, MonsterActualRoom
     
-    global Default_Character, PlayerCanMove, PlayerCanRun, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
+    global Default_Character, PlayerCanMove, PlayerCanRun, PlayerIsMoving, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
     global Piano, Stanza, Default_Map, Default_object, Default_collisions
 
     # -- CODICI ---
@@ -301,6 +301,7 @@ def setResources():
 
     PlayerIsWalking = True
     PlayerIsRunning = False
+    PlayerIsMoving = False
 
     PLayerMovement = {
             
