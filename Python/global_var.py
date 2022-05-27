@@ -61,6 +61,9 @@ Player_speed = 2 * MULT / Delta_Time
 PlayerRun_speed = 3
 PlayerReset = False
 
+PlayerCanHide = True
+PlayerIsHidden = False
+
 # -- MOSTRO
 MonsterCanSpawn = True
 ShowMonsterRange = False

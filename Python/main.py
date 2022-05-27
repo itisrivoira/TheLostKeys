@@ -257,7 +257,7 @@ def disegna():
     
     collisions.render_map((0,0))
 
-    if player.evento != "nascondiglio":
+    if not GLOB.PlayerIsHidden:
         player.update()
 
     if GLOB.MonsterCanSpawn and animazione.iFinished and GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
@@ -267,7 +267,7 @@ def disegna():
 
     stanze.caricaStanza()
 
-    if player.evento != "nascondiglio":
+    if not GLOB.PlayerIsHidden:
         player.load_playerSurface()
 
     if GLOB.MonsterCanSpawn and animazione.iFinished and GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:

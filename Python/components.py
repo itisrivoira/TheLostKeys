@@ -1238,6 +1238,10 @@ class GUI():
 
 		if GLOB.PlayerIsRunning and flag:
 			self.max -= (self.speed * moltiplicatore) * GLOB.MULT
+
+		if GLOB.PlayerIsHidden:
+			val = 3
+			self.max -=  (self.speed * GLOB.MULT) / val
  		
 		elif not GLOB.PlayerIsRunning and self.max < self.bar.get_width() - GLOB.MULT:
 			self.max += (self.recupero * moltiplicatore) * GLOB.MULT / 2
@@ -1245,12 +1249,15 @@ class GUI():
 
 		if self.max > self.bar.get_width() - GLOB.MULT - 1:
 			self.max = self.bar.get_width() - GLOB.MULT
+			GLOB.PlayerCanHide = True
 			GLOB.PlayerCanRun = True
 			self.color_bar = "#64ad5a"
 		
 		elif self.max <= 0:
 			self.max = 0
 			GLOB.PlayerCanRun = False
+			GLOB.PlayerIsHidden = False
+			GLOB.PlayerCanHide = False
 			self.color_bar = "#ada55a"
 
 		self.barra_esaurita = pygame.Rect((84 * GLOB.MULT, GLOB.screen_height - 22 * GLOB.MULT, self.bar.get_width(), self.bar.get_height()))

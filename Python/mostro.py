@@ -242,7 +242,7 @@ class Keeper():
     def update(self):
         radius = 360
         
-        if main.player.evento == "nascondiglio":
+        if GLOB.PlayerIsHidden:
             self.aggr = False
             self.flag_CanStartAttack = False
         
@@ -304,7 +304,7 @@ class Keeper():
         # pygame.draw.line(GLOB.screen, (5,80,255), start_line, end_line, 8)
         # pygame.draw.line(GLOB.screen, (255,80,5), start_line, end_line1, 8)
 
-        if (self.triangle.colliderect(main.player.hitbox) or self.aggr) and GLOB.MonsterCanAttack and main.player.evento != "nascondiglio":
+        if (self.triangle.colliderect(main.player.hitbox) or self.aggr) and GLOB.MonsterCanAttack and not GLOB.PlayerIsHidden:
             
             self.character_update(5)
             
@@ -337,7 +337,7 @@ class Keeper():
             # pygame.draw.line(GLOB.screen, (5,80,255), start_line, end_line, 8)
             # pygame.draw.line(GLOB.screen, (255,80,5), start_line, end_line1, 8)
 
-        if self.mesh.colliderect(main.player.hitbox) and GLOB.MonsterCanAttack and main.player.evento != "nascondiglio":
+        if self.mesh.colliderect(main.player.hitbox) and GLOB.MonsterCanAttack and not GLOB.PlayerIsHidden:
             main.game_over()
 
         if not self.aggr:

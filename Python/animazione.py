@@ -47,7 +47,7 @@ class Transizione():
             self.delay_monsterRoom.ReStart()
             
             
-        if main.mostro.aggr and GLOB.PlayerHasChangedRoom:
+        if main.mostro.aggr and GLOB.PlayerHasChangedRoom and GLOB.SecondDiffPos < 4:
                         
             main.mostro.x = main.stanze.pos_portaP[0] * GLOB.MULT - main.stanze.pos_portaC[0] * GLOB.MULT
             main.mostro.y = main.stanze.pos_portaP[1] * GLOB.MULT - main.stanze.pos_portaC[1] * GLOB.MULT

@@ -56,7 +56,7 @@ def testa():
         if main.player.evento == "chiavetta-6":
             var = "LabInfo"
             GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
-            GLOB.inventario["chiavetta-6"] = (GLOB.chiavette[var][2], False, "Proprietario: Giulio Dajani - Files: stringhe.c")
+            GLOB.inventario["chiavetta-6"] = (GLOB.chiavette[var][2], False, "Proprietario: Giulio Dajani - Files: shqipe.c")
             main.player.evento = None
 
 
@@ -77,7 +77,7 @@ def testa():
         if main.player.evento == "chiavetta-9":
             var = "LabInformatica"
             GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
-            GLOB.inventario["chiavetta-9"] = (GLOB.chiavette[var][2], False, "Proprietario: Alberto Boaglio - Files: BoaCompanySite")
+            GLOB.inventario["chiavetta-9"] = (GLOB.chiavette[var][2], False, "Proprietario: Alberto Boaglio - Files: ABMediaAgency")
             main.player.evento = None
 
 
@@ -99,7 +99,7 @@ def testa():
         if main.player.evento == "chiavetta-12":
             var = "Corridoio"
             GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
-            GLOB.inventario["chiavetta-12"] = (GLOB.chiavette[var][2], False, "Proprietario: Marco Rolando - Files: rollysong.mp3")
+            GLOB.inventario["chiavetta-12"] = (GLOB.chiavette[var][2], False, "Proprietario: Marco Rolando - Files: somebodyelse.mp3")
             main.player.evento = None
 
 
@@ -707,3 +707,8 @@ def testa():
     if main.player.evento == "pc":
         pc = main.Pc()
         pc.show()
+
+
+    if main.player.evento == "nascondiglio" and GLOB.PlayerCanHide:
+        GLOB.PlayerIsHidden = True
+        main.player.evento = None
