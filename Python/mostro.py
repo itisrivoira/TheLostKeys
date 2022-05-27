@@ -252,14 +252,14 @@ class Keeper():
         # self.diff = round(((self.x + main.cam.getPositionX() + self.y + main.cam.getPositionY()) * self.velocitaTilesM - ((main.player.x + main.player.y) * self.velocitaTilesG)) / GLOB.FPS, 2)
         
         self.line = pygame.draw.line(self.superfice, "Red", (self.mesh.centerx, self.mesh.centery), (main.player.mesh.centerx, main.player.mesh.centery), GLOB.MULT)
-        self.lung = round(((self.line.bottomright[0] / GLOB.MULT + self.line.bottomright[1] / GLOB.MULT) - (self.line.bottomleft[0] / GLOB.MULT + self.line.bottomleft[1] / GLOB.MULT)), 6)
+        self.lung = round(((self.line.bottomright[0] / GLOB.MULT + self.line.bottomright[1] / GLOB.MULT)/2 - (self.line.bottomleft[0] / GLOB.MULT + self.line.bottomleft[1] / GLOB.MULT)/2), 6)
         self.diff = round((self.lung / GLOB.FPS) + 2 / GLOB.Delta_Time, 2)
         
         if not main.animazione.flag_room:
             GLOB.SecondDiffPos = self.diff
         
         if GLOB.Debug:
-            print(self.diff)
+            print(self.flag_movement)
 
         self.setHitbox()
         self.delay_movement.Start()
