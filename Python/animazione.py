@@ -57,6 +57,10 @@ class Transizione():
                     main.mostro.aggr = True
                     main.mostro.IAttacking = True
                     main.Gui.door_sound.play()
+                    
+                if GLOB.Piano != GLOB.MonsterActualFloor and GLOB.Stanza != GLOB.MonsterActualRoom:
+                    main.mostro.IseePlayer = False
+                    GLOB.MonsterHasChangedRoom = False
                 
                 if main.mostro.IseePlayer:           
                     main.mostro.x = main.stanze.pos_portaP[0] * GLOB.MULT - main.stanze.pos_portaC[0] * GLOB.MULT

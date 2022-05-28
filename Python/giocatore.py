@@ -420,7 +420,8 @@ class Player():
                 GLOB.PlayerInteract = False
 
                 if GLOB.Debug:
-                    print(var, self.evento, GLOB.Stanza, GLOB.Piano)
+                    print("Player: ", var, self.evento, GLOB.Stanza, GLOB.Piano)
+                    print("Keeper: ", GLOB.MonsterActualRoom, GLOB.MonsterActualFloor)
 
     def update(self):
         

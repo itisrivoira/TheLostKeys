@@ -165,6 +165,27 @@ def load_collisions(path):
 
 
 def controllo_condizioni():
+    
+    if len(GLOB.enigmi_risolti) > 0 and GLOB.MonsterIntro:
+        
+        if messaggio_a_schermo.isFinished:
+            mostro.Sound_Angry.fadeout(2200)
+            testo = "Che cos'era quello strano suono?|Proveniva dall'ingresso principale..."
+            
+            testo = testo.split("|")
+            
+            for t in testo:
+                dialogo = Dialoghi(GLOB.scelta_char, t, 3)
+                dialogo.stampa()
+                
+            GLOB.MonsterIntro = False
+        else:
+            
+            if not GLOB.MonsterSpawning:
+                mostro.Sound_Angry.play()    
+                GLOB.MonsterSpawning = True
+    
+    
     if GLOB.ShowComand and not animazione.flag_caricamento:
         testo1 = "Ciao! Io sono verga e saro' la tua guida di questo viaggio!|Per muoverti clicca le freccie direzionali o WASD|Per correre tieni premuto SHIFT|"
         testo2 = "Per aprire l'inventario premi TAB e per vedere le informazioni dettagliate premere Q|Per interagire con gli oggetti premere E|"
@@ -261,7 +282,7 @@ def disegna():
     if not GLOB.PlayerIsHidden:
         player.update()
 
-    if GLOB.MonsterCanSpawn and animazione.iFinished and GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
+    if GLOB.MonsterCanSpawn and animazione.iFinished and GLOB.MonsterSpawning and GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
         mostro.update()
 
     collisions.render_objects((0,0))
@@ -271,7 +292,7 @@ def disegna():
     if not GLOB.PlayerIsHidden:
         player.load_playerSurface()
 
-    if GLOB.MonsterCanSpawn and animazione.iFinished and GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
+    if GLOB.MonsterCanSpawn and animazione.iFinished and GLOB.MonsterSpawning and GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
         mostro.load_monsterSurface()
 
     animazione.disegna()
@@ -494,6 +515,13 @@ def main():
                         GLOB.ShowGrid = True
                     elif GLOB.ShowGrid:
                         GLOB.ShowGrid = False
+                        
+                if event.key == pygame.K_x and GLOB.Debug:
+        
+                    if not GLOB.PlayerIsHidden:
+                        GLOB.PlayerIsHidden = True
+                    else:
+                        GLOB.PlayerIsHidden = False
 
                 if event.key == pygame.K_TAB and animazione.iFinished and not animazione.flag_caricamento:
                                 
@@ -529,6 +557,7 @@ def main():
 
                     if not GLOB.Enigma:
                         GLOB.Enigma = True
+                        
 
             if GLOB.PlayerCanMove:
 
@@ -757,7 +786,7 @@ def jump_scare():
     video = Video("video/Jumpscare.mp4")
     video.set_size((GLOB.screen_width, GLOB.screen_height))
     video.set_volume(0.4 * GLOB.AU)
-    delay_video = Delay(video.duration -3.7, SetVideoToFalse)
+    delay_video = Delay(video.duration -3, SetVideoToFalse)
     
     VideoFinito = False
     while not VideoFinito:

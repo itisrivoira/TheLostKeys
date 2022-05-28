@@ -436,7 +436,7 @@ class Keeper():
     def update(self):
         radius = 360
         
-        print("Sto attacando: %s  | Posso Attaccare: %s  | Aggrato: %s  | Ho visto il player: %s" %(self.IAttacking, self.flag_CanStartAttack, self.aggr, self.IseePlayer))
+        # print("Sto attacando: %s  | Posso Attaccare: %s  | Aggrato: %s  | Ho visto il player: %s" %(self.IAttacking, self.flag_CanStartAttack, self.aggr, self.IseePlayer))
         
         
         # CALCOLO VISUALE PERFIFERICA MOSTRO
@@ -555,6 +555,7 @@ class Keeper():
                 if not self.circle.colliderect(main.player.hitbox) or GLOB.PlayerIsHidden:
                     self.IseePlayer = False
                     self.IAttacking = False
+                    self.flag_CanStartAttack = False
             
             
             if self.aggr and self.circle.colliderect(main.player.hitbox):

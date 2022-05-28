@@ -14,7 +14,7 @@ Player_proportion = 1 # Divisore della grandezza del giocatore
 FPS = 30 * Delta_Time
 
 # rapporto di proporzione allo schermo NON INFERIORE AD 1
-MULT = 3
+MULT = 4
 
 # rapporto offset telecamera dello schermo MAX 40
 Moff = 30
@@ -187,7 +187,7 @@ def setResources():
     global RandomKey, RandomRoom
     global oggetti, oggetti_start, oggetti_end
 
-    global MonsterActualFloor, MonsterActualRoom
+    global MonsterActualFloor, MonsterActualRoom, MonsterSpawning, MonsterIntro
     
     global Default_Character, PlayerInteract, PlayerCanMove, PlayerCanRun, PlayerCanHide, PlayerIsHidden, PlayerIsMoving, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
     global Piano, Stanza, Default_Map, Default_object, Default_collisions
@@ -320,5 +320,7 @@ def setResources():
     
     MonsterActualRoom = Stanza
     MonsterActualFloor = Piano
+    MonsterSpawning = False
+    MonsterIntro = True
 
 setResources()
