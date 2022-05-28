@@ -1235,19 +1235,21 @@ class GUI():
 			self.recupero = (5 - self.speed) / GLOB.Delta_Time
 
 		moltiplicatore =  0.5
-
-		if GLOB.PlayerIsRunning and flag:
-			self.max -= (self.speed * moltiplicatore) * GLOB.MULT
-
+  
 		if GLOB.PlayerIsHidden:
-			val = 3
-			self.max -=  (self.speed * GLOB.MULT) / val
- 		
-		elif not GLOB.PlayerIsRunning and self.max < self.bar.get_width() - GLOB.MULT:
-			self.max += (self.recupero * moltiplicatore) * GLOB.MULT / 2
+			val = 4.8
+			self.max -=  (self.speed / val) * GLOB.MULT
+   
+		else:
+
+			if GLOB.PlayerIsRunning and flag:
+				self.max -= (self.speed * moltiplicatore) * GLOB.MULT
+			
+			elif not GLOB.PlayerIsRunning and self.max < self.bar.get_width() - GLOB.MULT:
+				self.max += (self.recupero * moltiplicatore) * GLOB.MULT / 2
 
 
-		if self.max > self.bar.get_width() - GLOB.MULT - 1:
+		if self.max > self.bar.get_width() - GLOB.MULT - 1 and not GLOB.PlayerIsHidden:
 			self.max = self.bar.get_width() - GLOB.MULT
 			GLOB.PlayerCanHide = True
 			GLOB.PlayerCanRun = True

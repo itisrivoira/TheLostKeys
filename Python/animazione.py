@@ -49,19 +49,32 @@ class Transizione():
         if GLOB.MonsterCanSpawn:
             
             if main.mostro.aggr and GLOB.PlayerHasChangedRoom and GLOB.SecondDiffPos < 4:
-                            
-                main.mostro.x = main.stanze.pos_portaP[0] * GLOB.MULT - main.stanze.pos_portaC[0] * GLOB.MULT
-                main.mostro.y = main.stanze.pos_portaP[1] * GLOB.MULT - main.stanze.pos_portaC[1] * GLOB.MULT
                 
-                GLOB.MonsterHasChangedRoom = True
-                GLOB.MonsterActualRoom = GLOB.Stanza
-                GLOB.MonsterActualFloor = GLOB.Piano
+                main.mostro.IAttacking = False
+                main.mostro.aggr = False
+                
+                if GLOB.Piano == GLOB.MonsterActualFloor:
+                    main.mostro.aggr = True
+                    main.mostro.IAttacking = True
+                    main.Gui.door_sound.play()
+                
+                if main.mostro.IseePlayer:           
+                    main.mostro.x = main.stanze.pos_portaP[0] * GLOB.MULT - main.stanze.pos_portaC[0] * GLOB.MULT
+                    main.mostro.y = main.stanze.pos_portaP[1] * GLOB.MULT - main.stanze.pos_portaC[1] * GLOB.MULT
+
+                    GLOB.MonsterHasChangedRoom = True
+                    GLOB.MonsterActualRoom = GLOB.Stanza
+                    GLOB.MonsterActualFloor = GLOB.Piano
+                    
+                    main.mostro.contatore_collisioni = 0
+                
                 
             GLOB.PlayerHasChangedRoom = False
             GLOB.MonsterHasChangedRoom = False
 
     def Start(self):
-        self.__delay.Infinite()
+        if not GLOB.isPaused:
+            self.__delay.Infinite()
 
     def ImpostaSfondo(self):
         var = 2

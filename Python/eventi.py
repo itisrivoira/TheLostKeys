@@ -273,6 +273,23 @@ def testa():
 
 
     def piano():
+        
+        if main.mostro.evento == "piano-0":
+            GLOB.MonsterActualFloor = "0-PianoSegreto"
+            GLOB.MonsterActualRoom = "StanzaSegreta"
+            
+        elif main.mostro.evento == "piano-1":
+            GLOB.MonsterActualFloor = "1-PianoTerra"
+            GLOB.MonsterActualRoom = "Corridoio"
+            
+        elif main.mostro.evento == "piano-2":
+            GLOB.MonsterActualFloor = "2-PrimoPiano"
+            GLOB.MonsterActualRoom = "Corridoio"
+            
+        elif main.mostro.evento == "piano-3":
+            GLOB.MonsterActualFloor = "3-SecondoPiano"
+            GLOB.MonsterActualRoom = "Corridoio"
+        
 
         if main.player.evento == "piano-0":
             GLOB.Piano = "0-PianoSegreto"
@@ -328,6 +345,48 @@ def testa():
             return False
 
     def porte():
+        
+        if main.mostro.evento == "porta-0":
+            main.mostro.evento = None
+            GLOB.MonsterHasChangedRoom = True
+            
+            if GLOB.MonsterActualFloor == "1-PianoTerra":
+                
+                if GLOB.MonsterActualRoom == "Corridoio":
+                    GLOB.MonsterActualRoom = "Fisica"
+                    
+                    main.mostro.x = 344 * GLOB.MULT
+                    main.mostro.y = 188 * GLOB.MULT
+                    
+                elif GLOB.MonsterActualRoom == "Fisica":
+                    GLOB.MonsterActualRoom = "Corridoio"
+                    
+                    main.mostro.x = 274 * GLOB.MULT
+                    main.mostro.y = 114 * GLOB.MULT
+                    
+            main.Gui.door_sound.play()
+                    
+                    
+        if main.mostro.evento == "porta-11":
+            main.mostro.evento = None
+            GLOB.MonsterHasChangedRoom = True
+            
+            if GLOB.MonsterActualFloor == "2-PrimoPiano":
+                
+                if GLOB.MonsterActualRoom == "Corridoio":
+                    GLOB.MonsterActualRoom = "AulaProfessori"
+                    
+                    main.mostro.x = 338 * GLOB.MULT
+                    main.mostro.y = 152 * GLOB.MULT
+                    
+                elif GLOB.MonsterActualRoom == "AulaProfessori":
+                    GLOB.MonsterActualRoom = "Corridoio"
+                    
+                    main.mostro.x = 368 * GLOB.MULT
+                    main.mostro.y = 142 * GLOB.MULT
+                    
+            main.Gui.door_sound.play()
+        
     
         if main.player.evento == "porta-0":
             main.player.evento = None
@@ -710,5 +769,10 @@ def testa():
 
 
     if main.player.evento == "nascondiglio" and GLOB.PlayerCanHide:
-        GLOB.PlayerIsHidden = True
         main.player.evento = None
+        
+        if GLOB.PlayerIsHidden:
+            GLOB.PlayerIsHidden = False
+        else:
+            GLOB.PlayerIsHidden = True
+            main.Gui.door_sound.play()

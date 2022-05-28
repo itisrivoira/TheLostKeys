@@ -120,7 +120,7 @@ class Map():
         chunck_render = pygame.Rect(main.player.x + 7 * GLOB.MULT /GLOB.Player_proportion, main.player.y + 19 * GLOB.MULT /GLOB.Player_proportion, chunck, chunck)
         
         if GLOB.MonsterCanSpawn:
-            chunck_render_m = pygame.Rect(main.mostro.x + 7 * GLOB.MULT /GLOB.Player_proportion + main.cam.getPositionX(),  main.mostro.y + 19 * GLOB.MULT /GLOB.Player_proportion + main.cam.getPositionY(), chunck, chunck)
+            chunck_render_m = pygame.Rect(main.mostro.x + 16.5 * GLOB.MULT /GLOB.Player_proportion + main.cam.getPositionX(),  main.mostro.y + 27 * GLOB.MULT /GLOB.Player_proportion + main.cam.getPositionY(), 24 * GLOB.MULT, 24 * GLOB.MULT)
 
         if GLOB.Debug:
             pygame.draw.rect(GLOB.screen, (0,255,0), chunck_render, int(GLOB.MULT))
@@ -195,6 +195,7 @@ class Map():
 
                                 if GLOB.MonsterCanSpawn:
                                     main.mostro.HasCollision(collisione)
+                                    main.mostro.HasInteraction(chunck_render_m, collisione, var)
 
                             if main.animazione.iFinished == True:
                                 eventi.testa()

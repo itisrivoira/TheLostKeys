@@ -54,15 +54,17 @@ Enigma = False
 PlayerHasChangedRoom = False
 MonsterHasChangedRoom = False
 
-Fullscreen = False
+if MULT == 4:
+    Fullscreen = True
+else:
+    Fullscreen = False
+    
+
 Drop_Frames = False
 
 Player_speed = 2 * MULT / Delta_Time
 PlayerRun_speed = 3
 PlayerReset = False
-
-PlayerCanHide = True
-PlayerIsHidden = False
 
 # -- MOSTRO
 MonsterCanSpawn = True
@@ -85,6 +87,7 @@ MonsterWO = []
 MonsterWVD = []
 MonsterWVU= []
 MonsterAngry = []
+MonsterIdle = []
 
 # STATISTICHE
 #  Chimica - Storia - Inglese - Fisica - Matematica - Informatica - Italiano - Sistemi - TPSIT
@@ -164,9 +167,9 @@ def setCharacter():
 def setMonster():
     global Monster_speed, MonsterRun_speed, Monster_default_speed
     # -- MOSTRO
-    Monster_speed = Player_default_speed - 0.8 * MULT / Delta_Time
+    Monster_speed = Player_default_speed - 0.75 * MULT / Delta_Time
     Monster_default_speed = Monster_speed
-    MonsterRun_speed = PlayerRun_speed / 1.05
+    MonsterRun_speed = PlayerRun_speed / 1.035
 
 setCharacter()
 setMonster()
@@ -186,7 +189,7 @@ def setResources():
 
     global MonsterActualFloor, MonsterActualRoom
     
-    global Default_Character, PlayerCanMove, PlayerCanRun, PlayerIsMoving, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
+    global Default_Character, PlayerInteract, PlayerCanMove, PlayerCanRun, PlayerCanHide, PlayerIsHidden, PlayerIsMoving, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
     global Piano, Stanza, Default_Map, Default_object, Default_collisions
 
     # -- CODICI ---
@@ -298,6 +301,9 @@ def setResources():
 
     PlayerCanMove = True
     PlayerCanRun = True
+    PlayerCanHide = True
+    PlayerIsHidden = False
+    PlayerInteract = False
 
     PlayerIsWalking = True
     PlayerIsRunning = False

@@ -18,6 +18,7 @@ Folder_walkO = 'Characters/'+sceltaG+'/WalkOrizontal'
 Folder_walkVD = 'Characters/'+sceltaG+'/WalkVerticalD'
 Folder_walkVU = 'Characters/'+sceltaG+'/WalkVerticalU'
 Folder_angry = 'Characters/'+sceltaG+'/Angry'
+Folder_idle = 'Characters/'+sceltaG+'/Idle'
 
 
 def riempi(percorso):
@@ -40,11 +41,15 @@ def riempi(percorso):
             
         if percorso == Folder_angry:
             GLOB.MonsterAngry.append(filename)
+            
+        if percorso == Folder_idle:
+            GLOB.MonsterIdle.append(filename)
 
 riempi(Folder_walkO)
 riempi(Folder_walkVD)
 riempi(Folder_walkVU)
 riempi(Folder_angry)
+riempi(Folder_idle)
 
 
 class Keeper():
@@ -71,6 +76,8 @@ class Keeper():
         self.altezza_rect = 20 * GLOB.MULT
 
         self.aggr = False
+        self.IseePlayer = False
+        self.IAttacking = False
 
         self.direzione = ""
 
@@ -87,18 +94,27 @@ class Keeper():
         self.superfice = pygame.Surface((GLOB.screen_width, GLOB.screen_height))        
         
         self.start_valueAnimation = 0.7
+        self.current_spriteI = self.start_valueAnimation
         self.current_spriteWO = self.start_valueAnimation
         self.current_spriteWVU = self.start_valueAnimation
         self.current_spriteWVD = self.start_valueAnimation
         self.current_spriteAngry = self.start_valueAnimation
         
+        self.Name_animationIdle= Folder_idle
         self.Name_animationWVD = Folder_walkVD
         self.Name_animationWVU = Folder_walkVU
         self.Name_animationWO = Folder_walkO
         self.Name_animationAngry = Folder_angry
         
-        self.velocita_sprite = 0.2 * GLOB.Monster_default_speed
-        self.character_update(3)
+        self.respiro = mixer.Sound("suoni/Respiro.wav")
+        self.chain = mixer.Sound("suoni/chain.wav")
+        
+        self.velocita_sprite = 0.15 * GLOB.Monster_default_speed
+        self.default_vel_sprite = self.velocita_sprite
+        
+        self.flag_coll = False
+        
+        self.character_update(0)
         
         self.char_w, self.char_h = self.image.get_width() * GLOB.MULT / GLOB.Player_proportion, self.image.get_height() * GLOB.MULT / GLOB.Player_proportion
 
@@ -132,7 +148,19 @@ class Keeper():
         self.ombra = pygame.transform.scale(self.ombra, (self.ombra.get_width()*GLOB.MULT/GLOB.Player_proportion * mult,self.ombra.get_height()*GLOB.MULT/GLOB.Player_proportion * mult))
         
         self.delay_aggr = Delay(0.2, self.__setTraslazione)
-        self.flag_coll = False
+        
+        self.contatore_collisioni = 0
+        self.max_val_cont = 4
+        
+        self.evento = None
+        self.flag_interact = False
+        
+        self.delayInteract = Delay(2, self.__setInteraction)
+
+
+    def __setInteraction(self):
+        if not self.flag_interact:
+            self.flag_interact = True
 
 
     def __setTraslazione(self):
@@ -169,50 +197,78 @@ class Keeper():
         self.delay_aggr = Delay(self.monster_ai_vel, self.__setTraslazione)
         self.delay_monster = Delay(self.monster_ai_vel, self.__setBrain)
             
-        print(lista_valori)
-            
         self.monster_ai_brain = random.choice(lista_valori)
         
     def character_update(self, c):
         
         if not GLOB.isPaused:
+            flag = False
+            
+            if c == 0:
+                
+                if self.current_spriteI == self.start_valueAnimation and not self.flag_coll:
+                    self.respiro.set_volume(0.005 * GLOB.AU)
+                    self.respiro.play()       
+                
+                self.current_spriteI += 0.05 / GLOB.Delta_Time
+                
+                if self.current_spriteI >= len(GLOB.MonsterIdle):
+                    self.current_spriteI = self.start_valueAnimation
+                
+                immagine = GLOB.MonsterIdle[int(self.current_spriteI)]
+                self.image = pygame.image.load(Folder_idle + "/" + immagine).convert_alpha()
+                
+            else:
+                self.current_spriteI = self.start_valueAnimation
+                self.respiro.fadeout(1000)
+            
 
             if c == 1:
                 self.current_spriteWO += self.velocita_sprite / GLOB.Delta_Time
                 
-                if self.current_spriteWO >= len(GLOB.PlayerWalkingO):
+                if self.current_spriteWO >= len(GLOB.MonsterWO):
                     self.current_spriteWO = self.start_valueAnimation
+                    flag = True
                 
-                immagine = GLOB.PlayerWalkingO[int(self.current_spriteWO)]
+                immagine = GLOB.MonsterWO[int(self.current_spriteWO)]
                 self.image = pygame.image.load(Folder_walkO + "/" + immagine).convert_alpha()
         
             if c == 2:
                 self.current_spriteWO += self.velocita_sprite / GLOB.Delta_Time
                 
-                if self.current_spriteWO >= len(GLOB.PlayerWalkingO):
+                if self.current_spriteWO >= len(GLOB.MonsterWO):
                     self.current_spriteWO = self.start_valueAnimation
+                    flag = True
                 
-                immagine = pygame.image.load(Folder_walkO + "/" + GLOB.PlayerWalkingO[int(self.current_spriteWO)]).convert_alpha()
+                immagine = pygame.image.load(Folder_walkO + "/" + GLOB.MonsterWO[int(self.current_spriteWO)]).convert_alpha()
                 immagine_flip = pygame.transform.flip(immagine, True, False)
                 self.image = immagine_flip
                 
-            if c == 3 or c == 0:
+            if c == 3:
                 self.current_spriteWVD += self.velocita_sprite / GLOB.Delta_Time
                 
-                if self.current_spriteWVD >= len(GLOB.PlayerWalkingVD):
+                if self.current_spriteWVD >= len(GLOB.MonsterWVD):
                     self.current_spriteWVD = self.start_valueAnimation
+                    flag = True
                 
-                immagine = GLOB.PlayerWalkingVD[int(self.current_spriteWVD)]
+                immagine = GLOB.MonsterWVD[int(self.current_spriteWVD)]
                 self.image = pygame.image.load(Folder_walkVD + "/" + immagine).convert_alpha()
                 
             if c == 4:
                 self.current_spriteWVU += self.velocita_sprite / GLOB.Delta_Time
                 
-                if self.current_spriteWVU >= len(GLOB.PlayerWalkingVU):
+                if self.current_spriteWVU >= len(GLOB.MonsterWVU):
                     self.current_spriteWVU = self.start_valueAnimation
+                    flag = True
                 
-                immagine = GLOB.PlayerWalkingVU[int(self.current_spriteWVU)]
+                immagine = GLOB.MonsterWVU[int(self.current_spriteWVU)]
                 self.image = pygame.image.load(Folder_walkVU + "/" + immagine).convert_alpha()
+                
+            if flag:
+                self.chain.set_volume(0.005 * GLOB.AU)
+                self.chain.play()
+            else:
+                self.chain.fadeout(3000)
                 
             if c == 5 and not self.flag_CanStartAttack:
                 
@@ -225,9 +281,10 @@ class Keeper():
                     self.flag_CanStartAttack = True
                     self.current_spriteAngry = self.start_valueAnimation
                     self.Sound_Angry.stop()
+                    self.contatore_collisioni = 0
                     
                 if self.current_spriteAngry >= 4 and self.current_spriteAngry < 4.2:
-                    self.Sound_Angry.set_volume(0.4 * GLOB.AU)
+                    self.Sound_Angry.set_volume(0.2 * GLOB.AU)
                     self.Sound_Angry.play()
                     
                 if self.current_spriteAngry >= 7:
@@ -238,6 +295,7 @@ class Keeper():
                 
             if self.current_spriteAngry > self.start_valueAnimation and self.monster_ai_brain != -1:
                 self.current_spriteAngry = self.start_valueAnimation
+            
                         
     def finish(self):
         self.current_spriteAngry = self.start_valueAnimation
@@ -249,29 +307,29 @@ class Keeper():
     def trackMovement(self):
         GLOB.Monster_speed = GLOB.Monster_default_speed * GLOB.MonsterRun_speed
                 
-        self.velocita_sprite = 0.25
+        self.velocita_sprite = self.default_vel_sprite + 0.05
         
         val = 0
             
-        if self.mesh.right > main.player.mesh.right - 2 * GLOB.MULT and self.flag_movement["left"]:
+        if self.mesh.right > main.player.mesh.right - 2 * GLOB.MULT:
             self.x -= GLOB.Monster_speed
             self.direzione = "sinistra"              
             val = 2
 
 
-        elif self.mesh.left < main.player.mesh.left + 2 * GLOB.MULT and self.flag_movement["right"]:
+        elif self.mesh.left < main.player.mesh.left + 2 * GLOB.MULT:
             self.x += GLOB.Monster_speed
             self.direzione = "destra"
             val = 1
 
 
-        if self.mesh.bottom > main.player.mesh.bottom + 2 * GLOB.MULT and self.flag_movement["up"]:
+        if self.mesh.bottom > main.player.mesh.bottom + 2 * GLOB.MULT:
             self.y -= GLOB.Monster_speed
             self.direzione = "alto"
             val = 4
 
 
-        elif self.mesh.top < main.player.mesh.top - 2 * GLOB.MULT and self.flag_movement["down"]:
+        elif self.mesh.top < main.player.mesh.top - 2 * GLOB.MULT:
             self.y += GLOB.Monster_speed
             self.direzione = "basso"
             val = 3
@@ -333,8 +391,6 @@ class Keeper():
             self.Last_keyPressed = "Up"
             self.angle = 45
 
-        # print(self.monster_ai_brain, self.direzione)
-
 
         # -- DESTRA --
         if ((self.monster_ai_brain == 1 or self.monster_ai_brain == 1.5 or self.monster_ai_brain == 4.5)):
@@ -375,60 +431,14 @@ class Keeper():
 
         if GLOB.Debug:
             pygame.draw.rect(GLOB.screen, "Green", self.mesh, GLOB.MULT)
-            # pygame.draw.rect(GLOB.screen, "Red", pygame.Rect((self.x + main.cam.getPositionX(), self.y + main.cam.getPositionY(), self.image.get_width(), self.image.get_height())), GLOB.MULT)
-
 
 
     def update(self):
         radius = 360
         
-        # GIOCATORE NASCOSTO
-        
-        if GLOB.PlayerIsHidden:
-            self.aggr = False
-            self.flag_CanStartAttack = False
-        
-        # CALCOLO VELOCITA TILES DI GIOCATORE - KEEPER
-        self.velocitaTilesM = round(((24 * GLOB.MULT) / GLOB.Monster_speed) / GLOB.FPS, 2)
-        self.velocitaTilesG = round(((24 * GLOB.MULT) / GLOB.Player_speed) / GLOB.FPS, 2)
-        
-        # CALCOLO DISTANZA GIOCATORE <--> KEEPER
-        self.line = pygame.draw.line(self.superfice, "Red", (self.mesh.centerx, self.mesh.centery), (main.player.mesh.centerx, main.player.mesh.centery), GLOB.MULT)
-        self.lung = round(((self.line.bottomright[0] / GLOB.MULT + self.line.bottomright[1] / GLOB.MULT)/2 - (self.line.bottomleft[0] / GLOB.MULT + self.line.bottomleft[1] / GLOB.MULT)/2), 6)
-        self.diff = round((self.lung / GLOB.FPS) + 2 / GLOB.Delta_Time, 2)
-        
-        # SE IL MOSTRO COLLIDE DA TUTTO I LATI STOPPA
-        # if not (self.flag_movement["right"] and self.flag_movement["left"] and self.flag_movement["up"] and self.flag_movement["down"]):
-        #     self.finish()
+        print("Sto attacando: %s  | Posso Attaccare: %s  | Aggrato: %s  | Ho visto il player: %s" %(self.IAttacking, self.flag_CanStartAttack, self.aggr, self.IseePlayer))
         
         
-        # SE IL FLAG DELL'ANIMAZIONE E' FALSE ALLORA AGGIORNA LA DIFFERENZA DI SECONDI
-        if not main.animazione.flag_room:
-            GLOB.SecondDiffPos = self.diff
-        
-        if GLOB.Debug:
-            print(self.monster_ai_brain, self.monster_ai_vel, GLOB.PlayerIsMoving)
-
-        # IMPOSTA HITBOX E STARTA IL DELAY DELLE COLLISIONI
-        self.setHitbox()
-        self.delay_movement.Start()
-
-        
-        if self.monster_ai_brain:
-            if self.monster_ai_brain == int(self.monster_ai_brain):
-                self.character_update(self.monster_ai_brain)
-            
-            elif self.monster_ai_brain == 1.5 or self.monster_ai_brain == 2.5:
-                self.character_update(3)
-                
-            elif self.monster_ai_brain == 3.5 or self.monster_ai_brain == 4.5:
-                self.character_update(4)
-                
-        
-        if not GLOB.MonsterCanAttack:
-            self.aggr = False
-
-
         # CALCOLO VISUALE PERFIFERICA MOSTRO
         self.line_vector = pygame.math.Vector2(self.height, 0)
         
@@ -442,77 +452,136 @@ class Keeper():
 
 
         end_line1 = round(self.x + self.width/2 + distanza[0] - rot_vector1.x + main.cam.getPositionX()), round(self.y - rot_vector1.y + main.cam.getPositionY() + distanza[1])
-
-
-        self.superfice.fill(pygame.SRCALPHA)
-
-        # STAMPA VISUALE PERIFERICA
-        self.triangle = pygame.draw.polygon(surface=self.superfice, color=self.color_triangle, points=[end_line, end_line1, start_line], width=0)
-
-        self.superfice.set_alpha(self.transparenza)
-
-
-
-        if (self.triangle.colliderect(main.player.hitbox)) and GLOB.MonsterCanAttack and not GLOB.PlayerIsHidden:
+        
+        
+        if not GLOB.isPaused:
             
-            self.character_update(5)
+            self.delayInteract.Infinite()
+        
+            # GIOCATORE NASCOSTO
             
-            if self.flag_CanStartAttack and GLOB.MonsterCanAttack:
-                self.raggio_ai_brain = 0
-                self.monster_ai_brain = 0
-                self.height = 0
-                self.circle = pygame.draw.circle(self.superfice, "Red", (self.x + self.image.get_width()/2 + main.cam.getPositionX() + distanza[0], self.y + self.image.get_height()/2 + main.cam.getPositionY() + distanza[1]), self.valore_distanza, 0)
-                self.color_triangle = (255, 0, 0)
-                self.aggr = True
+            if GLOB.PlayerIsHidden:
+                self.aggr = False
+                self.flag_CanStartAttack = False
+            
+            # CALCOLO VELOCITA TILES DI GIOCATORE - KEEPER
+            self.velocitaTilesM = round(((24 * GLOB.MULT) / GLOB.Monster_speed) / GLOB.FPS, 2)
+            self.velocitaTilesG = round(((24 * GLOB.MULT) / GLOB.Player_speed) / GLOB.FPS, 2)
+            
+            # CALCOLO DISTANZA GIOCATORE <--> KEEPER
+            self.line = pygame.draw.line(self.superfice, "Red", (self.mesh.centerx, self.mesh.centery), (main.player.mesh.centerx, main.player.mesh.centery), GLOB.MULT)
+            self.lung = round(((self.line.bottomright[0] / GLOB.MULT + self.line.bottomright[1] / GLOB.MULT)/2 - (self.line.bottomleft[0] / GLOB.MULT + self.line.bottomleft[1] / GLOB.MULT)/2), 6)
+            self.diff = round((self.lung / GLOB.FPS) + 2 / GLOB.Delta_Time, 2)
+            
+            # SE IL MOSTRO COLLIDE DA TUTTO I LATI STOPPA
+            # if not (self.flag_movement["right"] and self.flag_movement["left"] and self.flag_movement["up"] and self.flag_movement["down"]):
+            #     self.finish()
+            
+            
+            # SE IL FLAG DELL'ANIMAZIONE E' FALSE ALLORA AGGIORNA LA DIFFERENZA DI SECONDI
+            if not main.animazione.flag_room:
+                GLOB.SecondDiffPos = self.diff
+                
 
-        else:
-            self.height = self.default_height
+            # IMPOSTA HITBOX E STARTA IL DELAY DELLE COLLISIONI
+            self.setHitbox()
+            self.delay_movement.Start()
 
-            if not GLOB.isPaused:
+            
+            if int(self.monster_ai_brain):
+                if self.monster_ai_brain == int(self.monster_ai_brain):
+                    self.character_update(self.monster_ai_brain)
+                
+                elif self.monster_ai_brain == 1.5 or self.monster_ai_brain == 2.5:
+                    self.character_update(3)
+                    
+                elif self.monster_ai_brain == 3.5 or self.monster_ai_brain == 4.5:
+                    self.character_update(4)
+            
+            else:
+                
+                self.finish()
+                    
+            
+            if not GLOB.MonsterCanAttack:
+                self.aggr = False
+
+
+            self.superfice.fill(pygame.SRCALPHA)
+
+            # STAMPA VISUALE PERIFERICA
+            self.triangle = pygame.draw.polygon(surface=self.superfice, color=self.color_triangle, points=[end_line, end_line1, start_line], width=0)
+
+            self.superfice.set_alpha(self.transparenza)
+
+
+
+            if (self.triangle.colliderect(main.player.hitbox)) and GLOB.MonsterCanAttack and not GLOB.PlayerIsHidden or (self.IseePlayer and not self.IAttacking):
+                
+                self.character_update(5)
+                self.IseePlayer = True
+                
+                if self.flag_CanStartAttack and GLOB.MonsterCanAttack:
+                    self.raggio_ai_brain = 0
+                    self.monster_ai_brain = 0
+                    self.height = 0
+                    self.circle = pygame.draw.circle(self.superfice, "Red", (self.x + self.image.get_width()/2 + main.cam.getPositionX() + distanza[0], self.y + self.image.get_height()/2 + main.cam.getPositionY() + distanza[1]), self.valore_distanza, 0)
+                    self.color_triangle = (255, 0, 0)
+                    self.aggr = True
+
+            else:
+                self.height = self.default_height
+
                 self.delay_monster.Infinite()
                 self.delay_aggr.Infinite()
-            else:
-                self.monster_ai_brain = 0
-            
-            self.color_triangle = (255, 0, 0)
-
-
-        self.image = pygame.transform.scale(self.image, (self.char_w, self.char_h))
-        
-        GLOB.screen.blit(self.ombra, (self.x - distanza[0] + 11.2 * GLOB.MULT + main.cam.getPositionX(), self.y-10*GLOB.MULT/GLOB.Player_proportion + main.cam.getPositionY()))
-        GLOB.screen.blit(self.image, (self.x + main.cam.getPositionX(), self.y + main.cam.getPositionY()))
-
-
-        if GLOB.ShowMonsterRange or GLOB.Debug:
-            GLOB.screen.blit(self.superfice, (0, 0))
-            
-
-        if self.mesh.colliderect(main.player.hitbox) and GLOB.MonsterCanAttack and not GLOB.PlayerIsHidden:
-            main.game_over()
-
-        if not self.aggr:
-            self.randomMovement()
-
-
-        # MODALITA' TRACKING
-        if self.aggr and self.circle.colliderect(main.player.hitbox) and not GLOB.isPaused:
-            
-            # print("Sto collidendo %s, Flag-Trasla %s" %(self.ICollide, self.flag_coll)) 
-            
-            if self.flag_coll:
-                # print("Direzione %s, mov %s" %(self.direzione, self.monster_ai_brain))
-                self.randomMovement()
                 
-            else:
-            
-                self.trackMovement()
+                self.color_triangle = (255, 0, 0)
 
-        else:
+
+            if GLOB.ShowMonsterRange or GLOB.Debug:
+                GLOB.screen.blit(self.superfice, (0, 0))
+                
+
+            if self.mesh.colliderect(main.player.hitbox) and GLOB.MonsterCanAttack and not GLOB.PlayerIsHidden:
+                main.game_over()
+
+            if not self.aggr:
+                self.randomMovement()
+
+
+            # MODALITA' TRACKING
             
-            GLOB.setMonster()
-            self.velocita_sprite = 0.1
-            self.flag_CanStartAttack = False
-            self.aggr = False
+            if self.IAttacking:
+                if not self.circle.colliderect(main.player.hitbox) or GLOB.PlayerIsHidden:
+                    self.IseePlayer = False
+                    self.IAttacking = False
+            
+            
+            if self.aggr and self.circle.colliderect(main.player.hitbox):
+                
+                self.IAttacking = True
+                
+                # print("Sto collidendo %s, Flag-Trasla %s" %(self.ICollide, self.flag_coll)) 
+                
+                if self.flag_coll:
+                    # print("Direzione %s, mov %s" %(self.direzione, self.monster_ai_brain))
+                    self.randomMovement()
+                    
+                else:
+                
+                    self.trackMovement()
+
+            else:
+                
+                GLOB.setMonster()
+                self.velocita_sprite = self.default_vel_sprite
+                self.flag_CanStartAttack = False
+                self.aggr = False
+                
+                
+        else:
+            self.finish()
+
 
 
         if self.angle >= 360:
@@ -520,24 +589,12 @@ class Keeper():
 
         if self.angle <= -1:
             self.angle = 359
-
-    def ruota_destra(self):
-        self.angle += 1
-
-    def ruota_sinistra(self):
-        self.angle -= 0.25 * GLOB.MULT
-
-    def aumenta_distanza(self):
-        self.distanza += 0.25 * GLOB.MULT
-
-    def diminuisci_distanza(self):
-        self.distanza -= 0.25 * GLOB.MULT
-
-    def aumenta_lunghezza(self):
-        self.default_height += 0.025 * GLOB.MULT
-
-    def diminuisci_lunghezza(self):
-        self.default_height -= 0.025 * GLOB.MULT
+            
+    
+        self.image = pygame.transform.scale(self.image, (self.char_w, self.char_h))
+        
+        GLOB.screen.blit(self.ombra, (self.x - distanza[0] + 11.2 * GLOB.MULT + main.cam.getPositionX(), self.y-10*GLOB.MULT/GLOB.Player_proportion + main.cam.getPositionY()))
+        GLOB.screen.blit(self.image, (self.x + main.cam.getPositionX(), self.y + main.cam.getPositionY()))
 
     def attacca(self, v):
         GLOB.MonsterCanAttack = v
@@ -603,14 +660,25 @@ class Keeper():
 
         if self.mesh.colliderect(object):
 
-            self.finish()
+            if self.monster_ai_brain != -1:
+
+                self.finish()
+                
+                self.__setBrain()
+                
+                self.delay_movement.ReStart()
+                
+                self.ICollide = True
             
-            self.__setBrain()
             
-            self.delay_movement.ReStart()
-            
-            self.ICollide = True
-            self.flag_coll = True
+                if self.aggr:
+                    self.contatore_collisioni += 1
+                    
+                    if self.contatore_collisioni >= self.max_val_cont:
+                        self.flag_coll = True
+                        self.contatore_collisioni = 0
+                else:
+                    self.flag_coll = True
             
             w = (self.Last_keyPressed == "Up")
             a = (self.Last_keyPressed == "Left")
@@ -662,3 +730,40 @@ class Keeper():
                 "right": False,
                 
             }
+            
+
+    def HasInteraction(self, chunk_render, object, var):
+        self.evento = None
+
+        if chunk_render.colliderect(object) and self.flag_interact and not self.IAttacking:
+            
+            # -- PIANO --
+            start_id = 127
+            var_max = 2
+            
+            for i in range(var_max):
+                if var == (start_id + i):
+                    self.evento = "piano-"+str(i)
+                    self.flag_interact = False
+                
+
+            # -- PORTE --
+
+            start_id = 112
+            var_max = 14
+
+            for i in range(var_max):
+                if var == (start_id + i):
+                    self.evento = "porta-"+str(i)
+                    self.flag_interact = False        
+
+
+            # -- NASCONDIGLIO --
+
+            if var == 132:
+                self.evento = "nascondiglio"
+                self.flag_interact = False
+
+
+            if GLOB.Debug:
+                print(var, self.evento, GLOB.Stanza, GLOB.Piano)

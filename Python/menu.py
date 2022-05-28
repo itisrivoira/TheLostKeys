@@ -542,7 +542,11 @@ def intro():
         
         for event in pygame.event.get():
             
-            if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.QUIT:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            
+            if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
                 SetVideoToFalse()
                 
         delay_video.Start()
