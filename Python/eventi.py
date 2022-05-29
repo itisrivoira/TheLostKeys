@@ -221,7 +221,7 @@ def testa():
             if not main.mostro.aggr:
                 GLOB.MonsterActualRoom = "Chimica"
                 GLOB.MonsterActualFloor = "1-PianoTerra"
-                main.mostro.evento = "portaT"
+                main.mostro.evento = "porta"
                 GLOB.MonsterHasChangedRoom = True
 
         if GLOB.Stanza == "WC-Femmine":
@@ -237,7 +237,7 @@ def testa():
                 if not main.mostro.aggr:
                     GLOB.MonsterActualRoom = "WC-Femmine"
                     GLOB.MonsterActualFloor = "2-PrimoPiano"
-                    main.mostro.evento = "portaT"
+                    main.mostro.evento = "porta"
                     GLOB.MonsterHasChangedRoom = True
 
         if GLOB.Stanza == "AulaMagna":
@@ -255,7 +255,7 @@ def testa():
             if not main.mostro.aggr:
                 GLOB.MonsterActualRoom = "Chimica"
                 GLOB.MonsterActualFloor = "1-PianoTerra"
-                main.mostro.evento = "portaT"
+                main.mostro.evento = "porta"
                 GLOB.MonsterHasChangedRoom = True
 
         if GLOB.Stanza == "LabInfo":
@@ -273,7 +273,7 @@ def testa():
             if not main.mostro.aggr:
                 GLOB.MonsterActualRoom = "LabInfo"
                 GLOB.MonsterActualFloor = "3-SecondoPiano"
-                main.mostro.evento = "portaT"
+                main.mostro.evento = "porta"
                 GLOB.MonsterHasChangedRoom = True
                 
         if GLOB.Stanza == "Archivio":
@@ -388,7 +388,7 @@ def testa():
             
             if main.mostro.evento != None:
                 
-                if "portaT" in main.mostro.evento:
+                if "porta" in main.mostro.evento:
                     
                     main.mostro.evento = None
                     GLOB.MonsterHasChangedRoom = True
