@@ -48,7 +48,7 @@ class Transizione():
         
         if GLOB.MonsterCanSpawn:
             
-            if main.mostro.aggr and GLOB.PlayerHasChangedRoom and GLOB.SecondDiffPos < 7.2:
+            if main.mostro.aggr and GLOB.PlayerHasChangedRoom and GLOB.SecondDiffPos < 5.5:
                 
                 main.mostro.IAttacking = False
                 main.mostro.aggr = False
