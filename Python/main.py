@@ -170,7 +170,7 @@ def controllo_condizioni():
         
         if messaggio_a_schermo.isFinished:
             mostro.Sound_Angry.fadeout(2200)
-            testo = "Che cos'era quello strano suono?|Proveniva dall'ingresso principale..."
+            testo = "Che cos'era quello strano suono?|Proveniva dall'ingresso principale!"
             
             testo = testo.split("|")
             

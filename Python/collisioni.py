@@ -119,13 +119,13 @@ class Map():
         chunck = 40 * GLOB.MULT
         chunck_render = pygame.Rect(main.player.x + 7 * GLOB.MULT /GLOB.Player_proportion, main.player.y + 19 * GLOB.MULT /GLOB.Player_proportion, chunck, chunck)
         
-        if GLOB.MonsterCanSpawn:
+        if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning:
             chunck_render_m = pygame.Rect(main.mostro.x + 16.5 * GLOB.MULT /GLOB.Player_proportion + main.cam.getPositionX(),  main.mostro.y + 27 * GLOB.MULT /GLOB.Player_proportion + main.cam.getPositionY(), 24 * GLOB.MULT, 24 * GLOB.MULT)
 
         if GLOB.Debug:
             pygame.draw.rect(GLOB.screen, (0,255,0), chunck_render, int(GLOB.MULT))
             
-            if GLOB.MonsterCanSpawn and GLOB.Stanza == GLOB.MonsterActualRoom:
+            if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning and GLOB.Stanza == GLOB.MonsterActualRoom:
                 pygame.draw.rect(GLOB.screen, (0,0,255), chunck_render_m, int(GLOB.MULT))
 
         for valore_y in range(len(lista)):
@@ -171,10 +171,18 @@ class Map():
                     if GLOB.Debug and GLOB.ShowGrid:
                         pygame.draw.rect(GLOB.screen, (255,255,255), oggetto, int(1))
 
-                    if GLOB.MonsterCanSpawn:
+                    if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning:
                         controllo_collisione = condition and ((oggetto.colliderect(chunck_render)) or (oggetto.colliderect(chunck_render_m)))
+                        
+                        
+                        if chunck_render_m.colliderect(chunck_render) and GLOB.PlayerIsHidden:
+                            GLOB.PlayerIsHidden = False
+                            main.mostro.IAttacking = True
+                        
+                        
                     else:
                         controllo_collisione = condition and (oggetto.colliderect(chunck_render))
+                        
 
                     if controllo_collisione:
                         collisione = pygame.Rect((main.cam.getPositionX()+(x+self.tiles_collisioni[var][0]) * GLOB.MULT),(main.cam.getPositionY()+(y + self.tiles_collisioni[var][1]) * GLOB.MULT), self.tiles_collisioni[var][2]/value, self.tiles_collisioni[var][3]/value)
@@ -182,7 +190,7 @@ class Map():
                         if hitbox:
                             main.player.HasCollision(collisione)
                             
-                            if GLOB.MonsterCanSpawn:
+                            if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning:
                                 main.mostro.HasCollision(collisione)
 
                             if GLOB.Debug:
@@ -193,7 +201,7 @@ class Map():
                                 main.player.HasCollision(collisione)
                                 main.player.HasInteraction(chunck_render, collisione, var)
 
-                                if GLOB.MonsterCanSpawn:
+                                if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning:
                                     main.mostro.HasCollision(collisione)
                                     main.mostro.HasInteraction(chunck_render_m, collisione, var)
 

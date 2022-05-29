@@ -48,12 +48,12 @@ class Transizione():
         
         if GLOB.MonsterCanSpawn:
             
-            if main.mostro.aggr and GLOB.PlayerHasChangedRoom and GLOB.SecondDiffPos < 4:
+            if main.mostro.aggr and GLOB.PlayerHasChangedRoom and GLOB.SecondDiffPos < 7.2:
                 
                 main.mostro.IAttacking = False
                 main.mostro.aggr = False
                 
-                if GLOB.Piano == GLOB.MonsterActualFloor:
+                if GLOB.Piano == GLOB.MonsterActualFloor and GLOB.Stanza != GLOB.MonsterActualRoom:
                     main.mostro.aggr = True
                     main.mostro.IAttacking = True
                     main.Gui.door_sound.play()

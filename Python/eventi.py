@@ -285,6 +285,8 @@ def testa():
                 GLOB.MonsterActualRoom = "Corridoio"
                 GLOB.MonsterActualFloor = "1-PianoTerra"
                 main.mostro.evento = "porta-8"
+                main.mostro.aggr = True
+                main.mostro.IseePlayer = True 
         
         if testo != "Default":
             testo = testo.split("|")
@@ -306,19 +308,21 @@ def testa():
         
         if main.mostro.evento == "piano-0":
             GLOB.MonsterActualFloor = "0-PianoSegreto"
-            GLOB.MonsterActualRoom = "StanzaSegreta"
             
         elif main.mostro.evento == "piano-1":
             GLOB.MonsterActualFloor = "1-PianoTerra"
-            GLOB.MonsterActualRoom = "Corridoio"
             
         elif main.mostro.evento == "piano-2":
             GLOB.MonsterActualFloor = "2-PrimoPiano"
-            GLOB.MonsterActualRoom = "Corridoio"
             
         elif main.mostro.evento == "piano-3":
             GLOB.MonsterActualFloor = "3-SecondoPiano"
-            GLOB.MonsterActualRoom = "Corridoio"
+            
+        if type(main.mostro.evento) == str:
+            if "piano" in main.mostro.evento:
+                GLOB.MonsterActualRoom = ""
+                main.mostro.evento = "porta"
+                GLOB.MonsterHasChangedRoom = True
         
 
         if main.player.evento == "piano-0":

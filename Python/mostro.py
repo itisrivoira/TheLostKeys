@@ -71,8 +71,6 @@ class Keeper():
 
         self.distanza = 90
 
-        self.color_triangle = (255, 0, 0)
-
         self.altezza_rect = 20 * GLOB.MULT
 
         self.aggr = False
@@ -83,7 +81,7 @@ class Keeper():
 
         self.flag_CanStartAttack = False
 
-        self.valore_distanza = 200 * GLOB.MULT
+        self.valore_distanza = 175 * GLOB.MULT
         self.setHitbox()
 
         self.__left_pressed = False
@@ -191,7 +189,7 @@ class Keeper():
             lista_valori = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5]
         else:
             lista_valori = [1, 2, 3, 4]
-            self.monster_ai_vel = random.randint(0, 15)/10
+            self.monster_ai_vel = random.randint(0, 10)/10
             
         
         self.delay_aggr = Delay(self.monster_ai_vel, self.__setTraslazione)
@@ -276,12 +274,15 @@ class Keeper():
 
                 if not GLOB.isPaused:
                     self.current_spriteAngry += 0.2 / GLOB.Delta_Time
+                    self.Sound_Angry.fadeout(2900)
                 
                 if self.current_spriteAngry >= len(GLOB.MonsterAngry) or self.monster_ai_brain != -1:
                     self.flag_CanStartAttack = True
                     self.current_spriteAngry = self.start_valueAnimation
-                    self.Sound_Angry.stop()
                     self.contatore_collisioni = 0
+                    
+                if self.current_spriteAngry >= len(GLOB.MonsterAngry) - 2:
+                    self.Sound_Angry.fadeout(2900)
                     
                 if self.current_spriteAngry >= 4 and self.current_spriteAngry < 4.2:
                     self.Sound_Angry.set_volume(0.2 * GLOB.AU)
@@ -381,7 +382,7 @@ class Keeper():
             self.Last_keyPressed = "Left"
             self.angle = 315
         
-        if self.monster_ai_brain == 3:
+        if self.monster_ai_brain == 3 or self.monster_ai_brain == 0:
             self.direzione = "basso"
             self.Last_keyPressed = "Down"
             self.angle = 225
@@ -445,7 +446,7 @@ class Keeper():
         rot_vector = self.line_vector.rotate(self.angle) * radius
         rot_vector1 = self.line_vector.rotate(self.angle + self.distanza) * radius
 
-        distanza = (17 * GLOB.MULT, 22 * GLOB.MULT)
+        distanza = (17 * GLOB.MULT, 18 * GLOB.MULT)
 
         start_line = round(self.x + self.width/2 + distanza[0] + main.cam.getPositionX()), round(self.y + main.cam.getPositionY() + distanza[1])
         end_line = round(self.x + self.width/2 + distanza[0] - rot_vector.x + main.cam.getPositionX()), round(self.y - rot_vector.y + main.cam.getPositionY() + distanza[1])
@@ -463,15 +464,21 @@ class Keeper():
             if GLOB.PlayerIsHidden:
                 self.aggr = False
                 self.flag_CanStartAttack = False
+                
+                
+            self.superfice.fill(pygame.SRCALPHA)
             
             # CALCOLO VELOCITA TILES DI GIOCATORE - KEEPER
             self.velocitaTilesM = round(((24 * GLOB.MULT) / GLOB.Monster_speed) / GLOB.FPS, 2)
             self.velocitaTilesG = round(((24 * GLOB.MULT) / GLOB.Player_speed) / GLOB.FPS, 2)
             
             # CALCOLO DISTANZA GIOCATORE <--> KEEPER
-            self.line = pygame.draw.line(self.superfice, "Red", (self.mesh.centerx, self.mesh.centery), (main.player.mesh.centerx, main.player.mesh.centery), GLOB.MULT)
-            self.lung = round(((self.line.bottomright[0] / GLOB.MULT + self.line.bottomright[1] / GLOB.MULT)/2 - (self.line.bottomleft[0] / GLOB.MULT + self.line.bottomleft[1] / GLOB.MULT)/2), 6)
-            self.diff = round((self.lung / GLOB.FPS) + 2 / GLOB.Delta_Time, 2)
+            self.line = pygame.draw.line(self.superfice, "#db8e35", (self.mesh.centerx, self.mesh.centery), (main.player.mesh.centerx, main.player.mesh.centery), GLOB.MULT)
+            self.lung = round((abs(main.player.mesh.centerx - self.mesh.centerx) + abs(main.player.mesh.centery - self.mesh.centery))/2, 6)
+            self.diff = round((self.lung / GLOB.FPS), 2)
+            
+            # print("Differenza secondi:", GLOB.SecondDiffPos)
+            # print("GIOCATORE: Cordx %s Cordy %s | MONSTER Cordx %s Cordy %s" %(round(main.player.mesh.centerx / GLOB.MULT, 2), round(main.player.mesh.centery / GLOB.MULT, 2), round(self.mesh.centerx / GLOB.MULT, 2), round(self.mesh.centery / GLOB.MULT, 2)))
             
             # SE IL MOSTRO COLLIDE DA TUTTO I LATI STOPPA
             # if not (self.flag_movement["right"] and self.flag_movement["left"] and self.flag_movement["up"] and self.flag_movement["down"]):
@@ -506,11 +513,12 @@ class Keeper():
             if not GLOB.MonsterCanAttack:
                 self.aggr = False
 
-
-            self.superfice.fill(pygame.SRCALPHA)
-
             # STAMPA VISUALE PERIFERICA
-            self.triangle = pygame.draw.polygon(surface=self.superfice, color=self.color_triangle, points=[end_line, end_line1, start_line], width=0)
+            self.triangle = pygame.draw.polygon(surface=self.superfice, color=(255, 0, 0), points=[end_line, end_line1, start_line], width=0)
+            
+            if self.IseePlayer:
+                self.circle = pygame.draw.circle(self.superfice, "Red", (self.x + self.image.get_width()/2 + main.cam.getPositionX() + distanza[0], self.y + self.image.get_height()/2 + main.cam.getPositionY() + distanza[1]), self.valore_distanza, 0)    
+                
 
             self.superfice.set_alpha(self.transparenza)
 
@@ -519,14 +527,11 @@ class Keeper():
             if (self.triangle.colliderect(main.player.hitbox)) and GLOB.MonsterCanAttack and not GLOB.PlayerIsHidden or (self.IseePlayer and not self.IAttacking):
                 
                 self.character_update(5)
-                self.IseePlayer = True
+                self.IseePlayer = True    
                 
                 if self.flag_CanStartAttack and GLOB.MonsterCanAttack:
-                    self.raggio_ai_brain = 0
                     self.monster_ai_brain = 0
                     self.height = 0
-                    self.circle = pygame.draw.circle(self.superfice, "Red", (self.x + self.image.get_width()/2 + main.cam.getPositionX() + distanza[0], self.y + self.image.get_height()/2 + main.cam.getPositionY() + distanza[1]), self.valore_distanza, 0)
-                    self.color_triangle = (255, 0, 0)
                     self.aggr = True
 
             else:
@@ -534,8 +539,6 @@ class Keeper():
 
                 self.delay_monster.Infinite()
                 self.delay_aggr.Infinite()
-                
-                self.color_triangle = (255, 0, 0)
 
 
             if GLOB.ShowMonsterRange or GLOB.Debug:
@@ -547,7 +550,7 @@ class Keeper():
 
             if not self.aggr:
                 self.randomMovement()
-
+                self.velocita_sprite = self.default_vel_sprite
 
             # MODALITA' TRACKING
             
@@ -556,27 +559,21 @@ class Keeper():
                     self.IseePlayer = False
                     self.IAttacking = False
                     self.flag_CanStartAttack = False
+                    GLOB.setMonster()
             
             
             if self.aggr and self.circle.colliderect(main.player.hitbox):
                 
                 self.IAttacking = True
                 
-                # print("Sto collidendo %s, Flag-Trasla %s" %(self.ICollide, self.flag_coll)) 
-                
                 if self.flag_coll:
-                    # print("Direzione %s, mov %s" %(self.direzione, self.monster_ai_brain))
                     self.randomMovement()
                     
                 else:
-                
                     self.trackMovement()
 
             else:
                 
-                GLOB.setMonster()
-                self.velocita_sprite = self.default_vel_sprite
-                self.flag_CanStartAttack = False
                 self.aggr = False
                 
                 
@@ -740,7 +737,7 @@ class Keeper():
             
             # -- PIANO --
             start_id = 127
-            var_max = 2
+            var_max = 4
             
             for i in range(var_max):
                 if var == (start_id + i):
