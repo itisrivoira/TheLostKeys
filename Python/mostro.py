@@ -492,8 +492,14 @@ class Keeper():
             self.proximity_area = pygame.draw.circle(self.superfice, "Black", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza - 150 * GLOB.MULT, 0)    
             
             
-            if ((self.inspector_area.colliderect(main.player.mesh) and GLOB.PlayerIsRunning) or (self.proximity_area.colliderect(main.player.mesh) and not self.IseePlayer)) and not self.IseePlayer and not GLOB.PlayerIsHidden:
+            if self.inspector_area.colliderect(main.player.mesh) and GLOB.PlayerIsRunning and not self.IseePlayer and not GLOB.PlayerIsHidden:
                 self.IseePlayer = True
+                
+            if self.proximity_area.colliderect(main.player.mesh) and not self.IseePlayer and not self.IseePlayer and not GLOB.PlayerIsHidden:
+                self.IseePlayer = True
+                self.aggr = True
+                self.IAttacking = True
+                self.flag_CanStartAttack = True
             
            
             # SE IL FLAG DELL'ANIMAZIONE E' FALSE ALLORA AGGIORNA LA DIFFERENZA DI SECONDI
