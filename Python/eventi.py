@@ -218,7 +218,7 @@ def testa():
         if GLOB.Stanza == "Chimica":
             testo = "Ho trovato un appunto del quale dice che ci sia una chiavetta nascosta all'interno dell'armadio...|Mmmm... mi potrebbe essere utile."
             
-            if not main.mostro.aggr:
+            if not main.mostro.aggr and GLOB.Stanza != GLOB.MonsterActualRoom:
                 GLOB.MonsterActualRoom = "Chimica"
                 GLOB.MonsterActualFloor = "1-PianoTerra"
                 main.mostro.evento = "porta"
@@ -234,7 +234,7 @@ def testa():
 
                 testo = "Wow!|Chi se lo sarebbe aspettato di trovare una chiavetta all'interno del ghiaccio|Magari potrei cercare un PC per vedere il suo contenuto."
                 
-                if not main.mostro.aggr:
+                if not main.mostro.aggr and GLOB.Stanza != GLOB.MonsterActualRoom:
                     GLOB.MonsterActualRoom = "WC-Femmine"
                     GLOB.MonsterActualFloor = "2-PrimoPiano"
                     main.mostro.evento = "porta"
@@ -252,7 +252,7 @@ def testa():
         if GLOB.Stanza == "AulaVideo":
             testo = "Pascoli...|Chissa' se nella libreria della scuola ci potrebbe essere quello che sto cercando."
             
-            if not main.mostro.aggr:
+            if not main.mostro.aggr and GLOB.Stanza != GLOB.MonsterActualRoom:
                 GLOB.MonsterActualRoom = "Chimica"
                 GLOB.MonsterActualFloor = "1-PianoTerra"
                 main.mostro.evento = "porta"
@@ -270,7 +270,7 @@ def testa():
             
             testo = "Si, evvai!!| Oltretutto inserendo il codice 4096 nella macchinetta, mi ha dato un'altra chiavetta!|Andiamo ad analizzarne il contenuto!"
             
-            if not main.mostro.aggr:
+            if not main.mostro.aggr and GLOB.Stanza != GLOB.MonsterActualRoom:
                 GLOB.MonsterActualRoom = "LabInfo"
                 GLOB.MonsterActualFloor = "3-SecondoPiano"
                 main.mostro.evento = "porta"
@@ -281,12 +281,14 @@ def testa():
             
             GLOB.ShowCodice = True
             
-            if not main.mostro.aggr:
+            if not main.mostro.aggr and GLOB.Stanza != GLOB.MonsterActualRoom:
                 GLOB.MonsterActualRoom = "Corridoio"
                 GLOB.MonsterActualFloor = "1-PianoTerra"
                 main.mostro.evento = "porta-8"
+                main.mostro.IseePlayer = True
+                main.mostro.flag_CanStartAttack = True
                 main.mostro.aggr = True
-                main.mostro.IseePlayer = True 
+                main.mostro.IAttacking = True
         
         if testo != "Default":
             testo = testo.split("|")
