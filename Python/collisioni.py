@@ -178,6 +178,7 @@ class Map():
                         if chunck_render_m.colliderect(chunck_render) and GLOB.PlayerIsHidden:
                             GLOB.PlayerIsHidden = False
                             main.mostro.IAttacking = True
+                            main.mostro.aggr = True
                         
                         
                     else:

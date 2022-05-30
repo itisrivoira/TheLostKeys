@@ -71,6 +71,12 @@ class Transizione():
                     GLOB.MonsterActualFloor = GLOB.Piano
                     
                     main.mostro.contatore_collisioni = 0
+                    
+            else:
+                main.mostro.IseePlayer = False
+                main.mostro.IAttacking = False
+                main.mostro.flag_CanStartAttack = False
+                main.mostro.aggr = False
                 
                 
             GLOB.PlayerHasChangedRoom = False

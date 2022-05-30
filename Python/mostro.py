@@ -112,8 +112,7 @@ class Keeper():
         
         self.flag_coll = False
         
-        self.character_update(0)
-        
+        self.image = pygame.image.load(Folder_idle + "/" + GLOB.MonsterIdle[0]).convert_alpha()
         self.char_w, self.char_h = self.image.get_width() * GLOB.MULT / GLOB.Player_proportion, self.image.get_height() * GLOB.MULT / GLOB.Player_proportion
 
         self.luce_image = pygame.image.load("assets/luce.png").convert_alpha()
@@ -154,6 +153,12 @@ class Keeper():
         self.flag_interact = False
         
         self.delayInteract = Delay(2, self.__setInteraction)
+        
+        GLOB.MonsterActualFloor = "1-PianoTerra"
+        GLOB.MonsterActualRoom = "Corridoio"
+        
+        self.__setBrain()
+        self.monster_ai_brain = 0
 
 
     def __setInteraction(self):
@@ -299,9 +304,10 @@ class Keeper():
             
                         
     def finish(self):
+        GLOB.setMonster()
+        self.monster_ai_brain = 0
         self.current_spriteAngry = self.start_valueAnimation
         self.current_spriteWVD = self.start_valueAnimation
-        self.character_update(0)
         self.image = pygame.transform.scale(self.image, (self.char_w, self.char_h))
 
 
@@ -477,14 +483,18 @@ class Keeper():
             self.lung = round((abs(main.player.mesh.centerx - self.mesh.centerx) + abs(main.player.mesh.centery - self.mesh.centery))/2, 6)
             self.diff = round((self.lung / GLOB.FPS), 2)
             
-            # print("Differenza secondi:", GLOB.SecondDiffPos)
-            # print("GIOCATORE: Cordx %s Cordy %s | MONSTER Cordx %s Cordy %s" %(round(main.player.mesh.centerx / GLOB.MULT, 2), round(main.player.mesh.centery / GLOB.MULT, 2), round(self.mesh.centerx / GLOB.MULT, 2), round(self.mesh.centery / GLOB.MULT, 2)))
-            
-            # SE IL MOSTRO COLLIDE DA TUTTO I LATI STOPPA
-            # if not (self.flag_movement["right"] and self.flag_movement["left"] and self.flag_movement["up"] and self.flag_movement["down"]):
-            #     self.finish()
+            if GLOB.Debug:
+                print("Differenza secondi:", self.diff)
             
             
+            self.inspector_area = pygame.draw.circle(self.superfice, "Gray", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza - 120 * GLOB.MULT, 0)    
+            self.proximity_area = pygame.draw.circle(self.superfice, "Black", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza - 150 * GLOB.MULT, 0)    
+            
+            
+            if ((self.inspector_area.colliderect(main.player.mesh) and GLOB.PlayerIsRunning) or (self.proximity_area.colliderect(main.player.mesh) and not self.IseePlayer)) and not self.IseePlayer and not GLOB.PlayerIsHidden:
+                self.IseePlayer = True
+            
+           
             # SE IL FLAG DELL'ANIMAZIONE E' FALSE ALLORA AGGIORNA LA DIFFERENZA DI SECONDI
             if not main.animazione.flag_room:
                 GLOB.SecondDiffPos = self.diff
@@ -559,7 +569,7 @@ class Keeper():
                     self.IseePlayer = False
                     self.IAttacking = False
                     self.flag_CanStartAttack = False
-                    GLOB.setMonster()
+                    self.aggr = False
             
             
             if self.aggr and self.circle.colliderect(main.player.hitbox):
@@ -573,8 +583,7 @@ class Keeper():
                     self.trackMovement()
 
             else:
-                
-                self.aggr = False
+                GLOB.setMonster()
                 
                 
         else:

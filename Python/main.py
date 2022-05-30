@@ -540,7 +540,7 @@ def main():
                     GLOB.Debug = False
                     GLOB.Cam_visible = False
 
-                GLOB.ShowCodice = GLOB.Debug                    
+                GLOB.ShowCodice = GLOB.Debug              
                 ChangeDeltaTime(GLOB.Debug)
 
             if GLOB.Debug:
