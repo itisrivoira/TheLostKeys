@@ -538,18 +538,18 @@ class Keeper():
                 
 
             self.superfice.set_alpha(self.transparenza)
-
-
+            
+            if self.IseePlayer and not self.flag_CanStartAttack:
+                self.character_update(5)
+                
+            if self.flag_CanStartAttack and GLOB.MonsterCanAttack:
+                self.monster_ai_brain = 0
+                self.height = 0
+                self.aggr = True
 
             if (self.triangle.colliderect(main.player.hitbox)) and GLOB.MonsterCanAttack and not GLOB.PlayerIsHidden or (self.IseePlayer and not self.IAttacking):
                 
-                self.character_update(5)
-                self.IseePlayer = True    
-                
-                if self.flag_CanStartAttack and GLOB.MonsterCanAttack:
-                    self.monster_ai_brain = 0
-                    self.height = 0
-                    self.aggr = True
+                self.IseePlayer = True
 
             else:
                 self.height = self.default_height
@@ -572,7 +572,7 @@ class Keeper():
             # MODALITA' TRACKING
             
             if self.IAttacking:
-                if not self.circle.colliderect(main.player.hitbox) and not GLOB.PlayerIsHidden:
+                if not self.circle.colliderect(main.player.hitbox):
                     self.IseePlayer = False
                     self.IAttacking = False
                     self.flag_CanStartAttack = False
