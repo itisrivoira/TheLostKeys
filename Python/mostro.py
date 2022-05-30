@@ -209,14 +209,15 @@ class Keeper():
             
             if c == 0:
                 
-                if self.current_spriteI == self.start_valueAnimation and not self.flag_coll:
+                if self.current_spriteI == self.start_valueAnimation + 0.05 and not self.flag_coll:
                     self.respiro.set_volume(0.005 * GLOB.AU)
-                    self.respiro.play()       
+                    self.respiro.play()
                 
                 self.current_spriteI += 0.05 / GLOB.Delta_Time
                 
                 if self.current_spriteI >= len(GLOB.MonsterIdle):
                     self.current_spriteI = self.start_valueAnimation
+                    self.respiro.fadeout(1000)
                 
                 immagine = GLOB.MonsterIdle[int(self.current_spriteI)]
                 self.image = pygame.image.load(Folder_idle + "/" + immagine).convert_alpha()
@@ -305,7 +306,7 @@ class Keeper():
                         
     def finish(self):
         GLOB.setMonster()
-        self.monster_ai_brain = 0
+        self.character_update(0)
         self.current_spriteAngry = self.start_valueAnimation
         self.current_spriteWVD = self.start_valueAnimation
         self.image = pygame.transform.scale(self.image, (self.char_w, self.char_h))

@@ -184,6 +184,7 @@ def controllo_condizioni():
             if not GLOB.MonsterSpawning:
                 mostro.Sound_Angry.play()    
                 GLOB.MonsterSpawning = True
+                SetPlayer_speed()
     
     
     if GLOB.ShowComand and not animazione.flag_caricamento:
@@ -522,6 +523,13 @@ def main():
                         GLOB.PlayerIsHidden = True
                     else:
                         GLOB.PlayerIsHidden = False
+                        
+                if event.key == pygame.K_m and GLOB.Debug:
+                    
+                    if not GLOB.MonsterSpawning:
+                        GLOB.MonsterSpawning = True
+                    else:
+                        GLOB.MonsterSpawning = False
 
                 if event.key == pygame.K_TAB and animazione.iFinished and not animazione.flag_caricamento:
                                 
