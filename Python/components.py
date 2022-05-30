@@ -1237,7 +1237,7 @@ class GUI():
 		moltiplicatore =  0.5
   
 		if GLOB.PlayerIsHidden:
-			val = 5
+			val = 8.5
 			self.max -=  (self.speed / val) * GLOB.MULT
    
 		else:
