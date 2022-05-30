@@ -192,7 +192,7 @@ class Map():
                         if hitbox:
                             main.player.HasCollision(collisione)
                             
-                            if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning:
+                            if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning and GLOB.Stanza == GLOB.MonsterActualRoom:
                                 main.mostro.HasCollision(collisione)
 
                             if GLOB.Debug:
