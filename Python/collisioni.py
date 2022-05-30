@@ -203,7 +203,7 @@ class Map():
                                 main.player.HasCollision(collisione)
                                 main.player.HasInteraction(chunck_render, collisione, var)
 
-                                if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning:
+                                if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning and GLOB.Stanza == GLOB.MonsterActualRoom:
                                     main.mostro.HasCollision(collisione)
                                     main.mostro.HasInteraction(chunck_render_m, collisione, var)
 
