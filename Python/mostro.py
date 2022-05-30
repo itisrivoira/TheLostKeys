@@ -468,7 +468,7 @@ class Keeper():
         
             # GIOCATORE NASCOSTO
             
-            if GLOB.PlayerIsHidden:
+            if GLOB.PlayerIsHidden and not self.IseePlayer:
                 self.aggr = False
                 self.flag_CanStartAttack = False
                 
@@ -572,7 +572,7 @@ class Keeper():
             # MODALITA' TRACKING
             
             if self.IAttacking:
-                if not self.circle.colliderect(main.player.hitbox) or GLOB.PlayerIsHidden:
+                if not self.circle.colliderect(main.player.hitbox) and not GLOB.PlayerIsHidden:
                     self.IseePlayer = False
                     self.IAttacking = False
                     self.flag_CanStartAttack = False

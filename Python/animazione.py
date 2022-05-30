@@ -72,6 +72,9 @@ class Transizione():
                     
                     main.mostro.contatore_collisioni = 0
                     
+                if GLOB.PlayerIsHidden:
+                    main.mostro.IseePlayer = False
+                    
             else:
                 main.mostro.IseePlayer = False
                 main.mostro.IAttacking = False
