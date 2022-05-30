@@ -179,6 +179,8 @@ class Map():
                             GLOB.PlayerIsHidden = False
                             main.mostro.IAttacking = True
                             main.mostro.aggr = True
+                            main.mostro.IseePlayer = True
+                            main.mostro.flag_CanStartAttack = True
                             main.Gui.door_sound.play()
                         
                         
