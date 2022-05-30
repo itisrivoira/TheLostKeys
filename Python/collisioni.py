@@ -119,7 +119,7 @@ class Map():
         chunck = 40 * GLOB.MULT
         chunck_render = pygame.Rect(main.player.x + 7 * GLOB.MULT /GLOB.Player_proportion, main.player.y + 19 * GLOB.MULT /GLOB.Player_proportion, chunck, chunck)
         
-        if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning:
+        if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning and GLOB.Stanza == GLOB.MonsterActualRoom:
             chunck_render_m = pygame.Rect(main.mostro.x + 16.5 * GLOB.MULT /GLOB.Player_proportion + main.cam.getPositionX(),  main.mostro.y + 27 * GLOB.MULT /GLOB.Player_proportion + main.cam.getPositionY(), 24 * GLOB.MULT, 24 * GLOB.MULT)
 
         if GLOB.Debug:
@@ -171,7 +171,7 @@ class Map():
                     if GLOB.Debug and GLOB.ShowGrid:
                         pygame.draw.rect(GLOB.screen, (255,255,255), oggetto, int(1))
 
-                    if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning:
+                    if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning and GLOB.Stanza == GLOB.MonsterActualRoom:
                         controllo_collisione = condition and ((oggetto.colliderect(chunck_render)) or (oggetto.colliderect(chunck_render_m)))
                         
                         
