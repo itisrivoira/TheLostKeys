@@ -307,6 +307,7 @@ class Keeper():
                         
     def finish(self):
         GLOB.setMonster()
+        self.character_update(0)
         self.current_spriteAngry = self.start_valueAnimation
         self.image = pygame.transform.scale(self.image, (self.char_w, self.char_h))
 
@@ -500,7 +501,6 @@ class Keeper():
                 self.IseePlayer = True
                 self.aggr = True
                 self.IAttacking = True
-                self.flag_CanStartAttack = True
             
            
             # SE IL FLAG DELL'ANIMAZIONE E' FALSE ALLORA AGGIORNA LA DIFFERENZA DI SECONDI
@@ -579,6 +579,7 @@ class Keeper():
                     self.IAttacking = False
                     self.flag_CanStartAttack = False
                     self.aggr = False
+                    self.finish()
 
 
 
