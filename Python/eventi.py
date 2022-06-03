@@ -286,7 +286,6 @@ def testa():
                 GLOB.MonsterActualFloor = "1-PianoTerra"
                 main.mostro.evento = "porta-8"
                 main.mostro.IseePlayer = True
-                main.mostro.flag_CanStartAttack = True
                 main.mostro.aggr = True
                 main.mostro.IAttacking = True
         

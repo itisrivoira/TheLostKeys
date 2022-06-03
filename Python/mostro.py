@@ -147,7 +147,7 @@ class Keeper():
         self.delay_aggr = Delay(0.2, self.__setTraslazione)
         
         self.contatore_collisioni = 0
-        self.max_val_cont = 4
+        self.max_val_cont = 10
 
         self.diff = 1
         self.evento = None
@@ -191,11 +191,11 @@ class Keeper():
         
         self.monster_ai_vel = random.randint(0, 50)/10
         
-        if not self.flag_coll and not self.aggr:
+        if not self.flag_coll:
             lista_valori = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5]
         else:
             lista_valori = [1, 2, 3, 4]
-            self.monster_ai_vel = self.diff
+            self.monster_ai_vel = random.randint(7, 10)/10
             
         
         self.delay_aggr = Delay(self.monster_ai_vel, self.__setTraslazione)
@@ -489,8 +489,8 @@ class Keeper():
                 print("Differenza secondi:", self.diff)
             
             
-            self.inspector_area = pygame.draw.circle(self.superfice, "Gray", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza - 120 * GLOB.MULT, 0)    
-            self.proximity_area = pygame.draw.circle(self.superfice, "Black", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza - 150 * GLOB.MULT, 0)    
+            self.inspector_area = pygame.draw.circle(self.superfice, "Gray", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza - 100 * GLOB.MULT, 0)    
+            self.proximity_area = pygame.draw.circle(self.superfice, "Black", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza - 135 * GLOB.MULT, 0)    
             
             
             if self.inspector_area.colliderect(main.player.mesh) and GLOB.PlayerIsRunning and not self.IseePlayer and not GLOB.PlayerIsHidden:
@@ -579,6 +579,13 @@ class Keeper():
                     self.IAttacking = False
                     self.flag_CanStartAttack = False
                     self.aggr = False
+
+
+
+            if self.contatore_collisioni >= self.max_val_cont:
+                self.flag_coll = True
+                self.__setBrain()
+                self.contatore_collisioni = 0
             
             
             if self.aggr and self.circle.colliderect(main.player.hitbox):
@@ -587,7 +594,6 @@ class Keeper():
                 
                 if self.flag_coll:
                     self.randomMovement()
-                    
                 else:
                     self.trackMovement()
 
@@ -687,11 +693,6 @@ class Keeper():
                     self.contatore_collisioni += 1
                     self.flag_coll = False
 
-                    
-                    if self.contatore_collisioni >= self.max_val_cont:
-                        self.flag_coll = True
-                        self.__setBrain()
-                        self.contatore_collisioni = 0
                 else:
                     self.finish()
                     self.flag_coll = False
