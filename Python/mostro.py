@@ -148,7 +148,8 @@ class Keeper():
         
         self.contatore_collisioni = 0
         self.max_val_cont = 4
-        
+
+        self.diff = 1
         self.evento = None
         self.flag_interact = False
         
@@ -194,7 +195,7 @@ class Keeper():
             lista_valori = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5]
         else:
             lista_valori = [1, 2, 3, 4]
-            self.monster_ai_vel = random.randint(0, 10)/10
+            self.monster_ai_vel = self.diff
             
         
         self.delay_aggr = Delay(self.monster_ai_vel, self.__setTraslazione)
@@ -306,9 +307,7 @@ class Keeper():
                         
     def finish(self):
         GLOB.setMonster()
-        self.character_update(0)
         self.current_spriteAngry = self.start_valueAnimation
-        self.current_spriteWVD = self.start_valueAnimation
         self.image = pygame.transform.scale(self.image, (self.char_w, self.char_h))
 
 
@@ -443,6 +442,8 @@ class Keeper():
 
     def update(self):
         radius = 360
+
+        print(self.monster_ai_brain)
         
         # print("Sto attacando: %s  | Posso Attaccare: %s  | Aggrato: %s  | Ho visto il player: %s" %(self.IAttacking, self.flag_CanStartAttack, self.aggr, self.IseePlayer))
         
@@ -539,13 +540,14 @@ class Keeper():
 
             self.superfice.set_alpha(self.transparenza)
             
-            if self.IseePlayer and not self.flag_CanStartAttack:
+            if self.IseePlayer and not self.flag_CanStartAttack and GLOB.MonsterCanAttack and not self.IAttacking:
                 self.character_update(5)
                 
             if self.flag_CanStartAttack and GLOB.MonsterCanAttack:
                 self.monster_ai_brain = 0
                 self.height = 0
                 self.aggr = True
+                self.flag_CanStartAttack = False
 
             if (self.triangle.colliderect(main.player.hitbox)) and GLOB.MonsterCanAttack and not GLOB.PlayerIsHidden or (self.IseePlayer and not self.IAttacking):
                 
@@ -675,10 +677,6 @@ class Keeper():
         if self.mesh.colliderect(object):
 
             if self.monster_ai_brain != -1:
-
-                self.finish()
-                
-                self.__setBrain()
                 
                 self.delay_movement.ReStart()
                 
@@ -687,12 +685,17 @@ class Keeper():
             
                 if self.aggr:
                     self.contatore_collisioni += 1
+                    self.flag_coll = False
+
                     
                     if self.contatore_collisioni >= self.max_val_cont:
                         self.flag_coll = True
+                        self.__setBrain()
                         self.contatore_collisioni = 0
                 else:
-                    self.flag_coll = True
+                    self.finish()
+                    self.flag_coll = False
+                    self.__setBrain()
             
             w = (self.Last_keyPressed == "Up")
             a = (self.Last_keyPressed == "Left")
