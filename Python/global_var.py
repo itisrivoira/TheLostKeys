@@ -5,7 +5,7 @@ TITLE = "The Lost Keys"
 
 # Valori di proporzione
 
-Delta_Time = 1 # Delta_Time (Congliabile 1/2)
+Delta_Time = 2 # Delta_Time (Congliabile 1/2)
 Default_DeltaTime = Delta_Time
 
 Player_proportion = 1 # Divisore della grandezza del giocatore
@@ -69,7 +69,7 @@ PlayerReset = False
 # -- MOSTRO
 MonsterCanSpawn = True
 ShowMonsterRange = False
-MonsterCanAttack = False
+MonsterCanAttack = True
 
 
 SecondDiffPos = 5

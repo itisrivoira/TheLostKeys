@@ -443,7 +443,7 @@ class Keeper():
     def update(self):
         radius = 360
 
-        print(self.monster_ai_brain)
+        # print(self.monster_ai_brain)
         
         # print("Sto attacando: %s  | Posso Attaccare: %s  | Aggrato: %s  | Ho visto il player: %s" %(self.IAttacking, self.flag_CanStartAttack, self.aggr, self.IseePlayer))
         

@@ -216,9 +216,7 @@ def controllo_condizioni():
 
     if animazione.iFinished:
         GLOB.PlayerCanMove = True
-        GLOB.MonsterCanAttack = True
     else:
-        GLOB.MonsterCanAttack = False
         GLOB.PlayerIsRunning = False
         GLOB.PlayerCanMove = False
         player.setAllkeys(False)
