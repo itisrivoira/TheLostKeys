@@ -3,8 +3,9 @@ import pygame, os, sys
 
 #Importo i vari file e classi necessarie
 import giocatore, menu, camera, debug, collisioni
-from components import Bar, Button, Dialoghi, Dialoghi_Interattivi, Risultato, Timer, GUI, MiniMap, Code, Pc
+from components import Bar, Button, Dialoghi, Delay, Dialoghi_Interattivi, Risultato, Timer, GUI, MiniMap, Code, Pc
 from pygame import mixer
+from pyvidplayer import Video
 from animazione import Transizione
 from mostro import Keeper
 import stanze
@@ -25,6 +26,7 @@ def SetPlayer_speed():
     """
 
     GLOB.setCharacter()
+    GLOB.setMonster()
 
 def SetPlayer_sprite():
     global Folder_walkO, Folder_walkVD, Folder_walkVU
@@ -129,7 +131,7 @@ def inizializza():
 
     if GLOB.MonsterCanSpawn:
         global mostro
-        mostro = Keeper((200 * GLOB.MULT, 122 * GLOB.MULT), (20 * GLOB.MULT, 0.5 * GLOB.MULT))
+        mostro = Keeper((200 * GLOB.MULT, 122 * GLOB.MULT), (20 * GLOB.MULT, 0.4 * GLOB.MULT))
 
 
 def load_collisions(path):
@@ -163,6 +165,28 @@ def load_collisions(path):
 
 
 def controllo_condizioni():
+    
+    if len(GLOB.enigmi_risolti) > 0 and GLOB.MonsterIntro:
+        
+        if messaggio_a_schermo.isFinished:
+            mostro.Sound_Angry.fadeout(2200)
+            testo = "Che cos'era quello strano suono?|Proveniva dall'ingresso principale!"
+            
+            testo = testo.split("|")
+            
+            for t in testo:
+                dialogo = Dialoghi(GLOB.scelta_char, t, 3)
+                dialogo.stampa()
+                
+            GLOB.MonsterIntro = False
+        else:
+            
+            if not GLOB.MonsterSpawning:
+                mostro.Sound_Angry.play()    
+                GLOB.MonsterSpawning = True
+                SetPlayer_speed()
+    
+    
     if GLOB.ShowComand and not animazione.flag_caricamento:
         testo1 = "Ciao! Io sono verga e saro' la tua guida di questo viaggio!|Per muoverti clicca le freccie direzionali o WASD|Per correre tieni premuto SHIFT|"
         testo2 = "Per aprire l'inventario premi TAB e per vedere le informazioni dettagliate premere Q|Per interagire con gli oggetti premere E|"
@@ -192,9 +216,7 @@ def controllo_condizioni():
 
     if animazione.iFinished:
         GLOB.PlayerCanMove = True
-        GLOB.MonsterCanAttack = True
     else:
-        GLOB.MonsterCanAttack = False
         GLOB.PlayerIsRunning = False
         GLOB.PlayerCanMove = False
         player.setAllkeys(False)
@@ -240,6 +262,9 @@ def Stampa_messaggio():
     except NameError:
         pass
 
+    if timer.getMinutes() == 0 and timer.getSeconds() < 20:
+        cam.screen_shake()
+
 def disegna():
 
     timer.Start()
@@ -253,19 +278,20 @@ def disegna():
     
     collisions.render_map((0,0))
 
-    player.update()
+    if not GLOB.PlayerIsHidden:
+        player.update()
 
-    if GLOB.MonsterCanSpawn:
+    if GLOB.MonsterCanSpawn and animazione.iFinished and GLOB.MonsterSpawning and GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
         mostro.update()
 
     collisions.render_objects((0,0))
 
     stanze.caricaStanza()
 
-    player.load_playerSurface()
+    if not GLOB.PlayerIsHidden:
+        player.load_playerSurface()
 
-
-    if GLOB.MonsterCanSpawn:
+    if GLOB.MonsterCanSpawn and animazione.iFinished and GLOB.MonsterSpawning and GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
         mostro.load_monsterSurface()
 
     animazione.disegna()
@@ -379,6 +405,8 @@ def main():
         condition_4 = getRight and getDown and not(getLeft and getUp)
 
         if LEFT and not RIGHT and not(condition_1 and condition_2):
+            GLOB.PlayerIsMoving = IsPressed
+            
             player.setLeftPress(IsPressed)
             player.flag_delay = True
 
@@ -388,7 +416,9 @@ def main():
             else:
                 player.finish()
             
-        elif RIGHT and not LEFT and not(condition_3 and condition_4):    
+        elif RIGHT and not LEFT and not(condition_3 and condition_4):
+            GLOB.PlayerIsMoving = IsPressed
+            
             player.setRightPress(IsPressed)
             player.flag_delay = True
 
@@ -399,6 +429,8 @@ def main():
                 player.finish()
 
         elif UP and not DOWN and not(condition_1 and condition_3):
+            GLOB.PlayerIsMoving = IsPressed
+            
             player.setUpPress(IsPressed)
             player.flag_delay = True
 
@@ -409,6 +441,8 @@ def main():
                 player.finish()
             
         elif DOWN and not UP and not(condition_2 and condition_4):
+            GLOB.PlayerIsMoving = IsPressed
+            
             player.setDownPress(IsPressed)
             player.flag_delay = True
 
@@ -419,6 +453,7 @@ def main():
                 player.finish()
 
         elif event.key == pygame.K_LSHIFT:
+            
             if IsPressed and GLOB.PlayerCanRun:
                 
                 player.flag_delay = True
@@ -437,9 +472,13 @@ def main():
                 player.setIsRunning(GLOB.PlayerCanRun)
                 GLOB.Player_speed = GLOB.Player_default_speed
                 
+        elif event.key == pygame.K_e:
+            GLOB.PlayerInteract = IsPressed
+                
         elif not UP and player.getUpPress() or not DOWN and player.getDownPress():
             player.setAllkeys(False)    # Evita che ci siano input zombie
             player.finish()
+            
 
     # SETTO ENIGMI - DIALOGHI
     dialoghi()
@@ -475,6 +514,20 @@ def main():
                         GLOB.ShowGrid = True
                     elif GLOB.ShowGrid:
                         GLOB.ShowGrid = False
+                        
+                if event.key == pygame.K_x and GLOB.Debug:
+        
+                    if not GLOB.PlayerIsHidden:
+                        GLOB.PlayerIsHidden = True
+                    else:
+                        GLOB.PlayerIsHidden = False
+                        
+                if event.key == pygame.K_m and GLOB.Debug:
+                    
+                    if not GLOB.MonsterSpawning:
+                        GLOB.MonsterSpawning = True
+                    else:
+                        GLOB.MonsterSpawning = False
 
                 if event.key == pygame.K_TAB and animazione.iFinished and not animazione.flag_caricamento:
                                 
@@ -483,7 +536,6 @@ def main():
                         Gui.inventory_sound.play()
                     elif GLOB.ShowInventory:
                         GLOB.ShowInventory = False
-
 
             if keys_pressed[pygame.K_F3] and GLOB.OptionDebug:
                             
@@ -494,7 +546,7 @@ def main():
                     GLOB.Debug = False
                     GLOB.Cam_visible = False
 
-                GLOB.ShowCodice = GLOB.Debug                    
+                GLOB.ShowCodice = GLOB.Debug              
                 ChangeDeltaTime(GLOB.Debug)
 
             if GLOB.Debug:
@@ -511,6 +563,7 @@ def main():
 
                     if not GLOB.Enigma:
                         GLOB.Enigma = True
+                        
 
             if GLOB.PlayerCanMove:
 
@@ -726,16 +779,89 @@ def options_audio():
         clock.tick(GLOB.FPS) # setto i FramesPerSecond
 
 
+
+# -- JUMP SCARE --
+def SetVideoToFalse():
+    global VideoFinito, video
+    VideoFinito = True
+    video.close()
+
+def jump_scare():
+    global VideoFinito, video
+    
+    video = Video("video/Jumpscare.mp4")
+    video.set_size((GLOB.screen_width, GLOB.screen_height))
+    video.set_volume(0.4 * GLOB.AU)
+    delay_video = Delay(video.duration -3, SetVideoToFalse)
+    
+    VideoFinito = False
+    while not VideoFinito:
+        
+        for event in pygame.event.get():
+            
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            
+            # if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
+            #     SetVideoToFalse()
+                
+        delay_video.Start()
+        video.draw(GLOB.screen, (0, 0))
+                
+        clock.tick(GLOB.FPS)
+        pygame.display.flip()
+
 #Funzione GAME OVER
 def game_over():
     sfondo = pygame.image.load("assets/gameover.png").convert()
     sfondo = pygame.transform.scale(sfondo, (sfondo.get_width() * GLOB.MULT, sfondo.get_height() * GLOB.MULT))
 
+
+    jump_scare()
+
     restarta = False
 
     pygame.mouse.set_visible(True)
+    
+    global i, testo1, t1, z, testo2, t2, suono
+    i = -1
+    z = -1
+    
+    testo1 = "GAME"
+    t1 = ""
+    
+    testo2 = "OVER"
+    t2 = ""
+    
+    suono = mixer.Sound("suoni/char-sound.wav")
+    suono.set_volume(0.02 * GLOB.AU)
+    
+    
+    def stampa():
+        global i, testo1, t1, z, testo2, t2, suono
+        flag = False
+        
+        if i < len(testo1) - 1:
+            i += 1
+            t1 += testo1[i]
+            flag = True
+            
+        if i == len(testo1) - 1:
+            if z < len(testo2) - 1:
+                z += 1
+                t2 += testo2[z]
+                flag = True
+        
+        if flag:
+            suono.play()
 
-    while not restarta:
+    delay = Delay(0.4, stampa)
+
+    while not restarta and VideoFinito:  
+
+        delay.Infinite()
+        
 
         # Ottengo la posizione corrente del cursore del mouse
         MENU_MOUSE_POS = pygame.mouse.get_pos()
@@ -753,6 +879,10 @@ def game_over():
 
         for event in pygame.event.get():
             keys_pressed = pygame.key.get_pressed()
+            
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
 
             if keys_pressed[pygame.K_ESCAPE] or (event.type == pygame.MOUSEBUTTONDOWN and QUIT_BUTTON.checkForInput(MENU_MOUSE_POS)):
                 GLOB.isGameRunning = False
@@ -773,16 +903,16 @@ def game_over():
         distanza_riga = 20 * GLOB.MULT
 
     
-        GAME_TEXT = get_font(size*int(GLOB.MULT)).render("GAME", True, "Yellow")
+        GAME_TEXT = get_font(size*int(GLOB.MULT)).render(t1, True, "Yellow")
         GAME_POS = (GLOB.screen_width/2 - GAME_TEXT.get_width()/2, GLOB.screen_height/3 - GAME_TEXT.get_height()/2 + distanza)
 
-        CGAME_TEXT = get_font(size*int(GLOB.MULT)).render("GAME", True, "Black")
+        CGAME_TEXT = get_font(size*int(GLOB.MULT)).render(t1, True, "Black")
         CGAME_POS = (GLOB.screen_width/2 - CGAME_TEXT.get_width()/2, GLOB.screen_height/3 - CGAME_TEXT.get_height()/2 + distanza + altezza)
 
-        OVER_TEXT = get_font(size*int(GLOB.MULT)).render("OVER", True, "Red")
+        OVER_TEXT = get_font(size*int(GLOB.MULT)).render(t2, True, "Red")
         OVER_POS = (GLOB.screen_width/2 - OVER_TEXT.get_width()/2, GLOB.screen_height/3 - OVER_TEXT.get_height()/2 + distanza + distanza_riga)
 
-        COVER_TEXT = get_font(size*int(GLOB.MULT)).render("OVER", True, "Black")
+        COVER_TEXT = get_font(size*int(GLOB.MULT)).render(t2, True, "Black")
         COVER_POS = (GLOB.screen_width/2 - COVER_TEXT.get_width()/2, GLOB.screen_height/3 - COVER_TEXT.get_height()/2 + distanza + distanza_riga + altezza)
 
         GLOB.screen.blit(CGAME_TEXT, CGAME_POS)
@@ -799,6 +929,8 @@ def game_over():
 
         clock.tick(GLOB.FPS)
         pygame.display.flip()
+
+
 
 #Funzione GAME WIN
 def game_win():
@@ -846,6 +978,10 @@ def game_win():
 
         for event in pygame.event.get():
             keys_pressed = pygame.key.get_pressed()
+            
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
 
             if keys_pressed[pygame.K_ESCAPE] or (event.type == pygame.MOUSEBUTTONDOWN and QUIT_BUTTON.checkForInput(MENU_MOUSE_POS)):
                 GLOB.isGameRunning = False

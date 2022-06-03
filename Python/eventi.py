@@ -56,7 +56,7 @@ def testa():
         if main.player.evento == "chiavetta-6":
             var = "LabInfo"
             GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
-            GLOB.inventario["chiavetta-6"] = (GLOB.chiavette[var][2], False, "Proprietario: Giulio Dajani - Files: stringhe.c")
+            GLOB.inventario["chiavetta-6"] = (GLOB.chiavette[var][2], False, "Proprietario: Giulio Dajani - Files: shqipe.c")
             main.player.evento = None
 
 
@@ -77,7 +77,7 @@ def testa():
         if main.player.evento == "chiavetta-9":
             var = "LabInformatica"
             GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
-            GLOB.inventario["chiavetta-9"] = (GLOB.chiavette[var][2], False, "Proprietario: Alberto Boaglio - Files: BoaCompanySite")
+            GLOB.inventario["chiavetta-9"] = (GLOB.chiavette[var][2], False, "Proprietario: Alberto Boaglio - Files: ABMediaAgency")
             main.player.evento = None
 
 
@@ -99,7 +99,7 @@ def testa():
         if main.player.evento == "chiavetta-12":
             var = "Corridoio"
             GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
-            GLOB.inventario["chiavetta-12"] = (GLOB.chiavette[var][2], False, "Proprietario: Marco Rolando - Files: rollysong.mp3")
+            GLOB.inventario["chiavetta-12"] = (GLOB.chiavette[var][2], False, "Proprietario: Marco Rolando - Files: somebodyelse.mp3")
             main.player.evento = None
 
 
@@ -214,8 +214,15 @@ def testa():
 
     if main.player.evento == "enigma-risolto":
         testo = "Default"
+        
         if GLOB.Stanza == "Chimica":
             testo = "Ho trovato un appunto del quale dice che ci sia una chiavetta nascosta all'interno dell'armadio...|Mmmm... mi potrebbe essere utile."
+            
+            if not main.mostro.aggr and GLOB.Stanza != GLOB.MonsterActualRoom:
+                GLOB.MonsterActualRoom = "Chimica"
+                GLOB.MonsterActualFloor = "1-PianoTerra"
+                main.mostro.evento = "porta"
+                GLOB.MonsterHasChangedRoom = True
 
         if GLOB.Stanza == "WC-Femmine":
             oggetto = "Ghiaccio"
@@ -226,6 +233,12 @@ def testa():
                 AggiungiChiavetta()
 
                 testo = "Wow!|Chi se lo sarebbe aspettato di trovare una chiavetta all'interno del ghiaccio|Magari potrei cercare un PC per vedere il suo contenuto."
+                
+                if not main.mostro.aggr and GLOB.Stanza != GLOB.MonsterActualRoom:
+                    GLOB.MonsterActualRoom = "WC-Femmine"
+                    GLOB.MonsterActualFloor = "2-PrimoPiano"
+                    main.mostro.evento = "porta"
+                    GLOB.MonsterHasChangedRoom = True
 
         if GLOB.Stanza == "AulaMagna":
             testo = "Mmmm.|Forse la prossima chiavetta ha qualcosa a che fare con una sedia."
@@ -238,6 +251,12 @@ def testa():
 
         if GLOB.Stanza == "AulaVideo":
             testo = "Pascoli...|Chissa' se nella libreria della scuola ci potrebbe essere quello che sto cercando."
+            
+            if not main.mostro.aggr and GLOB.Stanza != GLOB.MonsterActualRoom:
+                GLOB.MonsterActualRoom = "Chimica"
+                GLOB.MonsterActualFloor = "1-PianoTerra"
+                main.mostro.evento = "porta"
+                GLOB.MonsterHasChangedRoom = True
 
         if GLOB.Stanza == "LabInfo":
             testo = "Scratch... che ricordi, chissa' se tra questi pc ce ne sarà uno funzionante..."
@@ -250,11 +269,25 @@ def testa():
             
             
             testo = "Si, evvai!!| Oltretutto inserendo il codice 4096 nella macchinetta, mi ha dato un'altra chiavetta!|Andiamo ad analizzarne il contenuto!"
+            
+            if not main.mostro.aggr and GLOB.Stanza != GLOB.MonsterActualRoom:
+                GLOB.MonsterActualRoom = "LabInfo"
+                GLOB.MonsterActualFloor = "3-SecondoPiano"
+                main.mostro.evento = "porta"
+                GLOB.MonsterHasChangedRoom = True
                 
         if GLOB.Stanza == "Archivio":
             testo = "Ce l'ho fatta!!|Oltretutto c'è pure uno strano codice dietro al foglio...|C'è scritto: '"+str(GLOB.codice)+"'"
             
             GLOB.ShowCodice = True
+            
+            if not main.mostro.aggr and GLOB.Stanza != GLOB.MonsterActualRoom:
+                GLOB.MonsterActualRoom = "Corridoio"
+                GLOB.MonsterActualFloor = "1-PianoTerra"
+                main.mostro.evento = "porta-8"
+                main.mostro.IseePlayer = True
+                main.mostro.aggr = True
+                main.mostro.IAttacking = True
         
         if testo != "Default":
             testo = testo.split("|")
@@ -273,6 +306,25 @@ def testa():
 
 
     def piano():
+        
+        if main.mostro.evento == "piano-0":
+            GLOB.MonsterActualFloor = "0-PianoSegreto"
+            
+        elif main.mostro.evento == "piano-1":
+            GLOB.MonsterActualFloor = "1-PianoTerra"
+            
+        elif main.mostro.evento == "piano-2":
+            GLOB.MonsterActualFloor = "2-PrimoPiano"
+            
+        elif main.mostro.evento == "piano-3":
+            GLOB.MonsterActualFloor = "3-SecondoPiano"
+            
+        if type(main.mostro.evento) == str:
+            if "piano" in main.mostro.evento:
+                GLOB.MonsterActualRoom = ""
+                main.mostro.evento = "porta"
+                GLOB.MonsterHasChangedRoom = True
+        
 
         if main.player.evento == "piano-0":
             GLOB.Piano = "0-PianoSegreto"
@@ -328,6 +380,120 @@ def testa():
             return False
 
     def porte():
+        
+        if GLOB.MonsterActualRoom != "Corridoio":
+            
+            valuex, valuey = 0, 0
+            
+            if GLOB.MonsterActualFloor == "1-PianoTerra":
+                valuex, valuey = 274, 114
+                
+            if GLOB.MonsterActualFloor == "2-PrimoPiano" or GLOB.MonsterActualFloor == "3-SecondoPiano":
+                valuex, valuey = 368, 142
+            
+            if main.mostro.evento != None:
+                
+                if "porta" in main.mostro.evento:
+                    
+                    main.mostro.evento = None
+                    GLOB.MonsterHasChangedRoom = True
+                    GLOB.MonsterActualRoom = "Corridoio"
+                    
+                    main.mostro.x = valuex * GLOB.MULT
+                    main.mostro.y = valuey * GLOB.MULT
+                    
+                    main.Gui.door_sound.play()
+                    
+        
+        if main.mostro.evento == "porta-0":
+            main.mostro.evento = None
+            GLOB.MonsterHasChangedRoom = True
+            
+            if GLOB.MonsterActualFloor == "1-PianoTerra":
+                
+                if GLOB.MonsterActualRoom == "Corridoio":
+                    GLOB.MonsterActualRoom = "Fisica"
+                    
+                    main.mostro.x = 344 * GLOB.MULT
+                    main.mostro.y = 188 * GLOB.MULT
+                    
+            main.Gui.door_sound.play()
+            
+            
+        if main.mostro.evento == "porta-5":
+            main.mostro.evento = None
+            GLOB.MonsterHasChangedRoom = True
+            
+            if GLOB.MonsterActualFloor == "2-PrimoPiano":
+                
+                if GLOB.MonsterActualRoom == "Corridoio":
+                    GLOB.MonsterActualRoom = "1D"
+                    
+                    main.mostro.x = 376 * GLOB.MULT
+                    main.mostro.y = 202 * GLOB.MULT
+                    
+            main.Gui.door_sound.play()
+            
+        if main.mostro.evento == "porta-7":
+            main.mostro.evento = None
+            GLOB.MonsterHasChangedRoom = True
+            
+            if GLOB.MonsterActualFloor == "3-SecondoPiano":
+                
+                if GLOB.MonsterActualRoom == "Corridoio":
+                    GLOB.MonsterActualRoom = "AulaVideo"
+                    
+                    main.mostro.x = 334 * GLOB.MULT
+                    main.mostro.y = 176 * GLOB.MULT
+                    
+            main.Gui.door_sound.play()
+            
+        
+        if main.mostro.evento == "porta-8":
+            main.mostro.evento = None
+            GLOB.MonsterHasChangedRoom = True
+            
+            if GLOB.MonsterActualFloor == "1-PianoTerra":
+                
+                if GLOB.MonsterActualRoom == "Corridoio":
+                    GLOB.MonsterActualRoom = "Archivio"
+                    
+                    main.mostro.x = 392 * GLOB.MULT
+                    main.mostro.y = 236 * GLOB.MULT
+                    
+            main.Gui.door_sound.play()
+            
+            
+            
+        if main.mostro.evento == "porta-9":
+            main.mostro.evento = None
+            GLOB.MonsterHasChangedRoom = True
+            
+            if GLOB.MonsterActualFloor == "3-SecondoPiano":
+                
+                if GLOB.MonsterActualRoom == "Corridoio":
+                    GLOB.MonsterActualRoom = "4A"
+                    
+                    main.mostro.x = 460* GLOB.MULT
+                    main.mostro.y = 160 * GLOB.MULT
+                    
+            main.Gui.door_sound.play()
+                    
+                    
+        if main.mostro.evento == "porta-11":
+            main.mostro.evento = None
+            GLOB.MonsterHasChangedRoom = True
+            
+            if GLOB.MonsterActualFloor == "2-PrimoPiano":
+                
+                if GLOB.MonsterActualRoom == "Corridoio":
+                    GLOB.MonsterActualRoom = "AulaProfessori"
+                    
+                    main.mostro.x = 338 * GLOB.MULT
+                    main.mostro.y = 152 * GLOB.MULT
+                    
+            main.Gui.door_sound.play()
+        
     
         if main.player.evento == "porta-0":
             main.player.evento = None
@@ -435,6 +601,13 @@ def testa():
                         
                 if GLOB.Stanza == "Corridoio":
                     main.stanze.dizionario_flag["AulaVideo"] = True
+                    
+                    if not main.mostro.aggr:
+                                        
+                        GLOB.MonsterActualFloor = "3-SecondoPiano"
+                        GLOB.MonsterActualRoom = "Corridoio"
+                        main.mostro.evento = "porta-7"
+                        porte()
 
                 if GLOB.Stanza == "AulaVideo":
                     main.stanze.dizionario_flag["Corridoio2"] = True
@@ -707,3 +880,13 @@ def testa():
     if main.player.evento == "pc":
         pc = main.Pc()
         pc.show()
+
+
+    if main.player.evento == "nascondiglio" and GLOB.PlayerCanHide:
+        main.player.evento = None
+        
+        if GLOB.PlayerIsHidden:
+            GLOB.PlayerIsHidden = False
+        else:
+            GLOB.PlayerIsHidden = True
+            main.Gui.door_sound.play()

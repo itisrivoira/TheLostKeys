@@ -1235,22 +1235,31 @@ class GUI():
 			self.recupero = (5 - self.speed) / GLOB.Delta_Time
 
 		moltiplicatore =  0.5
+  
+		if GLOB.PlayerIsHidden:
+			val = 8.5
+			self.max -=  (self.speed / val) * GLOB.MULT
+   
+		else:
 
-		if GLOB.PlayerIsRunning and flag:
-			self.max -= (self.speed * moltiplicatore) * GLOB.MULT
- 		
-		elif not GLOB.PlayerIsRunning and self.max < self.bar.get_width() - GLOB.MULT:
-			self.max += (self.recupero * moltiplicatore) * GLOB.MULT / 2
+			if GLOB.PlayerIsRunning and flag:
+				self.max -= (self.speed * moltiplicatore) * GLOB.MULT
+			
+			elif not GLOB.PlayerIsRunning and self.max < self.bar.get_width() - GLOB.MULT:
+				self.max += (self.recupero * moltiplicatore) * GLOB.MULT / 2
 
 
-		if self.max > self.bar.get_width() - GLOB.MULT - 1:
+		if self.max > self.bar.get_width() - GLOB.MULT - 1 and not GLOB.PlayerIsHidden:
 			self.max = self.bar.get_width() - GLOB.MULT
+			GLOB.PlayerCanHide = True
 			GLOB.PlayerCanRun = True
 			self.color_bar = "#64ad5a"
 		
 		elif self.max <= 0:
 			self.max = 0
 			GLOB.PlayerCanRun = False
+			GLOB.PlayerIsHidden = False
+			GLOB.PlayerCanHide = False
 			self.color_bar = "#ada55a"
 
 		self.barra_esaurita = pygame.Rect((84 * GLOB.MULT, GLOB.screen_height - 22 * GLOB.MULT, self.bar.get_width(), self.bar.get_height()))
@@ -1751,17 +1760,17 @@ class Code():
             if self.codeU == "1234":
                 self.errore = "Sicuramente"
 
-            if self.codeU == "0690":
-                self.errore = "Furbacchione"
+            if self.codeU == "0690" or self.codeU == "6969":
+                self.errore = ";-)"
 
             if self.codeU == "1492":
                 self.errore = "America"
 
-            if self.codeU == "0000":
+            if self.codeU == "0000" or self.codeU == "3333":
                 self.errore = "Gesu'"
-
-            if self.codeU == "2001":
-                self.errore = "Divertente"
+                
+            if self.codeU == "0911":
+                self.errore = " 2001 "
 
             self.codeU = self.errore
 

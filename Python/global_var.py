@@ -23,10 +23,10 @@ Moff = 30
 AU = 5
 
 # rapporto musica del gioco
-MU = 1
+MU = 0
 
 # Timer del gioco
-Timer = 10
+Timer = 15
 
 Scelta = 0
 Cam_visible = False
@@ -51,21 +51,28 @@ KeyPressed = ""
 Dialogo = False
 Enigma = False
 
-Fullscreen = True
+PlayerHasChangedRoom = False
+MonsterHasChangedRoom = False
+
+if MULT == 4:
+    Fullscreen = True
+else:
+    Fullscreen = False
+    
+
 Drop_Frames = False
-
-
-# -- MOSTRO
-MonsterCanSpawn = False
-ShowMonsterRange = False
-MonsterCanAttack = True
-
-Monster_speed = 1 * MULT / Delta_Time
-MonsterRun_speed = 1.4
 
 Player_speed = 2 * MULT / Delta_Time
 PlayerRun_speed = 3
 PlayerReset = False
+
+# -- MOSTRO
+MonsterCanSpawn = True
+ShowMonsterRange = False
+MonsterCanAttack = True
+
+
+SecondDiffPos = 5
 
 Player_default_speed = Player_speed
 
@@ -75,6 +82,12 @@ ShowComand = True
 PlayerWalkingO = []
 PlayerWalkingVD = []
 PlayerWalkingVU = []
+
+MonsterWO = []
+MonsterWVD = []
+MonsterWVU= []
+MonsterAngry = []
+MonsterIdle = []
 
 # STATISTICHE
 #  Chimica - Storia - Inglese - Fisica - Matematica - Informatica - Italiano - Sistemi - TPSIT
@@ -151,7 +164,17 @@ def setCharacter():
     scelta_rep = "/" + scelta_char
 
 
+def setMonster():
+    global Monster_speed, MonsterRun_speed, Monster_default_speed
+    # -- MOSTRO
+    Monster_speed = Player_default_speed - 0.75 * MULT / Delta_Time
+    Monster_default_speed = Monster_speed
+    MonsterRun_speed = PlayerRun_speed / 1.035
+
 setCharacter()
+setMonster()
+
+
 
 def setResources():
     global score, score_seconds, tentativo, Record
@@ -164,7 +187,9 @@ def setResources():
     global RandomKey, RandomRoom
     global oggetti, oggetti_start, oggetti_end
 
-    global Default_Character, PlayerCanMove, PlayerCanRun, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
+    global MonsterActualFloor, MonsterActualRoom, MonsterSpawning, MonsterIntro
+    
+    global Default_Character, PlayerInteract, PlayerCanMove, PlayerCanRun, PlayerCanHide, PlayerIsHidden, PlayerIsMoving, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
     global Piano, Stanza, Default_Map, Default_object, Default_collisions
 
     # -- CODICI ---
@@ -219,9 +244,9 @@ def setResources():
     molt_chiavetta = 2
 
 
-    lista_chiavette = [4, 2, 5, 7, 9, 11, 12]
+    lista_chiavette = [4, 2, 5, 7, 8, 9, 11, 12]
     RandomKey = "chiavetta-"+str(random.choice(lista_chiavette))
-    # print("Chiavetta Random:",RandomKey)
+    print("Chiavetta Random:",RandomKey)
 
 
     for i in enigmi_da_risolvere:
@@ -276,9 +301,13 @@ def setResources():
 
     PlayerCanMove = True
     PlayerCanRun = True
+    PlayerCanHide = True
+    PlayerIsHidden = False
+    PlayerInteract = False
 
     PlayerIsWalking = True
     PlayerIsRunning = False
+    PlayerIsMoving = False
 
     PLayerMovement = {
             
@@ -288,5 +317,10 @@ def setResources():
     "right": False, 
             
     }
+    
+    MonsterActualRoom = Stanza
+    MonsterActualFloor = Piano
+    MonsterSpawning = False
+    MonsterIntro = True
 
 setResources()

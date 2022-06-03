@@ -88,6 +88,7 @@ class Player():
         
         self.flag_delay = True
         self.setDelay(0.3)
+        
 
 # ---------- self.set() ----------
 
@@ -99,7 +100,7 @@ class Player():
         
     def __playSounds(self):
         passo = random.choice(self.soundsFootsteps)
-        passo.set_volume(0.2*GLOB.AU)
+        passo.set_volume(0.02*GLOB.AU)
         passo.play()
 
 
@@ -326,43 +327,43 @@ class Player():
 
     def HasInteraction(self, chunk_render, object, var):
         keys_pressed = pygame.key.get_pressed()
+        
         self.evento = None
-
-        # -- PIANO --
-
-        start_id = 127
-        var_max = 2
-
-        if var == 128:
-            self.evento = "piano-1"
-
-        elif var == 129:
-            self.evento = "piano-2"
-
-        elif var == 130:
-            self.evento = "piano-3"
-
-        # -- CHIAVETTE --
-
-
-        start_id = GLOB.chiavetta_start
-        var_max = 11
-
-        for i in range(var_max):
-            if var == (start_id + i):
-                self.evento = "chiavetta-"+str(i+1)
-
-
-        # -- VITTORIA --
-
-        if var == 138:
-            self.evento = "vittoria"
-
 
         if chunk_render.colliderect(object):
             
-            if keys_pressed[pygame.K_e] and GLOB.PlayerCanMove:
+            # -- PIANO --
+            start_id = 127
+            var_max = 2
 
+            if var == 128:
+                self.evento = "piano-1"
+
+            elif var == 129:
+                self.evento = "piano-2"
+
+            elif var == 130:
+                self.evento = "piano-3"
+
+            # -- CHIAVETTE --
+
+
+            start_id = GLOB.chiavetta_start
+            var_max = 11
+
+            for i in range(var_max):
+                if var == (start_id + i):
+                    self.evento = "chiavetta-"+str(i+1)
+
+
+            # -- VITTORIA --
+
+            if var == 138:
+                self.evento = "vittoria"
+            
+            
+            
+            if GLOB.PlayerInteract and GLOB.PlayerCanMove:
 
                 # -- PIANO SEGRETO --
 
@@ -392,10 +393,10 @@ class Player():
                     self.evento = "enigma"
 
 
-                # -- MACCHINETTA --
+                # -- NASCONDIGLIO --
 
                 if var == 132:
-                    self.evento = "macchinetta"
+                    self.evento = "nascondiglio"
 
 
                 # -- CODICE --
@@ -416,8 +417,11 @@ class Player():
                 elif var == 126:
                     self.evento = "mappa"
 
+                GLOB.PlayerInteract = False
+
                 if GLOB.Debug:
-                    print(var, self.evento, GLOB.Stanza, GLOB.Piano)             
+                    print("Player: ", var, self.evento, GLOB.Stanza, GLOB.Piano)
+                    print("Keeper: ", GLOB.MonsterActualRoom, GLOB.MonsterActualFloor)
 
     def update(self):
         
