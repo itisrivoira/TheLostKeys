@@ -122,7 +122,7 @@ def testa():
         main.player.finish()
         main.player.setAllkeys(False)
         GLOB.PlayerIsRunning = False
-        c = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 3)
+        c = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 4)
         c.stampa()
         GLOB.PlayerReset = True
 
@@ -196,7 +196,7 @@ def testa():
             
             risposte = ["Sembra un distributore di merendine", "Cosa farei per un duplo", "Strano che non sia ancora stato distrutto, sarebbero state merendine gratis...", "Non so il perche', ma ho una certa fame..."]
             
-            d = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 3)
+            d = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 4)
             d.stampa()
             
             
@@ -247,7 +247,7 @@ def testa():
             testo = "Pensavo piu' difficile...|Ad ogni modo che cos'e' quella strana cosa tra i gessetti della lavagna?!?"
 
         if GLOB.Stanza == "AulaProfessori":
-            testo = "Interessante.|Forse potrei provare a vedere nella libreria se c'e' qualcosa di interessante"
+            testo = "Interessante.|Forse potrei provare ad aprire il libro per vedere se c'e' qualcosa di interessante al suo interno"
 
         if GLOB.Stanza == "AulaVideo":
             testo = "Pascoli...|Chissa' se nella libreria della scuola ci potrebbe essere quello che sto cercando."
@@ -292,7 +292,7 @@ def testa():
         if testo != "Default":
             testo = testo.split("|")
             for t in testo:
-                d = main.Dialoghi(GLOB.scelta_char, t, 3)
+                d = main.Dialoghi(GLOB.scelta_char, t, 4)
                 d.stampa()
                 
         GLOB.PlayerReset = True
@@ -765,14 +765,14 @@ def testa():
     def NonTrovato():
         risposte = ["Non ho trovato nulla", "Sembrerebbe che non ci sia nulla", "Niente.", "Qua non c'è nulla."]
         
-        d = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 3)
+        d = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 4)
         d.stampa()
         GLOB.PlayerReset = True
         main.player.evento = None
 
     def Trovato(o):
         risposte = ["Trovato "+str(o), "Ho trovato "+str(o)]
-        d = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 3)
+        d = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 4)
         d.stampa()
         GLOB.PlayerReset = True
         main.player.evento = None

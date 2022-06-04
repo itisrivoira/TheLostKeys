@@ -34,6 +34,11 @@ def options():
             TEXT_FULLSCREEN = "FULLSCREEN ON"
         else:
             TEXT_FULLSCREEN = "FULLSCREEN OFF"
+            
+        if not GLOB.Performance:
+            TEXT_PERFORMANCE = "PERFORMANCE ON"
+        else:
+            TEXT_PERFORMANCE = "PERFORMANCE OFF"
 
         BG_Option = pygame.image.load("assets/Menu.png").convert()
         BG_Option = pygame.transform.scale(BG_Option, (GLOB.screen_width, GLOB.screen_height))
@@ -262,10 +267,17 @@ def options():
 
 
         Screen_FULL = Button(image=pygame.image.load("assets/Select Rect.png").convert_alpha(), pos=(80*GLOB.MULT, GLOB.screen_height/2+110*GLOB.MULT), 
-                    text_input=TEXT_FULLSCREEN, font=get_font(8*int(GLOB.MULT)), base_color="White", hovering_color="#2f3131", scale=2)
+                    text_input=TEXT_FULLSCREEN, font=get_font(7*int(GLOB.MULT)), base_color="White", hovering_color="#2f3131", scale=2)
 
         Screen_FULL.changeColor(OPTIONS_MOUSE_POS)
         Screen_FULL.update(screen)
+        
+        
+        PERFORMANCE = Button(image=pygame.image.load("assets/Select Rect.png").convert_alpha(), pos=(80*GLOB.MULT, GLOB.screen_height/2+55*GLOB.MULT), 
+            text_input=TEXT_PERFORMANCE, font=get_font(7*int(GLOB.MULT)), base_color="White", hovering_color="#2f3131", scale=2)
+
+        PERFORMANCE.changeColor(OPTIONS_MOUSE_POS)
+        PERFORMANCE.update(screen)
 
 
 
@@ -347,8 +359,20 @@ def options():
                     flag_screen = True
                 
                 if Screen_FULL.checkForInput(OPTIONS_MOUSE_POS):
+                    option_sound.play()
+                    
                     flag_screen = True
                     setFullScreen()
+                    
+                if PERFORMANCE.checkForInput(OPTIONS_MOUSE_POS):
+                    option_sound.play()
+                    
+                    if GLOB.Performance:
+                        GLOB.Performance = False
+                    else:
+                        GLOB.Performance = True
+                        
+                    GLOB.setFPS()
 
             if flag_screen:
                 global rain

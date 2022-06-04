@@ -172,9 +172,10 @@ class Map():
                         pygame.draw.rect(GLOB.screen, (255,255,255), oggetto, int(1))
 
                     if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning and GLOB.Stanza == GLOB.MonsterActualRoom:
-                        controllo_collisione = condition and ((oggetto.colliderect(chunck_render)) or (oggetto.colliderect(chunck_render_m)))
-                        
+
                         try:
+                            controllo_collisione = condition and ((oggetto.colliderect(chunck_render)) or (oggetto.colliderect(chunck_render_m)))
+
                             if chunck_render_m.colliderect(chunck_render) and GLOB.PlayerIsHidden:
                                 GLOB.PlayerIsHidden = False
                                 main.mostro.IAttacking = True

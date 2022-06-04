@@ -46,7 +46,7 @@ class Transizione():
             self.flag_room = False
             self.delay_monsterRoom.ReStart()
         
-        if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning:
+        if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning and not GLOB.MonsterIntro:
             
             if main.mostro.aggr and GLOB.PlayerHasChangedRoom and GLOB.SecondDiffPos < 5.5:
                 
@@ -70,9 +70,12 @@ class Transizione():
                     main.mostro.IseePlayer = False
                 
                 if main.mostro.IseePlayer:
-                    main.Gui.door_sound.play()
                     main.mostro.x = main.stanze.pos_portaP[0] * GLOB.MULT - main.stanze.pos_portaC[0] * GLOB.MULT
                     main.mostro.y = main.stanze.pos_portaP[1] * GLOB.MULT - main.stanze.pos_portaC[1] * GLOB.MULT
+                    
+                    if main.mostro.evento != None:
+                        if not "piano" in main.mostro.evento:
+                            main.Gui.door_sound.play()
 
                     GLOB.MonsterHasChangedRoom = True
                     GLOB.MonsterActualRoom = GLOB.Stanza

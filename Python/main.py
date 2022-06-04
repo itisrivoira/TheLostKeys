@@ -18,25 +18,11 @@ def get_font(size):
 
 
 def SetPlayer_speed():
-    """
-
-             --- Cambio il personaggio in base alla scelta del giocatore ---
-        
-
-    """
-
     GLOB.setCharacter()
     GLOB.setMonster()
 
 def SetPlayer_sprite():
     global Folder_walkO, Folder_walkVD, Folder_walkVU
-    
-    """
- 
-            ---   Setto il percorso degli sprite ---
-
-
-    """
     
     #(0 => "/Senex" - 1 => "/Seima" - 2 => "/Alexandra" - 3 => "/XPeppoz" - 4 => "/Giulio" - Default => "/Senex")
     Folder_walkO = 'Characters'+GLOB.scelta_rep+'/WalkOrizontal'
@@ -175,7 +161,7 @@ def controllo_condizioni():
             testo = testo.split("|")
             
             for t in testo:
-                dialogo = Dialoghi(GLOB.scelta_char, t, 3)
+                dialogo = Dialoghi(GLOB.scelta_char, t, 4)
                 dialogo.stampa()
                 
             GLOB.MonsterIntro = False
@@ -197,7 +183,7 @@ def controllo_condizioni():
         testo = testo.split("|")
 
         for frase in testo:
-            d = Dialoghi("Verga", frase, 3)
+            d = Dialoghi("Verga", frase, 4)
             d.stampa()
 
         GLOB.ShowComand = False
@@ -332,7 +318,7 @@ def Interazioni_DialoghiEnigmi():
             Racconto = Dialoghi(
                 personaggio = df.values[row][0], 
                 descrizione = df.values[row][1], 
-                text_speed = 3
+                text_speed = 4
             )
             
             player.setAllkeys(False)
@@ -358,7 +344,7 @@ def Interazioni_DialoghiEnigmi():
             soluzione = int(enigma_file.values[row][8]), 
             difficolta = str(enigma_file.values[row][9]), 
             malus = (int(enigma_file.values[row][10]), int(enigma_file.values[row][11]), int(enigma_file.values[row][12]), int(enigma_file.values[row][13]), int(enigma_file.values[row][14])), 
-            text_speed = 3
+            text_speed = 4
                                         
         )
         player.setAllkeys(False)
@@ -802,8 +788,9 @@ def jump_scare():
                 pygame.quit()
                 sys.exit()
             
-            # if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
-            #     SetVideoToFalse()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    SetVideoToFalse()
                 
         delay_video.Start()
         video.draw(GLOB.screen, (0, 0))

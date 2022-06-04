@@ -3,11 +3,7 @@ import global_var as GLOB
 import pygame, sys, os, re
 from pygame import mixer
 
-"""
-    ---  Classe genera un pulsante a schermo un pulsante cliccabile	---
-"""
-
-def get_font(size): # Returns Press-Start-2P in the desired size
+def get_font(size):
     return pygame.font.Font("font/font.ttf", size)
 
 class Button():
@@ -56,10 +52,6 @@ class Button():
 			self.x_pos += value
 			self.y_pos += value
 		self.rect = self.image.get_rect(center=(self.x_pos, self.y_pos))
-
-"""
-    ---  Classe genera una barra (usata per le statistiche)	e ne imposta il riempimento ---
-"""
 
 class Bar():
 	def __init__(self, pos, color, number, div):
@@ -143,17 +135,17 @@ class Dialoghi():
 		self.interm = 0
 
 		if text_speed == 1:
-			self.text_speed = 0.1
+			self.text_speed = 0.1 / GLOB.Delta_Time
 		elif text_speed == 2:
-			self.text_speed = 0.2
+			self.text_speed = 0.2 / GLOB.Delta_Time
 		elif text_speed == 3:
-			self.text_speed = 0.25
+			self.text_speed = 0.25 / GLOB.Delta_Time
 		elif text_speed == 4:
-			self.text_speed = 0.5
+			self.text_speed = 0.5 / GLOB.Delta_Time
 		elif text_speed == 5:
-			self.text_speed = 1
+			self.text_speed = 1 / GLOB.Delta_Time
 		else:
-			self.text_speed = 0.1
+			self.text_speed = 0.1 / GLOB.Delta_Time
 
 		self.contatore = 0
 
@@ -308,7 +300,7 @@ class Dialoghi():
 
 		# Delay aggiuntivo per dei caratteri particolari indicati
 		if max and self.descr[int(round(self.delay, 1))] != "." and self.descr[int(round(self.delay, 1))] != "?" and self.descr[int(round(self.delay, 1))] != "!" or self.ritardo == 1:
-			self.delay += + self.text_speed
+			self.delay += self.text_speed
 			self.ritardo = 0
 		else:
 			self.ritardo += self.text_speed
@@ -463,17 +455,17 @@ class Dialoghi_Interattivi():
 		self.interm = 0
 
 		if text_speed == 1:
-			self.text_speed = 0.1
+			self.text_speed = 0.1 / GLOB.Delta_Time
 		elif text_speed == 2:
-			self.text_speed = 0.2
+			self.text_speed = 0.2 / GLOB.Delta_Time
 		elif text_speed == 3:
-			self.text_speed = 0.25
+			self.text_speed = 0.25 / GLOB.Delta_Time
 		elif text_speed == 4:
-			self.text_speed = 0.5
+			self.text_speed = 0.5 / GLOB.Delta_Time
 		elif text_speed == 5:
-			self.text_speed = 1
+			self.text_speed = 1 / GLOB.Delta_Time
 		else:
-			self.text_speed = 0.1
+			self.text_speed = 0.1 / GLOB.Delta_Time
 
 		self.contatore = 0
 
@@ -763,7 +755,7 @@ class Dialoghi_Interattivi():
 
 				for suggerimento in self.testo_suggerimento:
 
-					self.dialogo_suggerimento = Dialoghi(self.personaggio, suggerimento, 3)
+					self.dialogo_suggerimento = Dialoghi(self.personaggio, suggerimento, 4)
 					self.dialogo_suggerimento.stampa()
 				
 				self.class_sfoca.flag_reverse = False
@@ -1238,15 +1230,15 @@ class GUI():
   
 		if GLOB.PlayerIsHidden:
 			val = 8.5
-			self.max -=  (self.speed / val) * GLOB.MULT
+			self.max -=  (self.speed / val) * GLOB.MULT / GLOB.Delta_Time
    
 		else:
 
 			if GLOB.PlayerIsRunning and flag:
-				self.max -= (self.speed * moltiplicatore) * GLOB.MULT
+				self.max -= (self.speed * moltiplicatore) * GLOB.MULT / GLOB.Delta_Time * 2
 			
 			elif not GLOB.PlayerIsRunning and self.max < self.bar.get_width() - GLOB.MULT:
-				self.max += (self.recupero * moltiplicatore) * GLOB.MULT / 2
+				self.max += (self.recupero * moltiplicatore) * GLOB.MULT / GLOB.Delta_Time
 
 
 		if self.max > self.bar.get_width() - GLOB.MULT - 1 and not GLOB.PlayerIsHidden:
@@ -1565,7 +1557,7 @@ class MiniMap():
 					pygame.quit()
 					sys.exit()
 
-				if keys_pressed[pygame.K_ESCAPE]:
+				if keys_pressed[pygame.K_ESCAPE] or keys_pressed[pygame.K_e]:
 					GLOB.PlayerReset = True
 					possoIniziare = True
 
@@ -1964,7 +1956,7 @@ class Pc():
 
 		else:
 			risposte = ["Credo di non avere le chiavette neccessarie richieste.", "Forse dovrei prima cercare altre chiavette", "Questa macchina ha Windows sopra... Meglio starne alla larga"]
-			d = Dialoghi(GLOB.scelta_char, random.choice(risposte), 3)
+			d = Dialoghi(GLOB.scelta_char, random.choice(risposte), 4)
 			d.stampa()
 			self.ciclo = False
 	
@@ -2004,13 +1996,13 @@ class Pc():
 				flag = True
 
 			for frase in descrizione:
-				d = Dialoghi("pc", frase, 3)
+				d = Dialoghi("pc", frase, 4)
 				d.stampa()
     
 			if flag:
 				c = Dialoghi(GLOB.scelta_char, "Ma aspetta... Questa e' la chiavetta per le macchinette, ecco perche' non funzionava", 3)
 				c.stampa()
-				c = Dialoghi(GLOB.scelta_char, "", 3)
+				c = Dialoghi(GLOB.scelta_char, "", 4)
 				c.stampa()
 		
 		else:
@@ -2020,7 +2012,7 @@ class Pc():
 			descrizione = descrizione.split("|")
 
 			for frase in descrizione:
-				d = Dialoghi("pc", frase, 3)
+				d = Dialoghi("pc", frase, 4)
 				d.stampa()
 
 	def show(self):

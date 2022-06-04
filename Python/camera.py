@@ -2,15 +2,6 @@ import pygame, random
 import main
 import global_var as GLOB
 
-
-"""
-
-    ---  Classe che controlla la posizione attuale del giocatore dello schermo e aggiorna i contenuti dello schermo spostandoli 
-
-                In questo modo ferma anche il giocatore e da' l'illusione che tutto si sta muovendo
-
-"""
-
 class Cam():
     def __init__(self, x, y):
 

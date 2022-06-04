@@ -14,7 +14,7 @@ Player_proportion = 1 # Divisore della grandezza del giocatore
 FPS = 30 * Delta_Time
 
 # rapporto di proporzione allo schermo NON INFERIORE AD 1
-MULT = 3
+MULT = 4
 
 # rapporto offset telecamera dello schermo MAX 40
 Moff = 30
@@ -58,7 +58,13 @@ if MULT == 4:
     Fullscreen = True
 else:
     Fullscreen = False
-    
+
+Performance = False
+
+if Delta_Time == 1:
+    Performance = False
+else:
+    Performance = True
 
 Drop_Frames = False
 
@@ -140,6 +146,17 @@ logo = pygame.image.load("assets/Logo.png").convert_alpha()
 pygame.display.set_caption(TITLE)
 pygame.display.set_icon(logo)
 
+def setFPS():
+    global Delta_Time, Default_DeltaTime, FPS, Performance
+    
+    if Performance:
+        Delta_Time = 2
+    else:
+        Delta_Time = 1
+        
+    FPS = 30 * Delta_Time
+    Default_DeltaTime = Delta_Time
+
 def setCharacter():
     global Player_speed, Player_default_speed, PlayerRun_speed, scelta_char, scelta_rep
     Player_speed = 2 * MULT / Delta_Time / Player_proportion
@@ -174,6 +191,7 @@ def setMonster():
     Monster_default_speed = Monster_speed
     MonsterRun_speed = PlayerRun_speed
 
+setFPS()
 setCharacter()
 setMonster()
 
@@ -249,7 +267,7 @@ def setResources():
 
     lista_chiavette = [4, 2, 5, 7, 8, 9, 11, 12]
     RandomKey = "chiavetta-"+str(random.choice(lista_chiavette))
-    print("Chiavetta Random:",RandomKey)
+    # print("Chiavetta Random:",RandomKey)
 
 
     for i in enigmi_da_risolvere:
