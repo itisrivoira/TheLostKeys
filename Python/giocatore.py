@@ -5,13 +5,6 @@ from pygame import mixer
 from components import Delay
 
 
-"""
-
-    ---  Classe che genera il giocatore e ne controlla i pulsanti cliccati, gli sprite e le collisioni  ---
-
-"""
-
-
 class Player():
     def __init__(self, x, y, selected, width, height, char_image):
 
@@ -101,7 +94,9 @@ class Player():
     def __playSounds(self):
         passo = random.choice(self.soundsFootsteps)
         passo.set_volume(0.02*GLOB.AU)
-        passo.play()
+        
+        if not GLOB.isPaused:
+            passo.play()
 
 
     def setPositionX(self, x):

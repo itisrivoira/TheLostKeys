@@ -46,25 +46,36 @@ class Transizione():
             self.flag_room = False
             self.delay_monsterRoom.ReStart()
         
-        if GLOB.MonsterCanSpawn and not GLOB.MonsterIntro:
+        if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning and not GLOB.MonsterIntro:
             
             if main.mostro.aggr and GLOB.PlayerHasChangedRoom and GLOB.SecondDiffPos < 5.5:
-                
-                main.mostro.IAttacking = False
-                main.mostro.aggr = False
                 
                 if GLOB.Piano == GLOB.MonsterActualFloor and GLOB.Stanza != GLOB.MonsterActualRoom:
                     main.mostro.aggr = True
                     main.mostro.IAttacking = True
-                    main.Gui.door_sound.play()
                     
                 if GLOB.Piano != GLOB.MonsterActualFloor and GLOB.Stanza != GLOB.MonsterActualRoom:
                     main.mostro.IseePlayer = False
                     GLOB.MonsterHasChangedRoom = False
+                    GLOB.MonsterActualFloor = GLOB.Piano
+                    main.mostro.evento = "porta"
+
+                    if GLOB.PlayerIsHidden:
+                        main.mostro.IseePlayer = False
+                        main.mostro.IAttacking = False
+                        main.mostro.aggr = False
+                        
+                        
+                if GLOB.Stanza != "Corridoio" and GLOB.MonsterActualRoom != GLOB.Stanza and GLOB.MonsterActualRoom != "Corridoio" and GLOB.MonsterActualFloor == GLOB.Piano:
+                    main.mostro.IseePlayer = False
                 
-                if main.mostro.IseePlayer:           
+                if main.mostro.IseePlayer:
                     main.mostro.x = main.stanze.pos_portaP[0] * GLOB.MULT - main.stanze.pos_portaC[0] * GLOB.MULT
                     main.mostro.y = main.stanze.pos_portaP[1] * GLOB.MULT - main.stanze.pos_portaC[1] * GLOB.MULT
+                    
+                    if main.mostro.evento != None:
+                        if not "piano" in main.mostro.evento:
+                            main.Gui.door_sound.play()
 
                     GLOB.MonsterHasChangedRoom = True
                     GLOB.MonsterActualRoom = GLOB.Stanza
@@ -78,9 +89,7 @@ class Transizione():
             else:
                 main.mostro.IseePlayer = False
                 main.mostro.IAttacking = False
-                main.mostro.flag_CanStartAttack = False
                 main.mostro.aggr = False
-                
                 
             GLOB.PlayerHasChangedRoom = False
             GLOB.MonsterHasChangedRoom = False

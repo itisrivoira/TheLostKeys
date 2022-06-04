@@ -5,7 +5,7 @@ import global_var as GLOB
 
 SCREENSIZE = GLOB.screen_width, GLOB.screen_height
 
-class Rain(object):
+class Rain():
 
     def __init__(self, screen, height, speed, color, numdrops):
         'Create and reuse raindrop particles'
@@ -57,7 +57,7 @@ class Rain(object):
         print ('Rain speed: %d' % newspeed)
 
 
-    class Drop(object):
+    class Drop():
         ' Rain drop used by rain generator'
         nexttime = 0   # The next time the raindrop will draw
         interval = .01 # How frequently the raindrop should draw

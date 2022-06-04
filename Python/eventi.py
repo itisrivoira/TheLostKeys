@@ -122,7 +122,7 @@ def testa():
         main.player.finish()
         main.player.setAllkeys(False)
         GLOB.PlayerIsRunning = False
-        c = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 3)
+        c = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 4)
         c.stampa()
         GLOB.PlayerReset = True
 
@@ -196,7 +196,7 @@ def testa():
             
             risposte = ["Sembra un distributore di merendine", "Cosa farei per un duplo", "Strano che non sia ancora stato distrutto, sarebbero state merendine gratis...", "Non so il perche', ma ho una certa fame..."]
             
-            d = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 3)
+            d = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 4)
             d.stampa()
             
             
@@ -218,7 +218,7 @@ def testa():
         if GLOB.Stanza == "Chimica":
             testo = "Ho trovato un appunto del quale dice che ci sia una chiavetta nascosta all'interno dell'armadio...|Mmmm... mi potrebbe essere utile."
             
-            if not main.mostro.aggr and GLOB.Stanza != GLOB.MonsterActualRoom:
+            if GLOB.Stanza != GLOB.MonsterActualRoom:
                 GLOB.MonsterActualRoom = "Chimica"
                 GLOB.MonsterActualFloor = "1-PianoTerra"
                 main.mostro.evento = "porta"
@@ -234,7 +234,7 @@ def testa():
 
                 testo = "Wow!|Chi se lo sarebbe aspettato di trovare una chiavetta all'interno del ghiaccio|Magari potrei cercare un PC per vedere il suo contenuto."
                 
-                if not main.mostro.aggr and GLOB.Stanza != GLOB.MonsterActualRoom:
+                if GLOB.Stanza != GLOB.MonsterActualRoom:
                     GLOB.MonsterActualRoom = "WC-Femmine"
                     GLOB.MonsterActualFloor = "2-PrimoPiano"
                     main.mostro.evento = "porta"
@@ -247,12 +247,12 @@ def testa():
             testo = "Pensavo piu' difficile...|Ad ogni modo che cos'e' quella strana cosa tra i gessetti della lavagna?!?"
 
         if GLOB.Stanza == "AulaProfessori":
-            testo = "Interessante.|Forse potrei provare a vedere nella libreria se c'e' qualcosa di interessante"
+            testo = "Interessante.|Forse potrei provare ad aprire il libro per vedere se c'e' qualcosa di interessante al suo interno"
 
         if GLOB.Stanza == "AulaVideo":
             testo = "Pascoli...|Chissa' se nella libreria della scuola ci potrebbe essere quello che sto cercando."
             
-            if not main.mostro.aggr and GLOB.Stanza != GLOB.MonsterActualRoom:
+            if GLOB.Stanza != GLOB.MonsterActualRoom:
                 GLOB.MonsterActualRoom = "Chimica"
                 GLOB.MonsterActualFloor = "1-PianoTerra"
                 main.mostro.evento = "porta"
@@ -270,7 +270,7 @@ def testa():
             
             testo = "Si, evvai!!| Oltretutto inserendo il codice 4096 nella macchinetta, mi ha dato un'altra chiavetta!|Andiamo ad analizzarne il contenuto!"
             
-            if not main.mostro.aggr and GLOB.Stanza != GLOB.MonsterActualRoom:
+            if GLOB.Stanza != GLOB.MonsterActualRoom:
                 GLOB.MonsterActualRoom = "LabInfo"
                 GLOB.MonsterActualFloor = "3-SecondoPiano"
                 main.mostro.evento = "porta"
@@ -281,7 +281,7 @@ def testa():
             
             GLOB.ShowCodice = True
             
-            if not main.mostro.aggr and GLOB.Stanza != GLOB.MonsterActualRoom:
+            if GLOB.Stanza != GLOB.MonsterActualRoom:
                 GLOB.MonsterActualRoom = "Corridoio"
                 GLOB.MonsterActualFloor = "1-PianoTerra"
                 main.mostro.evento = "porta-8"
@@ -292,7 +292,7 @@ def testa():
         if testo != "Default":
             testo = testo.split("|")
             for t in testo:
-                d = main.Dialoghi(GLOB.scelta_char, t, 3)
+                d = main.Dialoghi(GLOB.scelta_char, t, 4)
                 d.stampa()
                 
         GLOB.PlayerReset = True
@@ -323,7 +323,12 @@ def testa():
             if "piano" in main.mostro.evento:
                 GLOB.MonsterActualRoom = ""
                 main.mostro.evento = "porta"
+                main.mostro.IseePlayer = False
+                main.mostro.aggr = False
+                main.mostro.IAttacking = False
                 GLOB.MonsterHasChangedRoom = True
+                
+                main.mostro.evento = None
         
 
         if main.player.evento == "piano-0":
@@ -760,14 +765,14 @@ def testa():
     def NonTrovato():
         risposte = ["Non ho trovato nulla", "Sembrerebbe che non ci sia nulla", "Niente.", "Qua non c'è nulla."]
         
-        d = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 3)
+        d = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 4)
         d.stampa()
         GLOB.PlayerReset = True
         main.player.evento = None
 
     def Trovato(o):
         risposte = ["Trovato "+str(o), "Ho trovato "+str(o)]
-        d = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 3)
+        d = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 4)
         d.stampa()
         GLOB.PlayerReset = True
         main.player.evento = None

@@ -161,7 +161,7 @@ def WCfemmine():
     GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/WCfemmine.png"
     GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/WCfemmineOggetti.png"
 
-    setPosition((214, 70), (-146, -22))
+    setPosition((198, 82), (-146, -22))
     dizionario_flag["WCfemmine"] = False
 
 

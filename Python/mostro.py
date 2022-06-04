@@ -4,14 +4,6 @@ import global_var as GLOB
 import main
 from pygame import mixer
 
-"""
-
-    --- DA OTTIMIZZARE ---
-       ( quasi finito )
-     
-     
-"""
-
 sceltaG = "Keeper"
 
 Folder_walkO = 'Characters/'+sceltaG+'/WalkOrizontal'
@@ -59,7 +51,6 @@ class Keeper():
         self.width = wh[0]
         self.height = wh[1]
         self.default_height = self.height
-        self.x, self.y = GLOB.screen.get_rect().center
         self.line_vector = pygame.math.Vector2(1, 0)
         self.angle = 90
 
@@ -81,7 +72,7 @@ class Keeper():
 
         self.flag_CanStartAttack = False
 
-        self.valore_distanza = 175 * GLOB.MULT
+        self.valore_distanza = 185 * GLOB.MULT
         self.setHitbox()
 
         self.__left_pressed = False
@@ -107,7 +98,7 @@ class Keeper():
         self.respiro = mixer.Sound("suoni/Respiro.wav")
         self.chain = mixer.Sound("suoni/chain.wav")
         
-        self.velocita_sprite = 0.15 * GLOB.Monster_default_speed
+        self.velocita_sprite = 0.15 * GLOB.Monster_default_speed / 2
         self.default_vel_sprite = self.velocita_sprite
         
         self.flag_coll = False
@@ -212,7 +203,9 @@ class Keeper():
                 
                 if self.current_spriteI == self.start_valueAnimation + 0.05 and not self.flag_coll:
                     self.respiro.set_volume(0.005 * GLOB.AU)
-                    self.respiro.play()
+                    
+                    if not GLOB.isPaused:
+                        self.respiro.play()
                 
                 self.current_spriteI += 0.05 / GLOB.Delta_Time
                 
@@ -229,7 +222,7 @@ class Keeper():
             
 
             if c == 1:
-                self.current_spriteWO += self.velocita_sprite / GLOB.Delta_Time
+                self.current_spriteWO += self.velocita_sprite
                 
                 if self.current_spriteWO >= len(GLOB.MonsterWO):
                     self.current_spriteWO = self.start_valueAnimation
@@ -239,7 +232,7 @@ class Keeper():
                 self.image = pygame.image.load(Folder_walkO + "/" + immagine).convert_alpha()
         
             if c == 2:
-                self.current_spriteWO += self.velocita_sprite / GLOB.Delta_Time
+                self.current_spriteWO += self.velocita_sprite
                 
                 if self.current_spriteWO >= len(GLOB.MonsterWO):
                     self.current_spriteWO = self.start_valueAnimation
@@ -250,7 +243,7 @@ class Keeper():
                 self.image = immagine_flip
                 
             if c == 3:
-                self.current_spriteWVD += self.velocita_sprite / GLOB.Delta_Time
+                self.current_spriteWVD += self.velocita_sprite
                 
                 if self.current_spriteWVD >= len(GLOB.MonsterWVD):
                     self.current_spriteWVD = self.start_valueAnimation
@@ -260,7 +253,7 @@ class Keeper():
                 self.image = pygame.image.load(Folder_walkVD + "/" + immagine).convert_alpha()
                 
             if c == 4:
-                self.current_spriteWVU += self.velocita_sprite / GLOB.Delta_Time
+                self.current_spriteWVU += self.velocita_sprite
                 
                 if self.current_spriteWVU >= len(GLOB.MonsterWVU):
                     self.current_spriteWVU = self.start_valueAnimation
@@ -271,7 +264,8 @@ class Keeper():
                 
             if flag:
                 self.chain.set_volume(0.005 * GLOB.AU)
-                self.chain.play()
+                if not GLOB.isPaused:
+                    self.chain.play()
             else:
                 self.chain.fadeout(3000)
                 
@@ -293,7 +287,8 @@ class Keeper():
                     
                 if self.current_spriteAngry >= 4 and self.current_spriteAngry < 4.2:
                     self.Sound_Angry.set_volume(0.2 * GLOB.AU)
-                    self.Sound_Angry.play()
+                    if not GLOB.isPaused:
+                        self.Sound_Angry.play()
                     
                 if self.current_spriteAngry >= 7:
                     main.cam.screen_shake()
@@ -307,14 +302,14 @@ class Keeper():
                         
     def finish(self):
         GLOB.setMonster()
-        self.current_spriteAngry = self.start_valueAnimation
+        self.character_update(0)
         self.image = pygame.transform.scale(self.image, (self.char_w, self.char_h))
 
 
     def trackMovement(self):
         GLOB.Monster_speed = GLOB.Monster_default_speed * GLOB.MonsterRun_speed
                 
-        self.velocita_sprite = self.default_vel_sprite + 0.05
+        self.velocita_sprite = self.default_vel_sprite + 0.05 / GLOB.Delta_Time
         
         val = 0
             
@@ -442,11 +437,6 @@ class Keeper():
 
     def update(self):
         radius = 360
-
-        # print(self.monster_ai_brain)
-        
-        # print("Sto attacando: %s  | Posso Attaccare: %s  | Aggrato: %s  | Ho visto il player: %s" %(self.IAttacking, self.flag_CanStartAttack, self.aggr, self.IseePlayer))
-        
         
         # CALCOLO VISUALE PERFIFERICA MOSTRO
         self.line_vector = pygame.math.Vector2(self.height, 0)
@@ -472,6 +462,7 @@ class Keeper():
             if GLOB.PlayerIsHidden and not self.IseePlayer:
                 self.aggr = False
                 self.flag_CanStartAttack = False
+                self.IAttacking = False
                 
                 
             self.superfice.fill(pygame.SRCALPHA)
@@ -489,8 +480,8 @@ class Keeper():
                 print("Differenza secondi:", self.diff)
             
             
-            self.inspector_area = pygame.draw.circle(self.superfice, "Gray", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza - 100 * GLOB.MULT, 0)    
-            self.proximity_area = pygame.draw.circle(self.superfice, "Black", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza - 135 * GLOB.MULT, 0)    
+            self.inspector_area = pygame.draw.circle(self.superfice, "Orange", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza - 100 * GLOB.MULT, 0)    
+            self.proximity_area = pygame.draw.circle(self.superfice, "Yellow", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza - 135 * GLOB.MULT, 0)    
             
             
             if self.inspector_area.colliderect(main.player.mesh) and GLOB.PlayerIsRunning and not self.IseePlayer and not GLOB.PlayerIsHidden:
@@ -500,7 +491,6 @@ class Keeper():
                 self.IseePlayer = True
                 self.aggr = True
                 self.IAttacking = True
-                self.flag_CanStartAttack = True
             
            
             # SE IL FLAG DELL'ANIMAZIONE E' FALSE ALLORA AGGIORNA LA DIFFERENZA DI SECONDI
@@ -540,17 +530,17 @@ class Keeper():
 
             self.superfice.set_alpha(self.transparenza)
             
-            if self.IseePlayer and not self.flag_CanStartAttack and GLOB.MonsterCanAttack and not self.IAttacking:
+            if self.IseePlayer and GLOB.MonsterCanAttack and not self.IAttacking:
                 self.character_update(5)
                 
             if self.flag_CanStartAttack and GLOB.MonsterCanAttack:
                 self.monster_ai_brain = 0
                 self.height = 0
                 self.aggr = True
+                self.IAttacking = True
                 self.flag_CanStartAttack = False
 
             if (self.triangle.colliderect(main.player.hitbox)) and GLOB.MonsterCanAttack and not GLOB.PlayerIsHidden or (self.IseePlayer and not self.IAttacking):
-                
                 self.IseePlayer = True
 
             else:
@@ -579,6 +569,7 @@ class Keeper():
                     self.IAttacking = False
                     self.flag_CanStartAttack = False
                     self.aggr = False
+                    self.finish()
 
 
 
