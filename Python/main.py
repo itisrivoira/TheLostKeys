@@ -131,7 +131,7 @@ def inizializza():
 
     if GLOB.MonsterCanSpawn:
         global mostro
-        mostro = Keeper((200 * GLOB.MULT, 122 * GLOB.MULT), (20 * GLOB.MULT, 0.4 * GLOB.MULT))
+        mostro = Keeper((200 * GLOB.MULT, 122 * GLOB.MULT), (20 * GLOB.MULT, 0.45 * GLOB.MULT))
 
 
 def load_collisions(path):
@@ -185,8 +185,7 @@ def controllo_condizioni():
                 mostro.Sound_Angry.play()    
                 GLOB.MonsterSpawning = True
                 SetPlayer_speed()
-    
-    
+                
     if GLOB.ShowComand and not animazione.flag_caricamento:
         testo1 = "Ciao! Io sono verga e saro' la tua guida di questo viaggio!|Per muoverti clicca le freccie direzionali o WASD|Per correre tieni premuto SHIFT|"
         testo2 = "Per aprire l'inventario premi TAB e per vedere le informazioni dettagliate premere Q|Per interagire con gli oggetti premere E|"
@@ -814,6 +813,8 @@ def jump_scare():
 
 #Funzione GAME OVER
 def game_over():
+    
+    mixer.music.fadeout(1000)
     sfondo = pygame.image.load("assets/gameover.png").convert()
     sfondo = pygame.transform.scale(sfondo, (sfondo.get_width() * GLOB.MULT, sfondo.get_height() * GLOB.MULT))
 
@@ -934,6 +935,8 @@ def game_over():
 
 #Funzione GAME WIN
 def game_win():
+    mixer.music.fadeout(1500)
+    
     sfondo = pygame.image.load("assets/victory.png").convert()
     sfondo = pygame.transform.scale(sfondo, (sfondo.get_width() * GLOB.MULT, sfondo.get_height() * GLOB.MULT))
 

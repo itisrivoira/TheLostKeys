@@ -14,7 +14,7 @@ Player_proportion = 1 # Divisore della grandezza del giocatore
 FPS = 30 * Delta_Time
 
 # rapporto di proporzione allo schermo NON INFERIORE AD 1
-MULT = 4
+MULT = 3
 
 # rapporto offset telecamera dello schermo MAX 40
 Moff = 30
@@ -65,6 +65,9 @@ Drop_Frames = False
 Player_speed = 2 * MULT / Delta_Time
 PlayerRun_speed = 3
 PlayerReset = False
+
+PlayerContRoom = 0
+MonsterContRoom = 0
 
 # -- MOSTRO
 MonsterCanSpawn = True
@@ -169,7 +172,7 @@ def setMonster():
     # -- MOSTRO
     Monster_speed = Player_default_speed - 0.75 * MULT / Delta_Time
     Monster_default_speed = Monster_speed
-    MonsterRun_speed = PlayerRun_speed / 1.035
+    MonsterRun_speed = PlayerRun_speed
 
 setCharacter()
 setMonster()

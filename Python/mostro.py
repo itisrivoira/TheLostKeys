@@ -307,8 +307,8 @@ class Keeper():
                         
     def finish(self):
         GLOB.setMonster()
-        self.character_update(0)
         self.current_spriteAngry = self.start_valueAnimation
+        self.character_update(0)
         self.image = pygame.transform.scale(self.image, (self.char_w, self.char_h))
 
 
@@ -473,6 +473,7 @@ class Keeper():
             if GLOB.PlayerIsHidden and not self.IseePlayer:
                 self.aggr = False
                 self.flag_CanStartAttack = False
+                self.IAttacking = False
                 
                 
             self.superfice.fill(pygame.SRCALPHA)
@@ -490,8 +491,8 @@ class Keeper():
                 print("Differenza secondi:", self.diff)
             
             
-            self.inspector_area = pygame.draw.circle(self.superfice, "Gray", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza - 100 * GLOB.MULT, 0)    
-            self.proximity_area = pygame.draw.circle(self.superfice, "Black", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza - 135 * GLOB.MULT, 0)    
+            self.inspector_area = pygame.draw.circle(self.superfice, "Orange", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza - 100 * GLOB.MULT, 0)    
+            self.proximity_area = pygame.draw.circle(self.superfice, "Yellow", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza - 135 * GLOB.MULT, 0)    
             
             
             if self.inspector_area.colliderect(main.player.mesh) and GLOB.PlayerIsRunning and not self.IseePlayer and not GLOB.PlayerIsHidden:
@@ -540,17 +541,17 @@ class Keeper():
 
             self.superfice.set_alpha(self.transparenza)
             
-            if self.IseePlayer and not self.flag_CanStartAttack and GLOB.MonsterCanAttack and not self.IAttacking:
+            if self.IseePlayer and GLOB.MonsterCanAttack and not self.IAttacking:
                 self.character_update(5)
                 
             if self.flag_CanStartAttack and GLOB.MonsterCanAttack:
                 self.monster_ai_brain = 0
                 self.height = 0
                 self.aggr = True
+                self.IAttacking = True
                 self.flag_CanStartAttack = False
 
             if (self.triangle.colliderect(main.player.hitbox)) and GLOB.MonsterCanAttack and not GLOB.PlayerIsHidden or (self.IseePlayer and not self.IAttacking):
-                
                 self.IseePlayer = True
 
             else:
