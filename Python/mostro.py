@@ -494,7 +494,7 @@ class Keeper():
             
            
             # SE IL FLAG DELL'ANIMAZIONE E' FALSE ALLORA AGGIORNA LA DIFFERENZA DI SECONDI
-            if not main.animazione.flag_room:
+            if main.animazione.iFinished:
                 GLOB.SecondDiffPos = self.diff
                 
 

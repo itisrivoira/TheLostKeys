@@ -367,10 +367,8 @@ class Dialoghi():
 							self.flag_skippa = False
 							self.CanIplay_sound = False
 						
-						else:
+						elif not self.flag_skippa and self.iFinished:
 							possoIniziare = True
-
-				#delay.ActualState()
 
 
 			pygame.display.flip() # ti permette di aggiornare una area dello schermo per evitare lag e fornire piu' ottimizzazione

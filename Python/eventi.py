@@ -407,7 +407,13 @@ def testa():
                     main.mostro.x = valuex * GLOB.MULT
                     main.mostro.y = valuey * GLOB.MULT
                     
-                    main.Gui.door_sound.play()
+                    if GLOB.Stanza == GLOB.MonsterActualRoom:
+                        main.Gui.door_sound.play()
+                        
+                    GLOB.SecondDiffPos = 10
+                    
+                if "porta-" in main.mostro.evento:
+                    GLOB.FlagSecRand = True
                     
         
         if main.mostro.evento == "porta-0":

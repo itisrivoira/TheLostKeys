@@ -73,10 +73,9 @@ class Transizione():
                     main.mostro.x = main.stanze.pos_portaP[0] * GLOB.MULT - main.stanze.pos_portaC[0] * GLOB.MULT
                     main.mostro.y = main.stanze.pos_portaP[1] * GLOB.MULT - main.stanze.pos_portaC[1] * GLOB.MULT
                     
-                    if main.mostro.evento != None:
-                        if not "piano" in main.mostro.evento:
-                            main.Gui.door_sound.play()
-
+                    if GLOB.Piano == GLOB.MonsterActualFloor:
+                        main.Gui.door_sound.play()
+                    
                     GLOB.MonsterHasChangedRoom = True
                     GLOB.MonsterActualRoom = GLOB.Stanza
                     GLOB.MonsterActualFloor = GLOB.Piano

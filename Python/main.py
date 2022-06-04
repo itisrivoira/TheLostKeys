@@ -1,5 +1,5 @@
 import pandas as pd
-import pygame, os, sys
+import pygame, os, sys, random
 
 #Importo i vari file e classi necessarie
 import giocatore, menu, camera, debug, collisioni
@@ -152,6 +152,53 @@ def load_collisions(path):
 
 def controllo_condizioni():
     
+    if GLOB.MonsterActualRoom != "Corridoio" and GLOB.MonsterCanSpawn and not GLOB.MonsterIntro:
+        if GLOB.FlagSecRand:
+            GLOB.Val_sec = random.randint(0, 59)
+            GLOB.FlagSecRand = False
+        
+        if int(timer.getSeconds()) == GLOB.Val_sec:
+            valuex, valuey = 0, 0
+            
+            if GLOB.MonsterActualFloor == "1-PianoTerra":
+                if GLOB.MonsterActualRoom == "Fisica":
+                    valuex, valuey = 200, 20
+                    mostro.monster_ai_brain = 3
+                    
+                if GLOB.MonsterActualRoom == "Archivio":
+                    valuex, valuey = 14, 166
+                    mostro.monster_ai_brain = 1
+                
+            if GLOB.MonsterActualFloor == "2-PrimoPiano":
+                if GLOB.MonsterActualRoom == "AulaProfessori":
+                    valuex, valuey = 652, 166
+                    mostro.monster_ai_brain = 2
+                       
+                if GLOB.MonsterActualRoom == "1D":
+                    valuex, valuey = 248, 254
+                    mostro.monster_ai_brain = 4
+                    
+            if GLOB.MonsterActualFloor == "3-SecondoPiano":
+                if GLOB.MonsterActualRoom == "AulaVideo":
+                    valuex, valuey = 648, 166
+                    mostro.monster_ai_brain = 2
+                    
+                if GLOB.MonsterActualRoom == "4A":
+                    valuex, valuey = 276, 248
+                    mostro.monster_ai_brain = 4
+                    
+            GLOB.MonsterHasChangedRoom = True
+            GLOB.MonsterActualRoom = "Corridoio"
+            
+            mostro.x = valuex * GLOB.MULT
+            mostro.y = valuey * GLOB.MULT
+            mostro.IseePlayer = False
+            mostro.aggr = False
+            mostro.IAttacking = False
+            
+            if GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
+                Gui.door_sound.play()
+    
     if not GLOB.PlayerHasPressedButton:
         player.setAllkeys(False)
         player.finish()
@@ -179,7 +226,7 @@ def controllo_condizioni():
     if GLOB.ShowComand and not animazione.flag_caricamento:
         testo1 = "Ciao! Io sono verga e saro' la tua guida di questo viaggio!|Per muoverti clicca le freccie direzionali o WASD|Per correre tieni premuto SHIFT|"
         testo2 = "Per aprire l'inventario premi TAB e per vedere le informazioni dettagliate premere Q|Per interagire con gli oggetti premere E|"
-        testo3 = "Detto questo, hai un compito, trova tutte le chiavette, e vinci! Buona fortuna!"
+        testo3 = "Detto questo, hai un compito, trova la via di fuga contenuta in una chiavetta, cerca le pagine e vinci! Buona fortuna!"
         
         testo = testo1 + testo2 + testo3
 

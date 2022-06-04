@@ -82,7 +82,9 @@ ShowMonsterRange = False
 MonsterCanAttack = True
 
 
-SecondDiffPos = 5
+SecondDiffPos = 10
+FlagSecRand = True
+Val_sec = 59
 
 Player_default_speed = Player_speed
 
@@ -95,7 +97,7 @@ PlayerWalkingVU = []
 
 MonsterWO = []
 MonsterWVD = []
-MonsterWVU= []
+MonsterWVU = []
 MonsterAngry = []
 MonsterIdle = []
 
@@ -259,7 +261,7 @@ def setResources():
     # --- INVENTARIO ---
 
 
-        # CHIAVETTE
+    # CHIAVETTE
 
     chiavette = {}
     chiavetta_start = 140
@@ -292,7 +294,7 @@ def setResources():
 
 
 
-        # OGGETTI
+    # OGGETTI
 
     oggetti = {}
     oggetti_start = 154
