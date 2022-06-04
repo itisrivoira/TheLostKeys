@@ -47,6 +47,7 @@ isPaused = False
 ShowInventory = False
 
 KeyPressed = ""
+PlayerHasPressedButton = False
 
 Dialogo = False
 Enigma = False

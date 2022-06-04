@@ -152,6 +152,10 @@ def load_collisions(path):
 
 def controllo_condizioni():
     
+    if not GLOB.PlayerHasPressedButton:
+        player.setAllkeys(False)
+        player.finish()
+    
     if len(GLOB.enigmi_risolti) > 0 and GLOB.MonsterIntro:
         
         if messaggio_a_schermo.isFinished:
@@ -374,10 +378,13 @@ def main():
     
     # Funzione che controlla se il tasto è stato premuto
     def key_pressed(event, IsPressed):
+        global UP, DOWN, LEFT, RIGHT
         UP = event.key == pygame.K_w or event.key == pygame.K_UP
         DOWN = event.key == pygame.K_s or event.key == pygame.K_DOWN
         LEFT = event.key == pygame.K_a or event.key == pygame.K_LEFT
         RIGHT = event.key == pygame.K_d or event.key == pygame.K_RIGHT
+        SHIFT = event.key == pygame.K_LSHIFT
+        INTERACT = event.key == pygame.K_e
 
         getUp = player.getUpPress()
         getDown = player.getDownPress()
@@ -385,9 +392,11 @@ def main():
         getRight = player.getRightPress()
 
         condition_1 = getLeft and UP and not(getRight and getDown)
-        condition_2 = getLeft and getDown and not(getRight and getUp)
+        condition_2 = getLeft and DOWN and not(getRight and getUp)
         condition_3 = getRight and UP and not(getLeft and getDown)
-        condition_4 = getRight and getDown and not(getLeft and getUp)
+        condition_4 = getRight and DOWN and not(getLeft and getUp)
+        
+        GLOB.PlayerHasPressedButton = True
 
         if LEFT and not RIGHT and not(condition_1 and condition_2):
             GLOB.PlayerIsMoving = IsPressed
@@ -437,7 +446,7 @@ def main():
             else:
                 player.finish()
 
-        elif event.key == pygame.K_LSHIFT:
+        elif SHIFT:
             
             if IsPressed and GLOB.PlayerCanRun:
                 
@@ -457,12 +466,11 @@ def main():
                 player.setIsRunning(GLOB.PlayerCanRun)
                 GLOB.Player_speed = GLOB.Player_default_speed
                 
-        elif event.key == pygame.K_e:
+        elif INTERACT:
             GLOB.PlayerInteract = IsPressed
-                
-        elif not UP and player.getUpPress() or not DOWN and player.getDownPress():
-            player.setAllkeys(False)    # Evita che ci siano input zombie
-            player.finish()
+            
+        else:
+            GLOB.PlayerHasPressedButton = False
             
 
     # SETTO ENIGMI - DIALOGHI

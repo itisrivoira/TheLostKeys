@@ -135,17 +135,17 @@ class Dialoghi():
 		self.interm = 0
 
 		if text_speed == 1:
-			self.text_speed = 0.1 / GLOB.Delta_Time
+			self.text_speed = 0.1
 		elif text_speed == 2:
-			self.text_speed = 0.2 / GLOB.Delta_Time
+			self.text_speed = 0.2
 		elif text_speed == 3:
-			self.text_speed = 0.25 / GLOB.Delta_Time
+			self.text_speed = 0.25
 		elif text_speed == 4:
-			self.text_speed = 0.5 / GLOB.Delta_Time
+			self.text_speed = 0.5
 		elif text_speed == 5:
-			self.text_speed = 1 / GLOB.Delta_Time
+			self.text_speed = 1
 		else:
-			self.text_speed = 0.1 / GLOB.Delta_Time
+			self.text_speed = 0.1
 
 		self.contatore = 0
 
@@ -300,10 +300,10 @@ class Dialoghi():
 
 		# Delay aggiuntivo per dei caratteri particolari indicati
 		if max and self.descr[int(round(self.delay, 1))] != "." and self.descr[int(round(self.delay, 1))] != "?" and self.descr[int(round(self.delay, 1))] != "!" or self.ritardo == 1:
-			self.delay += self.text_speed
+			self.delay += self.text_speed / GLOB.Delta_Time
 			self.ritardo = 0
 		else:
-			self.ritardo += self.text_speed
+			self.ritardo += self.text_speed / GLOB.Delta_Time
    
    
 		if self.contatore >= len(self.full_description):
@@ -455,17 +455,17 @@ class Dialoghi_Interattivi():
 		self.interm = 0
 
 		if text_speed == 1:
-			self.text_speed = 0.1 / GLOB.Delta_Time
+			self.text_speed = 0.1
 		elif text_speed == 2:
-			self.text_speed = 0.2 / GLOB.Delta_Time
+			self.text_speed = 0.2
 		elif text_speed == 3:
-			self.text_speed = 0.25 / GLOB.Delta_Time
+			self.text_speed = 0.25
 		elif text_speed == 4:
-			self.text_speed = 0.5 / GLOB.Delta_Time
+			self.text_speed = 0.5
 		elif text_speed == 5:
-			self.text_speed = 1 / GLOB.Delta_Time
+			self.text_speed = 1
 		else:
-			self.text_speed = 0.1 / GLOB.Delta_Time
+			self.text_speed = 0.1
 
 		self.contatore = 0
 
@@ -647,10 +647,10 @@ class Dialoghi_Interattivi():
 			
 		# Delay aggiuntivo per dei caratteri particolari indicati
 		if max and self.descr[int(round(self.delay, 1))] != "." and self.descr[int(round(self.delay, 1))] != "?" and self.descr[int(round(self.delay, 1))] != "!" or self.ritardo == 1:
-			self.delay += self.text_speed
+			self.delay += self.text_speed / GLOB.Delta_Time
 			self.ritardo = 0
 		else:
-			self.ritardo += self.text_speed
+			self.ritardo += self.text_speed / GLOB.Delta_Time
 
 	def __object_animation(self):
 
