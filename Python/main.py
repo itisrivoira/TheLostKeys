@@ -158,7 +158,7 @@ def controllo_condizioni():
             GLOB.FlagSecRand = False
             
             if GLOB.Val_sec == int(timer.getSeconds()):
-                GLOB.Val_sec = random.randint(0, GLOB.Val_sec - 1)
+                GLOB.Val_sec = random.randint(1, GLOB.Val_sec - 1)
         
         if int(timer.getSeconds()) == GLOB.Val_sec and not mostro.IseePlayer and not mostro.aggr:
             valuex, valuey = 368, 142
