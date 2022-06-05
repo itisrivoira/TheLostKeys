@@ -221,7 +221,7 @@ def testa():
         testo = "Default"
         
         if GLOB.Stanza == "Chimica":
-            testo = "Ho trovato un appunto del quale dice che ci sia una chiavetta nascosta all'interno dell'armadio...|Mmmm... mi potrebbe essere utile."
+            testo = "Ho trovato un appunto del quale dice che ci sia una chiavetta nascosta all'interno della cella frigorifero...|Mmmm... mi potrebbe essere utile."
             
             if GLOB.Stanza != GLOB.MonsterActualRoom:
                 GLOB.MonsterActualRoom = "Chimica"

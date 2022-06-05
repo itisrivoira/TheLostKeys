@@ -373,7 +373,7 @@ class Player():
             if var >= 56 and var <= 111:
                 GLOB.PlayerTextInteract = "Risolvi"
                 
-                if GLOB.Stanza == "Archivio" and not ("Corridoio" in GLOB.enigmi_risolti):
+                if GLOB.Stanza == "Archivio":
                     GLOB.PlayerTextInteract = "Ispeziona"
                 
                 

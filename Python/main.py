@@ -154,10 +154,10 @@ def controllo_condizioni():
     
     if GLOB.MonsterActualRoom != "Corridoio" and GLOB.MonsterCanSpawn and not GLOB.MonsterIntro and GLOB.Stanza != GLOB.MonsterActualRoom:
         if GLOB.FlagSecRand:
-            GLOB.Val_sec = random.randint(1, int((timer.getSeconds() - GLOB.SecondDiffPos)))
+            GLOB.Val_sec = random.randint(1, abs(int((timer.getSeconds() - GLOB.SecondDiffPos + 1))))
             GLOB.FlagSecRand = False
         
-        if int(timer.getSeconds()) == GLOB.Val_sec and not mostro.IseePlayer and not mostro.aggr:
+        if int(timer.getSeconds()) == GLOB.Val_sec and not mostro.IseePlayer and not mostro.aggr and GLOB.Stanza != GLOB.MonsterActualRoom:
             valuex, valuey = 368, 142
             
             if GLOB.MonsterActualFloor == "1-PianoTerra":

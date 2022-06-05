@@ -1384,7 +1384,7 @@ class GUI():
 			GLOB.screen.blit(self.player, (33.6 * GLOB.MULT, GLOB.screen_height - 65 * GLOB.MULT))
 			GLOB.screen.blit(self.third, (22 * GLOB.MULT, GLOB.screen_height - 75 * GLOB.MULT))
    
-			if GLOB.PlayerCanInteract:
+			if GLOB.PlayerCanInteract and not GLOB.ShowInventory:
 				
 				pos_x = 232
 				pos_y = 12
