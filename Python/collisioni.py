@@ -217,7 +217,6 @@ class Map():
                             if main.animazione.iFinished == True:
                                 eventi.testa()
                                 
-                                
                                 try:
                                     if not (GLOB.Stanza in GLOB.enigmi_risolti and (var >= 56 and var <= 111)) and not (var >= 140 and var <= 152) and not oggetto.colliderect(chunck_render_m):
                                         GLOB.PlayerCanInteract = True

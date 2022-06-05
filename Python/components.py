@@ -308,6 +308,7 @@ class Dialoghi():
    
 		if self.contatore >= len(self.full_description):
 			self.iFinished = True
+			self.flag_skippa = False
 
 		
 		#print("Delay: "+str(round(self.delay, 1))+" | Intero: "+str(int(self.delay+0.1))+" | Lunghezza: "+str(len(self.descr))+" | Contatore: "+str(self.contatore)+" | Max: "+str((self.delay+1)))
@@ -386,7 +387,10 @@ class Dialoghi_Interattivi():
 		self.tipo = tipo_enigma
 		self.oggetto = oggetto
 		# self.personaggio = personaggio
-		self.personaggio = "Verga"
+  
+		pers = personaggio.split("Prof. ")
+  
+		self.personaggio = pers[1]
 		# self.oggetto = "Narratore"
 
 		self.full_description = descrizione
@@ -859,7 +863,7 @@ class Dialoghi_Interattivi():
 
 				if keys_pressed[pygame.K_SPACE] and not self.isFinished:
 					if self.CanIplay_sound:
-						self.__init__(self.tipo, self.personaggio, self.oggetto, self.full_description, self.full_suggeriment, self.risposte, self.number_solution + 1, self.difficolta, self.malus, 5)
+						self.__init__(self.tipo, "Prof. "+self.personaggio, self.oggetto, self.full_description, self.full_suggeriment, self.risposte, self.number_solution + 1, self.difficolta, self.malus, 5)
 						self.CanIplay_sound = False
 						self.isFinished = True
 

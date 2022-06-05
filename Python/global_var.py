@@ -299,7 +299,7 @@ def setResources():
     oggetti = {}
     oggetti_start = 154
     molt_oggetto = 2
-    oggetti_end = 3
+    oggetti_end = 4
 
     for i in range(oggetti_end):
         immagine = pygame.image.load("Collectibles/oggetto-"+str(i)+".png").convert_alpha()

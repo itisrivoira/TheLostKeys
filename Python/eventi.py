@@ -203,6 +203,11 @@ def testa():
         if GLOB.Stanza == "Archivio" and ControllaContenuto(GLOB.RandomKey):
             condizione = False
             
+            testo = "Sembrano due vecchi telefoni..."
+            
+            d = main.Dialoghi(GLOB.scelta_char, testo, 4)
+            d.stampa()
+            
 
         if condizione:
             GLOB.Enigma = True
@@ -247,7 +252,13 @@ def testa():
             testo = "Pensavo piu' difficile...|Ad ogni modo che cos'e' quella strana cosa tra i gessetti della lavagna?!?"
 
         if GLOB.Stanza == "AulaProfessori":
-            testo = "Interessante.|Forse potrei provare ad aprire il libro per vedere se c'e' qualcosa di interessante al suo interno"
+            testo = "Interessante.|Ho trovato una chiave dietro al foglio, con su scritto \"WC\""
+            
+            oggetto = "Chiave"
+            descrizione = "Chiave del bagno Maschile"
+            tipo = 3
+            
+            GLOB.inventario[oggetto] = (GLOB.oggetti[tipo][2], True, descrizione)
 
         if GLOB.Stanza == "AulaVideo":
             testo = "Pascoli...|Chissa' se nella libreria della scuola ci potrebbe essere quello che sto cercando."
@@ -542,7 +553,7 @@ def testa():
             main.stanze.setToDefault()
 
 
-            if GLOB.Piano == "2-PrimoPiano":
+            if GLOB.Piano == "2-PrimoPiano" and not Controlla("Chiave"):
                 
                 if GLOB.Stanza == "Corridoio":
                     main.stanze.dizionario_flag["WCmaschi"] = True
@@ -803,7 +814,7 @@ def testa():
         if GLOB.Stanza == "AulaProfessori":
             tipo = 1
             oggetto = "Libro Karl Marx"
-            descrizione = "All'interno c'è uno strano post-it con su scritto: \"1917\", e ci sono anche dei rimasugli di carta igienica, ma da dove arriveranno?"
+            descrizione = "All'interno c'è uno strano post-it con su scritto: \"E' stato bello finche' e' durato stare in questa scuola 02/02/2018\""
 
         if GLOB.Stanza == "AulaMagna" and VerificaEnigmi():
             oggetto = "chiavetta-4"
