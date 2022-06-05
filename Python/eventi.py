@@ -412,8 +412,12 @@ def testa():
                         
                     GLOB.SecondDiffPos = 10
                     
-                if "porta-" in main.mostro.evento:
-                    GLOB.FlagSecRand = True
+                try:
+                    if "porta-" in main.mostro.evento:
+                        GLOB.FlagSecRand = True
+                
+                except TypeError:
+                    pass
                     
         
         if main.mostro.evento == "porta-0":

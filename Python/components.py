@@ -360,7 +360,7 @@ class Dialoghi():
     				
 				if event.type == pygame.KEYDOWN:
         
-					if event.key == pygame.K_SPACE or event.key == pygame.K_ESCAPE:
+					if event.key == pygame.K_SPACE:
         
 						if self.flag_skippa and not self.iFinished:
 							self.__init__(self.personaggio, self.full_description, 5)
@@ -369,6 +369,9 @@ class Dialoghi():
 						
 						elif not self.flag_skippa and self.iFinished:
 							possoIniziare = True
+       
+					if event.key == pygame.K_ESCAPE:
+						possoIniziare = True
 
 
 			pygame.display.flip() # ti permette di aggiornare una area dello schermo per evitare lag e fornire piu' ottimizzazione
@@ -1413,6 +1416,10 @@ class GUI():
 		def inventario():
       
 			self.surface.set_alpha(self.trasparenza)
+   
+   
+			if self.contenuto and not self.flag_descrizione:
+				self.flag_descrizione = True
 
 			GLOB.screen.blit(self.surface, (0, 0))
 			GLOB.screen.blit(self.inventory, (0, 0))
@@ -1482,15 +1489,6 @@ class GUI():
 						elif GLOB.ShowInventory:
 							GLOB.PlayerReset = True
 							GLOB.ShowInventory = False
-					
-
-					if event.key == pygame.K_q and self.contenuto:
-						
-						if not self.flag_descrizione:
-							self.flag_descrizione = True
-						
-						elif self.flag_descrizione:
-							self.flag_descrizione = False
 
 					if keys_pressed[pygame.K_UP]:
 						self.selection -= 1

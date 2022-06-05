@@ -156,27 +156,54 @@ def controllo_condizioni():
         if GLOB.FlagSecRand:
             GLOB.Val_sec = random.randint(0, 59)
             GLOB.FlagSecRand = False
+            
+            if GLOB.Val_sec == int(timer.getSeconds()):
+                GLOB.Val_sec = random.randint(0, GLOB.Val_sec)
         
-        if int(timer.getSeconds()) == GLOB.Val_sec:
-            valuex, valuey = 0, 0
+        if int(timer.getSeconds()) == GLOB.Val_sec and not mostro.IseePlayer and not mostro.aggr:
+            valuex, valuey = 368, 142
             
             if GLOB.MonsterActualFloor == "1-PianoTerra":
                 if GLOB.MonsterActualRoom == "Fisica":
                     valuex, valuey = 200, 20
                     mostro.monster_ai_brain = 3
                     
-                if GLOB.MonsterActualRoom == "Archivio":
+                elif GLOB.MonsterActualRoom == "Archivio":
                     valuex, valuey = 14, 166
+                    mostro.monster_ai_brain = 1
+                    
+                elif GLOB.MonsterActualRoom == "Chimica":
+                    valuex, valuey = 514, 28
                     mostro.monster_ai_brain = 1
                 
             if GLOB.MonsterActualFloor == "2-PrimoPiano":
                 if GLOB.MonsterActualRoom == "AulaProfessori":
                     valuex, valuey = 652, 166
                     mostro.monster_ai_brain = 2
+                    
+                if GLOB.MonsterActualRoom == "WC-Femmine":
+                    valuex, valuey = 652, 264
+                    mostro.monster_ai_brain = 2
+                    
+                if GLOB.MonsterActualRoom == "AulaMagna":
+                    valuex, valuey = 512, 254
+                    mostro.monster_ai_brain = 4
+                    
+                if GLOB.MonsterActualRoom == "1A":
+                    valuex, valuey = 368, 254
+                    mostro.monster_ai_brain = 4
                        
                 if GLOB.MonsterActualRoom == "1D":
                     valuex, valuey = 248, 254
                     mostro.monster_ai_brain = 4
+                    
+                if GLOB.MonsterActualRoom == "WC-Maschi":
+                    valuex, valuey = 32, 254
+                    mostro.monster_ai_brain = 4
+                    
+                if GLOB.MonsterActualRoom == "LabInfo":
+                    valuex, valuey = 16, 188
+                    mostro.monster_ai_brain = 1
                     
             if GLOB.MonsterActualFloor == "3-SecondoPiano":
                 if GLOB.MonsterActualRoom == "AulaVideo":
@@ -186,6 +213,14 @@ def controllo_condizioni():
                 if GLOB.MonsterActualRoom == "4A":
                     valuex, valuey = 276, 248
                     mostro.monster_ai_brain = 4
+                    
+                if GLOB.MonsterActualRoom == "LabInformatica":
+                    valuex, valuey = 178, 248
+                    mostro.monster_ai_brain = 4
+                    
+                if GLOB.MonsterActualRoom == "Ripostiglio":
+                    valuex, valuey = 80, 72
+                    mostro.monster_ai_brain = 1
                     
             GLOB.MonsterHasChangedRoom = True
             GLOB.MonsterActualRoom = "Corridoio"
@@ -225,7 +260,7 @@ def controllo_condizioni():
                 
     if GLOB.ShowComand and not animazione.flag_caricamento:
         testo1 = "Ciao! Io sono verga e saro' la tua guida di questo viaggio!|Per muoverti clicca le freccie direzionali o WASD|Per correre tieni premuto SHIFT|"
-        testo2 = "Per aprire l'inventario premi TAB e per vedere le informazioni dettagliate premere Q|Per interagire con gli oggetti premere E|"
+        testo2 = "Per aprire l'inventario premi TAB|Per interagire con gli oggetti premere E|"
         testo3 = "Detto questo, hai un compito, trova la via di fuga contenuta in una chiavetta, cerca le pagine e vinci! Buona fortuna!"
         
         testo = testo1 + testo2 + testo3
