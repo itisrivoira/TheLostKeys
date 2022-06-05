@@ -697,7 +697,7 @@ class Dialoghi_Interattivi():
     		
 			if self.difficolta == "Facile" or self.difficolta == "Media" or self.difficolta == "Medio" or self.difficolta == "Difficile":
     			
-				if self.tentativo > 2:
+				if self.tentativo >= 2:
 					GLOB.score_seconds = self.malus[3]
 			
 			# print("secondi tolti")
