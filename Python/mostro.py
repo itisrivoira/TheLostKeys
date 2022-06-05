@@ -144,7 +144,7 @@ class Keeper():
         self.evento = None
         self.flag_interact = False
         
-        self.delayInteract = Delay(2, self.__setInteraction)
+        self.delayInteract = Delay(3, self.__setInteraction)
         
         GLOB.MonsterActualFloor = "1-PianoTerra"
         GLOB.MonsterActualRoom = "Corridoio"
@@ -454,8 +454,6 @@ class Keeper():
         
         
         if not GLOB.isPaused:
-            
-            self.delayInteract.Infinite()
         
             # GIOCATORE NASCOSTO
             
@@ -463,6 +461,10 @@ class Keeper():
                 self.aggr = False
                 self.flag_CanStartAttack = False
                 self.IAttacking = False
+                
+                
+            if not self.IseePlayer:
+                self.delayInteract.Infinite()
                 
                 
             self.superfice.fill(pygame.SRCALPHA)
@@ -753,7 +755,6 @@ class Keeper():
             for i in range(var_max):
                 if var == (start_id + i):
                     self.evento = "piano-"+str(i)
-                    self.flag_interact = False
                 
 
             # -- PORTE --
@@ -763,16 +764,16 @@ class Keeper():
 
             for i in range(var_max):
                 if var == (start_id + i):
-                    self.evento = "porta-"+str(i)
-                    self.flag_interact = False        
+                    self.evento = "porta-"+str(i)   
 
 
             # -- NASCONDIGLIO --
 
             if var == 132:
                 self.evento = "nascondiglio"
-                self.flag_interact = False
 
 
             if GLOB.Debug:
                 print(var, self.evento, GLOB.Stanza, GLOB.Piano)
+                
+            self.flag_interact = False

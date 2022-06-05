@@ -1172,6 +1172,11 @@ class GUI():
 
 		self.descr = pygame.image.load("assets/inventario-2.png").convert()
 		self.descr = pygame.transform.scale(self.descr, (self.descr.get_width() * GLOB.MULT, self.descr.get_height() * GLOB.MULT))
+  
+  
+		div = 8
+		self.button_interact = pygame.image.load("assets/Ekeyboard.png").convert_alpha()
+		self.button_interact = pygame.transform.scale(self.button_interact, (self.button_interact.get_width() * GLOB.MULT / div, self.button_interact.get_height() * GLOB.MULT / div))
 
 		self.max = self.bar.get_width() - GLOB.MULT
 
@@ -1374,6 +1379,25 @@ class GUI():
 			GLOB.screen.blit(self.second, (34 * GLOB.MULT, GLOB.screen_height - 63 * GLOB.MULT))
 			GLOB.screen.blit(self.player, (33.6 * GLOB.MULT, GLOB.screen_height - 65 * GLOB.MULT))
 			GLOB.screen.blit(self.third, (22 * GLOB.MULT, GLOB.screen_height - 75 * GLOB.MULT))
+   
+			if GLOB.PlayerCanInteract:
+				
+				pos_x = 232
+				pos_y = 12
+    
+				if GLOB.PlayerTextInteract == "Nasconditi" or GLOB.PlayerTextInteract == "Ispeziona" or GLOB.PlayerTextInteract == "Analizza":
+					pos_x = 240
+    
+				HINT_TEXT = get_font(4 * int(GLOB.MULT)).render(GLOB.PlayerTextInteract, False, "White")
+				HINT_RECT = HINT_TEXT.get_rect(center=(pos_x * GLOB.MULT, GLOB.screen_height - pos_y * GLOB.MULT))
+    
+				CONT_TEXT = get_font(4 * int(GLOB.MULT)).render(GLOB.PlayerTextInteract, False, "Black")
+				CONT_RECT = HINT_TEXT.get_rect(center=(pos_x * GLOB.MULT, GLOB.screen_height - (pos_y - 0.8) * GLOB.MULT))
+
+				GLOB.screen.blit(self.button_interact, (200 * GLOB.MULT, GLOB.screen_height - 20 * GLOB.MULT))
+    
+				GLOB.screen.blit(CONT_TEXT, CONT_RECT)
+				GLOB.screen.blit(HINT_TEXT, HINT_RECT)
 		
 			NAME_TEXT = get_font(size*int(GLOB.MULT)).render(name, True, "White")
 			NAME_POS = (posx, GLOB.screen_height - 20 * GLOB.MULT)

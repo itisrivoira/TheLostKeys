@@ -152,13 +152,10 @@ def load_collisions(path):
 
 def controllo_condizioni():
     
-    if GLOB.MonsterActualRoom != "Corridoio" and GLOB.MonsterCanSpawn and not GLOB.MonsterIntro:
+    if GLOB.MonsterActualRoom != "Corridoio" and GLOB.MonsterCanSpawn and not GLOB.MonsterIntro and GLOB.Stanza != GLOB.MonsterActualRoom:
         if GLOB.FlagSecRand:
-            GLOB.Val_sec = random.randint(1, 59)
+            GLOB.Val_sec = random.randint(1, int((timer.getSeconds() - GLOB.SecondDiffPos)))
             GLOB.FlagSecRand = False
-            
-            if GLOB.Val_sec == int(timer.getSeconds()):
-                GLOB.Val_sec = random.randint(1, GLOB.Val_sec - 1)
         
         if int(timer.getSeconds()) == GLOB.Val_sec and not mostro.IseePlayer and not mostro.aggr:
             valuex, valuey = 368, 142
@@ -230,6 +227,9 @@ def controllo_condizioni():
             mostro.IseePlayer = False
             mostro.aggr = False
             mostro.IAttacking = False
+            mostro.contatore_collisioni = 0
+            mostro.delayInteract.ReStart()
+            mostro.flag_interact = False
             
             if GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
                 Gui.door_sound.play()

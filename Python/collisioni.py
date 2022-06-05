@@ -201,6 +201,9 @@ class Map():
 
                             if GLOB.Debug:
                                 pygame.draw.rect(GLOB.screen, (255,0,0), collisione, int(GLOB.MULT))
+                                
+                        if GLOB.PlayerCanInteract:
+                            GLOB.PlayerCanInteract = False
                         
                         if not hitbox:
                             if var < GLOB.chiavetta_start:
@@ -213,9 +216,21 @@ class Map():
 
                             if main.animazione.iFinished == True:
                                 eventi.testa()
+                                
+                                
+                                try:
+                                    if not (GLOB.Stanza in GLOB.enigmi_risolti and (var >= 56 and var <= 111)) and not (var >= 140 and var <= 152) and not oggetto.colliderect(chunck_render_m):
+                                        GLOB.PlayerCanInteract = True
+                                except UnboundLocalError:
+                                    if not (GLOB.Stanza in GLOB.enigmi_risolti and (var >= 56 and var <= 111)) and not (var >= 140 and var <= 152):
+                                        GLOB.PlayerCanInteract = True
 
                             if GLOB.Debug:
                                 pygame.draw.rect(GLOB.screen, (0,255,0), collisione, int(GLOB.MULT))
+                                
+                    if not controllo_collisione:
+                        if GLOB.PlayerCanInteract and GLOB.PlayerIsMoving:
+                            GLOB.PlayerCanInteract = False
 
                 x += self.tiles_risoluzione
 

@@ -213,7 +213,7 @@ def setResources():
 
     global MonsterActualFloor, MonsterActualRoom, MonsterSpawning, MonsterIntro
     
-    global Default_Character, PlayerInteract, PlayerCanMove, PlayerCanRun, PlayerCanHide, PlayerIsHidden, PlayerIsMoving, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
+    global Default_Character, PlayerCanInteract, PlayerInteract, PlayerTextInteract, PlayerCanMove, PlayerCanRun, PlayerCanHide, PlayerIsHidden, PlayerIsMoving, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
     global Piano, Stanza, Default_Map, Default_object, Default_collisions
 
     # -- CODICI ---
@@ -328,6 +328,8 @@ def setResources():
     PlayerCanHide = True
     PlayerIsHidden = False
     PlayerInteract = False
+    PlayerCanInteract = False
+    PlayerTextInteract = "Interagisci"
 
     PlayerIsWalking = True
     PlayerIsRunning = False

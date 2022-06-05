@@ -191,7 +191,7 @@ def testa():
             condizione = False
             
             
-        if GLOB.Stanza == "Corridoio" and GLOB.Piano == "3-SecondoPiano" and ControllaContenuto("chiavetta-10"):
+        if (GLOB.Stanza == "Corridoio" and GLOB.Piano == "3-SecondoPiano" and ControllaContenuto("chiavetta-10")):
             condizione = False
             
             risposte = ["Sembra un distributore di merendine", "Cosa farei per un duplo", "Strano che non sia ancora stato distrutto, sarebbero state merendine gratis...", "Non so il perche', ma ho una certa fame..."]
@@ -905,3 +905,37 @@ def testa():
         else:
             GLOB.PlayerIsHidden = True
             main.Gui.door_sound.play()
+            
+    
+    if main.player.evento == "ispeziona":
+        main.player.evento = None
+        
+        testo = "Default"
+        
+        if GLOB.Piano == "1-PianoTerra":
+            
+            if GLOB.Stanza == "Corridoio":
+                testo = "Sembra una vecchia bacheca con gli eventi riportati di quegli anni|Nulla che mi possa servire..."
+                
+            if GLOB.Stanza == "Fisica":
+                testo = "Ah.. che bello!|Non riusciro' mai a scordarmi l'omega del Prof. Fulchero"
+                
+                
+        if GLOB.Piano == "2-PrimoPiano":
+                
+            if GLOB.Stanza == "Corridoio":
+                testo = "Sembra un distributore di merendine|Peccato che non sia funzionante..."
+                
+            if GLOB.Stanza == "AulaMagna":
+                testo = "Il tempo ha proprio ridotto male questo posto..."
+                
+            if GLOB.Stanza == "WC-Maschi":
+                testo = "Sembra un rubinetto, ma purtroppo non ne esce acqua."
+                
+        if testo != "Default":  
+            testo = testo.split("|")
+            
+            for frase in testo:
+                
+                d = main.Dialoghi(GLOB.scelta_char, frase, 4)
+                d.stampa()
