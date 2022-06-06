@@ -248,6 +248,12 @@ def testa():
         if GLOB.Stanza == "AulaMagna":
             testo = "Mmmm.|Forse la prossima chiavetta ha qualcosa a che fare con una sedia."
 
+            if GLOB.Stanza != GLOB.MonsterActualRoom and len(GLOB.enigmi_risolti) > 1:
+                GLOB.MonsterActualRoom = "AulaMagna"
+                GLOB.MonsterActualFloor = "2-PrimoPiano"
+                main.mostro.evento = "porta"
+                GLOB.MonsterHasChangedRoom = True
+
         if GLOB.Stanza == "1A":
             testo = "Pensavo piu' difficile...|Ad ogni modo che cos'e' quella strana cosa tra i gessetti della lavagna?!?"
 
@@ -402,7 +408,7 @@ def testa():
             valuex, valuey = 0, 0
             
             if GLOB.MonsterActualFloor == "1-PianoTerra":
-                valuex, valuey = 274, 114
+                valuex, valuey =  342, 114
                 
             if GLOB.MonsterActualFloor == "2-PrimoPiano" or GLOB.MonsterActualFloor == "3-SecondoPiano":
                 valuex, valuey = 368, 142

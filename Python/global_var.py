@@ -211,7 +211,7 @@ def setResources():
     global RandomKey, RandomRoom
     global oggetti, oggetti_start, oggetti_end
 
-    global MonsterActualFloor, MonsterActualRoom, MonsterSpawning, MonsterIntro
+    global MonsterActualFloor, MonsterActualRoom, MonsterSpawning, MonsterIntro, MonsterCanChangeRoom
     
     global Default_Character, PlayerCanInteract, PlayerInteract, PlayerTextInteract, PlayerCanMove, PlayerCanRun, PlayerCanHide, PlayerIsHidden, PlayerIsMoving, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
     global Piano, Stanza, Default_Map, Default_object, Default_collisions
@@ -348,5 +348,6 @@ def setResources():
     MonsterActualFloor = Piano
     MonsterSpawning = False
     MonsterIntro = True
+    MonsterCanChangeRoom = False
 
 setResources()
