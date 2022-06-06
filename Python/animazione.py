@@ -46,7 +46,7 @@ class Transizione():
             self.flag_room = False
             self.delay_monsterRoom.ReStart()
         
-        if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning and not GLOB.MonsterIntro:
+        if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning and not GLOB.MonsterIntro and GLOB.MonsterCanChangeRoom and (GLOB.Stanza != GLOB.MonsterActualRoom or GLOB.Piano != GLOB.MonsterActualFloor):
             
             if main.mostro.aggr and GLOB.PlayerHasChangedRoom and GLOB.SecondDiffPos < 6:
                 

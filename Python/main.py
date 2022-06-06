@@ -117,7 +117,7 @@ def inizializza():
 
     if GLOB.MonsterCanSpawn:
         global mostro
-        mostro = Keeper((200 * GLOB.MULT, 122 * GLOB.MULT), (20 * GLOB.MULT, 0.45 * GLOB.MULT))
+        mostro = Keeper((342 * GLOB.MULT, 114 * GLOB.MULT), (20 * GLOB.MULT, 0.45 * GLOB.MULT))
 
 
 def load_collisions(path):
@@ -257,6 +257,9 @@ def controllo_condizioni():
                 mostro.Sound_Angry.play()    
                 GLOB.MonsterSpawning = True
                 SetPlayer_speed()
+
+    if not GLOB.MonsterIntro and GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
+        GLOB.MonsterCanChangeRoom = True
                 
     if GLOB.ShowComand and not animazione.flag_caricamento:
         testo1 = "Ciao! Io sono verga e saro' la tua guida di questo viaggio!|Per muoverti clicca le freccie direzionali o WASD|Per correre tieni premuto SHIFT|"
@@ -352,7 +355,7 @@ def disegna():
     if not GLOB.PlayerIsHidden:
         player.update()
 
-    if GLOB.MonsterCanSpawn and animazione.iFinished and GLOB.MonsterSpawning and GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
+    if animazione.iFinished and GLOB.MonsterCanSpawn and animazione.iFinished and GLOB.MonsterSpawning and GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
         mostro.update()
 
     collisions.render_objects((0,0))
@@ -362,7 +365,7 @@ def disegna():
     if not GLOB.PlayerIsHidden:
         player.load_playerSurface()
 
-    if GLOB.MonsterCanSpawn and animazione.iFinished and GLOB.MonsterSpawning and GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
+    if animazione.iFinished and GLOB.MonsterCanSpawn and animazione.iFinished and GLOB.MonsterSpawning and GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
         mostro.load_monsterSurface()
 
     animazione.disegna()
