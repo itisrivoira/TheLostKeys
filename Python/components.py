@@ -1231,10 +1231,10 @@ class GUI():
 		self.speed = GLOB.PlayerRun_speed
 
 		if not (GLOB.PLayerMovement["up"] or GLOB.PLayerMovement["down"] or GLOB.PLayerMovement["right"] or GLOB.PLayerMovement["left"]):
-			self.recupero = (7 - self.speed) / GLOB.Delta_Time
+			self.recupero = (7 - self.speed)
 			flag = False
 		else:
-			self.recupero = (5 - self.speed) / GLOB.Delta_Time
+			self.recupero = (5 - self.speed)
 
 		moltiplicatore =  0.5
   
