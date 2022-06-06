@@ -1,5 +1,5 @@
 import pandas as pd
-import pygame, os, sys
+import pygame, os, sys, random
 
 #Importo i vari file e classi necessarie
 import giocatore, menu, camera, debug, collisioni
@@ -152,6 +152,92 @@ def load_collisions(path):
 
 def controllo_condizioni():
     
+    if GLOB.MonsterActualRoom != "Corridoio" and GLOB.MonsterCanSpawn and not GLOB.MonsterIntro and GLOB.Stanza != GLOB.MonsterActualRoom:
+        if GLOB.FlagSecRand:
+            GLOB.Val_sec = random.randint(1, abs(int((timer.getSeconds() - GLOB.SecondDiffPos + 1))))
+            GLOB.FlagSecRand = False
+        
+        if int(timer.getSeconds()) == GLOB.Val_sec and not mostro.IseePlayer and not mostro.aggr and GLOB.Stanza != GLOB.MonsterActualRoom:
+            valuex, valuey = 368, 142
+            
+            if GLOB.MonsterActualFloor == "1-PianoTerra":
+                if GLOB.MonsterActualRoom == "Fisica":
+                    valuex, valuey = 200, 20
+                    mostro.monster_ai_brain = 3
+                    
+                elif GLOB.MonsterActualRoom == "Archivio":
+                    valuex, valuey = 14, 166
+                    mostro.monster_ai_brain = 1
+                    
+                elif GLOB.MonsterActualRoom == "Chimica":
+                    valuex, valuey = 514, 28
+                    mostro.monster_ai_brain = 1
+                
+            if GLOB.MonsterActualFloor == "2-PrimoPiano":
+                if GLOB.MonsterActualRoom == "AulaProfessori":
+                    valuex, valuey = 652, 166
+                    mostro.monster_ai_brain = 2
+                    
+                if GLOB.MonsterActualRoom == "WC-Femmine":
+                    valuex, valuey = 652, 264
+                    mostro.monster_ai_brain = 2
+                    
+                if GLOB.MonsterActualRoom == "AulaMagna":
+                    valuex, valuey = 512, 254
+                    mostro.monster_ai_brain = 4
+                    
+                if GLOB.MonsterActualRoom == "1A":
+                    valuex, valuey = 368, 254
+                    mostro.monster_ai_brain = 4
+                       
+                if GLOB.MonsterActualRoom == "1D":
+                    valuex, valuey = 248, 254
+                    mostro.monster_ai_brain = 4
+                    
+                if GLOB.MonsterActualRoom == "WC-Maschi":
+                    valuex, valuey = 32, 254
+                    mostro.monster_ai_brain = 4
+                    
+                if GLOB.MonsterActualRoom == "LabInfo":
+                    valuex, valuey = 16, 188
+                    mostro.monster_ai_brain = 1
+                    
+            if GLOB.MonsterActualFloor == "3-SecondoPiano":
+                if GLOB.MonsterActualRoom == "AulaVideo":
+                    valuex, valuey = 648, 166
+                    mostro.monster_ai_brain = 2
+                    
+                if GLOB.MonsterActualRoom == "4A":
+                    valuex, valuey = 276, 248
+                    mostro.monster_ai_brain = 4
+                    
+                if GLOB.MonsterActualRoom == "LabInformatica":
+                    valuex, valuey = 178, 248
+                    mostro.monster_ai_brain = 4
+                    
+                if GLOB.MonsterActualRoom == "Ripostiglio":
+                    valuex, valuey = 80, 72
+                    mostro.monster_ai_brain = 1
+                    
+            GLOB.MonsterHasChangedRoom = True
+            GLOB.MonsterActualRoom = "Corridoio"
+            
+            mostro.x = valuex * GLOB.MULT
+            mostro.y = valuey * GLOB.MULT
+            mostro.IseePlayer = False
+            mostro.aggr = False
+            mostro.IAttacking = False
+            mostro.contatore_collisioni = 0
+            mostro.delayInteract.ReStart()
+            mostro.flag_interact = False
+            
+            if GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
+                Gui.door_sound.play()
+    
+    if not GLOB.PlayerHasPressedButton:
+        player.setAllkeys(False)
+        player.finish()
+    
     if len(GLOB.enigmi_risolti) > 0 and GLOB.MonsterIntro:
         
         if messaggio_a_schermo.isFinished:
@@ -174,8 +260,8 @@ def controllo_condizioni():
                 
     if GLOB.ShowComand and not animazione.flag_caricamento:
         testo1 = "Ciao! Io sono verga e saro' la tua guida di questo viaggio!|Per muoverti clicca le freccie direzionali o WASD|Per correre tieni premuto SHIFT|"
-        testo2 = "Per aprire l'inventario premi TAB e per vedere le informazioni dettagliate premere Q|Per interagire con gli oggetti premere E|"
-        testo3 = "Detto questo, hai un compito, trova tutte le chiavette, e vinci! Buona fortuna!"
+        testo2 = "Per aprire l'inventario premi TAB|Per interagire con gli oggetti premere E|"
+        testo3 = "Detto questo, hai un compito, trova la via di fuga contenuta in una chiavetta, cerca le pagine e vinci! Buona fortuna!"
         
         testo = testo1 + testo2 + testo3
 
@@ -374,10 +460,13 @@ def main():
     
     # Funzione che controlla se il tasto è stato premuto
     def key_pressed(event, IsPressed):
+        global UP, DOWN, LEFT, RIGHT
         UP = event.key == pygame.K_w or event.key == pygame.K_UP
         DOWN = event.key == pygame.K_s or event.key == pygame.K_DOWN
         LEFT = event.key == pygame.K_a or event.key == pygame.K_LEFT
         RIGHT = event.key == pygame.K_d or event.key == pygame.K_RIGHT
+        SHIFT = event.key == pygame.K_LSHIFT
+        INTERACT = event.key == pygame.K_e
 
         getUp = player.getUpPress()
         getDown = player.getDownPress()
@@ -385,9 +474,11 @@ def main():
         getRight = player.getRightPress()
 
         condition_1 = getLeft and UP and not(getRight and getDown)
-        condition_2 = getLeft and getDown and not(getRight and getUp)
+        condition_2 = getLeft and DOWN and not(getRight and getUp)
         condition_3 = getRight and UP and not(getLeft and getDown)
-        condition_4 = getRight and getDown and not(getLeft and getUp)
+        condition_4 = getRight and DOWN and not(getLeft and getUp)
+        
+        GLOB.PlayerHasPressedButton = True
 
         if LEFT and not RIGHT and not(condition_1 and condition_2):
             GLOB.PlayerIsMoving = IsPressed
@@ -437,7 +528,7 @@ def main():
             else:
                 player.finish()
 
-        elif event.key == pygame.K_LSHIFT:
+        elif SHIFT:
             
             if IsPressed and GLOB.PlayerCanRun:
                 
@@ -457,12 +548,11 @@ def main():
                 player.setIsRunning(GLOB.PlayerCanRun)
                 GLOB.Player_speed = GLOB.Player_default_speed
                 
-        elif event.key == pygame.K_e:
+        elif INTERACT:
             GLOB.PlayerInteract = IsPressed
-                
-        elif not UP and player.getUpPress() or not DOWN and player.getDownPress():
-            player.setAllkeys(False)    # Evita che ci siano input zombie
-            player.finish()
+            
+        else:
+            GLOB.PlayerHasPressedButton = False
             
 
     # SETTO ENIGMI - DIALOGHI

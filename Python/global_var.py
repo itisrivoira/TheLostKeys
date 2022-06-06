@@ -47,6 +47,7 @@ isPaused = False
 ShowInventory = False
 
 KeyPressed = ""
+PlayerHasPressedButton = False
 
 Dialogo = False
 Enigma = False
@@ -81,7 +82,9 @@ ShowMonsterRange = False
 MonsterCanAttack = True
 
 
-SecondDiffPos = 5
+SecondDiffPos = 10
+FlagSecRand = True
+Val_sec = 59
 
 Player_default_speed = Player_speed
 
@@ -94,7 +97,7 @@ PlayerWalkingVU = []
 
 MonsterWO = []
 MonsterWVD = []
-MonsterWVU= []
+MonsterWVU = []
 MonsterAngry = []
 MonsterIdle = []
 
@@ -210,7 +213,7 @@ def setResources():
 
     global MonsterActualFloor, MonsterActualRoom, MonsterSpawning, MonsterIntro
     
-    global Default_Character, PlayerInteract, PlayerCanMove, PlayerCanRun, PlayerCanHide, PlayerIsHidden, PlayerIsMoving, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
+    global Default_Character, PlayerCanInteract, PlayerInteract, PlayerTextInteract, PlayerCanMove, PlayerCanRun, PlayerCanHide, PlayerIsHidden, PlayerIsMoving, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
     global Piano, Stanza, Default_Map, Default_object, Default_collisions
 
     # -- CODICI ---
@@ -258,7 +261,7 @@ def setResources():
     # --- INVENTARIO ---
 
 
-        # CHIAVETTE
+    # CHIAVETTE
 
     chiavette = {}
     chiavetta_start = 140
@@ -291,12 +294,12 @@ def setResources():
 
 
 
-        # OGGETTI
+    # OGGETTI
 
     oggetti = {}
     oggetti_start = 154
     molt_oggetto = 2
-    oggetti_end = 3
+    oggetti_end = 4
 
     for i in range(oggetti_end):
         immagine = pygame.image.load("Collectibles/oggetto-"+str(i)+".png").convert_alpha()
@@ -325,6 +328,8 @@ def setResources():
     PlayerCanHide = True
     PlayerIsHidden = False
     PlayerInteract = False
+    PlayerCanInteract = False
+    PlayerTextInteract = "Interagisci"
 
     PlayerIsWalking = True
     PlayerIsRunning = False

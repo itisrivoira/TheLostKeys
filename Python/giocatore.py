@@ -321,11 +321,12 @@ class Player():
                 self.collision_state["right"] = False
 
     def HasInteraction(self, chunk_render, object, var):
-        keys_pressed = pygame.key.get_pressed()
         
         self.evento = None
 
         if chunk_render.colliderect(object):
+            
+            GLOB.PlayerTextInteract = "Interagisci"
             
             # -- PIANO --
             start_id = 127
@@ -355,7 +356,51 @@ class Player():
 
             if var == 138:
                 self.evento = "vittoria"
-            
+                
+                
+            if var == 127 or var == 131:
+                GLOB.PlayerTextInteract = "Apri"
+                
+                
+            start_id = 112
+            var_max = 14
+
+            for i in range(var_max):
+                if var == (start_id + i):
+                    GLOB.PlayerTextInteract = "Apri"
+                    
+                    
+            if var >= 56 and var <= 111:
+                GLOB.PlayerTextInteract = "Risolvi"
+                
+                if GLOB.Stanza == "Archivio":
+                    GLOB.PlayerTextInteract = "Ispeziona"
+                
+                
+            if var >= 56 and var <= 111 and (GLOB.Piano == "3-SecondoPiano" or GLOB.Piano == "2-PrimoPiano")  and GLOB.Stanza == "Corridoio":
+                GLOB.PlayerTextInteract = "Esamina"
+                
+                
+            if var == 132:
+                GLOB.PlayerTextInteract = "Nasconditi"
+                
+                
+            if var == 133:
+                GLOB.PlayerTextInteract = "Ispeziona"
+                
+            if var == 134:
+                GLOB.PlayerTextInteract = "Analizza"
+                
+                
+            if var == 136 or var == 137:
+                GLOB.PlayerTextInteract = "Cerca"
+                
+            if var == 126:
+                GLOB.PlayerTextInteract = "Guarda"
+                
+                
+            if var == 134 or var == 135 or GLOB.Stanza == "WC-Femmine":
+                GLOB.PlayerTextInteract = "Usa"
             
             
             if GLOB.PlayerInteract and GLOB.PlayerCanMove:
@@ -392,6 +437,11 @@ class Player():
 
                 if var == 132:
                     self.evento = "nascondiglio"
+                    
+                
+                # -- DIALOGHI --
+                if var == 133:
+                    self.evento = "ispeziona"
 
 
                 # -- CODICE --

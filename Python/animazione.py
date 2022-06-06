@@ -48,7 +48,7 @@ class Transizione():
         
         if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning and not GLOB.MonsterIntro:
             
-            if main.mostro.aggr and GLOB.PlayerHasChangedRoom and GLOB.SecondDiffPos < 5.5:
+            if main.mostro.aggr and GLOB.PlayerHasChangedRoom and GLOB.SecondDiffPos < 6:
                 
                 if GLOB.Piano == GLOB.MonsterActualFloor and GLOB.Stanza != GLOB.MonsterActualRoom:
                     main.mostro.aggr = True
@@ -68,20 +68,24 @@ class Transizione():
                         
                 if GLOB.Stanza != "Corridoio" and GLOB.MonsterActualRoom != GLOB.Stanza and GLOB.MonsterActualRoom != "Corridoio" and GLOB.MonsterActualFloor == GLOB.Piano:
                     main.mostro.IseePlayer = False
+                    
+                if (GLOB.MonsterActualFloor == "1-PianoTerra" and GLOB.Piano == "3-SecondoPiano") or (GLOB.Piano == "1-PianoTerra" and GLOB.MonsterActualFloor == "3-SecondoPiano"):
+                    main.mostro.IseePlayer = False
                 
                 if main.mostro.IseePlayer:
                     main.mostro.x = main.stanze.pos_portaP[0] * GLOB.MULT - main.stanze.pos_portaC[0] * GLOB.MULT
                     main.mostro.y = main.stanze.pos_portaP[1] * GLOB.MULT - main.stanze.pos_portaC[1] * GLOB.MULT
                     
-                    if main.mostro.evento != None:
-                        if not "piano" in main.mostro.evento:
-                            main.Gui.door_sound.play()
-
+                    if GLOB.Piano == GLOB.MonsterActualFloor:
+                        main.Gui.door_sound.play()
+                    
                     GLOB.MonsterHasChangedRoom = True
                     GLOB.MonsterActualRoom = GLOB.Stanza
                     GLOB.MonsterActualFloor = GLOB.Piano
                     
                     main.mostro.contatore_collisioni = 0
+                    main.mostro.delayInteract.ReStart()
+                    main.mostro.flag_interact = False
                     
                 if GLOB.PlayerIsHidden:
                     main.mostro.IseePlayer = False

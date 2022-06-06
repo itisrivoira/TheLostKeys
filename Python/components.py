@@ -135,17 +135,17 @@ class Dialoghi():
 		self.interm = 0
 
 		if text_speed == 1:
-			self.text_speed = 0.1 / GLOB.Delta_Time
+			self.text_speed = 0.1
 		elif text_speed == 2:
-			self.text_speed = 0.2 / GLOB.Delta_Time
+			self.text_speed = 0.2
 		elif text_speed == 3:
-			self.text_speed = 0.25 / GLOB.Delta_Time
+			self.text_speed = 0.25
 		elif text_speed == 4:
-			self.text_speed = 0.5 / GLOB.Delta_Time
+			self.text_speed = 0.5
 		elif text_speed == 5:
-			self.text_speed = 1 / GLOB.Delta_Time
+			self.text_speed = 1
 		else:
-			self.text_speed = 0.1 / GLOB.Delta_Time
+			self.text_speed = 0.1
 
 		self.contatore = 0
 
@@ -300,14 +300,15 @@ class Dialoghi():
 
 		# Delay aggiuntivo per dei caratteri particolari indicati
 		if max and self.descr[int(round(self.delay, 1))] != "." and self.descr[int(round(self.delay, 1))] != "?" and self.descr[int(round(self.delay, 1))] != "!" or self.ritardo == 1:
-			self.delay += self.text_speed
+			self.delay += self.text_speed / GLOB.Delta_Time
 			self.ritardo = 0
 		else:
-			self.ritardo += self.text_speed
+			self.ritardo += self.text_speed / GLOB.Delta_Time
    
    
 		if self.contatore >= len(self.full_description):
 			self.iFinished = True
+			self.flag_skippa = False
 
 		
 		#print("Delay: "+str(round(self.delay, 1))+" | Intero: "+str(int(self.delay+0.1))+" | Lunghezza: "+str(len(self.descr))+" | Contatore: "+str(self.contatore)+" | Max: "+str((self.delay+1)))
@@ -360,17 +361,18 @@ class Dialoghi():
     				
 				if event.type == pygame.KEYDOWN:
         
-					if event.key == pygame.K_SPACE or event.key == pygame.K_ESCAPE:
+					if event.key == pygame.K_SPACE:
         
 						if self.flag_skippa and not self.iFinished:
 							self.__init__(self.personaggio, self.full_description, 5)
 							self.flag_skippa = False
 							self.CanIplay_sound = False
 						
-						else:
+						elif not self.flag_skippa and self.iFinished:
 							possoIniziare = True
-
-				#delay.ActualState()
+       
+					if event.key == pygame.K_ESCAPE:
+						possoIniziare = True
 
 
 			pygame.display.flip() # ti permette di aggiornare una area dello schermo per evitare lag e fornire piu' ottimizzazione
@@ -385,7 +387,10 @@ class Dialoghi_Interattivi():
 		self.tipo = tipo_enigma
 		self.oggetto = oggetto
 		# self.personaggio = personaggio
-		self.personaggio = "Verga"
+  
+		pers = personaggio.split("Prof. ")
+  
+		self.personaggio = pers[1]
 		# self.oggetto = "Narratore"
 
 		self.full_description = descrizione
@@ -455,17 +460,17 @@ class Dialoghi_Interattivi():
 		self.interm = 0
 
 		if text_speed == 1:
-			self.text_speed = 0.1 / GLOB.Delta_Time
+			self.text_speed = 0.1
 		elif text_speed == 2:
-			self.text_speed = 0.2 / GLOB.Delta_Time
+			self.text_speed = 0.2
 		elif text_speed == 3:
-			self.text_speed = 0.25 / GLOB.Delta_Time
+			self.text_speed = 0.25
 		elif text_speed == 4:
-			self.text_speed = 0.5 / GLOB.Delta_Time
+			self.text_speed = 0.5
 		elif text_speed == 5:
-			self.text_speed = 1 / GLOB.Delta_Time
+			self.text_speed = 1
 		else:
-			self.text_speed = 0.1 / GLOB.Delta_Time
+			self.text_speed = 0.1
 
 		self.contatore = 0
 
@@ -647,10 +652,10 @@ class Dialoghi_Interattivi():
 			
 		# Delay aggiuntivo per dei caratteri particolari indicati
 		if max and self.descr[int(round(self.delay, 1))] != "." and self.descr[int(round(self.delay, 1))] != "?" and self.descr[int(round(self.delay, 1))] != "!" or self.ritardo == 1:
-			self.delay += self.text_speed
+			self.delay += self.text_speed / GLOB.Delta_Time
 			self.ritardo = 0
 		else:
-			self.ritardo += self.text_speed
+			self.ritardo += self.text_speed / GLOB.Delta_Time
 
 	def __object_animation(self):
 
@@ -692,7 +697,7 @@ class Dialoghi_Interattivi():
     		
 			if self.difficolta == "Facile" or self.difficolta == "Media" or self.difficolta == "Medio" or self.difficolta == "Difficile":
     			
-				if self.tentativo > 2:
+				if self.tentativo >= 2:
 					GLOB.score_seconds = self.malus[3]
 			
 			# print("secondi tolti")
@@ -858,7 +863,7 @@ class Dialoghi_Interattivi():
 
 				if keys_pressed[pygame.K_SPACE] and not self.isFinished:
 					if self.CanIplay_sound:
-						self.__init__(self.tipo, self.personaggio, self.oggetto, self.full_description, self.full_suggeriment, self.risposte, self.number_solution + 1, self.difficolta, self.malus, 5)
+						self.__init__(self.tipo, "Prof. "+self.personaggio, self.oggetto, self.full_description, self.full_suggeriment, self.risposte, self.number_solution + 1, self.difficolta, self.malus, 5)
 						self.CanIplay_sound = False
 						self.isFinished = True
 
@@ -1171,6 +1176,11 @@ class GUI():
 
 		self.descr = pygame.image.load("assets/inventario-2.png").convert()
 		self.descr = pygame.transform.scale(self.descr, (self.descr.get_width() * GLOB.MULT, self.descr.get_height() * GLOB.MULT))
+  
+  
+		div = 8
+		self.button_interact = pygame.image.load("assets/Ekeyboard.png").convert_alpha()
+		self.button_interact = pygame.transform.scale(self.button_interact, (self.button_interact.get_width() * GLOB.MULT / div, self.button_interact.get_height() * GLOB.MULT / div))
 
 		self.max = self.bar.get_width() - GLOB.MULT
 
@@ -1221,10 +1231,10 @@ class GUI():
 		self.speed = GLOB.PlayerRun_speed
 
 		if not (GLOB.PLayerMovement["up"] or GLOB.PLayerMovement["down"] or GLOB.PLayerMovement["right"] or GLOB.PLayerMovement["left"]):
-			self.recupero = (7 - self.speed) / GLOB.Delta_Time
+			self.recupero = (7 - self.speed)
 			flag = False
 		else:
-			self.recupero = (5 - self.speed) / GLOB.Delta_Time
+			self.recupero = (5 - self.speed)
 
 		moltiplicatore =  0.5
   
@@ -1373,6 +1383,25 @@ class GUI():
 			GLOB.screen.blit(self.second, (34 * GLOB.MULT, GLOB.screen_height - 63 * GLOB.MULT))
 			GLOB.screen.blit(self.player, (33.6 * GLOB.MULT, GLOB.screen_height - 65 * GLOB.MULT))
 			GLOB.screen.blit(self.third, (22 * GLOB.MULT, GLOB.screen_height - 75 * GLOB.MULT))
+   
+			if GLOB.PlayerCanInteract and not GLOB.ShowInventory:
+				
+				pos_x = 232
+				pos_y = 12
+    
+				if GLOB.PlayerTextInteract == "Nasconditi" or GLOB.PlayerTextInteract == "Ispeziona" or GLOB.PlayerTextInteract == "Analizza":
+					pos_x = 240
+    
+				HINT_TEXT = get_font(4 * int(GLOB.MULT)).render(GLOB.PlayerTextInteract, False, "White")
+				HINT_RECT = HINT_TEXT.get_rect(center=(pos_x * GLOB.MULT, GLOB.screen_height - pos_y * GLOB.MULT))
+    
+				CONT_TEXT = get_font(4 * int(GLOB.MULT)).render(GLOB.PlayerTextInteract, False, "Black")
+				CONT_RECT = HINT_TEXT.get_rect(center=(pos_x * GLOB.MULT, GLOB.screen_height - (pos_y - 0.8) * GLOB.MULT))
+
+				GLOB.screen.blit(self.button_interact, (200 * GLOB.MULT, GLOB.screen_height - 20 * GLOB.MULT))
+    
+				GLOB.screen.blit(CONT_TEXT, CONT_RECT)
+				GLOB.screen.blit(HINT_TEXT, HINT_RECT)
 		
 			NAME_TEXT = get_font(size*int(GLOB.MULT)).render(name, True, "White")
 			NAME_POS = (posx, GLOB.screen_height - 20 * GLOB.MULT)
@@ -1415,6 +1444,10 @@ class GUI():
 		def inventario():
       
 			self.surface.set_alpha(self.trasparenza)
+   
+   
+			if self.contenuto and not self.flag_descrizione:
+				self.flag_descrizione = True
 
 			GLOB.screen.blit(self.surface, (0, 0))
 			GLOB.screen.blit(self.inventory, (0, 0))
@@ -1484,15 +1517,6 @@ class GUI():
 						elif GLOB.ShowInventory:
 							GLOB.PlayerReset = True
 							GLOB.ShowInventory = False
-					
-
-					if event.key == pygame.K_q and self.contenuto:
-						
-						if not self.flag_descrizione:
-							self.flag_descrizione = True
-						
-						elif self.flag_descrizione:
-							self.flag_descrizione = False
 
 					if keys_pressed[pygame.K_UP]:
 						self.selection -= 1

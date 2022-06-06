@@ -191,7 +191,7 @@ def testa():
             condizione = False
             
             
-        if GLOB.Stanza == "Corridoio" and GLOB.Piano == "3-SecondoPiano" and ControllaContenuto("chiavetta-10"):
+        if (GLOB.Stanza == "Corridoio" and GLOB.Piano == "3-SecondoPiano" and ControllaContenuto("chiavetta-10")):
             condizione = False
             
             risposte = ["Sembra un distributore di merendine", "Cosa farei per un duplo", "Strano che non sia ancora stato distrutto, sarebbero state merendine gratis...", "Non so il perche', ma ho una certa fame..."]
@@ -202,6 +202,11 @@ def testa():
             
         if GLOB.Stanza == "Archivio" and ControllaContenuto(GLOB.RandomKey):
             condizione = False
+            
+            testo = "Sembrano due vecchi telefoni..."
+            
+            d = main.Dialoghi(GLOB.scelta_char, testo, 4)
+            d.stampa()
             
 
         if condizione:
@@ -216,7 +221,7 @@ def testa():
         testo = "Default"
         
         if GLOB.Stanza == "Chimica":
-            testo = "Ho trovato un appunto del quale dice che ci sia una chiavetta nascosta all'interno dell'armadio...|Mmmm... mi potrebbe essere utile."
+            testo = "Ho trovato un appunto del quale dice che ci sia una chiavetta nascosta all'interno della cella frigorifero...|Mmmm... mi potrebbe essere utile."
             
             if GLOB.Stanza != GLOB.MonsterActualRoom:
                 GLOB.MonsterActualRoom = "Chimica"
@@ -247,7 +252,13 @@ def testa():
             testo = "Pensavo piu' difficile...|Ad ogni modo che cos'e' quella strana cosa tra i gessetti della lavagna?!?"
 
         if GLOB.Stanza == "AulaProfessori":
-            testo = "Interessante.|Forse potrei provare ad aprire il libro per vedere se c'e' qualcosa di interessante al suo interno"
+            testo = "Interessante.|Ho trovato una chiave dietro al foglio, con su scritto \"WC\""
+            
+            oggetto = "Chiave"
+            descrizione = "Chiave del bagno Maschile"
+            tipo = 3
+            
+            GLOB.inventario[oggetto] = (GLOB.oggetti[tipo][2], True, descrizione)
 
         if GLOB.Stanza == "AulaVideo":
             testo = "Pascoli...|Chissa' se nella libreria della scuola ci potrebbe essere quello che sto cercando."
@@ -407,7 +418,17 @@ def testa():
                     main.mostro.x = valuex * GLOB.MULT
                     main.mostro.y = valuey * GLOB.MULT
                     
-                    main.Gui.door_sound.play()
+                    if GLOB.Stanza == GLOB.MonsterActualRoom:
+                        main.Gui.door_sound.play()
+                        
+                    GLOB.SecondDiffPos = 10
+                    
+                try:
+                    if "porta-" in main.mostro.evento:
+                        GLOB.FlagSecRand = True
+                
+                except TypeError:
+                    pass
                     
         
         if main.mostro.evento == "porta-0":
@@ -532,7 +553,7 @@ def testa():
             main.stanze.setToDefault()
 
 
-            if GLOB.Piano == "2-PrimoPiano":
+            if GLOB.Piano == "2-PrimoPiano" and not Controlla("Chiave"):
                 
                 if GLOB.Stanza == "Corridoio":
                     main.stanze.dizionario_flag["WCmaschi"] = True
@@ -793,7 +814,7 @@ def testa():
         if GLOB.Stanza == "AulaProfessori":
             tipo = 1
             oggetto = "Libro Karl Marx"
-            descrizione = "All'interno c'è uno strano post-it con su scritto: \"1917\", e ci sono anche dei rimasugli di carta igienica, ma da dove arriveranno?"
+            descrizione = "All'interno c'è uno strano post-it con su scritto: \"E' stato bello finche' e' durato stare in questa scuola 02/02/2018\""
 
         if GLOB.Stanza == "AulaMagna" and VerificaEnigmi():
             oggetto = "chiavetta-4"
@@ -895,3 +916,37 @@ def testa():
         else:
             GLOB.PlayerIsHidden = True
             main.Gui.door_sound.play()
+            
+    
+    if main.player.evento == "ispeziona":
+        main.player.evento = None
+        
+        testo = "Default"
+        
+        if GLOB.Piano == "1-PianoTerra":
+            
+            if GLOB.Stanza == "Corridoio":
+                testo = "Sembra una vecchia bacheca con gli eventi riportati di quegli anni|Nulla che mi possa servire..."
+                
+            if GLOB.Stanza == "Fisica":
+                testo = "Ah.. che bello!|Non riusciro' mai a scordarmi l'omega del Prof. Fulchero"
+                
+                
+        if GLOB.Piano == "2-PrimoPiano":
+                
+            if GLOB.Stanza == "Corridoio":
+                testo = "Sembra un distributore di merendine|Peccato che non sia funzionante..."
+                
+            if GLOB.Stanza == "AulaMagna":
+                testo = "Il tempo ha proprio ridotto male questo posto..."
+                
+            if GLOB.Stanza == "WC-Maschi":
+                testo = "Sembra un rubinetto, ma purtroppo non ne esce acqua."
+                
+        if testo != "Default":  
+            testo = testo.split("|")
+            
+            for frase in testo:
+                
+                d = main.Dialoghi(GLOB.scelta_char, frase, 4)
+                d.stampa()
