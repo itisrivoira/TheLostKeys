@@ -6,6 +6,10 @@ Per avviare il programma fare
 
 </br></br>
 # Moduli richiesti:
+## - Pip `sudo apt-get install pip`
+
+## - Pygame `pip3 install pygame --version`
+
 ## - Pandas `pip3 install pandas`
 
 ## - Ffpyplayer `pip3 install ffpyplayer`
