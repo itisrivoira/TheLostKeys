@@ -1,6 +1,6 @@
 # TheLostKeys
 
-![Test Image 3](https://github.com/itisrivoira/TheLostKeys/Python/assets/Logo.png)
+![Logo](https://github.com/itisrivoira/TheLostKeys/Python/assets/Logo.png)
 
 Escape Room A.S. 2021/22 Gruppo 2
 ## Per accedere al sito:
