@@ -1,5 +1,4 @@
-# PrototipoTheLostKey
-File di prova di The Lost Keys
+# TheLostKeys
 (Per la versione di pygame 2.1.2 / python 3.8.10)
 
 Per avviare il programma fare
@@ -8,7 +7,10 @@ Per avviare il programma fare
 # Moduli richiesti:
 ## - Pandas `pip3 install pandas`
 
-## - Ffpyplayer pip3 install ffpyplayer
+## - Ffpyplayer `pip3 install ffpyplayer`
 
-## - Mediainfo pip3 install pymediainfo
-## - sudo apt-get install -y libmediainfo-dev
+## - Mediainfo `pip3 install pymediainfo`
+## - `sudo apt-get install -y libmediainfo-dev`
+
+# Link Utile alla Spiegaziode del gioco:
+## - Senex_03 https://www.youtube.com/watch?v=nFN0CT_yJr4
