@@ -1,4 +1,7 @@
 # TheLostKeys
+
+<img src="" alt="Keeper" style="float: left" width="250" height="250">
+
 (Per la versione di pygame 2.1.2 / python 3.8.10)
 
 Per avviare il programma fare
