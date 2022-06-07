@@ -1,6 +1,6 @@
 # TheLostKeys
 Escape Room A.S. 2021/22 Gruppo 2
-![Logo](https://github.com/itisrivoira/TheLostKeys/blob/main/Python/assets/Logo.png =250x250)
+![Logo](https://github.com/itisrivoira/TheLostKeys/blob/main/Python/assets/Logo.png  | width=100)
 
 ## Per accedere al sito:
 https://atomchanguskill.github.io/sitoWeb/
