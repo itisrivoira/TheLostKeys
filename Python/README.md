@@ -4,6 +4,7 @@
 Per avviare il programma fare
 ### `python3 main.py`
 
+</br></br>
 # Moduli richiesti:
 ## - Pandas `pip3 install pandas`
 
@@ -12,5 +13,6 @@ Per avviare il programma fare
 ## - Mediainfo `pip3 install pymediainfo`
 ## - `sudo apt-get install -y libmediainfo-dev`
 
+</br>
 # Link Utile alla Spiegaziode del gioco:
 ## - Senex_03 https://www.youtube.com/watch?v=nFN0CT_yJr4
