@@ -1,6 +1,6 @@
 # TheLostKeys
 
-<img src="" alt="Keeper" style="float: left" width="250" height="250">
+<img src="https://github.com/itisrivoira/TheLostKeys/blob/main/Python/assets/angry-mostro.png" alt="Keeper" style="float: left" width="108" height="156">
 
 (Per la versione di pygame 2.1.2 / python 3.8.10)
 
