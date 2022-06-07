@@ -15,6 +15,7 @@ Per avviare il programma fare
 ## - Ffpyplayer `pip3 install ffpyplayer`
 
 ## - Mediainfo `pip3 install pymediainfo` `sudo apt-get install -y libmediainfo-dev`
+### Utilizzo anche le librerie 'random', 'os' e 're' ma dovrebbero essere già presenti sul sistema
 
 </br></br>
 # Link Utile alla Spiegazione del gioco:
