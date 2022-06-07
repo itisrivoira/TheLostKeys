@@ -18,4 +18,4 @@ Per avviare il programma fare
 ## - Senex_03 https://www.youtube.com/watch?v=nFN0CT_yJr4
 
 ## Se siete da un sistema Linux fate e fi fa tutto automaticamente:
-# `chmod +x package.sh && ./package.sh`
+### - `chmod +x package.sh && ./package.sh`
