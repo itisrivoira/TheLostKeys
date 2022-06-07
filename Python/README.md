@@ -13,6 +13,6 @@ Per avviare il programma fare
 ## - Mediainfo `pip3 install pymediainfo`
 ## - `sudo apt-get install -y libmediainfo-dev`
 
-</br>
+</br></br>
 # Link Utile alla Spiegaziode del gioco:
 ## - Senex_03 https://www.youtube.com/watch?v=nFN0CT_yJr4
