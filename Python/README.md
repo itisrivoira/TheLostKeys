@@ -17,5 +17,5 @@ Per avviare il programma fare
 # Link Utile alla Spiegaziode del gioco:
 ## - Senex_03 https://www.youtube.com/watch?v=nFN0CT_yJr4
 </br></br>
-## Se siete da un sistema Linux eseguite il 'package.sh' per installare direttamente i moduli richiesti:
+## Se siete in Linux eseguite il 'package.sh' per installare direttamente i moduli richiesti:
 ### - `chmod +x package.sh && ./package.sh`
