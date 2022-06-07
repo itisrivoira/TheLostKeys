@@ -16,3 +16,6 @@ Per avviare il programma fare
 </br></br>
 # Link Utile alla Spiegaziode del gioco:
 ## - Senex_03 https://www.youtube.com/watch?v=nFN0CT_yJr4
+
+## Se siete da un sistema Linux fate e fi fa tutto automaticamente:
+# `chmod +x package.sh && ./package.sh`
