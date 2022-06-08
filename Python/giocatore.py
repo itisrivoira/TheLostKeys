@@ -377,7 +377,7 @@ class Player():
                     GLOB.PlayerTextInteract = "Ispeziona"
                 
                 
-            if var >= 56 and var <= 111 and (GLOB.Piano == "3-SecondoPiano" or GLOB.Piano == "2-PrimoPiano")  and GLOB.Stanza == "Corridoio":
+            if var >= 56 and var <= 111 and (GLOB.Piano == "3-SecondoPiano" or GLOB.Piano == "2-PrimoPiano")  and "Corridoio" in GLOB.Stanza:
                 GLOB.PlayerTextInteract = "Esamina"
                 
                 
@@ -394,6 +394,9 @@ class Player():
                 
             if var == 136 or var == 137:
                 GLOB.PlayerTextInteract = "Cerca"
+                
+                if "Lab" in GLOB.Stanza:
+                    GLOB.PlayerTextInteract = "Esamina"
                 
             if var == 126:
                 GLOB.PlayerTextInteract = "Guarda"

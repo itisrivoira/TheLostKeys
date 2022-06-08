@@ -12,6 +12,7 @@ class Debug():
 
         if GLOB.Debug:
 
+            GLOB.ShowRecord = False
             GLOB.ShowFps = True
             GLOB.ShowDropFrames = True
             
@@ -57,10 +58,10 @@ class Debug():
 
             GLOB.screen.blit(RUN_TEXT, RUN_RECT)
 
-            STATUS_TEXT = main.get_font(5*int(GLOB.MULT)).render("Is Running: "+str(GLOB.PlayerCanRun)+" | Can Run: "+str(GLOB.PlayerCanRun), True, "white")
-            STATUS_RECT = STATUS_TEXT.get_rect(center=(295*GLOB.MULT, 30*GLOB.MULT))
+            STATUS_TEXT = main.get_font(5*int(GLOB.MULT)).render("Is Walking: "+str(GLOB.PlayerIsWalking)+" | Is Running: "+str(GLOB.PlayerIsRunning), True, "white")
+            STATUS_RECT = STATUS_TEXT.get_rect(center=(295*GLOB.MULT, 60*GLOB.MULT))
 
-           # GLOB.screen.blit(STATUS_TEXT, STATUS_RECT)
+            # GLOB.screen.blit(STATUS_TEXT, STATUS_RECT)
 
             POS_TEXT = main.get_font(8*int(GLOB.MULT)).render("x/y: "+str(int((main.player.getPositionX()-main.cam.getPositionX())/GLOB.MULT))+" | "+str(int((main.player.getPositionY()-main.cam.getPositionY())/GLOB.MULT)), True, "white")
             POS_RECT = POS_TEXT.get_rect(center=(200*GLOB.MULT, 20*GLOB.MULT))
@@ -77,17 +78,11 @@ class Debug():
 
             GLOB.screen.blit(POSC_TEXT, POSC_RECT)
 
-            ENIGMA_TEXT = main.get_font(3*int(GLOB.MULT)).render(str(GLOB.enigmi_risolti), True, "White")
-            ENIGMA_RECT = ENIGMA_TEXT.get_rect(center=(320*GLOB.MULT, 40*GLOB.MULT))
-
-            GLOB.screen.blit(ENIGMA_TEXT, ENIGMA_RECT)
-
-            INVENTARIO_TEXT = main.get_font(3*int(GLOB.MULT)).render(str(GLOB.inventario.keys())+" | "+str(GLOB.PlayerCanCollect), True, "White")
-            INVENTARIO_RECT = INVENTARIO_TEXT.get_rect(center=(100*GLOB.MULT, 90*GLOB.MULT))
-
-            GLOB.screen.blit(INVENTARIO_TEXT, INVENTARIO_RECT)
-
             main.cam.ShowCam()
+            
+        else:
+                    
+            GLOB.ShowRecord = True
 
         if GLOB.ShowScore:
             SCORE_TEXT = main.get_font(6*int(GLOB.MULT)).render("score: "+str(GLOB.score), True, "white")

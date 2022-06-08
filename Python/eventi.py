@@ -97,7 +97,7 @@ def testa():
             
             
         if main.player.evento == "chiavetta-12":
-            var = "Corridoio"
+            var = "Corridoio3"
             GLOB.chiavette[var] = (GLOB.chiavette[var][0], False, GLOB.chiavette[var][2])
             GLOB.inventario["chiavetta-12"] = (GLOB.chiavette[var][2], False, "Proprietario: Marco Rolando - Files: somebodyelse.mp3")
             main.player.evento = None
@@ -191,7 +191,7 @@ def testa():
             condizione = False
             
             
-        if (GLOB.Stanza == "Corridoio" and GLOB.Piano == "3-SecondoPiano" and ControllaContenuto("chiavetta-10")):
+        if ("Corridoio" in GLOB.Stanza and GLOB.Piano == "3-SecondoPiano" and ControllaContenuto("chiavetta-10")):
             condizione = False
             
             risposte = ["Sembra un distributore di merendine", "Cosa farei per un duplo", "Strano che non sia ancora stato distrutto, sarebbero state merendine gratis...", "Non so il perche', ma ho una certa fame..."]
@@ -278,7 +278,7 @@ def testa():
         if GLOB.Stanza == "LabInfo":
             testo = "Scratch... che ricordi, chissa' se tra questi pc ce ne sarà uno funzionante..."
                 
-        if GLOB.Stanza == "Corridoio" and GLOB.Piano == "3-SecondoPiano":
+        if "Corridoio" in GLOB.Stanza and GLOB.Piano == "3-SecondoPiano":
             
             if Cerca("chiavetta-10"):
                 main.player.evento = "chiavetta-12"
@@ -288,8 +288,8 @@ def testa():
             testo = "Si, evvai!!| Oltretutto inserendo il codice 4096 nella macchinetta, mi ha dato un'altra chiavetta!|Andiamo ad analizzarne il contenuto!"
             
             if GLOB.Stanza != GLOB.MonsterActualRoom:
-                GLOB.MonsterActualRoom = "LabInfo"
-                GLOB.MonsterActualFloor = "3-SecondoPiano"
+                GLOB.MonsterActualRoom = "Default"
+                GLOB.MonsterActualFloor = "2-PrimoPiano"
                 main.mostro.evento = "porta"
                 GLOB.MonsterHasChangedRoom = True
                 
@@ -303,8 +303,6 @@ def testa():
                 GLOB.MonsterActualFloor = "1-PianoTerra"
                 main.mostro.evento = "porta-8"
                 main.mostro.IseePlayer = True
-                main.mostro.aggr = True
-                main.mostro.IAttacking = True
         
         if testo != "Default":
             testo = testo.split("|")
@@ -316,8 +314,7 @@ def testa():
 
 
     if main.player.evento == "mappa":
-        mappa = main.MiniMap()
-        mappa.update()
+        main.MiniMap().update()
         main.player.setAllkeys(False)
         main.SetPlayer_speed()
 
@@ -403,7 +400,7 @@ def testa():
 
     def porte():
         
-        if GLOB.MonsterActualRoom != "Corridoio":
+        if not "Corridoio" in GLOB.MonsterActualRoom:
             
             valuex, valuey = 0, 0
             
@@ -419,7 +416,7 @@ def testa():
                     
                     main.mostro.evento = None
                     GLOB.MonsterHasChangedRoom = True
-                    GLOB.MonsterActualRoom = "Corridoio"
+                    GLOB.MonsterActualRoom = "Corridoio" + str(GLOB.MonsterActualFloor[0])
                     
                     main.mostro.x = valuex * GLOB.MULT
                     main.mostro.y = valuey * GLOB.MULT
@@ -443,7 +440,7 @@ def testa():
             
             if GLOB.MonsterActualFloor == "1-PianoTerra":
                 
-                if GLOB.MonsterActualRoom == "Corridoio":
+                if "Corridoio" in GLOB.MonsterActualRoom:
                     GLOB.MonsterActualRoom = "Fisica"
                     
                     main.mostro.x = 344 * GLOB.MULT
@@ -458,7 +455,7 @@ def testa():
             
             if GLOB.MonsterActualFloor == "2-PrimoPiano":
                 
-                if GLOB.MonsterActualRoom == "Corridoio":
+                if "Corridoio" in GLOB.MonsterActualRoom:
                     GLOB.MonsterActualRoom = "1D"
                     
                     main.mostro.x = 376 * GLOB.MULT
@@ -472,7 +469,7 @@ def testa():
             
             if GLOB.MonsterActualFloor == "3-SecondoPiano":
                 
-                if GLOB.MonsterActualRoom == "Corridoio":
+                if "Corridoio" in GLOB.MonsterActualRoom:
                     GLOB.MonsterActualRoom = "AulaVideo"
                     
                     main.mostro.x = 334 * GLOB.MULT
@@ -487,7 +484,7 @@ def testa():
             
             if GLOB.MonsterActualFloor == "1-PianoTerra":
                 
-                if GLOB.MonsterActualRoom == "Corridoio":
+                if "Corridoio" in GLOB.MonsterActualRoom:
                     GLOB.MonsterActualRoom = "Archivio"
                     
                     main.mostro.x = 392 * GLOB.MULT
@@ -503,7 +500,7 @@ def testa():
             
             if GLOB.MonsterActualFloor == "3-SecondoPiano":
                 
-                if GLOB.MonsterActualRoom == "Corridoio":
+                if "Corridoio" in GLOB.MonsterActualRoom:
                     GLOB.MonsterActualRoom = "4A"
                     
                     main.mostro.x = 460* GLOB.MULT
@@ -518,7 +515,7 @@ def testa():
             
             if GLOB.MonsterActualFloor == "2-PrimoPiano":
                 
-                if GLOB.MonsterActualRoom == "Corridoio":
+                if "Corridoio" in GLOB.MonsterActualRoom:
                     GLOB.MonsterActualRoom = "AulaProfessori"
                     
                     main.mostro.x = 338 * GLOB.MULT
@@ -533,7 +530,7 @@ def testa():
 
             if GLOB.Piano == "1-PianoTerra":
             
-                if GLOB.Stanza == "Corridoio":
+                if "Corridoio" in GLOB.Stanza:
                     main.stanze.dizionario_flag["Fisica"] = True
 
                 if GLOB.Stanza == "Fisica":
@@ -541,7 +538,7 @@ def testa():
 
             elif GLOB.Piano == "2-PrimoPiano":
                         
-                if GLOB.Stanza == "Corridoio":
+                if "Corridoio" in GLOB.Stanza:
                     main.stanze.dizionario_flag["LabInfo"] = True
 
                 if GLOB.Stanza == "LabInfo":
@@ -561,7 +558,7 @@ def testa():
 
             if GLOB.Piano == "2-PrimoPiano" and not Controlla("Chiave"):
                 
-                if GLOB.Stanza == "Corridoio":
+                if "Corridoio" in GLOB.Stanza:
                     main.stanze.dizionario_flag["WCmaschi"] = True
 
                 if GLOB.Stanza == "WC-Maschi":
@@ -583,7 +580,7 @@ def testa():
 
             if GLOB.Piano == "1-PianoTerra":
             
-                if GLOB.Stanza == "Corridoio":
+                if "Corridoio" in GLOB.Stanza:
                     main.stanze.dizionario_flag["Chimica"] = True
 
                 if GLOB.Stanza == "Chimica":
@@ -603,7 +600,7 @@ def testa():
             
             if GLOB.Piano == "2-PrimoPiano":
                     
-                if GLOB.Stanza == "Corridoio":
+                if "Corridoio" in GLOB.Stanza:
                     main.stanze.dizionario_flag["Classe1D"] = True
 
                 if GLOB.Stanza == "1D":
@@ -623,7 +620,7 @@ def testa():
 
             if GLOB.Piano == "2-PrimoPiano":
                 
-                if GLOB.Stanza == "Corridoio":
+                if "Corridoio" in GLOB.Stanza:
                     main.stanze.dizionario_flag["Classe1A"] = True
 
                 if GLOB.Stanza == "1A":
@@ -631,7 +628,7 @@ def testa():
 
             elif GLOB.Piano == "3-SecondoPiano":
                         
-                if GLOB.Stanza == "Corridoio":
+                if "Corridoio" in GLOB.Stanza:
                     main.stanze.dizionario_flag["AulaVideo"] = True
                     
                     if not main.mostro.aggr:
@@ -658,7 +655,7 @@ def testa():
 
             if GLOB.Piano == "1-PianoTerra":
             
-                if GLOB.Stanza == "Corridoio":
+                if "Corridoio" in GLOB.Stanza:
                     if not GLOB.codice_archivio:
                         main.stanze.dizionario_flag["Archivio0"] = True
                     else:
@@ -670,7 +667,7 @@ def testa():
 
             elif GLOB.Piano == "2-PrimoPiano":
                 
-                if GLOB.Stanza == "Corridoio":
+                if "Corridoio" in GLOB.Stanza:
                     main.stanze.dizionario_flag["AulaMagna"] = True
 
                 if GLOB.Stanza == "AulaMagna":
@@ -691,7 +688,7 @@ def testa():
             
             if GLOB.Piano == "3-SecondoPiano":
                 
-                if GLOB.Stanza == "Corridoio":
+                if "Corridoio" in GLOB.Stanza:
                     main.stanze.dizionario_flag["Classe4A"] = True
 
                 if GLOB.Stanza == "4A":
@@ -712,7 +709,7 @@ def testa():
 
             if GLOB.Piano == "2-PrimoPiano":
                 
-                if GLOB.Stanza == "Corridoio":
+                if "Corridoio" in GLOB.Stanza:
                     main.stanze.dizionario_flag["WCfemmine"] = True
 
                 if GLOB.Stanza == "WC-Femmine":
@@ -733,7 +730,7 @@ def testa():
 
             if GLOB.Piano == "2-PrimoPiano":
                 
-                if GLOB.Stanza == "Corridoio":
+                if "Corridoio" in GLOB.Stanza:
                     main.stanze.dizionario_flag["AulaProfessori"] = True
 
                 if GLOB.Stanza == "AulaProfessori":
@@ -742,7 +739,7 @@ def testa():
 
             elif GLOB.Piano == "3-SecondoPiano":
                     
-                if GLOB.Stanza == "Corridoio":
+                if "Corridoio" in GLOB.Stanza:
                     main.stanze.dizionario_flag["LabInformatica"] = True
 
                 if GLOB.Stanza == "LabInformatica":
@@ -763,7 +760,7 @@ def testa():
 
             if GLOB.Piano == "3-SecondoPiano":
                     
-                if GLOB.Stanza == "Corridoio":
+                if "Corridoio" in GLOB.Stanza:
                     main.stanze.dizionario_flag["Ripostiglio"] = True
 
                 if GLOB.Stanza == "Ripostiglio":
@@ -931,7 +928,7 @@ def testa():
         
         if GLOB.Piano == "1-PianoTerra":
             
-            if GLOB.Stanza == "Corridoio":
+            if "Corridoio" in GLOB.Stanza:
                 testo = "Sembra una vecchia bacheca con gli eventi riportati di quegli anni|Nulla che mi possa servire..."
                 
             if GLOB.Stanza == "Fisica":
@@ -940,7 +937,7 @@ def testa():
                 
         if GLOB.Piano == "2-PrimoPiano":
                 
-            if GLOB.Stanza == "Corridoio":
+            if "Corridoio" in GLOB.Stanza:
                 testo = "Sembra un distributore di merendine|Peccato che non sia funzionante..."
                 
             if GLOB.Stanza == "AulaMagna":

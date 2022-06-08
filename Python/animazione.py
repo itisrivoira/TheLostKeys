@@ -46,19 +46,42 @@ class Transizione():
             self.flag_room = False
             self.delay_monsterRoom.ReStart()
         
-        if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning and not GLOB.MonsterIntro and GLOB.MonsterCanChangeRoom and (GLOB.Stanza != GLOB.MonsterActualRoom or GLOB.Piano != GLOB.MonsterActualFloor):
+        if main.mostro.IseePlayer and GLOB.MonsterCanSpawn and GLOB.MonsterSpawning and GLOB.MonsterCanChangeRoom and GLOB.Stanza != GLOB.MonsterActualRoom:
             
-            if main.mostro.aggr and GLOB.PlayerHasChangedRoom and GLOB.SecondDiffPos < 6:
+            if not main.mostro.aggr and main.mostro.IseePlayer:
+                GLOB.SecondDiffPos = round((GLOB.SecondDiffPos + 2), 2)
+                main.mostro.aggr = True
+            
+            if main.mostro.aggr and GLOB.PlayerHasChangedRoom and GLOB.SecondDiffPos < 7.5:
                 
-                if GLOB.Piano == GLOB.MonsterActualFloor and GLOB.Stanza != GLOB.MonsterActualRoom:
+                i = 1
+                s = ""
+                
+                for c in GLOB.Stanza:
+                    
+                    if i < len(GLOB.Stanza):
+                        s += c
+                    
+                    i += 1
+                
+                
+                if GLOB.Piano == GLOB.MonsterActualFloor and not s in GLOB.MonsterActualRoom:
                     main.mostro.aggr = True
                     main.mostro.IAttacking = True
                     
-                if GLOB.Piano != GLOB.MonsterActualFloor and GLOB.Stanza != GLOB.MonsterActualRoom:
-                    main.mostro.IseePlayer = False
+                if GLOB.Piano != GLOB.MonsterActualFloor and not s in GLOB.MonsterActualRoom:
                     GLOB.MonsterHasChangedRoom = False
+                    
+                    main.mostro.IseePlayer = False
+                    main.mostro.IAttacking = False
+                    main.mostro.aggr = False
+                    
                     GLOB.MonsterActualFloor = GLOB.Piano
+                    GLOB.MonsterActualRoom = "Default"
                     main.mostro.evento = "porta"
+                    main.mostro.character_update(0)
+                    
+                    
 
                     if GLOB.PlayerIsHidden:
                         main.mostro.IseePlayer = False
@@ -66,11 +89,20 @@ class Transizione():
                         main.mostro.aggr = False
                         
                         
-                if GLOB.Stanza != "Corridoio" and GLOB.MonsterActualRoom != GLOB.Stanza and GLOB.MonsterActualRoom != "Corridoio" and GLOB.MonsterActualFloor == GLOB.Piano:
+                if not "Corridoio" in GLOB.Stanza and GLOB.MonsterActualRoom != GLOB.Stanza and not "Corridoio" in GLOB.MonsterActualRoom and GLOB.MonsterActualFloor == GLOB.Piano:
                     main.mostro.IseePlayer = False
+                    main.mostro.IAttacking = False
+                    main.mostro.aggr = False
+                    
+                    GLOB.MonsterActualFloor = GLOB.Piano
+                    GLOB.MonsterActualRoom = "Default"
+                    main.mostro.evento = "porta"
+                    main.mostro.character_update(0)
                     
                 if (GLOB.MonsterActualFloor == "1-PianoTerra" and GLOB.Piano == "3-SecondoPiano") or (GLOB.Piano == "1-PianoTerra" and GLOB.MonsterActualFloor == "3-SecondoPiano"):
                     main.mostro.IseePlayer = False
+                    main.mostro.IAttacking = False
+                    main.mostro.aggr = False
                 
                 if main.mostro.IseePlayer:
                     main.mostro.x = main.stanze.pos_portaP[0] * GLOB.MULT - main.stanze.pos_portaC[0] * GLOB.MULT

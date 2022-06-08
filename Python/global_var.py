@@ -31,11 +31,11 @@ Timer = 15
 Scelta = 0
 Cam_visible = False
 
-OptionDebug = True
+OptionDebug = False
 Debug = False
 ShowGrid = False
 ShowFps = True
-ShowDropFrames = True
+ShowDropFrames = False
 ShowScore = True
 ShowRecord = True
 LoadCollisions = True
@@ -215,6 +215,8 @@ def setResources():
     
     global Default_Character, PlayerCanInteract, PlayerInteract, PlayerTextInteract, PlayerCanMove, PlayerCanRun, PlayerCanHide, PlayerIsHidden, PlayerIsMoving, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
     global Piano, Stanza, Default_Map, Default_object, Default_collisions
+    
+    global stanze_da_visitare, stanze_visitate
 
     # -- CODICI ---
     
@@ -255,7 +257,7 @@ def setResources():
     # --- ENIGMI ---
 
     tentativo = {}
-    enigmi_da_risolvere = ["Fisica", "1A", "WC-Femmine", "AulaMagna", "AulaProfessori", "LabInfo", "4A", "AulaVideo", "LabInformatica", "Ripostiglio", "1D", "Corridoio", "Chimica", "Archivio"]
+    enigmi_da_risolvere = ["Fisica", "1A", "WC-Femmine", "AulaMagna", "AulaProfessori", "LabInfo", "4A", "AulaVideo", "LabInformatica", "Ripostiglio", "1D", "Corridoio3", "Chimica", "Archivio"]
     enigmi_risolti = []
 
     # --- INVENTARIO ---
@@ -290,7 +292,10 @@ def setResources():
 
     chiavetta_start = 140
 
+    #  -- STANZE --
     
+    stanze_da_visitare = ["Chimica", "Fisica", "Archivio", "1A", "1D", "AulaMagna", "AulaProfessori", "LabInfo", "WC-Femmine", "WC-Maschi", "4A", "AulaVideo", "LabInformatica", "Ripostiglio"]
+    stanze_visitate = []
 
 
 
@@ -318,9 +323,9 @@ def setResources():
     Default_Character = 'Characters/Senex/WalkOrizontal/Walk0.png'
 
     Piano = "1-PianoTerra"
-    Stanza = "Corridoio"
-    Default_Map = '../MappaGioco/Tileset/Stanze/1-PianoTerra/Corridoio/png/Corridoio.png'
-    Default_object = '../MappaGioco/Tileset/Stanze/1-PianoTerra/Corridoio/png/CorridoioOggetti.png'
+    Stanza = "Corridoio1"
+    Default_Map = '../MappaGioco/Tileset/Stanze/1-PianoTerra/Corridoio1/png/Corridoio.png'
+    Default_object = '../MappaGioco/Tileset/Stanze/1-PianoTerra/Corridoio1/png/CorridoioOggetti.png'
     Default_collisions = 'Corridoio_Collisioni.csv'
 
     PlayerCanMove = True
@@ -344,8 +349,8 @@ def setResources():
             
     }
     
-    MonsterActualRoom = Stanza
-    MonsterActualFloor = Piano
+    MonsterActualFloor = "1-PianoTerra"
+    MonsterActualRoom = "Corridoio1"
     MonsterSpawning = False
     MonsterIntro = True
     MonsterCanChangeRoom = False

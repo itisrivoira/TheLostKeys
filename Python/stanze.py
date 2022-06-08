@@ -50,7 +50,7 @@ def Chimica():
     GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaChimica.png"
     GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaChimicaOggetti.png"
     
-    setPosition((270, 114), (-372, -96))
+    setPosition((262, 114), (-372, -96))
     dizionario_flag["Chimica"] = False
 
 
@@ -63,7 +63,7 @@ def Fisica():
     GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaFisica.png"
     GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaFisicaOggetti.png"
 
-    setPosition((228, 122), (-372, -110))
+    setPosition((210, 122), (-372, -110))
     dizionario_flag["Fisica"] = False
 
 
@@ -264,7 +264,7 @@ def Corridoio():
         setPosition((152, 108), (146, -58))
 
     GLOB.Piano = "1-PianoTerra"
-    GLOB.Stanza = "Corridoio"
+    GLOB.Stanza = "Corridoio1"
     GLOB.Default_collisions = "Corridoio_Collisioni.csv"
     GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/Corridoio.png"
     GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/CorridoioOggetti.png"
@@ -297,7 +297,7 @@ def Corridoio1():
         setPosition((190, 124), (-58, -138))
 
     GLOB.Piano = "2-PrimoPiano"
-    GLOB.Stanza = "Corridoio"
+    GLOB.Stanza = "Corridoio2"
     GLOB.Default_collisions = "CorridoioPrimoPiano_Collisioni.csv"
     GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/Corridoio.png"
     GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/CorridoioOggetti.png"
@@ -320,7 +320,7 @@ def Corridoio2():
         setPosition((152,72), (72, 6))
 
     GLOB.Piano = "3-SecondoPiano"
-    GLOB.Stanza = "Corridoio"
+    GLOB.Stanza = "Corridoio3"
     GLOB.Default_collisions = "SecondoPiano_Collisioni.csv"
     GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/Corridoio.png"
     GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/CorridoioOggetti.png"

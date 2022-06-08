@@ -1,6 +1,6 @@
 import random
 import global_var as GLOB
-import pygame, sys, os, re
+import pygame, sys, re
 from pygame import mixer
 
 def get_font(size):
@@ -361,7 +361,7 @@ class Dialoghi():
     				
 				if event.type == pygame.KEYDOWN:
         
-					if event.key == pygame.K_SPACE:
+					if event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
         
 						if self.flag_skippa and not self.iFinished:
 							self.__init__(self.personaggio, self.full_description, 5)
@@ -1239,7 +1239,7 @@ class GUI():
 		moltiplicatore =  0.5
   
 		if GLOB.PlayerIsHidden:
-			val = 8.5
+			val = 7
 			self.max -=  (self.speed / val) * GLOB.MULT / GLOB.Delta_Time
    
 		else:
@@ -1544,7 +1544,7 @@ class MiniMap():
 		
 		if GLOB.Piano == "1-PianoTerra":
 			self.path_image = "Piano-1"
-			self.pos_player = 250 * GLOB.MULT, 105 * GLOB.MULT
+			self.pos_player = 250 * GLOB.MULT, 105 * GLOB.MULT 
 
 		elif GLOB.Piano == "2-PrimoPiano":
 			self.path_image = "Piano-2"
@@ -1572,6 +1572,36 @@ class MiniMap():
 		possoIniziare = False
 
 		r = 1.5
+  
+		def Stanza(nome, pos, size, colore):
+      
+			if nome in GLOB.stanze_visitate:
+				ret = pygame.Rect((pos[0] * GLOB.MULT, pos[1] * GLOB.MULT, pos[2] * GLOB.MULT, pos[3] * GLOB.MULT))
+				pygame.draw.rect(GLOB.screen, colore, ret)
+
+				if "Aula" in nome or "Informatica" in nome:
+        
+					if "Aula" in nome:
+						testo = nome.split("Aula")[1]
+      
+						TEXT0 = get_font(size).render("Aula", True, "White")
+						TEXT1 = get_font(size).render(testo, True, "White")
+      
+					elif "Informatica" in nome:
+      
+						TEXT0 = get_font(size).render("Lab", True, "White")
+						TEXT1 = get_font(size).render("Informatica", True, "White")
+     
+					distanza = 4 * GLOB.MULT
+					
+					GLOB.screen.blit(TEXT0, (ret.centerx - TEXT0.get_width() /2, ret.centery - TEXT0.get_height() /2 - distanza))
+					GLOB.screen.blit(TEXT1, (ret.centerx - TEXT1.get_width() /2, ret.centery - TEXT1.get_height() /2 + distanza))
+
+				else:
+				
+					TEXT = get_font(size).render(nome, True, "White")	
+					GLOB.screen.blit(TEXT, (ret.centerx - TEXT.get_width() /2, ret.centery - TEXT.get_height() /2))
+			
 
 		while not possoIniziare:
 			for event in pygame.event.get():
@@ -1586,6 +1616,41 @@ class MiniMap():
 					possoIniziare = True
 
 			GLOB.screen.blit(self.image, (0, 0))
+   
+
+			if GLOB.Piano == "1-PianoTerra":
+       
+				s = 6 * int(GLOB.MULT)
+    
+				Stanza("Chimica", (326, 54, 94, 50), s, (120, 213, 215))
+				Stanza("Fisica", (227, 54, 98, 50), s, (99, 210, 255))
+				Stanza("Archivio", (118, 163, 72, 57), s, (32, 129, 195))
+     
+     
+			if GLOB.Piano == "2-PrimoPiano":
+           
+				s = 4 * int(GLOB.MULT)
+    
+				Stanza("WC-Femmine", (348, 121, 41, 35), s, (247, 146, 86))
+				Stanza("AulaProfessori", (348, 62, 41, 58), s, (251, 209, 162))
+				Stanza("AulaMagna", (242, 157, 42, 33), s, (125, 207, 182))
+				Stanza("1D", (156, 157, 40, 33), s, (49, 54, 56))
+				Stanza("1A", (197, 157, 44, 33), s, (122, 158, 126))
+				Stanza("WC-Maschi", (106, 157, 49, 33), s, (119, 125, 167))
+				Stanza("LabInfo", (106, 99, 34, 57), s, (18, 148, 144))
+    
+    
+			if GLOB.Piano == "3-SecondoPiano":
+           
+				s = 3 * int(GLOB.MULT)
+    
+				Stanza("AulaVideo", (330, 86, 30, 46), s, (88, 114, 145))
+				Stanza("4A", (185, 165, 24, 33), s, (47, 151, 193))
+				Stanza("LabInformatica", (150, 165, 34, 33), s, (13, 31, 45))
+				Stanza("Ripostiglio", (164, 78, 31, 28), s, (77, 108, 250))
+					
+
+   
 			pygame.draw.circle(GLOB.screen, "#496e55", (self.pos_player[0] + self.character.get_width()/2, self.pos_player[1] + self.character.get_height()/2), self.character.get_height() / r, 0)
 			GLOB.screen.blit(self.character, self.pos_player)
 

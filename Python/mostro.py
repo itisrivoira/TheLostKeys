@@ -72,7 +72,7 @@ class Keeper():
 
         self.flag_CanStartAttack = False
 
-        self.valore_distanza = 210 * GLOB.MULT
+        self.valore_distanza = 300 * GLOB.MULT
         self.setHitbox()
 
         self.__left_pressed = False
@@ -145,9 +145,6 @@ class Keeper():
         self.flag_interact = False
         
         self.delayInteract = Delay(3, self.__setInteraction)
-        
-        GLOB.MonsterActualFloor = "1-PianoTerra"
-        GLOB.MonsterActualRoom = "Corridoio"
         
         self.__setBrain()
         self.monster_ai_brain = 0
@@ -482,14 +479,14 @@ class Keeper():
                 print("Differenza secondi:", self.diff)
             
             
-            self.inspector_area = pygame.draw.circle(self.superfice, "Orange", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza - 100 * GLOB.MULT, 0)    
-            self.proximity_area = pygame.draw.circle(self.superfice, "Yellow", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza - 150 * GLOB.MULT, 0)    
+            self.inspector_area = pygame.draw.circle(self.superfice, "Orange", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza/2, 0)    
+            self.proximity_area = pygame.draw.circle(self.superfice, "Yellow", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza/5, 0)    
             
             
-            if self.inspector_area.colliderect(main.player.mesh) and GLOB.PlayerIsRunning and not self.IseePlayer and not GLOB.PlayerIsHidden:
+            if self.inspector_area.colliderect(main.player.mesh) and GLOB.PlayerIsRunning and GLOB.PlayerIsMoving and GLOB.PlayerCanRun and not self.IseePlayer and not GLOB.PlayerIsHidden and GLOB.MonsterCanAttack:
                 self.IseePlayer = True
                 
-            if self.proximity_area.colliderect(main.player.mesh) and not self.IseePlayer and not self.IseePlayer and not GLOB.PlayerIsHidden:
+            if self.proximity_area.colliderect(main.player.mesh) and not self.IseePlayer and not self.IseePlayer and not GLOB.PlayerIsHidden and GLOB.MonsterCanAttack:
                 self.IseePlayer = True
                 self.aggr = True
                 self.IAttacking = True
@@ -526,7 +523,7 @@ class Keeper():
             # STAMPA VISUALE PERIFERICA
             self.triangle = pygame.draw.polygon(surface=self.superfice, color=(255, 0, 0), points=[end_line, end_line1, start_line], width=0)
             
-            if self.IseePlayer:
+            if self.IseePlayer and GLOB.MonsterCanAttack:
                 self.circle = pygame.draw.circle(self.superfice, "Red", (self.x + self.image.get_width()/2 + main.cam.getPositionX() + distanza[0], self.y + self.image.get_height()/2 + main.cam.getPositionY() + distanza[1]), self.valore_distanza, 0)    
                 
 

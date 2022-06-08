@@ -152,10 +152,24 @@ def load_collisions(path):
 
 def controllo_condizioni():
     
-    if GLOB.MonsterActualRoom != "Corridoio" and GLOB.MonsterCanSpawn and not GLOB.MonsterIntro and GLOB.Stanza != GLOB.MonsterActualRoom:
+    if GLOB.Stanza in GLOB.stanze_da_visitare:
+        GLOB.stanze_visitate.append(GLOB.Stanza)
+    
+    i = 1
+    s = ""
+    
+    for c in GLOB.Stanza:
+        
+        if i < len(GLOB.Stanza):
+            s += c
+        
+        i += 1
+    
+    if not "Corridoio" in GLOB.MonsterActualRoom and GLOB.MonsterCanSpawn and not s in GLOB.MonsterActualRoom:
         if GLOB.FlagSecRand:
             GLOB.Val_sec = random.randint(1, abs(int((timer.getSeconds() - GLOB.SecondDiffPos + 1))))
             GLOB.FlagSecRand = False
+            print(GLOB.Val_sec)
         
         if int(timer.getSeconds()) == GLOB.Val_sec and not mostro.IseePlayer and not mostro.aggr and GLOB.Stanza != GLOB.MonsterActualRoom:
             valuex, valuey = 368, 142
@@ -220,7 +234,7 @@ def controllo_condizioni():
                     mostro.monster_ai_brain = 1
                     
             GLOB.MonsterHasChangedRoom = True
-            GLOB.MonsterActualRoom = "Corridoio"
+            GLOB.MonsterActualRoom = "Corridoio" + str(GLOB.MonsterActualFloor[0])
             
             mostro.x = valuex * GLOB.MULT
             mostro.y = valuey * GLOB.MULT
@@ -229,6 +243,7 @@ def controllo_condizioni():
             mostro.IAttacking = False
             mostro.contatore_collisioni = 0
             mostro.delayInteract.ReStart()
+            mostro.character_update(0)
             mostro.flag_interact = False
             
             if GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
@@ -258,21 +273,22 @@ def controllo_condizioni():
                 GLOB.MonsterSpawning = True
                 SetPlayer_speed()
 
-    if not GLOB.MonsterIntro and GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
+    if GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
         GLOB.MonsterCanChangeRoom = True
                 
     if GLOB.ShowComand and not animazione.flag_caricamento:
-        testo1 = "Ciao! Io sono verga e saro' la tua guida di questo viaggio!|Per muoverti clicca le freccie direzionali o WASD|Per correre tieni premuto SHIFT|"
+        testo1 = "Ciao! Io sono la prof. Dalbesio e saro' la tua guida di questo viaggio!|Per muoverti clicca le freccie direzionali o WASD|Per correre tieni premuto SHIFT|"
         testo2 = "Per aprire l'inventario premi TAB|Per interagire con gli oggetti premere E|"
-        testo3 = "Detto questo, hai un compito, trova la via di fuga contenuta in una chiavetta, cerca le pagine e vinci! Buona fortuna!"
+        testo3 = "Nei vari enigmi che troverai pensa con calma, e trova tutti gli indizi| Se durante gli enigmi avrai bisogno di un aiuto premi 'I'|"
+        testo4 = "Detto questo, hai un compito, trova la via di fuga contenuta in una chiavetta, cerca le pagine e vinci! Buona fortuna!"
         
-        testo = testo1 + testo2 + testo3
+        testo = testo1 + testo2 + testo3 + testo4
 
 
         testo = testo.split("|")
 
         for frase in testo:
-            d = Dialoghi("Verga", frase, 4)
+            d = Dialoghi("Dalbesio", frase, 4)
             d.stampa()
 
         GLOB.ShowComand = False
@@ -606,6 +622,20 @@ def main():
                         GLOB.MonsterSpawning = True
                     else:
                         GLOB.MonsterSpawning = False
+                        
+                        
+                if event.key == pygame.K_h and GLOB.Debug:
+                    MiniMap().update()
+                    
+                if event.key == pygame.K_g and GLOB.Debug:
+                    
+                    if GLOB.MonsterCanAttack:
+                        GLOB.MonsterCanAttack = False
+                        mostro.IAttacking = False
+                        mostro.IseePlayer = False
+                        mostro.aggr = False
+                    else:
+                        GLOB.MonsterCanAttack = True
 
                 if event.key == pygame.K_TAB and animazione.iFinished and not animazione.flag_caricamento:
                                 

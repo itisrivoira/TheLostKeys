@@ -212,7 +212,11 @@ class Map():
 
                                 if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning and GLOB.Stanza == GLOB.MonsterActualRoom:
                                     main.mostro.HasCollision(collisione)
-                                    main.mostro.HasInteraction(chunck_render_m, collisione, var)
+                                    
+                                    try:
+                                        main.mostro.HasInteraction(chunck_render_m, collisione, var)
+                                    except UnboundLocalError:
+                                        pass
 
                             if main.animazione.iFinished == True:
                                 eventi.testa()
