@@ -169,7 +169,6 @@ def controllo_condizioni():
         if GLOB.FlagSecRand:
             GLOB.Val_sec = random.randint(1, abs(int((timer.getSeconds() - GLOB.SecondDiffPos + 1))))
             GLOB.FlagSecRand = False
-            print(GLOB.Val_sec)
         
         if int(timer.getSeconds()) == GLOB.Val_sec and not mostro.IseePlayer and not mostro.aggr and GLOB.Stanza != GLOB.MonsterActualRoom:
             valuex, valuey = 368, 142
