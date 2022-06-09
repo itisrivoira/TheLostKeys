@@ -912,11 +912,11 @@ class Dialoghi_Interattivi():
 			clock.tick(GLOB.FPS) # setto i FramesPerSecond
 
 class Timer():	
-	def __init__(self, minutes, molt_sec, event):
+	def __init__(self, minutes, seconds, molt_sec, event):
 		self.__max = minutes
 		self.__minimal = 0
 		self.__minutes = minutes
-		self.__seconds = 0
+		self.__seconds = seconds * GLOB.FPS
 		self.__decrement = molt_sec
 		self.__function = event
 		self.__flag = True

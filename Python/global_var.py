@@ -1,4 +1,4 @@
-import pygame, os, random
+import pygame, os, random, ast
 from pygame.locals import *
 
 TITLE = "The Lost Keys"
@@ -25,8 +25,7 @@ AU = 5
 # rapporto musica del gioco
 MU = 0
 
-# Timer del gioco
-Timer = 15
+CaricaPartita = True
 
 Scelta = 0
 Cam_visible = False
@@ -88,7 +87,7 @@ Val_sec = 59
 
 Player_default_speed = Player_speed
 
-ShowComand = True
+ShowComand = False
 
 # Inizializzazione lista di animazione camminata
 PlayerWalkingO = []
@@ -199,10 +198,9 @@ setCharacter()
 setMonster()
 
 
-
 def setResources():
     global score, score_seconds, tentativo, Record
-    global inventario
+    global inventario, Inventory_support
 
     global codice, codice_archivio, ShowCodice
 
@@ -212,11 +210,19 @@ def setResources():
     global oggetti, oggetti_start, oggetti_end
 
     global MonsterActualFloor, MonsterActualRoom, MonsterSpawning, MonsterIntro, MonsterCanChangeRoom
+    global MonsterHasSeenPlayer, MonsterAggr, MonsterIsAttacking
     
     global Default_Character, PlayerCanInteract, PlayerInteract, PlayerTextInteract, PlayerCanMove, PlayerCanRun, PlayerCanHide, PlayerIsHidden, PlayerIsMoving, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
     global Piano, Stanza, Default_Map, Default_object, Default_collisions
     
     global stanze_da_visitare, stanze_visitate
+    
+    global TimerMin, TimerSec
+    global PlayerXSpawn, PlayerYSpawn
+    global CamXSpawn, CamYSpawn
+    global MonsterXSpawn, MonsterYSpawn
+    
+    global ShowIntro
 
     # -- CODICI ---
     
@@ -271,7 +277,7 @@ def setResources():
 
 
     lista_chiavette = [4, 2, 5, 7, 8, 9, 11, 12]
-    RandomKey = "chiavetta-"+str(random.choice(lista_chiavette))
+    RandomKey = "chiavetta-" + str(random.choice(lista_chiavette))
     # print("Chiavetta Random:",RandomKey)
 
 
@@ -279,16 +285,16 @@ def setResources():
         tentativo[i] = 0
         
         if enigmi_da_risolvere.index(i)+1 <= 12:
-            immagine = pygame.image.load("Collectibles/chiavetta-"+str(enigmi_da_risolvere.index(i) + 1)+".png").convert_alpha()
+            immagine = pygame.image.load("Collectibles/chiavetta-" + str(enigmi_da_risolvere.index(i) + 1)+".png").convert_alpha()
             immagine = pygame.transform.scale(immagine, (immagine.get_width() * MULT * molt_chiavetta, immagine.get_height() * MULT * molt_chiavetta))
             chiavette[i] = (chiavetta_start, True, immagine)
             chiavetta_start += 1
             chiavetta_end = chiavetta_start
             
-            if "chiavetta-"+str(enigmi_da_risolvere.index(i) + 1) == RandomKey:
+            if "chiavetta-" + str(enigmi_da_risolvere.index(i) + 1) == RandomKey:
                 RandomRoom = i
                 
-            # print( "| "+str(i)+": " +str(chiavette[i][0])+" - "+str(chiavette[i][1])+ "| - chiavetta-"+str(enigmi_da_risolvere.index(i) + 1))
+            # print( "| " + str(i)+": "  + str(chiavette[i][0])+" - " + str(chiavette[i][1])+ "| - chiavetta-" + str(enigmi_da_risolvere.index(i) + 1))
 
     chiavetta_start = 140
 
@@ -307,11 +313,11 @@ def setResources():
     oggetti_end = 4
 
     for i in range(oggetti_end):
-        immagine = pygame.image.load("Collectibles/oggetto-"+str(i)+".png").convert_alpha()
+        immagine = pygame.image.load("Collectibles/oggetto-" + str(i)+".png").convert_alpha()
         immagine = pygame.transform.scale(immagine, (immagine.get_width() * MULT * molt_oggetto, immagine.get_height() * MULT * molt_oggetto))
         oggetti[i] = (oggetti_start, True, immagine)
         oggetti_start += 1
-        # print( "| "+str(i)+": " +str(oggetti[i][0])+" - "+str(oggetti[i][1])+ "| ")
+        # print( "| " + str(i)+": "  + str(oggetti[i][0])+" - " + str(oggetti[i][1])+ "| ")
 
     oggetti_start = 154
     oggetti_end = oggetti_start + oggetti_end
@@ -320,6 +326,8 @@ def setResources():
 
 
     inventario = {}
+    Inventory_support = {}
+        
     Default_Character = 'Characters/Senex/WalkOrizontal/Walk0.png'
 
     Piano = "1-PianoTerra"
@@ -349,10 +357,167 @@ def setResources():
             
     }
     
+    ShowIntro = True
+    
     MonsterActualFloor = "1-PianoTerra"
     MonsterActualRoom = "Corridoio1"
     MonsterSpawning = False
     MonsterIntro = True
     MonsterCanChangeRoom = False
+    
+    MonsterHasSeenPlayer = False
+    MonsterAggr = False
+    MonsterIsAttacking = False
+    
+    TimerMin, TimerSec = 15, 0
+    PlayerXSpawn, PlayerYSpawn = 152 * MULT, 122 * MULT
+    CamXSpawn, CamYSpawn = 130 * MULT, -118 * MULT
+    MonsterXSpawn, MonsterYSpawn = 342 * MULT, 114 * MULT
 
 setResources()
+
+
+def SaveGame():
+    # Apri il file in modalita lettura
+    if not os.path.exists("dati.txt"):
+        with open('dati.txt', 'w') as f:
+            f.write("")
+    
+    os.system("attrib -h dati.txt")
+    
+    with open('dati.txt', 'w') as f:
+        f.write("""
+            
+--- DATI SALVATI ---
+    - Giocatore:
+        Giocatore Piano = |""" + str(Piano) + """|
+        Giocatore Stanza = |""" + str(Stanza) + """|
+        Default_Map = |""" + str(Default_Map) + """|
+        Default_object = |""" + str(Default_object) + """|
+        Default_collisions = |""" + str(Default_collisions) + """|
+        Enigmi da risolvere = |""" + str(enigmi_da_risolvere) + """|
+        Enigmi risolti = |""" + str(enigmi_risolti) + """|
+        Stanze da visitare = |""" + str(stanze_da_visitare) + """|
+        Stanze visitate = |""" + str(stanze_visitate) + """|
+        Inventario = |""" + str(Inventory_support) + """|
+        Scelta = |""" + str(Scelta) + """|
+        Giocatore X = |""" + str(PlayerXSpawn) + """|
+        Giocatore Y = |""" + str(PlayerYSpawn) + """|
+    
+    - Camera:
+        Camera X = |""" + str(CamXSpawn) + """|
+        Camera Y = |""" + str(CamYSpawn) + """|
+    
+    - Mostro:
+        Mostro Piano = |""" + str(MonsterActualFloor) + """|
+        Mostro Stanza = |""" + str(MonsterActualRoom) + """|
+        Mostro isSpawned = |""" + str(MonsterSpawning) + """|
+        Mostro HasSeenPlayer = |""" + str(MonsterHasSeenPlayer) + """|
+        Mostro Aggr = |""" + str(MonsterAggr) + """|
+        Mostro IsAttacking = |""" + str(MonsterIsAttacking) + """|
+        Mostro X = |""" + str(MonsterXSpawn) + """|
+        Mostro Y = |""" + str(MonsterYSpawn) + """|
+        
+        
+    - Timer:
+        Minuti = |""" + str(TimerMin) + """|
+        Secondi = |""" + str(TimerSec) + """|
+        
+        
+    - Score:
+        ActualScore = |""" + str(score) + """|
+        ShowCodice = |""" + str(ShowCodice) + """|
+        
+    - Comands:
+        ShowIntro = |""" + str(ShowIntro) + """|
+        MonsterIntro = |""" + str(MonsterIntro) + """|
+                    
+            """)
+        
+        f.close()
+        
+    os.system("attrib +h dati.txt")
+    
+def LoadGame(flag):
+    global score, score_seconds, tentativo, Record
+    global inventario, Inventory_support
+
+    global codice, codice_archivio, ShowCodice
+
+    global enigmi_da_risolvere, enigmi_risolti
+    global chiavette, chiavetta_start, chiavetta_end
+    global RandomKey, RandomRoom
+    global oggetti, oggetti_start, oggetti_end
+
+    global MonsterActualFloor, MonsterActualRoom, MonsterSpawning, MonsterIntro, MonsterCanChangeRoom
+    global MonsterHasSeenPlayer, MonsterAggr, MonsterIsAttacking
+    
+    global Default_Character, PlayerCanInteract, PlayerInteract, PlayerTextInteract, PlayerCanMove, PlayerCanRun, PlayerCanHide, PlayerIsHidden, PlayerIsMoving, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
+    global Piano, Stanza, Default_Map, Default_object, Default_collisions
+    
+    global stanze_da_visitare, stanze_visitate
+    
+    global TimerMin, TimerSec
+    global PlayerXSpawn, PlayerYSpawn
+    global CamXSpawn, CamYSpawn
+    global MonsterXSpawn, MonsterYSpawn
+    
+    global Scelta, ShowIntro
+    
+    if flag and os.path.exists("dati.txt"):
+        
+        os.system("attrib -h dati.txt")
+        
+        with open('dati.txt', 'r') as f:
+            f_contest = f.readlines()
+            
+            
+            def cont(v):
+                g = f_contest[v].split("=")[1]
+                g = "".join(g)
+                return g.split("|")[1]
+            
+            
+            Piano, Stanza = cont(4), cont(5)
+            Default_Map, Default_object, Default_collisions = cont(6), cont(7), cont(8)
+            enigmi_da_risolvere, enigmi_risolti = ast.literal_eval(cont(9)), ast.literal_eval(cont(10))
+            stanze_da_visitare = ast.literal_eval(cont(11))
+            stanze_visitate = ast.literal_eval(cont(12))
+            
+            Inventory_support = ast.literal_eval(cont(13))
+            
+            for i in range(len(Inventory_support)):
+                if "chiavetta" in Inventory_support[i][0]:
+                    inventario[Inventory_support[i][0]] = (chiavette[enigmi_risolti[i]][2], Inventory_support[i][1], Inventory_support[i][2])
+                else:
+                    tipo = 0
+                    if "Ghiaccio" in Inventory_support[i][0]:
+                        tipo = 0
+                    elif "Libro" in Inventory_support[i][0]:
+                        tipo = 1
+                    elif "Chiave" in Inventory_support[i][0]:
+                        tipo = 3
+                    
+                    inventario[Inventory_support[i][0]] = (oggetti[tipo][2], Inventory_support[i][1], Inventory_support[i][2])
+            
+            
+            Scelta = int(cont(14))
+            PlayerXSpawn, PlayerYSpawn = float(cont(15)) * MULT, float(cont(16)) * MULT
+            
+            CamXSpawn, CamYSpawn = float(cont(19)) * MULT, float(cont(20)) * MULT
+            
+            MonsterActualFloor, MonsterActualRoom = cont(23), cont(24)
+            MonsterSpawning, MonsterHasSeenPlayer, MonsterAggr, MonsterIsAttacking = ast.literal_eval(cont(25)), ast.literal_eval(cont(26)), ast.literal_eval(cont(27)), ast.literal_eval(cont(28))
+            MonsterXSpawn, MonsterYSpawn = float(cont(29)) * MULT, float(cont(30)) * MULT
+            
+            TimerMin, TimerSec = int(cont(34)), float(cont(35))
+            
+            score = int(cont(39))
+            ShowCodice = ast.literal_eval(cont(40))
+            
+            ShowIntro = ast.literal_eval(cont(43))
+            MonsterIntro = ast.literal_eval(cont(44))
+            
+        f.close()
+        
+    os.system("attrib +h dati.txt")

@@ -39,7 +39,12 @@ def options():
             TEXT_PERFORMANCE = "PERFORMANCE ON"
         else:
             TEXT_PERFORMANCE = "PERFORMANCE OFF"
-
+            
+        if not GLOB.CaricaPartita:
+            TEXT_LOADGAME = "LOAD GAME ON"
+        else:
+            TEXT_LOADGAME = "LOAD GAME OFF"
+            
         BG_Option = pygame.image.load("assets/Menu.png").convert()
         BG_Option = pygame.transform.scale(BG_Option, (GLOB.screen_width, GLOB.screen_height))
 
@@ -278,6 +283,13 @@ def options():
 
         PERFORMANCE.changeColor(OPTIONS_MOUSE_POS)
         PERFORMANCE.update(screen)
+        
+        
+        LOAD_GAME = Button(image=pygame.image.load("assets/Select Rect.png").convert_alpha(), pos=(80*GLOB.MULT, GLOB.screen_height/2), 
+            text_input=TEXT_LOADGAME, font=get_font(7*int(GLOB.MULT)), base_color="White", hovering_color="#2f3131", scale=2)
+
+        LOAD_GAME.changeColor(OPTIONS_MOUSE_POS)
+        LOAD_GAME.update(screen)        
 
 
 
@@ -373,6 +385,13 @@ def options():
                         GLOB.Performance = True
                         
                     GLOB.setFPS()
+                    
+                if LOAD_GAME.checkForInput(OPTIONS_MOUSE_POS):
+                    option_sound.play()
+                    if GLOB.CaricaPartita:
+                        GLOB.CaricaPartita = False
+                    else:
+                        GLOB.CaricaPartita = True
 
             if flag_screen:
                 global rain

@@ -817,7 +817,7 @@ def testa():
         if GLOB.Stanza == "AulaProfessori":
             tipo = 1
             oggetto = "Libro Karl Marx"
-            descrizione = "All'interno c'è uno strano post-it con su scritto: \"E' stato bello finche' e' durato stare in questa scuola 02/02/2018\""
+            descrizione = "All'interno c'e' uno strano post-it con su scritto: \"E' stato bello finche\' e' durato stare in questa scuola 02/02/2018\""
 
         if GLOB.Stanza == "AulaMagna" and VerificaEnigmi():
             oggetto = "chiavetta-4"

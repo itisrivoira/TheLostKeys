@@ -1,0 +1,47 @@
+
+            
+--- DATI SALVATI ---
+    - Giocatore:
+        Giocatore Piano = |2-PrimoPiano|
+        Giocatore Stanza = |AulaProfessori|
+        Default_Map = |../MappaGioco/Tileset/Stanze/2-PrimoPiano/AulaProfessori/png/AulaProfessori.png|
+        Default_object = |../MappaGioco/Tileset/Stanze/2-PrimoPiano/AulaProfessori/png/AulaProfessoriOggetti.png|
+        Default_collisions = |AulaProfessori.room.gmx_CollisioniStefano.csv|
+        Enigmi da risolvere = |['Fisica', '1A', 'WC-Femmine', 'AulaMagna', 'LabInfo', '4A', 'AulaVideo', 'LabInformatica', 'Ripostiglio', '1D', 'Corridoio3', 'Archivio']|
+        Enigmi risolti = |['Chimica', 'AulaProfessori']|
+        Stanze da visitare = |['Fisica', 'Archivio', '1A', '1D', 'AulaMagna', 'LabInfo', 'WC-Femmine', 'WC-Maschi', '4A', 'AulaVideo', 'LabInformatica', 'Ripostiglio']|
+        Stanze visitate = |['Chimica', 'AulaProfessori']|
+        Inventario = |{0: ('Ghiaccio', True, "All'interno si intravede uno strano elemento"), 1: ('Libro Karl Marx', True, 'All\'interno c\'e\' uno strano post-it con su scritto: "E\' stato bello finche\' e\' durato stare in questa scuola 02/02/2018"'), 2: ('Chiave', True, 'Chiave del bagno Maschile')}|
+        Scelta = |0|
+        Giocatore X = |274.5|
+        Giocatore Y = |123.0|
+    
+    - Camera:
+        Camera X = |-41.5|
+        Camera Y = |-82.5|
+    
+    - Mostro:
+        Mostro Piano = |2-PrimoPiano|
+        Mostro Stanza = |Corridoio2|
+        Mostro isSpawned = |True|
+        Mostro HasSeenPlayer = |False|
+        Mostro Aggr = |False|
+        Mostro IsAttacking = |False|
+        Mostro X = |368.0|
+        Mostro Y = |142.0|
+        
+        
+    - Timer:
+        Minuti = |14|
+        Secondi = |22.533333333333335|
+        
+        
+    - Score:
+        ActualScore = |60|
+        ShowCodice = |False|
+        
+    - Comands:
+        ShowIntro = |False|
+        MonsterIntro = |False|
+                    
+            

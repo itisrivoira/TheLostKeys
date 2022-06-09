@@ -156,7 +156,7 @@ class Map():
                         
                         for i in range(len(GLOB.enigmi_risolti)):
                             try:
-                                if GLOB.chiavette[GLOB.enigmi_risolti[i]][0] == var and GLOB.chiavette[GLOB.enigmi_risolti[i]][1]:
+                                if GLOB.chiavette[GLOB.enigmi_risolti[i]][0] == var and GLOB.chiavette[GLOB.enigmi_risolti[i]][1] and not "chiavetta-"+str(GLOB.chiavette[GLOB.enigmi_risolti[i]][0] - GLOB.chiavetta_start + 1) in GLOB.inventario.keys():
                                     self.check_objects = True
                                     GLOB.screen.blit(GLOB.chiavette[GLOB.enigmi_risolti[i]][2], (x * GLOB.MULT + main.cam.getPositionX() + self.tiles_risoluzione, y * GLOB.MULT + main.cam.getPositionY() + self.valore_fluttua * GLOB.MULT))
                                     main.player.HasInteraction(chunck_render, oggetto, var)

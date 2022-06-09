@@ -64,9 +64,9 @@ class Keeper():
 
         self.altezza_rect = 20 * GLOB.MULT
 
-        self.aggr = False
-        self.IseePlayer = False
-        self.IAttacking = False
+        self.aggr = GLOB.MonsterAggr
+        self.IseePlayer = GLOB.MonsterHasSeenPlayer
+        self.IAttacking = GLOB.MonsterIsAttacking
 
         self.direzione = ""
 

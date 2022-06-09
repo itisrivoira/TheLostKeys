@@ -81,6 +81,7 @@ def inizializza():
 
     SetPlayer_sprite()
     GLOB.setResources()
+    GLOB.LoadGame(GLOB.CaricaPartita)
 
     # Inizializzazione Tupla di animazioni
     character_image = (GLOB.PlayerWalkingVD,GLOB.PlayerWalkingVU,GLOB.PlayerWalkingO)
@@ -95,10 +96,10 @@ def inizializza():
     clock = pygame.time.Clock()
 
     # Fa Spawnare il giocatore e al centro dello schermo e con che velocità
-    player = giocatore.Player(152 * GLOB.MULT, 122 * GLOB.MULT, GLOB.scelta_rep, Player_width, Player_height, character_image)
+    player = giocatore.Player(GLOB.PlayerXSpawn, GLOB.PlayerYSpawn, GLOB.scelta_rep, Player_width, Player_height, character_image)
 
     # Faccio nascere l'oggetto "cam"
-    cam = camera.Cam(130 * GLOB.MULT, -118 * GLOB.MULT)
+    cam = camera.Cam(GLOB.CamXSpawn, GLOB.CamYSpawn)
 
     Gui = GUI()
 
@@ -106,7 +107,7 @@ def inizializza():
     messaggio_a_schermo = Risultato(text = "Esempio", color = "White", size = 12, delay_scomparsa = 1)
     messaggio_a_schermo.Stop()
 
-    timer = Timer(minutes = GLOB.Timer, molt_sec = 1, event = game_over)
+    timer = Timer(minutes = GLOB.TimerMin, seconds = GLOB.TimerSec, molt_sec = 1, event = game_over)
     animazione = Transizione(vel = 0.01)
 
     collisions = collisioni.Map(risoluzione = 24, path = "../MappaGioco/Tileset/Stanze/"+ GLOB.Piano +"/")
@@ -117,7 +118,7 @@ def inizializza():
 
     if GLOB.MonsterCanSpawn:
         global mostro
-        mostro = Keeper((342 * GLOB.MULT, 114 * GLOB.MULT), (20 * GLOB.MULT, 0.45 * GLOB.MULT))
+        mostro = Keeper((GLOB.MonsterXSpawn, GLOB.MonsterYSpawn), (20 * GLOB.MULT, 0.45 * GLOB.MULT))
 
 
 def load_collisions(path):
@@ -152,7 +153,8 @@ def load_collisions(path):
 
 def controllo_condizioni():
     
-    if GLOB.Stanza in GLOB.stanze_da_visitare:
+    if GLOB.Stanza in GLOB.stanze_da_visitare and not GLOB.Stanza in GLOB.stanze_visitate:
+        GLOB.stanze_da_visitare.remove(GLOB.Stanza)
         GLOB.stanze_visitate.append(GLOB.Stanza)
     
     i = 1
@@ -252,7 +254,7 @@ def controllo_condizioni():
         player.setAllkeys(False)
         player.finish()
     
-    if len(GLOB.enigmi_risolti) > 0 and GLOB.MonsterIntro:
+    if len(GLOB.enigmi_risolti) > 0 and GLOB.MonsterIntro and animazione.iFinished and not animazione.flag_caricamento:
         
         if messaggio_a_schermo.isFinished:
             mostro.Sound_Angry.fadeout(2200)
@@ -275,13 +277,18 @@ def controllo_condizioni():
     if GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
         GLOB.MonsterCanChangeRoom = True
                 
-    if GLOB.ShowComand and not animazione.flag_caricamento:
-        testo1 = "Ciao! Io sono la prof. Dalbesio e saro' la tua guida di questo viaggio!|Per muoverti clicca le freccie direzionali o WASD|Per correre tieni premuto SHIFT|"
-        testo2 = "Per aprire l'inventario premi TAB|Per interagire con gli oggetti premere E|"
-        testo3 = "Nei vari enigmi che troverai pensa con calma, e trova tutti gli indizi| Se durante gli enigmi avrai bisogno di un aiuto premi 'I'|"
-        testo4 = "Detto questo, hai un compito, trova la via di fuga contenuta in una chiavetta, cerca le pagine e vinci! Buona fortuna!"
+    if (GLOB.ShowComand or GLOB.ShowIntro) and not animazione.flag_caricamento:
+        testo1 = "Ciao! Io sono la prof. Dalbesio e saro' la tua guida di questo viaggio!|"
+        testo2 = "Per muoverti clicca le freccie direzionali o WASD|Per correre tieni premuto SHIFT|"
+        testo3 = "Per aprire l'inventario premi TAB|Per interagire con gli oggetti premere E|"
+        testo4 = "Nei vari enigmi che troverai pensa con calma, e trova tutti gli indizi|"
+        testo5 = "Se durante gli enigmi avrai bisogno di un aiuto premi 'I'"
+        testo6 = "|Detto questo, hai un compito, trova la via di fuga contenuta in una chiavetta, cerca le pagine e vinci! Buona fortuna!"
         
-        testo = testo1 + testo2 + testo3 + testo4
+        if GLOB.ShowIntro:
+            testo = testo1 + testo2 + testo3 + testo4 + testo5 + testo6
+        else:
+            testo = testo2 + testo3 + testo5
 
 
         testo = testo.split("|")
@@ -290,6 +297,7 @@ def controllo_condizioni():
             d = Dialoghi("Dalbesio", frase, 4)
             d.stampa()
 
+        GLOB.ShowIntro = False
         GLOB.ShowComand = False
 
 
@@ -643,6 +651,10 @@ def main():
                         Gui.inventory_sound.play()
                     elif GLOB.ShowInventory:
                         GLOB.ShowInventory = False
+                        
+                if event.key == pygame.K_i and animazione.iFinished and not animazione.flag_caricamento:
+                    if not GLOB.ShowComand:
+                        GLOB.ShowComand = True
 
             if keys_pressed[pygame.K_F3] and GLOB.OptionDebug:
                             
@@ -732,7 +744,20 @@ def pausa():
         OPTIONS_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, 150*GLOB.MULT), 
                             text_input="AUDIO SETTINGS", font=menu.get_font(8*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=2)
         
-        QUIT_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, 190*GLOB.MULT), 
+        
+        if animazione.iFinished:
+            cord1, cord2 = 190, 230
+            
+            SAVE_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, cord1*GLOB.MULT), 
+                        text_input="SAVE GAME", font=menu.get_font(8*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=2)
+            
+            SAVE_BUTTON.changeColor(MENU_MOUSE_POS)
+            SAVE_BUTTON.update(GLOB.screen)
+            
+        else:
+            cord1, cord2 = 0, 190
+        
+        QUIT_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, cord2*GLOB.MULT), 
                             text_input="BACK TO MENU", font=menu.get_font(8*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=2)
 		
         for button in [PLAY_BUTTON, OPTIONS_BUTTON, QUIT_BUTTON]:
@@ -749,6 +774,34 @@ def pausa():
                 player.finish()
                 timer.DePause()
                 main()
+                
+            if event_pausa.type == pygame.MOUSEBUTTONDOWN and SAVE_BUTTON.checkForInput(MENU_MOUSE_POS) and animazione.iFinished:
+                
+                chiavi = list(GLOB.inventario.keys())
+                
+                for i in range(len(chiavi)):
+                    
+                    try:
+                        if not chiavi[i] in GLOB.Inventory_support[i][0]:
+                            GLOB.Inventory_support[i] = ((chiavi[i], GLOB.inventario[chiavi[i]][1], GLOB.inventario[chiavi[i]][2]))
+                            
+                        if chiavi[i] in GLOB.Inventory_support[i][0] and GLOB.inventario[chiavi[i]][1] and not GLOB.Inventory_support[i][1]:
+                            GLOB.Inventory_support[i] = ((chiavi[i], GLOB.inventario[chiavi[i]][1], GLOB.inventario[chiavi[i]][2]))
+                    
+                    except KeyError:
+                        GLOB.Inventory_support[i] = ((chiavi[i], GLOB.inventario[chiavi[i]][1], GLOB.inventario[chiavi[i]][2]))
+                        
+                
+                GLOB.TimerMin, GLOB.TimerSec = timer.getMinutes(), timer.getSeconds()
+                GLOB.PlayerXSpawn, GLOB.PlayerYSpawn = player.x / GLOB.MULT, player.y / GLOB.MULT
+                GLOB.CamXSpawn, GLOB.CamYSpawn = cam.x / GLOB.MULT, cam.y / GLOB.MULT
+                GLOB.MonsterXSpawn, GLOB.MonsterYSpawn = mostro.x / GLOB.MULT, mostro.y / GLOB.MULT
+                
+                GLOB.MonsterHasSeenPlayer = mostro.IseePlayer
+                GLOB.MonsterAggr = mostro.aggr
+                GLOB.MonsterIsAttacking = mostro.IAttacking
+                
+                GLOB.SaveGame()
 
             if event_pausa.type == pygame.QUIT:
                 pygame.quit()
