@@ -77,11 +77,11 @@ def inizializza():
     GLOB.isPaused = False
 
     stanze.inizializza()
-    SetPlayer_speed()
-
-    SetPlayer_sprite()
     GLOB.setResources()
     GLOB.LoadGame(GLOB.CaricaPartita)
+    
+    SetPlayer_speed()
+    SetPlayer_sprite()
 
     # Inizializzazione Tupla di animazioni
     character_image = (GLOB.PlayerWalkingVD,GLOB.PlayerWalkingVU,GLOB.PlayerWalkingO)
