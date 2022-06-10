@@ -287,14 +287,14 @@ def setResources():
         if enigmi_da_risolvere.index(i)+1 <= 12:
             immagine = pygame.image.load("Collectibles/chiavetta-" + str(enigmi_da_risolvere.index(i) + 1)+".png").convert_alpha()
             immagine = pygame.transform.scale(immagine, (immagine.get_width() * MULT * molt_chiavetta, immagine.get_height() * MULT * molt_chiavetta))
-            chiavette[i] = (chiavetta_start, True, immagine)
+            chiavette[i] = (chiavetta_start, True, immagine, (enigmi_da_risolvere.index(i) + 1))
             chiavetta_start += 1
             chiavetta_end = chiavetta_start
             
             if "chiavetta-" + str(enigmi_da_risolvere.index(i) + 1) == RandomKey:
                 RandomRoom = i
                 
-            # print( "| " + str(i)+": "  + str(chiavette[i][0])+" - " + str(chiavette[i][1])+ "| - chiavetta-" + str(enigmi_da_risolvere.index(i) + 1))
+            print( "| " + str(i)+": "  + str(chiavette[i][0])+" - " + str(chiavette[i][1])+ "| - chiavetta-" + str(enigmi_da_risolvere.index(i) + 1))
 
     chiavetta_start = 140
 
@@ -486,9 +486,17 @@ def LoadGame(flag):
             
             Inventory_support = ast.literal_eval(cont(13))
             
+            j = 0
             for i in range(len(Inventory_support)):
+                # print(enigmi_risolti[j])
+                
+                
                 if "chiavetta" in Inventory_support[i][0]:
-                    inventario[Inventory_support[i][0]] = (chiavette[enigmi_risolti[i]][2], Inventory_support[i][1], Inventory_support[i][2])
+                    molt_oggetto = 2
+                    immagine = pygame.image.load("./Collectibles/"+ str(Inventory_support[i][0]) + ".png").convert_alpha()
+                    immagine = pygame.transform.scale(immagine, (immagine.get_width() * MULT * molt_oggetto, immagine.get_height() * MULT * molt_oggetto))
+                    inventario[Inventory_support[i][0]] = (immagine, Inventory_support[i][1], Inventory_support[i][2])
+                
                 else:
                     tipo = 0
                     if "Ghiaccio" in Inventory_support[i][0]:
@@ -499,6 +507,7 @@ def LoadGame(flag):
                         tipo = 3
                     
                     inventario[Inventory_support[i][0]] = (oggetti[tipo][2], Inventory_support[i][1], Inventory_support[i][2])
+
             
             
             Scelta = int(cont(14))
