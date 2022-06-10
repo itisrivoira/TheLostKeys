@@ -294,7 +294,7 @@ def setResources():
             if "chiavetta-" + str(enigmi_da_risolvere.index(i) + 1) == RandomKey:
                 RandomRoom = i
                 
-            print( "| " + str(i)+": "  + str(chiavette[i][0])+" - " + str(chiavette[i][1])+ "| - chiavetta-" + str(enigmi_da_risolvere.index(i) + 1))
+            # print( "| " + str(i)+": "  + str(chiavette[i][0])+" - " + str(chiavette[i][1])+ "| - chiavetta-" + str(enigmi_da_risolvere.index(i) + 1))
 
     chiavetta_start = 140
 
@@ -488,8 +488,6 @@ def LoadGame(flag):
             
             j = 0
             for i in range(len(Inventory_support)):
-                # print(enigmi_risolti[j])
-                
                 
                 if "chiavetta" in Inventory_support[i][0]:
                     molt_oggetto = 2
