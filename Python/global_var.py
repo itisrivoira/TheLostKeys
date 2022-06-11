@@ -423,7 +423,6 @@ def SaveGame():
         Minuti = |""" + str(TimerMin) + """|
         Secondi = |""" + str(TimerSec) + """|
         
-        
     - Score:
         ActualScore = |""" + str(score) + """|
         ShowCodice = |""" + str(ShowCodice) + """|
@@ -431,6 +430,9 @@ def SaveGame():
     - Comands:
         ShowIntro = |""" + str(ShowIntro) + """|
         MonsterIntro = |""" + str(MonsterIntro) + """|
+        
+    - USB Keys:
+       RAndomKey = |""" + str(RandomKey) + """|
                     
             """)
         
@@ -519,11 +521,13 @@ def LoadGame(flag):
             
             TimerMin, TimerSec = int(cont(34)), float(cont(35))
             
-            score = int(cont(39))
-            ShowCodice = ast.literal_eval(cont(40))
+            score = int(cont(38))
+            ShowCodice = ast.literal_eval(cont(39))
             
-            ShowIntro = ast.literal_eval(cont(43))
-            MonsterIntro = ast.literal_eval(cont(44))
+            ShowIntro = ast.literal_eval(cont(42))
+            MonsterIntro = ast.literal_eval(cont(43))
+            
+            RandomKey = cont(46)
             
         f.close()
         
