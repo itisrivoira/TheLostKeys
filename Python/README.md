@@ -26,3 +26,5 @@ Per avviare il programma fare
 </br></br>
 ## Se siete in Linux o in Mac eseguite il 'package.sh' per installare direttamente i moduli richiesti:
 ### - `chmod +x package.sh && ./package.sh`
+
+## Se foste su un altro software eseguire i comandi sopra (solo i pip)
