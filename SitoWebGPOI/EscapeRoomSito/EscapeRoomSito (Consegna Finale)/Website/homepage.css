@@ -29,6 +29,19 @@ a:hover { color: white }
     -moz-background-size: cover;
 }
 
+#green {
+    color: green;
+}
+.white {
+    color: white;
+}
+.red {
+    color: red;
+}
+.giallo {
+    color: green;
+}
+
 .cards {
     max-width: 1200px;
     margin: 40px auto;
