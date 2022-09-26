@@ -402,7 +402,7 @@ class Player():
                 GLOB.PlayerTextInteract = "Guarda"
                 
                 
-            if var == 134 or var == 135 or GLOB.Stanza == "WC-Femmine":
+            if (var == 134 or var == 135) or (GLOB.Stanza == "WC-Femmine" and (var == 97 or var == 88)):
                 GLOB.PlayerTextInteract = "Usa"
             
             
