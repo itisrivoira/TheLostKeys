@@ -932,7 +932,7 @@ def testa():
                 testo = "Sembra una vecchia bacheca con gli eventi riportati di quegli anni|Nulla che mi possa servire..."
                 
             if GLOB.Stanza == "Fisica":
-                testo = "Ah.. che ricordi!|Non riusciro' mai a scordarmi l'omega del Prof. Fulchero"
+                testo = "Ah.. che ricordi!|Non riusciro' mai a scordarmi l'omega con le chiappe del Prof. Fulchero"
                 
                 
         if GLOB.Piano == "2-PrimoPiano":
