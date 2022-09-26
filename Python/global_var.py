@@ -30,7 +30,7 @@ CaricaPartita = True
 Scelta = 0
 Cam_visible = False
 
-OptionDebug = False
+OptionDebug = True
 Debug = False
 ShowGrid = False
 ShowFps = True
@@ -61,7 +61,7 @@ else:
 
 Performance = False
 
-if Delta_Time == 1:
+if Delta_Time <= 1:
     Performance = False
 else:
     Performance = True
@@ -148,6 +148,15 @@ logo = pygame.image.load("assets/Logo.png").convert_alpha()
 pygame.display.set_caption(TITLE)
 pygame.display.set_icon(logo)
 
+playbutton = False
+
+if not os.path.exists("dati.txt"):
+    AlertSalva = False
+else:
+    AlertSalva = True
+    
+Default_path = 'Stanze'
+
 def setFPS():
     global Delta_Time, Default_DeltaTime, FPS, Performance
     
@@ -213,7 +222,7 @@ def setResources():
     global MonsterHasSeenPlayer, MonsterAggr, MonsterIsAttacking
     
     global Default_Character, PlayerCanInteract, PlayerInteract, PlayerTextInteract, PlayerCanMove, PlayerCanRun, PlayerCanHide, PlayerIsHidden, PlayerIsMoving, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
-    global Piano, Stanza, Default_Map, Default_object, Default_collisions
+    global Piano, Stanza, Default_path, Default_Map, Default_object, Default_walls, Default_collisions
     
     global stanze_da_visitare, stanze_visitate
     
@@ -332,8 +341,9 @@ def setResources():
 
     Piano = "1-PianoTerra"
     Stanza = "Corridoio1"
-    Default_Map = '../MappaGioco/Tileset/Stanze/1-PianoTerra/Corridoio1/png/Corridoio.png'
-    Default_object = '../MappaGioco/Tileset/Stanze/1-PianoTerra/Corridoio1/png/CorridoioOggetti.png'
+    Default_Map = Default_path + '/1-PianoTerra/Corridoio1/png/Corridoio.png'
+    Default_object = None
+    Default_walls = Default_path + '/1-PianoTerra/Corridoio1/png/CorridoioMuri.png'
     Default_collisions = 'Corridoio_Collisioni.csv'
 
     PlayerCanMove = True
@@ -370,17 +380,20 @@ def setResources():
     MonsterIsAttacking = False
     
     TimerMin, TimerSec = 15, 0
-    PlayerXSpawn, PlayerYSpawn = 152 * MULT, 122 * MULT
-    CamXSpawn, CamYSpawn = 130 * MULT, -118 * MULT
-    MonsterXSpawn, MonsterYSpawn = 342 * MULT, 114 * MULT
+    PlayerXSpawn, PlayerYSpawn = 200 * MULT, 100 * MULT
+    CamXSpawn, CamYSpawn = 130 * MULT, -167 * MULT
+    MonsterXSpawn, MonsterYSpawn = 160 * MULT, 120 * MULT
 
 setResources()
 
 
 def SaveGame():
+    global AlertSalva
+    
     # Apri il file in modalita lettura
     if not os.path.exists("dati.txt"):
         with open('dati.txt', 'w') as f:
+            AlertSalva = True
             f.write("")
     
     os.system("attrib -h dati.txt")
@@ -394,6 +407,7 @@ def SaveGame():
         Giocatore Stanza = |""" + str(Stanza) + """|
         Default_Map = |""" + str(Default_Map) + """|
         Default_object = |""" + str(Default_object) + """|
+        Default_walls = |""" + str(Default_walls) + """|
         Default_collisions = |""" + str(Default_collisions) + """|
         Enigmi da risolvere = |""" + str(enigmi_da_risolvere) + """|
         Enigmi risolti = |""" + str(enigmi_risolti) + """|
@@ -455,7 +469,7 @@ def LoadGame(flag):
     global MonsterHasSeenPlayer, MonsterAggr, MonsterIsAttacking
     
     global Default_Character, PlayerCanInteract, PlayerInteract, PlayerTextInteract, PlayerCanMove, PlayerCanRun, PlayerCanHide, PlayerIsHidden, PlayerIsMoving, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
-    global Piano, Stanza, Default_Map, Default_object, Default_collisions
+    global Piano, Stanza, Default_Map, Default_object, Default_walls, Default_collisions
     
     global stanze_da_visitare, stanze_visitate
     
@@ -481,12 +495,12 @@ def LoadGame(flag):
             
             
             Piano, Stanza = cont(4), cont(5)
-            Default_Map, Default_object, Default_collisions = cont(6), cont(7), cont(8)
-            enigmi_da_risolvere, enigmi_risolti = ast.literal_eval(cont(9)), ast.literal_eval(cont(10))
-            stanze_da_visitare = ast.literal_eval(cont(11))
-            stanze_visitate = ast.literal_eval(cont(12))
+            Default_Map, Default_object, Default_walls, Default_collisions = cont(6), cont(7), cont(8), cont(9)
+            enigmi_da_risolvere, enigmi_risolti = ast.literal_eval(cont(10)), ast.literal_eval(cont(11))
+            stanze_da_visitare = ast.literal_eval(cont(12))
+            stanze_visitate = ast.literal_eval(cont(13))
             
-            Inventory_support = ast.literal_eval(cont(13))
+            Inventory_support = ast.literal_eval(cont(14))
             
             j = 0
             for i in range(len(Inventory_support)):
@@ -510,24 +524,24 @@ def LoadGame(flag):
 
             
             
-            Scelta = int(cont(14))
-            PlayerXSpawn, PlayerYSpawn = float(cont(15)) * MULT, float(cont(16)) * MULT
+            Scelta = int(cont(15))
+            PlayerXSpawn, PlayerYSpawn = float(cont(16)) * MULT, float(cont(17)) * MULT
             
-            CamXSpawn, CamYSpawn = float(cont(19)) * MULT, float(cont(20)) * MULT
+            CamXSpawn, CamYSpawn = float(cont(20)) * MULT, float(cont(21)) * MULT
             
-            MonsterActualFloor, MonsterActualRoom = cont(23), cont(24)
-            MonsterSpawning, MonsterHasSeenPlayer, MonsterAggr, MonsterIsAttacking = ast.literal_eval(cont(25)), ast.literal_eval(cont(26)), ast.literal_eval(cont(27)), ast.literal_eval(cont(28))
-            MonsterXSpawn, MonsterYSpawn = float(cont(29)) * MULT, float(cont(30)) * MULT
+            MonsterActualFloor, MonsterActualRoom = cont(24), cont(25)
+            MonsterSpawning, MonsterHasSeenPlayer, MonsterAggr, MonsterIsAttacking = ast.literal_eval(cont(26)), ast.literal_eval(cont(27)), ast.literal_eval(cont(28)), ast.literal_eval(cont(29))
+            MonsterXSpawn, MonsterYSpawn = float(cont(30)) * MULT, float(cont(31)) * MULT
             
-            TimerMin, TimerSec = int(cont(34)), float(cont(35))
+            TimerMin, TimerSec = int(cont(35)), float(cont(36))
             
-            score = int(cont(38))
-            ShowCodice = ast.literal_eval(cont(39))
+            score = int(cont(39))
+            ShowCodice = ast.literal_eval(cont(40))
             
-            ShowIntro = ast.literal_eval(cont(42))
-            MonsterIntro = ast.literal_eval(cont(43))
+            ShowIntro = ast.literal_eval(cont(43))
+            MonsterIntro = ast.literal_eval(cont(44))
             
-            RandomKey = cont(46)
+            RandomKey = cont(47)
             
         f.close()
         

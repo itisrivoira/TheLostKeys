@@ -8,6 +8,7 @@ class Map():
         self.tiles_risoluzione = risoluzione
         self.tiles_mappa = pygame.Surface((0,0))
         self.tiles_mappaOggetti = pygame.Surface((0,0))
+        self.tiles_muri = pygame.Surface((0,0))
         self.tiles_immagini = []
         self.tiles_immagini_sprite = []
         self.tiles_collisioni = {}
@@ -109,8 +110,24 @@ class Map():
     def load_objects(self, path):
         if path == None:
             return
-        self.tiles_mappaOggetti = pygame.image.load(path).convert_alpha()
-        self.tiles_mappaOggetti = pygame.transform.scale(self.tiles_mappaOggetti, (self.tiles_mappa.get_width(), self.tiles_mappa.get_height()))
+        
+        try:
+            self.tiles_mappaOggetti = pygame.image.load(path).convert_alpha()
+            self.tiles_mappaOggetti = pygame.transform.scale(self.tiles_mappaOggetti, (self.tiles_mappa.get_width(), self.tiles_mappa.get_height()))
+        
+        except FileNotFoundError:
+            GLOB.Default_object = None
+        
+    def load_walls(self, path):
+        if path == None:
+            return
+        
+        try:
+            self.tiles_muri = pygame.image.load(path).convert_alpha()
+            self.tiles_muri = pygame.transform.scale(self.tiles_muri, (self.tiles_mappa.get_width(), self.tiles_mappa.get_height()))
+            
+        except FileNotFoundError:
+            GLOB.Default_walls = None
 
     def render(self, lista, var, hitbox):
         x = self.posX
@@ -247,3 +264,12 @@ class Map():
     def render_objects(self, pos):
         if GLOB.Default_object != None:
             GLOB.screen.blit(self.tiles_mappaOggetti, (main.cam.getPositionX() + pos[0] * GLOB.MULT, main.cam.getPositionY() + pos[1] * GLOB.MULT))
+            
+            
+    def render_walls(self, pos):
+        if GLOB.Default_walls != None:
+            try:
+                GLOB.screen.blit(self.tiles_muri, (main.cam.getPositionX() + pos[0] * GLOB.MULT, main.cam.getPositionY() + pos[1] * GLOB.MULT))
+            
+            except FileNotFoundError:
+                GLOB.Default_walls = None

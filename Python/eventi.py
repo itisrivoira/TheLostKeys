@@ -379,11 +379,11 @@ def testa():
             main.animazione.iFinished = False
 
             if last_floor == "1-PianoTerra":
-                main.stanze.setPosition((274, 110), (-312, -148))
+                main.stanze.setPosition((210, 90), (-264, -74))
             elif last_floor == "3-SecondoPiano":
-                main.stanze.setPosition((244, 110), (-312, -148))
+                main.stanze.setPosition((214, 90), (-214, -74))
             else:
-                main.stanze.setPosition((260, 110), (-312, -148))
+                main.stanze.setPosition((210, 90), (-264, -74))
 
         elif main.player.evento == "piano-3":
             GLOB.Piano = "3-SecondoPiano"
@@ -392,7 +392,7 @@ def testa():
             main.stanze.dizionario_flag["Corridoio2"] = True
 
             main.animazione.iFinished = False
-            main.stanze.setPosition((270, 110), (-326, -148))
+            main.stanze.setPosition((218, 94), (-236, -48))
 
         elif main.player.evento == "piano-4":
             Blocca()
@@ -405,10 +405,10 @@ def testa():
             valuex, valuey = 0, 0
             
             if GLOB.MonsterActualFloor == "1-PianoTerra":
-                valuex, valuey =  342, 114
+                valuex, valuey =  150, 92
                 
             if GLOB.MonsterActualFloor == "2-PrimoPiano" or GLOB.MonsterActualFloor == "3-SecondoPiano":
-                valuex, valuey = 368, 142
+                valuex, valuey = 222, 72
             
             if main.mostro.evento != None:
                 
@@ -472,8 +472,8 @@ def testa():
                 if "Corridoio" in GLOB.MonsterActualRoom:
                     GLOB.MonsterActualRoom = "AulaVideo"
                     
-                    main.mostro.x = 334 * GLOB.MULT
-                    main.mostro.y = 176 * GLOB.MULT
+                    main.mostro.x = 180 * GLOB.MULT
+                    main.mostro.y = 32 * GLOB.MULT
                     
             main.Gui.door_sound.play()
             
@@ -932,19 +932,22 @@ def testa():
                 testo = "Sembra una vecchia bacheca con gli eventi riportati di quegli anni|Nulla che mi possa servire..."
                 
             if GLOB.Stanza == "Fisica":
-                testo = "Ah.. che bello!|Non riusciro' mai a scordarmi l'omega del Prof. Fulchero"
+                testo = "Ah.. che ricordi!|Non riusciro' mai a scordarmi l'omega del Prof. Fulchero"
                 
                 
         if GLOB.Piano == "2-PrimoPiano":
                 
             if "Corridoio" in GLOB.Stanza:
-                testo = "Sembra un distributore di merendine|Peccato che non sia funzionante..."
+                testo = "Sembra un distributore di merendine|Peccato che sia completamente vuoto..."
                 
             if GLOB.Stanza == "AulaMagna":
                 testo = "Il tempo ha proprio ridotto male questo posto..."
                 
             if GLOB.Stanza == "WC-Maschi":
                 testo = "Sembra un rubinetto, ma purtroppo non ne esce acqua."
+                
+            if GLOB.Stanza == "WC-Femmine":
+                testo = "Bleah! Di certo l'igiene non era una cosa fondamentale in questa scuola"
                 
         if testo != "Default":  
             testo = testo.split("|")

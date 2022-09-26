@@ -140,10 +140,18 @@ class Transizione():
         self.mappa = pygame.image.load(self.___mappa).convert()
         self.mappa = pygame.transform.scale(self.mappa, (self.mappa.get_width() * GLOB.MULT / var, self.mappa.get_height() * GLOB.MULT / var))
 
-        if GLOB.Default_object != None:
+        if GLOB.Default_walls != None:
+            
+            try:
 
-            self.___oggetti = GLOB.Default_object
-            self.oggetti = pygame.image.load(self.___oggetti).convert_alpha()
+                self.___oggetti = GLOB.Default_walls
+                self.oggetti = pygame.image.load(self.___oggetti).convert_alpha()
+                
+            except FileNotFoundError:
+                if GLOB.Default_object != None:
+                    self.___oggetti = GLOB.Default_object
+                    self.oggetti = pygame.image.load(self.___oggetti).convert_alpha()
+                
             self.oggetti = pygame.transform.scale(self.oggetti, (self.mappa.get_width(), self.mappa.get_height()))
         
     def sgrana(self):
@@ -218,7 +226,7 @@ class Transizione():
         self.mappa = pygame.transform.scale(self.mappa, (self.mappa.get_width() / self.val_sgrana, self.mappa.get_height() / self.val_sgrana))                
         self.mappa = pygame.transform.scale(self.mappa, (self.mappa.get_width() * self.val_sgrana + self.val_sgrana, self.mappa.get_height() * self.val_sgrana + self.val_sgrana))
 
-        if GLOB.Default_object != None:
+        if GLOB.Default_walls != None:
 
             self.oggetti = pygame.transform.scale(self.oggetti, (self.oggetti.get_width() / self.val_sgrana, self.oggetti.get_height() / self.val_sgrana))
             self.oggetti = pygame.transform.scale(self.oggetti, (self.oggetti.get_width() * self.val_sgrana + self.val_sgrana, self.oggetti.get_height() * self.val_sgrana + self.val_sgrana))
@@ -228,8 +236,11 @@ class Transizione():
         self.immagine = pygame.image.load(self.__character).convert_alpha()
         self.mappa = pygame.image.load(self.___mappa).convert()
 
-        if GLOB.Default_object != None:
-            self.oggetti = pygame.image.load(self.___oggetti).convert_alpha()
+        if GLOB.Default_walls != None:
+            try:
+                self.oggetti = pygame.image.load(self.___oggetti).convert_alpha()
+            except FileNotFoundError:
+                GLOB.Default_walls = None
 
     def __loadImagesANDconvert(self):
         var = 2
@@ -238,7 +249,7 @@ class Transizione():
         self.immagine = pygame.transform.scale(self.immagine, ( self.immagine.get_width() * GLOB.MULT / GLOB.Player_proportion, self.immagine.get_height() * GLOB.MULT / GLOB.Player_proportion))
         self.mappa = pygame.transform.scale(self.mappa, (self.mappa.get_width() * GLOB.MULT / var, self.mappa.get_height() * GLOB.MULT / var))
 
-        if GLOB.Default_object != None:
+        if GLOB.Default_walls != None:
             self.oggetti = pygame.transform.scale(self.oggetti, (self.mappa.get_width(), self.mappa.get_height()))
 
     def __caricamento(self):
@@ -278,7 +289,7 @@ class Transizione():
             self.schermo.blit(self.ombra, (main.player.getPositionX() -self.val_sgrana * GLOB.MULT + GLOB.MULT, main.player.getPositionY()-2.5*GLOB.MULT/GLOB.Player_proportion -self.val_sgrana * GLOB.MULT + GLOB.MULT))
             self.schermo.blit(self.immagine, (main.player.getPositionX() -self.val_sgrana * GLOB.MULT + GLOB.MULT, main.player.getPositionY() -self.val_sgrana * GLOB.MULT + GLOB.MULT))
 
-            if GLOB.Default_object != None:
+            if GLOB.Default_walls != None:
                 self.schermo.blit(self.oggetti, (-self.val_sgrana * GLOB.MULT + main.cam.getPositionX() + GLOB.MULT, -self.val_sgrana * GLOB.MULT + main.cam.getPositionY() + GLOB.MULT))
 
             self.schermo.blit(self.superficie, (0, 0))

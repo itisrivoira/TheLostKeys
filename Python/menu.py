@@ -16,19 +16,23 @@ pygame.init()
 
 """
 
-
 def get_font(size):
     return pygame.font.Font("font/font.ttf", size)
 
 def play():
+    
+    GLOB.playbutton = False
     mixer.music.stop()
     main.inizializza()
     main.main()
+        
     
 def options():
     mixer.music.stop()
 
     while True:
+        
+        OPTIONS_MOUSE_POS = pygame.mouse.get_pos()
 
         if not GLOB.Fullscreen:
             TEXT_FULLSCREEN = "FULLSCREEN ON"
@@ -40,10 +44,10 @@ def options():
         else:
             TEXT_PERFORMANCE = "PERFORMANCE OFF"
             
-        if not GLOB.CaricaPartita:
-            TEXT_LOADGAME = "LOAD GAME ON"
-        else:
-            TEXT_LOADGAME = "LOAD GAME OFF"
+        # if not GLOB.CaricaPartita:
+        #     TEXT_LOADGAME = "LOAD GAME ON"
+        # else:
+        #     TEXT_LOADGAME = "LOAD GAME OFF"
             
         BG_Option = pygame.image.load("assets/Menu.png").convert()
         BG_Option = pygame.transform.scale(BG_Option, (GLOB.screen_width, GLOB.screen_height))
@@ -52,9 +56,6 @@ def options():
 
         NAME_TEXT = get_font(12*int(GLOB.MULT)).render(GLOB.scelta_char, True, "#e9eef7")
         NAME_RECT = NAME_TEXT.get_rect(center=(GLOB.screen_width/2, 80*GLOB.MULT))
-
-
-        OPTIONS_MOUSE_POS = pygame.mouse.get_pos()
 
         screen.blit(BG_Option, (0,0))
 
@@ -285,11 +286,11 @@ def options():
         PERFORMANCE.update(screen)
         
         
-        LOAD_GAME = Button(image=pygame.image.load("assets/Select Rect.png").convert_alpha(), pos=(80*GLOB.MULT, GLOB.screen_height/2), 
-            text_input=TEXT_LOADGAME, font=get_font(7*int(GLOB.MULT)), base_color="White", hovering_color="#2f3131", scale=2)
+        # LOAD_GAME = Button(image=pygame.image.load("assets/Select Rect.png").convert_alpha(), pos=(80*GLOB.MULT, GLOB.screen_height/2), 
+        #     text_input=TEXT_LOADGAME, font=get_font(7*int(GLOB.MULT)), base_color="White", hovering_color="#2f3131", scale=2)
 
-        LOAD_GAME.changeColor(OPTIONS_MOUSE_POS)
-        LOAD_GAME.update(screen)        
+        # LOAD_GAME.changeColor(OPTIONS_MOUSE_POS)
+        # LOAD_GAME.update(screen)        
 
 
 
@@ -386,12 +387,12 @@ def options():
                         
                     GLOB.setFPS()
                     
-                if LOAD_GAME.checkForInput(OPTIONS_MOUSE_POS):
-                    option_sound.play()
-                    if GLOB.CaricaPartita:
-                        GLOB.CaricaPartita = False
-                    else:
-                        GLOB.CaricaPartita = True
+                # if LOAD_GAME.checkForInput(OPTIONS_MOUSE_POS):
+                #     option_sound.play()
+                #     if GLOB.CaricaPartita:
+                #         GLOB.CaricaPartita = False
+                #     else:
+                #         GLOB.CaricaPartita = True
 
             if flag_screen:
                 global rain
@@ -514,7 +515,27 @@ def main_menu():
         pygame.display.update(dirtyrects)
 
         screen.blit(BG_Cloud, (GLOB.screen_width/3, 0))
-
+        
+        
+        
+        # Alert dati salvati
+        alert = pygame.image.load("assets/selezione.png").convert_alpha()
+        alert = pygame.transform.scale(alert, (alert.get_width() * GLOB.MULT, alert.get_height() * GLOB.MULT))
+        
+        Selezione_TEXT = get_font(4*int(GLOB.MULT)).render("Vuoi caricare i dati salvati?", True, "#e9eef7")
+        Selezione_RECT = Selezione_TEXT.get_rect(center=(GLOB.screen_width/2 - Selezione_TEXT.get_width()/2 + Selezione_TEXT.get_width()/2, GLOB.screen_height/2 - alert.get_height()/2 + 20*GLOB.MULT))
+        
+        Selezione1 = Button(image=None, pos=(GLOB.screen_width/2 - alert.get_width()/2 + Selezione_TEXT.get_width()/2 + 15*GLOB.MULT, GLOB.screen_height/2 - alert.get_height()/2 + 60*GLOB.MULT), 
+                    text_input="si'", font=get_font(4*int(GLOB.MULT)), base_color="White", hovering_color="Yellow", scale=2)
+        
+        Selezione2 = Button(image=None, pos=(GLOB.screen_width/2 - alert.get_width()/2 + Selezione_TEXT.get_width()/2 + 75*GLOB.MULT, GLOB.screen_height/2 - alert.get_height()/2 + 60*GLOB.MULT), 
+                    text_input="no", font=get_font(4*int(GLOB.MULT)), base_color="White", hovering_color="Yellow", scale=2)
+        
+        
+        Selezione3 = Button(image=None, pos=(GLOB.screen_width/2 - alert.get_width()/2 + alert.get_width(), GLOB.screen_height/2 - alert.get_height()/2), 
+                text_input="X", font=get_font(3*int(GLOB.MULT)), base_color="White", hovering_color="Red", scale=2)
+        
+       
         for button in [PLAY_BUTTON, OPTIONS_BUTTON, QUIT_BUTTON]:
             button.changeColor(MENU_MOUSE_POS)
             button.changeScale(MENU_MOUSE_POS, 1.1)
@@ -537,13 +558,35 @@ def main_menu():
                 
                 if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
                     button_sound.play()
-                    play()
+                    
+                    if not GLOB.AlertSalva:
+                        play()
+                    
+                    GLOB.playbutton = True
+                    
+
                 if OPTIONS_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    GLOB.playbutton = False
                     button_sound.play()
                     options()
                 if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
                     pygame.quit()
                     sys.exit()
+                    
+                if GLOB.playbutton:
+                    if Selezione1.checkForInput(MENU_MOUSE_POS):
+                        button_sound.play()
+                        GLOB.CaricaPartita = True
+                        play()
+                        
+                    if Selezione2.checkForInput(MENU_MOUSE_POS):
+                        button_sound.play()
+                        GLOB.CaricaPartita = False
+                        play()
+                        
+                    if Selezione3.checkForInput(MENU_MOUSE_POS):
+                        button_sound.play()
+                        GLOB.playbutton = False
 
         # TUONO evento randomico
         if random.randint(0, (100 * GLOB.FPS)) >= (98 * GLOB.FPS):
@@ -560,6 +603,29 @@ def main_menu():
             random.choice(tuonoSound).play()
 
             screen.blit(tuono, (0, 0))
+            
+            
+        if GLOB.playbutton:
+            if GLOB.AlertSalva:
+                
+                screen.blit(alert, (GLOB.screen_width/2 - alert.get_width()/2, GLOB.screen_height/2 - alert.get_height()/2))
+
+                screen.blit(Selezione_TEXT, Selezione_RECT)
+                
+                Selezione1.changeColor(MENU_MOUSE_POS)
+                Selezione1.update(screen)
+                Selezione1.changeColor(MENU_MOUSE_POS)
+                
+                Selezione2.changeColor(MENU_MOUSE_POS)
+                Selezione2.update(screen)
+                Selezione2.changeColor(MENU_MOUSE_POS)
+                
+                Selezione3.changeColor(MENU_MOUSE_POS)
+                Selezione3.update(screen)
+                Selezione3.changeColor(MENU_MOUSE_POS)
+                
+
+
         
         clock.tick(GLOB.FPS)
 

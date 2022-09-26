@@ -920,6 +920,7 @@ class Timer():
 		self.__decrement = molt_sec
 		self.__function = event
 		self.__flag = True
+		self.__color = "Black"
 
 		self.__testo1 = ""
 		self.__testo2 = ":"
@@ -991,8 +992,11 @@ class Timer():
 		self.__init__(self.__max_sec, self.__molt_sec, self.__function)
 
 	def Show(self):
-		testo = get_font(8*int(GLOB.MULT)).render((self.__testo1+str(self.__minutes)+str(self.__testo2)+str(int(self.__seconds/GLOB.FPS))), True, "Black")
+		testo = get_font(8*int(GLOB.MULT)).render((self.__testo1+str(self.__minutes)+str(self.__testo2)+str(int(self.__seconds/GLOB.FPS))), True, self.__color)
 		GLOB.screen.blit(testo, (GLOB.screen_width/2 - testo.get_width()/2, 35 * GLOB.MULT))
+  
+	def ChangeColor(self, v):
+		self.__color = v
 
 	def getSeconds(self):
 		return self.__seconds / GLOB.FPS

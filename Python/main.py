@@ -110,7 +110,7 @@ def inizializza():
     timer = Timer(minutes = GLOB.TimerMin, seconds = GLOB.TimerSec, molt_sec = 1, event = game_over)
     animazione = Transizione(vel = 0.01)
 
-    collisions = collisioni.Map(risoluzione = 24, path = "../MappaGioco/Tileset/Stanze/"+ GLOB.Piano +"/")
+    collisions = collisioni.Map(risoluzione = 24, path = GLOB.Default_path+"/"+ GLOB.Piano +"/")
 
     console = debug.Debug()
 
@@ -124,7 +124,7 @@ def inizializza():
 def load_collisions(path):
 
     def CaricaLista(file):
-        csv = pd.read_csv("../MappaGioco/Tileset/Stanze/"+ GLOB.Piano +"/"+ GLOB.Stanza +"/csv/"+file, header = None)
+        csv = pd.read_csv(GLOB.Default_path+"/"+ GLOB.Piano +"/"+ GLOB.Stanza +"/csv/"+file, header = None)
         csv = list(csv.values)
 
         lista_valori = []
@@ -173,65 +173,65 @@ def controllo_condizioni():
             GLOB.FlagSecRand = False
         
         if int(timer.getSeconds()) == GLOB.Val_sec and not mostro.IseePlayer and not mostro.aggr and GLOB.Stanza != GLOB.MonsterActualRoom:
-            valuex, valuey = 368, 142
+            valuex, valuey = 220, 68
             
             if GLOB.MonsterActualFloor == "1-PianoTerra":
                 if GLOB.MonsterActualRoom == "Fisica":
-                    valuex, valuey = 200, 20
+                    valuex, valuey = 322, 20
                     mostro.monster_ai_brain = 3
                     
                 elif GLOB.MonsterActualRoom == "Archivio":
-                    valuex, valuey = 14, 166
+                    valuex, valuey = 8, 166
                     mostro.monster_ai_brain = 1
                     
                 elif GLOB.MonsterActualRoom == "Chimica":
-                    valuex, valuey = 514, 28
+                    valuex, valuey = 610, 20
                     mostro.monster_ai_brain = 1
                 
             if GLOB.MonsterActualFloor == "2-PrimoPiano":
                 if GLOB.MonsterActualRoom == "AulaProfessori":
-                    valuex, valuey = 652, 166
+                    valuex, valuey = 516, 70
                     mostro.monster_ai_brain = 2
                     
                 if GLOB.MonsterActualRoom == "WC-Femmine":
-                    valuex, valuey = 652, 264
+                    valuex, valuey = 516, 142
                     mostro.monster_ai_brain = 2
                     
                 if GLOB.MonsterActualRoom == "AulaMagna":
-                    valuex, valuey = 512, 254
+                    valuex, valuey = 360, 168
                     mostro.monster_ai_brain = 4
                     
                 if GLOB.MonsterActualRoom == "1A":
-                    valuex, valuey = 368, 254
+                    valuex, valuey = 250, 168
                     mostro.monster_ai_brain = 4
                        
                 if GLOB.MonsterActualRoom == "1D":
-                    valuex, valuey = 248, 254
+                    valuex, valuey = 180, 168
                     mostro.monster_ai_brain = 4
                     
                 if GLOB.MonsterActualRoom == "WC-Maschi":
-                    valuex, valuey = 32, 254
+                    valuex, valuey = 32, 168
                     mostro.monster_ai_brain = 4
                     
                 if GLOB.MonsterActualRoom == "LabInfo":
-                    valuex, valuey = 16, 188
+                    valuex, valuey = 10, 90
                     mostro.monster_ai_brain = 1
                     
             if GLOB.MonsterActualFloor == "3-SecondoPiano":
                 if GLOB.MonsterActualRoom == "AulaVideo":
-                    valuex, valuey = 648, 166
+                    valuex, valuey = 180, 32
                     mostro.monster_ai_brain = 2
                     
                 if GLOB.MonsterActualRoom == "4A":
-                    valuex, valuey = 276, 248
+                    valuex, valuey = 176, 148
                     mostro.monster_ai_brain = 4
                     
                 if GLOB.MonsterActualRoom == "LabInformatica":
-                    valuex, valuey = 178, 248
+                    valuex, valuey = 52, 148
                     mostro.monster_ai_brain = 4
                     
                 if GLOB.MonsterActualRoom == "Ripostiglio":
-                    valuex, valuey = 80, 72
+                    valuex, valuey = 56, 18
                     mostro.monster_ai_brain = 1
                     
             GLOB.MonsterHasChangedRoom = True
@@ -359,8 +359,9 @@ def Stampa_messaggio():
     except NameError:
         pass
 
-    if timer.getMinutes() == 0 and timer.getSeconds() < 20:
+    if timer.getMinutes() == 0 and timer.getSeconds() <= 30:
         cam.screen_shake()
+        timer.ChangeColor("Red")
 
 def disegna():
 
@@ -390,6 +391,9 @@ def disegna():
 
     if animazione.iFinished and GLOB.MonsterCanSpawn and animazione.iFinished and GLOB.MonsterSpawning and GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
         mostro.load_monsterSurface()
+        
+    collisions.render_walls((0,0))
+    
 
     animazione.disegna()
 
@@ -410,9 +414,9 @@ def enigma():
     global enigma_file
     
     try:
-        enigma_file = pd.read_csv('../MappaGioco/Tileset/Stanze/'+GLOB.Piano+'/'+GLOB.Stanza+'/enigmi/Enigmi'+GLOB.Stanza+'.csv')
+        enigma_file = pd.read_csv(GLOB.Default_path+'/'+GLOB.Piano+'/'+GLOB.Stanza+'/enigmi/Enigmi'+GLOB.Stanza+'.csv')
     except FileNotFoundError:
-        enigma_file = pd.read_csv('../MappaGioco/Tileset/Stanze/1-PianoTerra/Fisica/enigmi/EnigmiFisica.csv')
+        enigma_file = pd.read_csv(GLOB.Default_path+'/1-PianoTerra/Fisica/enigmi/EnigmiFisica.csv')
 
     SetPlayer_speed()
 
@@ -979,6 +983,11 @@ def game_over():
     mixer.music.fadeout(1000)
     sfondo = pygame.image.load("assets/gameover.png").convert()
     sfondo = pygame.transform.scale(sfondo, (sfondo.get_width() * GLOB.MULT, sfondo.get_height() * GLOB.MULT))
+    
+    if not os.path.exists("dati.txt"):
+        GLOB.CaricaPartita = False
+    else:
+        GLOB.CaricaPartita = True
 
 
     jump_scare()
@@ -1098,6 +1107,11 @@ def game_over():
 #Funzione GAME WIN
 def game_win():
     mixer.music.fadeout(1500)
+    
+    if os.path.exists("dati.txt"):
+        GLOB.CaricaPartita = False
+        GLOB.AlertSalva = False
+        os.remove("dati.txt")
     
     sfondo = pygame.image.load("assets/victory.png").convert()
     sfondo = pygame.transform.scale(sfondo, (sfondo.get_width() * GLOB.MULT, sfondo.get_height() * GLOB.MULT))
