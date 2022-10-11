@@ -106,6 +106,7 @@ class Map():
     def load_map(self, path):
         self.tiles_mappa = pygame.image.load(path).convert()
         self.tiles_mappa = pygame.transform.scale(self.tiles_mappa, (self.tiles_mappa.get_width() * GLOB.MULT / self.divisore, self.tiles_mappa.get_height() * GLOB.MULT / self.divisore))
+        GLOB.Mappa_Immagine = self.tiles_mappa
 
     def load_objects(self, path):
         if path == None:
@@ -114,6 +115,7 @@ class Map():
         try:
             self.tiles_mappaOggetti = pygame.image.load(path).convert_alpha()
             self.tiles_mappaOggetti = pygame.transform.scale(self.tiles_mappaOggetti, (self.tiles_mappa.get_width(), self.tiles_mappa.get_height()))
+            GLOB.Oggetti_Immagine = self.tiles_mappaOggetti
         
         except FileNotFoundError:
             GLOB.Default_object = None
@@ -125,6 +127,10 @@ class Map():
         try:
             self.tiles_muri = pygame.image.load(path).convert_alpha()
             self.tiles_muri = pygame.transform.scale(self.tiles_muri, (self.tiles_mappa.get_width(), self.tiles_mappa.get_height()))
+            
+            if not "1" in GLOB.Stanza:
+                GLOB.Muri_Immagine = self.tiles_muri
+                
             
         except FileNotFoundError:
             GLOB.Default_walls = None

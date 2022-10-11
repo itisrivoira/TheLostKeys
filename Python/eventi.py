@@ -631,12 +631,15 @@ def testa():
                 if "Corridoio" in GLOB.Stanza:
                     main.stanze.dizionario_flag["AulaVideo"] = True
                     
-                    if not main.mostro.aggr:
-                                        
-                        GLOB.MonsterActualFloor = "3-SecondoPiano"
-                        GLOB.MonsterActualRoom = "Corridoio"
-                        main.mostro.evento = "porta-7"
-                        porte()
+                    try:
+                        if not main.mostro.aggr and GLOB.enigmi_risolti[0] != "AulaVideo":
+                                            
+                            GLOB.MonsterActualFloor = "3-SecondoPiano"
+                            GLOB.MonsterActualRoom = "Corridoio"
+                            main.mostro.evento = "porta-7"
+                            porte()
+                    except IndexError:
+                        pass
 
                 if GLOB.Stanza == "AulaVideo":
                     main.stanze.dizionario_flag["Corridoio2"] = True

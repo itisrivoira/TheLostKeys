@@ -78,6 +78,9 @@ class Cam():
         if d and d1 or ln and d:
             main.player.setPositionY(main.player.getPositionY()-main.player.getVelocitaY())
             self.y += -main.player.getVelocitaY()
+            
+        GLOB.CamPosX = self.x
+        GLOB.CamPosY = self.y
 
 
     def ShowCam(self):

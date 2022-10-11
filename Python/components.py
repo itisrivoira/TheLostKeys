@@ -322,7 +322,10 @@ class Dialoghi():
 		while not possoIniziare:
     		
 			self.__effetto_testo()
-
+			
+			if GLOB.Muri_Immagine != None:
+				GLOB.screen.blit(GLOB.Muri_Immagine, (GLOB.CamPosX, GLOB.CamPosY))
+    
 			GLOB.screen.blit(self.sfondo, (0, GLOB.screen_height-self.sfondo.get_height()))
 			GLOB.screen.blit(self.vignetta, (42.5*GLOB.MULT, GLOB.screen_height-self.vignetta.get_height()-18*GLOB.MULT))
 			GLOB.screen.blit(self.Nome_TEXT, self.Nome_RECT)
@@ -376,7 +379,6 @@ class Dialoghi():
 
 
 			pygame.display.flip() # ti permette di aggiornare una area dello schermo per evitare lag e fornire piu' ottimizzazione
-			pygame.display.update()
 
 			clock.tick(GLOB.FPS) # setto i FramesPerSecond
 
@@ -413,7 +415,7 @@ class Dialoghi_Interattivi():
 
 		try:
 
-			self.enigma_image = pygame.image.load("../MappaGioco/Tileset/Stanze/"+GLOB.Piano+"/"+GLOB.Stanza+"/enigmi/png/immagine.png").convert_alpha()
+			self.enigma_image = pygame.image.load(GLOB.Default_path+"/"+GLOB.Piano+"/"+GLOB.Stanza+"/enigmi/png/immagine.png").convert_alpha()
 			self.enigma_image = pygame.transform.scale(self.enigma_image, (self.enigma_image.get_width() * GLOB.MULT, self.enigma_image.get_height() * GLOB.MULT))
 
 			self.flag_Tabella = True
@@ -741,7 +743,7 @@ class Dialoghi_Interattivi():
 					posx, posy = 45, 50
 					val = 2
 
-				self.enigma_image = pygame.image.load("../MappaGioco/Tileset/Stanze/"+GLOB.Piano+"/"+GLOB.Stanza+"/enigmi/png/immagine.png").convert_alpha()
+				self.enigma_image = pygame.image.load(GLOB.Default_path+"/"+GLOB.Piano+"/"+GLOB.Stanza+"/enigmi/png/immagine.png").convert_alpha()
 				self.enigma_image = pygame.transform.scale(self.enigma_image, (self.enigma_image.get_width() * GLOB.MULT / val, self.enigma_image.get_height() * GLOB.MULT / val))
 				GLOB.screen.blit(self.enigma_image, (posx*GLOB.MULT, posy*GLOB.MULT + self.val_oggetto))
 

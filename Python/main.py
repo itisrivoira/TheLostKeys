@@ -779,21 +779,22 @@ def pausa():
                 timer.DePause()
                 main()
                 
-            if event_pausa.type == pygame.MOUSEBUTTONDOWN and SAVE_BUTTON.checkForInput(MENU_MOUSE_POS) and animazione.iFinished:
-                
-                chiavi = list(GLOB.inventario.keys())
-                
-                for i in range(len(chiavi)):
+            if animazione.iFinished:
+                if event_pausa.type == pygame.MOUSEBUTTONDOWN and SAVE_BUTTON.checkForInput(MENU_MOUSE_POS):
                     
-                    try:
-                        if not chiavi[i] in GLOB.Inventory_support[i][0]:
-                            GLOB.Inventory_support[i] = ((chiavi[i], GLOB.inventario[chiavi[i]][1], GLOB.inventario[chiavi[i]][2]))
-                            
-                        if chiavi[i] in GLOB.Inventory_support[i][0] and GLOB.inventario[chiavi[i]][1] and not GLOB.Inventory_support[i][1]:
-                            GLOB.Inventory_support[i] = ((chiavi[i], GLOB.inventario[chiavi[i]][1], GLOB.inventario[chiavi[i]][2]))
+                    chiavi = list(GLOB.inventario.keys())
                     
-                    except KeyError:
-                        GLOB.Inventory_support[i] = ((chiavi[i], GLOB.inventario[chiavi[i]][1], GLOB.inventario[chiavi[i]][2]))
+                    for i in range(len(chiavi)):
+                        
+                        try:
+                            if not chiavi[i] in GLOB.Inventory_support[i][0]:
+                                GLOB.Inventory_support[i] = ((chiavi[i], GLOB.inventario[chiavi[i]][1], GLOB.inventario[chiavi[i]][2]))
+                                
+                            if chiavi[i] in GLOB.Inventory_support[i][0] and GLOB.inventario[chiavi[i]][1] and not GLOB.Inventory_support[i][1]:
+                                GLOB.Inventory_support[i] = ((chiavi[i], GLOB.inventario[chiavi[i]][1], GLOB.inventario[chiavi[i]][2]))
+                        
+                        except KeyError:
+                            GLOB.Inventory_support[i] = ((chiavi[i], GLOB.inventario[chiavi[i]][1], GLOB.inventario[chiavi[i]][2]))
                         
                 
                 GLOB.TimerMin, GLOB.TimerSec = timer.getMinutes(), timer.getSeconds()

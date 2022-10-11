@@ -14,7 +14,7 @@ Player_proportion = 1 # Divisore della grandezza del giocatore
 FPS = 30 * Delta_Time
 
 # rapporto di proporzione allo schermo NON INFERIORE AD 1
-MULT = 4
+MULT = 2
 
 # rapporto offset telecamera dello schermo MAX 40
 Moff = 30
@@ -228,8 +228,10 @@ def setResources():
     
     global TimerMin, TimerSec
     global PlayerXSpawn, PlayerYSpawn
-    global CamXSpawn, CamYSpawn
+    global CamXSpawn, CamYSpawn, CamPosX, CamPosY
     global MonsterXSpawn, MonsterYSpawn
+    
+    global Mappa_Immagine, Muri_Immagine, Oggetti_Immagine
     
     global ShowIntro
 
@@ -261,8 +263,6 @@ def setResources():
         with open('score.txt', 'w') as f:
             f.write("Record:\n0")
         f.close()
-        
-        os.system("attrib +h score.txt")
         
     with open('score.txt', 'r') as f:
         f_contest = f.readlines()
@@ -383,6 +383,13 @@ def setResources():
     PlayerXSpawn, PlayerYSpawn = 200 * MULT, 100 * MULT
     CamXSpawn, CamYSpawn = 130 * MULT, -167 * MULT
     MonsterXSpawn, MonsterYSpawn = 160 * MULT, 120 * MULT
+    
+    CamPosX = 0
+    CamPosY = 0
+
+    Mappa_Immagine = None
+    Oggetti_Immagine = None
+    Muri_Immagine = None
 
 setResources()
 
@@ -395,8 +402,6 @@ def SaveGame():
         with open('dati.txt', 'w') as f:
             AlertSalva = True
             f.write("")
-    
-    os.system("attrib -h dati.txt")
     
     with open('dati.txt', 'w') as f:
         f.write("""
@@ -446,13 +451,11 @@ def SaveGame():
         MonsterIntro = |""" + str(MonsterIntro) + """|
         
     - USB Keys:
-       RAndomKey = |""" + str(RandomKey) + """|
+       RandomKey = |""" + str(RandomKey) + """|
                     
             """)
         
         f.close()
-        
-    os.system("attrib +h dati.txt")
     
 def LoadGame(flag):
     global score, score_seconds, tentativo, Record
@@ -482,7 +485,6 @@ def LoadGame(flag):
     
     if flag and os.path.exists("dati.txt"):
         
-        os.system("attrib -h dati.txt")
         
         with open('dati.txt', 'r') as f:
             f_contest = f.readlines()
@@ -544,5 +546,3 @@ def LoadGame(flag):
             RandomKey = cont(47)
             
         f.close()
-        
-    os.system("attrib +h dati.txt")

@@ -3,8 +3,6 @@ import random, time
 
 import global_var as GLOB
 
-SCREENSIZE = GLOB.screen_width, GLOB.screen_height
-
 class Rain():
 
     def __init__(self, screen, height, speed, color, numdrops):
@@ -19,7 +17,7 @@ class Rain():
         for i in range(self.numdrops):
             # Randomize the size of the raindrop.
             raindropscale = random.randint(5*GLOB.MULT, 15*GLOB.MULT) / 100.0
-            w, h = 0.9*GLOB.MULT, int(raindropscale * self.height)
+            w, h = 3, int(raindropscale * self.height)
             # The bigger the raindrop, the faster it moves.
             velocity = raindropscale * self.speed/10.0
             pic = pygame.Surface((w, h), pygame.SRCALPHA, 32).convert_alpha()
@@ -69,7 +67,7 @@ class Rain():
             self.pic = pic
             self.size = pic.get_size()
             self.SetSpeed(speed)
-            self.pos = [random.random() * SCREENSIZE[0] + GLOB.screen_width/3, -random.randint(-SCREENSIZE[1], SCREENSIZE[1]) + 80 * GLOB.MULT]
+            self.pos = [random.random() * GLOB.screen_width + GLOB.screen_width/3, -random.randint(-GLOB.screen_height, GLOB.screen_height) + 80 * GLOB.MULT]
             self.currentspeed = speed
 
         def SetSpeed(self, speed):
@@ -79,7 +77,7 @@ class Rain():
 
         def Reset(self):
             ' Restart the drop at the top of the screen.'
-            self.pos = [random.random() * SCREENSIZE[0] + GLOB.screen_width/3, -random.random() * self.size[1] - self.size[1] + 80 * GLOB.MULT]
+            self.pos = [random.random() * GLOB.screen_width + GLOB.screen_width/3, -random.random() * self.size[1] - self.size[1] + 80 * GLOB.MULT]
             self.currentspeed = self.speed
 
         def Render(self, screen, now):
@@ -93,7 +91,7 @@ class Rain():
             r = oldrect.union(newrect)
             screen.blit(self.pic, self.pos)
             self.currentspeed += self.velocity
-            if self.pos[1] > SCREENSIZE[1]-40*GLOB.MULT:
+            if self.pos[1] > GLOB.screen_height-40*GLOB.MULT:
                 self.Reset()
             return r
 
@@ -101,7 +99,7 @@ def main():
     # Initialize pygame
     pygame.init()
     pygame.key.set_repeat(500, 30)
-    screen = pygame.display.set_mode(SCREENSIZE, 0, 32)
+    screen = pygame.display.set_mode((GLOB.screen_width, GLOB.screen_height), 0, 32)
 
     # Create rain generator
     rain = Rain(screen, height = 160, speed = 12, color = (152, 164, 184, 255), numdrops = 260)
