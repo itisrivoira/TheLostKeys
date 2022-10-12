@@ -1,6 +1,6 @@
 # TheLostKeys
-Per scaricare l'eseguibili (quindi senza richiedere di installare moduli aggiuntivi), scaricare i seguenti link su drive:
-(accessibile a qualunque macchina, anche senza avere installato python)
+Per scaricare l'eseguibili (quindi senza richiedere di installare moduli aggiuntivi e accessibile a qualunque macchina), scaricare i seguenti link su drive:
+
 ## - Windows:
 https://drive.google.com/file/d/1DLgV8NdFxoYeWVgEFVCV6NyAfhzN67kt/view?usp=sharing
 
