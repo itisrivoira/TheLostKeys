@@ -449,6 +449,23 @@ def testa():
             main.Gui.door_sound.play()
             
             
+        if main.mostro.evento == "porta-2":
+            main.mostro.evento = None
+            GLOB.MonsterHasChangedRoom = True
+            
+            if GLOB.MonsterActualFloor == "1-PianoTerra":
+                
+                if "Corridoio" in GLOB.MonsterActualRoom:
+                    GLOB.MonsterActualRoom = "Chimica"
+                    
+                    main.mostro.x = 508 * GLOB.MULT
+                    main.mostro.y = 137 * GLOB.MULT
+                    
+                    main.mostro.monster_ai_brain = 2
+                    
+            main.Gui.door_sound.play()
+            
+            
         if main.mostro.evento == "porta-5":
             main.mostro.evento = None
             GLOB.MonsterHasChangedRoom = True
@@ -503,8 +520,25 @@ def testa():
                 if "Corridoio" in GLOB.MonsterActualRoom:
                     GLOB.MonsterActualRoom = "4A"
                     
-                    main.mostro.x = 460* GLOB.MULT
+                    main.mostro.x = 460 * GLOB.MULT
                     main.mostro.y = 160 * GLOB.MULT
+                    
+            main.Gui.door_sound.play()
+            
+            
+        if main.mostro.evento == "porta-12":
+            main.mostro.evento = None
+            GLOB.MonsterHasChangedRoom = True
+            
+            if GLOB.MonsterActualFloor == "3-SecondoPiano":
+                
+                if "Corridoio" in GLOB.MonsterActualRoom:
+                    GLOB.MonsterActualRoom = "Ripostiglio"
+                    
+                    main.mostro.x = 271 * GLOB.MULT
+                    main.mostro.y = 176 * GLOB.MULT
+                    
+                    main.mostro.monster_ai_brain = 2
                     
             main.Gui.door_sound.play()
                     

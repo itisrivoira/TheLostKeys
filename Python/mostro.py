@@ -471,9 +471,8 @@ class Keeper():
             self.velocitaTilesG = round(((24 * GLOB.MULT) / GLOB.Player_speed) / GLOB.FPS, 2)
             
             # CALCOLO DISTANZA GIOCATORE <--> KEEPER
-            self.line = pygame.draw.line(self.superfice, "#db8e35", (self.mesh.centerx, self.mesh.centery), (main.player.mesh.centerx, main.player.mesh.centery), GLOB.MULT)
             self.lung = round((abs(main.player.mesh.centerx - self.mesh.centerx) + abs(main.player.mesh.centery - self.mesh.centery))/2, 6)
-            self.diff = round((self.lung / GLOB.FPS), 2)
+            self.diff = round(((self.lung / GLOB.MULT / GLOB.Monster_speed) / (7 / GLOB.MULT)), 2)
             
             if GLOB.Debug:
                 print("Differenza secondi:", self.diff)
@@ -525,7 +524,9 @@ class Keeper():
             
             if self.IseePlayer and GLOB.MonsterCanAttack:
                 self.circle = pygame.draw.circle(self.superfice, "Red", (self.x + self.image.get_width()/2 + main.cam.getPositionX() + distanza[0], self.y + self.image.get_height()/2 + main.cam.getPositionY() + distanza[1]), self.valore_distanza, 0)    
-                
+            
+            # STAMPA DISTANZA GIOCATORE <--> MOSTRO
+            self.line = pygame.draw.line(self.superfice, "#2a9df4", (self.mesh.centerx, self.mesh.centery), (main.player.mesh.centerx, main.player.mesh.centery), GLOB.MULT)
 
             self.superfice.set_alpha(self.transparenza)
             

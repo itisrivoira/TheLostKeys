@@ -1269,6 +1269,7 @@ class GUI():
 			GLOB.PlayerIsHidden = False
 			GLOB.PlayerCanHide = False
 			self.color_bar = "#ada55a"
+			GLOB.Player_speed = round(GLOB.Player_default_speed / 1.5 , 1)
 
 		self.barra_esaurita = pygame.Rect((84 * GLOB.MULT, GLOB.screen_height - 22 * GLOB.MULT, self.bar.get_width(), self.bar.get_height()))
 		self.barra_stamina = pygame.Rect((84 * GLOB.MULT, GLOB.screen_height - 22 * GLOB.MULT, self.max, self.bar.get_height()))
@@ -2079,7 +2080,7 @@ class Pc():
 			oggetto = GLOB.inventario[find()]
 			GLOB.inventario[find()] = (oggetto[0], True, oggetto[2])
 
-			descrizione = "Sto Elaborando...|Quasi Fatto...| "+str(GLOB.inventario[find()][2]+"|In attesa ...|")
+			descrizione = "Sto Elaborando...|Quasi Fatto...| "+str(GLOB.inventario[find()][2]+"|In attesa ...|Clicca SPAZIO per continuare")
 
 			descrizione = descrizione.split("|")
 
@@ -2102,7 +2103,7 @@ class Pc():
 		
 		else:
 
-			descrizione = "Sto Elaborando...|Quasi Fatto...|Hai già analizzato il contenuto di questa chiavetta...|In attesa ...|"
+			descrizione = "Sto Elaborando...|Quasi Fatto...|Hai già analizzato il contenuto di questa chiavetta...|In attesa ...|Clicca SPAZIO per continuare"
 
 			descrizione = descrizione.split("|")
 

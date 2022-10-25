@@ -157,41 +157,55 @@ def controllo_condizioni():
         GLOB.stanze_da_visitare.remove(GLOB.Stanza)
         GLOB.stanze_visitate.append(GLOB.Stanza)
     
-    i = 1
-    s = ""
     
-    for c in GLOB.Stanza:
-        
-        if i < len(GLOB.Stanza):
-            s += c
-        
-        i += 1
-    
-    if not "Corridoio" in GLOB.MonsterActualRoom and GLOB.MonsterCanSpawn and not s in GLOB.MonsterActualRoom:
+    if GLOB.MonsterCanSpawn and GLOB.Stanza != GLOB.MonsterActualRoom:
         if GLOB.FlagSecRand:
-            GLOB.Val_sec = random.randint(1, abs(int((timer.getSeconds() - GLOB.SecondDiffPos + 1))))
+            GLOB.Val_sec = random.randint(0, abs(int((timer.getSeconds() - 6))))
             GLOB.FlagSecRand = False
         
-        if int(timer.getSeconds()) == GLOB.Val_sec and not mostro.IseePlayer and not mostro.aggr and GLOB.Stanza != GLOB.MonsterActualRoom:
+        if int(timer.getSeconds()) == GLOB.Val_sec and not mostro.IseePlayer and not mostro.aggr:
             valuex, valuey = 220, 68
+            flag_stanza = False
             
             if GLOB.MonsterActualFloor == "1-PianoTerra":
+                
+                if "Corridoio" in GLOB.MonsterActualRoom:
+                    flag_stanza = True
+                    GLOB.MonsterActualRoom = random.choice(["Fisica", "Archivio", "Chimica"])
+                    
                 if GLOB.MonsterActualRoom == "Fisica":
                     valuex, valuey = 322, 20
                     mostro.monster_ai_brain = 3
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 574, 232
                     
                 elif GLOB.MonsterActualRoom == "Archivio":
                     valuex, valuey = 8, 166
                     mostro.monster_ai_brain = 1
                     
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 408, 238
+                    
                 elif GLOB.MonsterActualRoom == "Chimica":
                     valuex, valuey = 610, 20
                     mostro.monster_ai_brain = 1
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 620, 210
                 
             if GLOB.MonsterActualFloor == "2-PrimoPiano":
+                
+                if "Corridoio" in GLOB.MonsterActualRoom:
+                    flag_stanza = True
+                    GLOB.MonsterActualRoom = random.choice(["AulaProfessori", "AulaMagna", "1D", "WC-Maschi", "LabInfo"])
+                
                 if GLOB.MonsterActualRoom == "AulaProfessori":
                     valuex, valuey = 516, 70
                     mostro.monster_ai_brain = 2
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 164, 162
                     
                 if GLOB.MonsterActualRoom == "WC-Femmine":
                     valuex, valuey = 516, 142
@@ -201,6 +215,9 @@ def controllo_condizioni():
                     valuex, valuey = 360, 168
                     mostro.monster_ai_brain = 4
                     
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 598, 260
+                    
                 if GLOB.MonsterActualRoom == "1A":
                     valuex, valuey = 250, 168
                     mostro.monster_ai_brain = 4
@@ -209,33 +226,58 @@ def controllo_condizioni():
                     valuex, valuey = 180, 168
                     mostro.monster_ai_brain = 4
                     
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 528, 164
+                    
                 if GLOB.MonsterActualRoom == "WC-Maschi":
                     valuex, valuey = 32, 168
                     mostro.monster_ai_brain = 4
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 526, 240
                     
                 if GLOB.MonsterActualRoom == "LabInfo":
                     valuex, valuey = 10, 90
                     mostro.monster_ai_brain = 1
                     
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 288, 216
+                    
             if GLOB.MonsterActualFloor == "3-SecondoPiano":
+                
+                if "Corridoio" in GLOB.MonsterActualRoom:
+                    flag_stanza = True
+                    GLOB.MonsterActualRoom = random.choice(["AulaVideo", "4A", "LabInformatica"])
+                
                 if GLOB.MonsterActualRoom == "AulaVideo":
-                    valuex, valuey = 180, 32
+                    valuex, valuey = 506, 46
                     mostro.monster_ai_brain = 2
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 18, 262
                     
                 if GLOB.MonsterActualRoom == "4A":
                     valuex, valuey = 176, 148
                     mostro.monster_ai_brain = 4
                     
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 584, 54
+                    
                 if GLOB.MonsterActualRoom == "LabInformatica":
                     valuex, valuey = 52, 148
                     mostro.monster_ai_brain = 4
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 408, 234
                     
                 if GLOB.MonsterActualRoom == "Ripostiglio":
                     valuex, valuey = 56, 18
                     mostro.monster_ai_brain = 1
                     
             GLOB.MonsterHasChangedRoom = True
-            GLOB.MonsterActualRoom = "Corridoio" + str(GLOB.MonsterActualFloor[0])
+            
+            if not flag_stanza:
+                GLOB.MonsterActualRoom = "Corridoio" + str(GLOB.MonsterActualFloor[0])
             
             mostro.x = valuex * GLOB.MULT
             mostro.y = valuey * GLOB.MULT
@@ -247,7 +289,7 @@ def controllo_condizioni():
             mostro.character_update(0)
             mostro.flag_interact = False
             
-            if GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
+            if GLOB.Stanza == GLOB.MonsterActualRoom:
                 Gui.door_sound.play()
     
     if not GLOB.PlayerHasPressedButton:
@@ -613,61 +655,45 @@ def main():
 
             if event.type == pygame.KEYDOWN:
 
-                if event.key == pygame.K_z and GLOB.Debug:
-                                
-                    if not GLOB.ShowGrid:
-                        GLOB.ShowGrid = True
-                    elif GLOB.ShowGrid:
-                        GLOB.ShowGrid = False
+                if GLOB.Debug:
+                    if event.key == pygame.K_z:
+                        GLOB.ShowGrid = not GLOB.ShowGrid
+                            
+                    if event.key == pygame.K_x:
+                        GLOB.PlayerIsHidden = not GLOB.PlayerIsHidden
+                            
+                    if event.key == pygame.K_m:
+                        GLOB.MonsterSpawning = not GLOB.MonsterSpawning
+                            
+                            
+                    if event.key == pygame.K_h:
+                        MiniMap().update()
                         
-                if event.key == pygame.K_x and GLOB.Debug:
-        
-                    if not GLOB.PlayerIsHidden:
-                        GLOB.PlayerIsHidden = True
-                    else:
-                        GLOB.PlayerIsHidden = False
+                    if event.key == pygame.K_g:
                         
-                if event.key == pygame.K_m and GLOB.Debug:
-                    
-                    if not GLOB.MonsterSpawning:
-                        GLOB.MonsterSpawning = True
-                    else:
-                        GLOB.MonsterSpawning = False
-                        
-                        
-                if event.key == pygame.K_h and GLOB.Debug:
-                    MiniMap().update()
-                    
-                if event.key == pygame.K_g and GLOB.Debug:
-                    
-                    if GLOB.MonsterCanAttack:
-                        GLOB.MonsterCanAttack = False
-                        mostro.IAttacking = False
-                        mostro.IseePlayer = False
-                        mostro.aggr = False
-                    else:
-                        GLOB.MonsterCanAttack = True
+                        if GLOB.MonsterCanAttack:
+                            GLOB.MonsterCanAttack = False
+                            mostro.IAttacking = False
+                            mostro.IseePlayer = False
+                            mostro.aggr = False
+                        else:
+                            GLOB.MonsterCanAttack = True
 
                 if event.key == pygame.K_TAB and animazione.iFinished and not animazione.flag_caricamento:
-                                
+                    
+                    GLOB.ShowInventory = not GLOB.ShowInventory
+                    
                     if not GLOB.ShowInventory:
-                        GLOB.ShowInventory = True
                         Gui.inventory_sound.play()
-                    elif GLOB.ShowInventory:
-                        GLOB.ShowInventory = False
                         
                 if event.key == pygame.K_i and animazione.iFinished and not animazione.flag_caricamento:
                     if not GLOB.ShowComand:
                         GLOB.ShowComand = True
 
             if keys_pressed[pygame.K_F3] and GLOB.OptionDebug:
-                            
-                if not GLOB.Debug:
-                    GLOB.Debug = True
-                    GLOB.Cam_visible = True
-                elif GLOB.Debug:
-                    GLOB.Debug = False
-                    GLOB.Cam_visible = False
+                
+                GLOB.Debug = not GLOB.Debug
+                GLOB.Cam_visible = not GLOB.Cam_visible
 
                 GLOB.ShowCodice = GLOB.Debug              
                 ChangeDeltaTime(GLOB.Debug)
