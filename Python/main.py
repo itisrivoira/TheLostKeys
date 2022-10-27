@@ -159,7 +159,7 @@ def controllo_condizioni():
     
     
     if GLOB.MonsterCanSpawn and GLOB.Stanza != GLOB.MonsterActualRoom:
-        if GLOB.FlagSecRand:
+        if GLOB.FlagSecRand:    
             GLOB.Val_sec = random.randint(0, abs(int((timer.getSeconds() - GLOB.SecondDiffPos + 1))))
             GLOB.FlagSecRand = False
         
@@ -167,11 +167,13 @@ def controllo_condizioni():
             valuex, valuey = 220, 68
             flag_stanza = False
             
+            prec_piano = GLOB.MonsterActualFloor
+            
             if GLOB.MonsterActualFloor == "1-PianoTerra":
                 
                 if "Corridoio" in GLOB.MonsterActualRoom:
                     flag_stanza = True
-                    GLOB.MonsterActualRoom = random.choice(["Fisica", "Archivio", "Chimica"])
+                    GLOB.MonsterActualRoom = random.choice(["Fisica", "Archivio", "Chimica", "Corridoio2"])
                     
                 if GLOB.MonsterActualRoom == "Fisica":
                     valuex, valuey = 322, 20
@@ -180,25 +182,34 @@ def controllo_condizioni():
                     if GLOB.MonsterActualRoom == GLOB.Stanza:
                         valuex, valuey = 574, 232
                     
-                elif GLOB.MonsterActualRoom == "Archivio":
+                if GLOB.MonsterActualRoom == "Archivio":
                     valuex, valuey = 8, 166
                     mostro.monster_ai_brain = 1
                     
                     if GLOB.MonsterActualRoom == GLOB.Stanza:
                         valuex, valuey = 408, 238
                     
-                elif GLOB.MonsterActualRoom == "Chimica":
+                if GLOB.MonsterActualRoom == "Chimica":
                     valuex, valuey = 610, 20
                     mostro.monster_ai_brain = 1
                     
                     if GLOB.MonsterActualRoom == GLOB.Stanza:
                         valuex, valuey = 620, 210
+                        
+                if GLOB.MonsterActualRoom == "Corridoio2":
+                    GLOB.MonsterActualFloor = "2-PrimoPiano"
+                    valuex, valuey = 428, 170
+                    mostro.monster_ai_brain = 0
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 228, 86
+                        mostro.monster_ai_brain = 4
                 
             if GLOB.MonsterActualFloor == "2-PrimoPiano":
                 
                 if "Corridoio" in GLOB.MonsterActualRoom:
                     flag_stanza = True
-                    GLOB.MonsterActualRoom = random.choice(["AulaProfessori", "AulaMagna", "1D", "WC-Maschi", "LabInfo"])
+                    GLOB.MonsterActualRoom = random.choice(["AulaProfessori", "AulaMagna", "1D", "WC-Maschi", "LabInfo", "Corridoio3", "Corridoio1"])
                 
                 if GLOB.MonsterActualRoom == "AulaProfessori":
                     valuex, valuey = 516, 70
@@ -242,12 +253,31 @@ def controllo_condizioni():
                     
                     if GLOB.MonsterActualRoom == GLOB.Stanza:
                         valuex, valuey = 288, 216
+                        
+                if GLOB.MonsterActualRoom == "Corridoio1":
+                    GLOB.MonsterActualFloor = "1-PianoTerra"
+                    valuex, valuey = 46, 10
+                    mostro.monster_ai_brain = 1
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 200, 96
+                        mostro.monster_ai_brain = 3
+                        
+                if GLOB.MonsterActualRoom == "Corridoio3":
+                    GLOB.MonsterActualFloor = "3-SecondoPiano"
+                    valuex, valuey = 454, 98
+                    mostro.monster_ai_brain = 3
+                    mostro.monster_ai_brain = 0
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 454, 154
+                        mostro.monster_ai_brain = 4
                     
             if GLOB.MonsterActualFloor == "3-SecondoPiano":
                 
                 if "Corridoio" in GLOB.MonsterActualRoom:
                     flag_stanza = True
-                    GLOB.MonsterActualRoom = random.choice(["AulaVideo", "4A", "LabInformatica"])
+                    GLOB.MonsterActualRoom = random.choice(["AulaVideo", "4A", "LabInformatica", "Corridoio2"])
                 
                 if GLOB.MonsterActualRoom == "AulaVideo":
                     valuex, valuey = 506, 46
@@ -274,6 +304,15 @@ def controllo_condizioni():
                     valuex, valuey = 56, 18
                     mostro.monster_ai_brain = 1
                     
+                if GLOB.MonsterActualRoom == "Corridoio2":
+                    GLOB.MonsterActualFloor = "2-PrimoPiano"
+                    valuex, valuey = 100, 90
+                    mostro.monster_ai_brain = 0
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 428, 174
+                        mostro.monster_ai_brain = 4
+                    
             GLOB.MonsterHasChangedRoom = True
             
             if not flag_stanza:
@@ -290,7 +329,7 @@ def controllo_condizioni():
             mostro.flag_interact = False
             GLOB.FlagSecRand = True
             
-            if GLOB.Stanza == GLOB.MonsterActualRoom:
+            if GLOB.Stanza == GLOB.MonsterActualRoom and prec_piano == GLOB.MonsterActualFloor:
                 Gui.door_sound.play()
     
     if not GLOB.PlayerHasPressedButton:
