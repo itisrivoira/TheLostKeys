@@ -288,6 +288,7 @@ def controllo_condizioni():
             mostro.delayInteract.ReStart()
             mostro.character_update(0)
             mostro.flag_interact = False
+            GLOB.FlagSecRand = True
             
             if GLOB.Stanza == GLOB.MonsterActualRoom:
                 Gui.door_sound.play()

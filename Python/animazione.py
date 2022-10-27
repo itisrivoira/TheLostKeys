@@ -43,7 +43,6 @@ class Transizione():
     def ChangeRoom(self):
         if self.flag_room:
             GLOB.PlayerHasChangedRoom = True
-            GLOB.FlagSecRand = True
             self.flag_room = False
             self.delay_monsterRoom.ReStart()
         
