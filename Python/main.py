@@ -160,7 +160,7 @@ def controllo_condizioni():
     
     if GLOB.MonsterCanSpawn and GLOB.Stanza != GLOB.MonsterActualRoom:
         if GLOB.FlagSecRand:
-            GLOB.Val_sec = random.randint(0, abs(int((timer.getSeconds() - 6))))
+            GLOB.Val_sec = random.randint(0, abs(int((timer.getSeconds() - GLOB.SecondDiffPos + 1))))
             GLOB.FlagSecRand = False
         
         if int(timer.getSeconds()) == GLOB.Val_sec and not mostro.IseePlayer and not mostro.aggr:
