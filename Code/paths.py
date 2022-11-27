@@ -1,7 +1,0 @@
-Sound_path = "../Sounds/Effects/"
-Music_path = "../Sounds/Music/"
-Background_path = "../Assets/Backgrounds/"
-Button_path = "../Assets/Classes/Buttons/"
-VideoPath = "../Video/"
-GuiPath = "../Assets/Classes/Gui/"
-Animations_path = "../Assets\Characters\Animations"
