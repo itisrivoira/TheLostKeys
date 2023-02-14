@@ -143,7 +143,7 @@ class Map():
         chunck_render = pygame.Rect(main.player.x + 7 * GLOB.MULT /GLOB.Player_proportion, main.player.y + 19 * GLOB.MULT /GLOB.Player_proportion, chunck, chunck)
         
         if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning and GLOB.Stanza == GLOB.MonsterActualRoom:
-            chunck_render_m = pygame.Rect(main.mostro.x + 16.5 * GLOB.MULT /GLOB.Player_proportion + main.cam.getPositionX(),  main.mostro.y + 27 * GLOB.MULT /GLOB.Player_proportion + main.cam.getPositionY(), 24 * GLOB.MULT, 24 * GLOB.MULT)
+            chunck_render_m = pygame.Rect(main.mostro.x + 7* GLOB.MULT /GLOB.Player_proportion + main.cam.getPositionX(),  main.mostro.y + 19 * GLOB.MULT /GLOB.Player_proportion + main.cam.getPositionY(), chunck, chunck)
 
         if GLOB.Debug:
             pygame.draw.rect(GLOB.screen, (0,255,0), chunck_render, int(GLOB.MULT))
@@ -273,7 +273,7 @@ class Map():
             
             
     def render_walls(self, pos):
-        if GLOB.Default_walls != None:
+        if GLOB.Default_walls != None and not GLOB.Enigma:
             try:
                 GLOB.screen.blit(self.tiles_muri, (main.cam.getPositionX() + pos[0] * GLOB.MULT, main.cam.getPositionY() + pos[1] * GLOB.MULT))
             

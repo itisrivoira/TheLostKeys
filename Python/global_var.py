@@ -1,5 +1,4 @@
-import pygame, os, random, ast
-from pygame.locals import *
+import pygame, os, sys, random, ast
 
 TITLE = "The Lost Keys"
 
@@ -54,11 +53,6 @@ Enigma = False
 PlayerHasChangedRoom = False
 MonsterHasChangedRoom = False
 
-if MULT == 4:
-    Fullscreen = True
-else:
-    Fullscreen = False
-
 Performance = False
 
 if Delta_Time <= 1:
@@ -82,6 +76,7 @@ MonsterCanAttack = True
 
 
 SecondDiffPos = 10
+CounterChecker = 0
 FlagSecRand = True
 Val_sec = 59
 
@@ -129,26 +124,47 @@ Stats = ( Senex_Stat, Seima_Stat, Aleks_Stat, Beppe_Stat, Dark_Stat )
 Background_Color = (0, 0, 0)
 
 # Dimensione Schermo
-DF_width = 480
-DF_height = 270
+pygame.init()
+Fullscreen = False
+
+MAX_width = pygame.display.Info().current_w
+MAX_height = pygame.display.Info().current_h
+
+DF_width = MAX_width // 4
+DF_height = MAX_height // 4
 
 screen_width = DF_width * MULT
 screen_height = DF_height * MULT
 
-flags = FULLSCREEN | DOUBLEBUF
-
 # Configurazione Schermo
-if Fullscreen:
-    screen = pygame.display.set_mode((screen_width,screen_height), flags, 8)
-else:
-    screen = pygame.display.set_mode((screen_width,screen_height))
 
+def Quit():
+    pygame.quit()
+    sys.exit()
+
+def setScreenSize(wh, flag = None):
+    global screen, Fullscreen
+    pos_x = MAX_width / 2 - screen_width / 2
+    pos_y = MAX_height / 2 - screen_height / 2
+    
+    if MULT == 4 or Fullscreen:
+        os.environ['SDL_VIDEO_WINDOW_POS'] = '%d,%d' % (0,0)
+    else:
+        os.environ['SDL_VIDEO_WINDOW_POS'] = '%d,%d' % (pos_x,pos_y)
+    
+    if flag != None:
+        screen = pygame.display.set_mode(wh, flag)
+    else:
+        screen = pygame.display.set_mode(wh)
+
+setScreenSize((screen_width, screen_height))
 
 logo = pygame.image.load("assets/Logo.png").convert_alpha()
 pygame.display.set_caption(TITLE)
 pygame.display.set_icon(logo)
 
 playbutton = False
+
 
 if not os.path.exists("dati.txt"):
     AlertSalva = False

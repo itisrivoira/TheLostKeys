@@ -8,7 +8,9 @@ def testa():
 
     def AggiungiChiavetta():
         
-        main.Gui.inventory_sound.play()
+        button_sound = main.mixer.Sound("suoni/PickUp.wav")
+        button_sound.set_volume(0.4 * GLOB.AU)
+        button_sound.play()
         
         if main.player.evento == GLOB.RandomKey:
             var = GLOB.RandomRoom
@@ -323,15 +325,19 @@ def testa():
         
         if main.mostro.evento == "piano-0":
             GLOB.MonsterActualFloor = "0-PianoSegreto"
+            GLOB.MonsterActualRoom = "StanzaSegreta"
             
         elif main.mostro.evento == "piano-1":
             GLOB.MonsterActualFloor = "1-PianoTerra"
+            GLOB.MonsterActualRoom = "Corridoio1"
             
         elif main.mostro.evento == "piano-2":
             GLOB.MonsterActualFloor = "2-PrimoPiano"
+            GLOB.MonsterActualRoom = "Corridoio2"
             
         elif main.mostro.evento == "piano-3":
             GLOB.MonsterActualFloor = "3-SecondoPiano"
+            GLOB.MonsterActualRoom = "Corridoio3"
             
         if type(main.mostro.evento) == str:
             if "piano" in main.mostro.evento:

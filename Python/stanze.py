@@ -225,7 +225,7 @@ def AulaVideo():
     GLOB.Default_walls = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/AulaVideoMuri.png"
     
 
-    setPosition((154, 118), (146, -144))
+    setPosition((188, 98), (148, -166))
     dizionario_flag["AulaVideo"] = False
 
 def LabInformatica():

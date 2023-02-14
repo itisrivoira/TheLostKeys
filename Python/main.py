@@ -157,7 +157,6 @@ def controllo_condizioni():
         GLOB.stanze_da_visitare.remove(GLOB.Stanza)
         GLOB.stanze_visitate.append(GLOB.Stanza)
     
-    
     if GLOB.MonsterCanSpawn and GLOB.Stanza != GLOB.MonsterActualRoom:
         if GLOB.FlagSecRand:    
             GLOB.Val_sec = random.randint(0, abs(int((timer.getSeconds() - GLOB.SecondDiffPos + 1))))
@@ -409,15 +408,14 @@ def Stampa_messaggio():
         messaggio_a_schermo.ReStart()
 
     try:
-
         if Enigma.risultato != None:
-
             if Enigma.isFinished:
+                suono = mixer.Sound("suoni/success.wav")
                 if Enigma.risultato:
                     messaggio_a_schermo.ChangeParamatrer(text = "ENIGMA RISOLTO!", color = "#70c73e", size = 12)
                     condizione = False
                     var = 0
-
+                    
                     for value in range(len(GLOB.enigmi_da_risolvere)):
 
                         if GLOB.enigmi_da_risolvere[value] == Stanza:
@@ -431,10 +429,17 @@ def Stampa_messaggio():
                         collisioni.eventi.testa()
 
                 else:
+                    suono = mixer.Sound("suoni/failure.wav")
                     messaggio_a_schermo.ChangeParamatrer(text = "RIPROVA", color = "#e83838", size = 12)
-
+                
+                if not GLOB.CounterChecker:
+                    suono.set_volume(0.2 * GLOB.AU)
+                    suono.play()
+                    
+                GLOB.CounterChecker += 1
                 if messaggio_a_schermo.isFinished:
                     Enigma.risultato = None
+                    GLOB.CounterChecker = 0
 
             messaggio_a_schermo.Start()
     
@@ -690,7 +695,7 @@ def main():
 
             if keys_pressed[pygame.K_ESCAPE]:
                 if not animazione.flag_caricamento:
-                   pausa()
+                    pausa()
 
 
             if event.type == pygame.KEYDOWN:
@@ -720,11 +725,9 @@ def main():
                             GLOB.MonsterCanAttack = True
 
                 if event.key == pygame.K_TAB and animazione.iFinished and not animazione.flag_caricamento:
-                    
                     GLOB.ShowInventory = not GLOB.ShowInventory
                     
-                    if not GLOB.ShowInventory:
-                        Gui.inventory_sound.play()
+                    Gui.inventory_sound.play()
                         
                 if event.key == pygame.K_i and animazione.iFinished and not animazione.flag_caricamento:
                     if not GLOB.ShowComand:
@@ -791,6 +794,7 @@ def pausa():
     GLOB.PlayerCanMove = False
 
     GLOB.isPaused = True
+    AlreadySaved = False
 	
     while not ricominciamo:
 
@@ -819,10 +823,11 @@ def pausa():
             cord1, cord2 = 190, 230
             
             SAVE_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, cord1*GLOB.MULT), 
-                        text_input="SAVE GAME", font=menu.get_font(8*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=2)
+                        text_input="SAVE GAME", font=menu.get_font(8*int(GLOB.MULT)), base_color="#d7fcd4" if not AlreadySaved else "#f3ff69", hovering_color="White", scale=2)
             
             SAVE_BUTTON.changeColor(MENU_MOUSE_POS)
             SAVE_BUTTON.update(GLOB.screen)
+            
             
         else:
             cord1, cord2 = 0, 190
@@ -847,6 +852,10 @@ def pausa():
                 
             if animazione.iFinished:
                 if event_pausa.type == pygame.MOUSEBUTTONDOWN and SAVE_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    button_sound = mixer.Sound("suoni/Save.wav")
+                    button_sound.set_volume(0.05 * GLOB.AU)
+                    button_sound.play()
+                    AlreadySaved = True
                     
                     chiavi = list(GLOB.inventario.keys())
                     
@@ -881,7 +890,7 @@ def pausa():
             if event_pausa.type == pygame.MOUSEBUTTONDOWN:
 
                 if OPTIONS_BUTTON.checkForInput(MENU_MOUSE_POS):
-                     options_audio()
+                    options_audio()
 
                 if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
                     menu.main_menu()

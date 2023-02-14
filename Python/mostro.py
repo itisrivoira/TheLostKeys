@@ -474,10 +474,6 @@ class Keeper():
             self.lung = round((abs(main.player.mesh.centerx - self.mesh.centerx) + abs(main.player.mesh.centery - self.mesh.centery))/2, 6)
             self.diff = round(((self.lung / GLOB.MULT / GLOB.Monster_speed) / (7 / GLOB.MULT)), 2)
             
-            if GLOB.Debug:
-                print("Differenza secondi:", self.diff)
-            
-            
             self.inspector_area = pygame.draw.circle(self.superfice, "Orange", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza/2, 0)    
             self.proximity_area = pygame.draw.circle(self.superfice, "Yellow", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza/5, 0)    
             
@@ -490,7 +486,7 @@ class Keeper():
                 self.aggr = True
                 self.IAttacking = True
             
-           
+
             # SE IL FLAG DELL'ANIMAZIONE E' FALSE ALLORA AGGIORNA LA DIFFERENZA DI SECONDI
             if main.animazione.iFinished:
                 GLOB.SecondDiffPos = self.diff
@@ -769,9 +765,24 @@ class Keeper():
 
             if var == 132:
                 self.evento = "nascondiglio"
-
-
+                
+                
             if GLOB.Debug:
                 print(var, self.evento, GLOB.Stanza, GLOB.Piano)
+
+            for i in range(4):
+                if self.evento == f"piano-{i}":
+                    GLOB.MonsterActualRoom = f"Corridoio{i}"
+                    self.evento = None
+                    
+                if GLOB.MonsterActualRoom == "Corridoio1":
+                    GLOB.MonsterActualFloor = "1-PianoTerra"
+                elif GLOB.MonsterActualRoom == "Corridoio2":
+                    GLOB.MonsterActualFloor = "2-PrimoPiano"
+                elif GLOB.MonsterActualRoom == "Corridoio3":
+                    GLOB.MonsterActualFloor = "3-TerzoPiano"
+                elif GLOB.MonsterActualRoom == "Corridoio0":
+                    GLOB.MonsterActualFloor = "0-PianoSegreto"
+                    GLOB.MonsterActualRoom = "StanzaSegreta"
                 
             self.flag_interact = False

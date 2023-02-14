@@ -10,6 +10,8 @@ import global_var as GLOB
 class Debug():
     def log(self):
 
+        pygame.mouse.set_visible(GLOB.Debug)
+        
         if GLOB.Debug:
 
             GLOB.ShowRecord = False
@@ -36,8 +38,8 @@ class Debug():
             if sprint:
                 key = "|"+key+"|"
 
-            KEY_TEXT = main.get_font(10*int(GLOB.MULT)).render(key, True, "blue")
-            KEY_RECT = KEY_TEXT.get_rect(center=(GLOB.screen_width-140*GLOB.MULT, 20*GLOB.MULT))
+            KEY_TEXT = main.get_font(14*int(GLOB.MULT)).render(key, True, "#ffffff", "#00000048")
+            KEY_RECT = KEY_TEXT.get_rect(center=(GLOB.screen_width-120*GLOB.MULT, 20*GLOB.MULT))
 
 
             GLOB.screen.blit(KEY_TEXT, KEY_RECT)
@@ -81,7 +83,6 @@ class Debug():
             main.cam.ShowCam()
             
         else:
-                    
             GLOB.ShowRecord = True
 
         if GLOB.ShowScore:

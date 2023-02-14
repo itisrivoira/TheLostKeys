@@ -4,11 +4,51 @@ import pygame, sys, re
 from pygame import mixer
 
 def get_font(size):
-    return pygame.font.Font("font/font.ttf", size)
+	return pygame.font.Font("font/font.ttf", size)
+
+class Alert():
+	def __init__(self, text, functions):
+		self.text = text
+		self.functions = functions
+		
+		alert = pygame.image.load("assets/selezione.png").convert_alpha()
+		self.__alert = pygame.transform.scale(alert, (alert.get_width() * GLOB.MULT, alert.get_height() * GLOB.MULT))
+		
+		self.__text = get_font(4*int(GLOB.MULT)).render(self.text, True, "#e9eef7")
+		self.__rect = self.__text.get_rect(center=(GLOB.screen_width/2 - self.__alert.get_width()/2 + self.__text.get_width()*2, GLOB.screen_height/2 - alert.get_height()/2 - self.__text.get_width()/2 + 30 * GLOB.MULT))
+		
+		self.__selections = [
+			
+									Button(image=None, pos=(GLOB.screen_width/2 - self.__alert.get_width()/2 + 60*GLOB.MULT, GLOB.screen_height/2 - self.__alert.get_height()/2 + 60*GLOB.MULT), 
+									text_input="si'", font=get_font(4*int(GLOB.MULT)), base_color="White", hovering_color="Yellow", scale=2),
+				
+									Button(image=None, pos=(GLOB.screen_width/2 - self.__alert.get_width()/2 + self.__text.get_width()/2 + 110*GLOB.MULT, GLOB.screen_height/2 - self.__alert.get_height()/2 + 60*GLOB.MULT), 
+									text_input="no", font=get_font(4*int(GLOB.MULT)), base_color="White", hovering_color="Yellow", scale=2),
+				
+				
+									Button(image=None, pos=(GLOB.screen_width/2 - self.__alert.get_width()/2 + self.__alert.get_width(), GLOB.screen_height/2 - self.__alert.get_height()/2), 
+									text_input="X", font=get_font(6*int(GLOB.MULT)), base_color="White", hovering_color="Red", scale=2)
+								]
+	def Print(self):
+		MENU_MOUSE_POS = pygame.mouse.get_pos()
+		GLOB.screen.blit(self.__alert, (GLOB.screen_width/2 - self.__alert.get_width()/2, GLOB.screen_height/2 - self.__alert.get_height()/2))
+		
+		GLOB.screen.blit(self.__text, self.__rect)
+		ind = -1
+		for i, selection in enumerate(self.__selections):
+			selection.changeColor(MENU_MOUSE_POS)
+			selection.update(GLOB.screen)
+			selection.changeColor(MENU_MOUSE_POS)
+			if pygame.mouse.get_pressed()[0]:
+				if selection.checkForInput(MENU_MOUSE_POS):
+					self.functions[i]()
+					ind = i
+		return ind
+
+
 
 class Button():
 	def __init__(self, image, pos, text_input, font, base_color, hovering_color, scale):
-    	
 		if image != None:
 			self.image_w, self.image_h = image.get_width()*GLOB.MULT/scale, image.get_height()*GLOB.MULT/scale
 			self.image = pygame.transform.scale(image, (self.image_w, self.image_h))
@@ -358,8 +398,7 @@ class Dialoghi():
 			for event in pygame.event.get():
     
 				if event.type == pygame.QUIT:
-					pygame.quit()
-					sys.exit()
+					GLOB.Quit()
 
     				
 				if event.type == pygame.KEYDOWN:
@@ -851,8 +890,7 @@ class Dialoghi_Interattivi():
 				keys_pressed = pygame.key.get_pressed()
     
 				if event.type == pygame.QUIT:
-					pygame.quit()
-					sys.exit()
+					GLOB.Quit()
 
 
 				if keys_pressed[pygame.K_i] and self.isFinished:
@@ -1111,8 +1149,11 @@ class Risultato():
 		self.sec = delay_scomparsa
 		self.delay = Delay(self.sec, self.Stop)
 		self.isFinished = False
+		transparenza = 180
 
 		self.surface = pygame.Surface((GLOB.screen_width, GLOB.screen_height))
+		self.surface.set_alpha(transparenza)
+		self.surface.fill((0,0,0))
 
 	def Stop(self):
 		self.isFinished = True
@@ -1131,12 +1172,9 @@ class Risultato():
 		self.size = size
 		
 	def disegna(self):
-		transparenza = 120
 		altezza = 2
 	
 		if self.show:
-			self.surface.fill((0,0,0))
-			self.surface.set_alpha(transparenza)
 
 			GLOB.screen.blit(self.surface, (0,0))
 
@@ -1184,7 +1222,7 @@ class GUI():
 		self.descr = pygame.transform.scale(self.descr, (self.descr.get_width() * GLOB.MULT, self.descr.get_height() * GLOB.MULT))
   
   
-		div = 8
+		div = 6
 		self.button_interact = pygame.image.load("assets/Ekeyboard.png").convert_alpha()
 		self.button_interact = pygame.transform.scale(self.button_interact, (self.button_interact.get_width() * GLOB.MULT / div, self.button_interact.get_height() * GLOB.MULT / div))
 
@@ -1224,7 +1262,8 @@ class GUI():
 		self.DESCR1_TEXT = get_font(3*int(GLOB.MULT)).render("Default", True, "White")
 		self.DESCR1_POS = (self.inventory.get_width() + 10 * GLOB.MULT, 120 * GLOB.MULT)
   
-		self.inventory_sound = mixer.Sound("suoni/menu-sound.wav")
+		self.inventory_sound = mixer.Sound("suoni/backpack.wav")
+		self.inventory_sound_off = mixer.Sound("suoni/Zip.wav")
 		self.inventory_flag = False
   
 		self.door_sound = mixer.Sound("suoni/door.wav")
@@ -1363,7 +1402,8 @@ class GUI():
 
 	def show(self):
      
-		self.inventory_sound.set_volume(0.3*GLOB.AU)
+		self.inventory_sound.set_volume(0.5*GLOB.AU)
+		self.inventory_sound_off.set_volume(0.5*GLOB.AU)
 		self.door_sound.set_volume(0.4*GLOB.AU)
 		self.door_sound_locked.set_volume(0.4*GLOB.AU)
     		
@@ -1393,19 +1433,19 @@ class GUI():
    
 			if GLOB.PlayerCanInteract and not GLOB.ShowInventory:
 				
-				pos_x = 232
-				pos_y = 12
+				pos_x = 224
+				pos_y = 14
     
 				if GLOB.PlayerTextInteract == "Nasconditi" or GLOB.PlayerTextInteract == "Ispeziona" or GLOB.PlayerTextInteract == "Analizza":
-					pos_x = 240
+					pos_x = 232
     
-				HINT_TEXT = get_font(4 * int(GLOB.MULT)).render(GLOB.PlayerTextInteract, False, "White")
+				HINT_TEXT = get_font(5 * int(GLOB.MULT)).render(GLOB.PlayerTextInteract, False, "White")
 				HINT_RECT = HINT_TEXT.get_rect(center=(pos_x * GLOB.MULT, GLOB.screen_height - pos_y * GLOB.MULT))
     
-				CONT_TEXT = get_font(4 * int(GLOB.MULT)).render(GLOB.PlayerTextInteract, False, "Black")
+				CONT_TEXT = get_font(5 * int(GLOB.MULT)).render(GLOB.PlayerTextInteract, False, "Black")
 				CONT_RECT = HINT_TEXT.get_rect(center=(pos_x * GLOB.MULT, GLOB.screen_height - (pos_y - 0.8) * GLOB.MULT))
 
-				GLOB.screen.blit(self.button_interact, (200 * GLOB.MULT, GLOB.screen_height - 20 * GLOB.MULT))
+				GLOB.screen.blit(self.button_interact, (180 * GLOB.MULT, GLOB.screen_height - 25 * GLOB.MULT))
     
 				GLOB.screen.blit(CONT_TEXT, CONT_RECT)
 				GLOB.screen.blit(HINT_TEXT, HINT_RECT)
@@ -1524,6 +1564,7 @@ class GUI():
 						elif GLOB.ShowInventory:
 							GLOB.PlayerReset = True
 							GLOB.ShowInventory = False
+							self.inventory_sound_off.play()
 
 					if keys_pressed[pygame.K_UP]:
 						self.selection -= 1
@@ -1615,8 +1656,7 @@ class MiniMap():
 				keys_pressed = pygame.key.get_pressed()
     
 				if event.type == pygame.QUIT:
-					pygame.quit()
-					sys.exit()
+					GLOB.Quit()
 
 				if keys_pressed[pygame.K_ESCAPE] or keys_pressed[pygame.K_e]:
 					GLOB.PlayerReset = True

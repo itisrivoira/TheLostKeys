@@ -1,5 +1,5 @@
 import pygame, sys, os, time, random
-from components import Button, Bar, Delay
+from components import Alert, Button, Bar, Delay
 from pygame import mixer
 import global_var as GLOB
 
@@ -304,18 +304,16 @@ def options():
         flag_screen = False
 
         def setFullScreen():
+            
+            GLOB.setScreenSize((0, 0), pygame.FULLSCREEN | pygame.DOUBLEBUF)
+            GLOB.Fullscreen = not GLOB.Fullscreen
 
-            if not GLOB.Fullscreen:
-                GLOB.Fullscreen = True
-            else:
-                GLOB.Fullscreen = False
 
         for event in pygame.event.get():
             keys_pressed = pygame.key.get_pressed()
 
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                GLOB.Quit()
 
 
             if event.type == pygame.KEYDOWN:
@@ -386,23 +384,19 @@ def options():
                         GLOB.Performance = True
                         
                     GLOB.setFPS()
-                    
-                # if LOAD_GAME.checkForInput(OPTIONS_MOUSE_POS):
-                #     option_sound.play()
-                #     if GLOB.CaricaPartita:
-                #         GLOB.CaricaPartita = False
-                #     else:
-                #         GLOB.CaricaPartita = True
 
             if flag_screen:
                 global rain
-                GLOB.screen_width = 480*GLOB.MULT
-                GLOB.screen_height = 270*GLOB.MULT
-
-                if not GLOB.Fullscreen:
-                    GLOB.screen = pygame.display.set_mode((GLOB.screen_width,GLOB.screen_height))
-                else: 
-                    GLOB.screen = pygame.display.set_mode((GLOB.screen_width,GLOB.screen_height),pygame.FULLSCREEN)
+                GLOB.screen_width = GLOB.DF_width * GLOB.MULT
+                GLOB.screen_height = GLOB.DF_height * GLOB.MULT
+                
+                if (GLOB.screen_width, GLOB.screen_height) >= (GLOB.MAX_width, GLOB.MAX_height):
+                    GLOB.MULT = GLOB.MAX_width // GLOB.DF_width
+                    GLOB.screen_width = GLOB.MAX_width
+                    GLOB.screen_height = GLOB.MAX_height
+                    GLOB.Fullscreen = True
+                
+                GLOB.setScreenSize((0, 0) if GLOB.Fullscreen else (GLOB.screen_width, GLOB.screen_height), pygame.FULLSCREEN | pygame.DOUBLEBUF if GLOB.Fullscreen else pygame.DOUBLEBUF)
 
                 setPioggia()
 
@@ -476,7 +470,8 @@ def main_menu():
 
     # Settaggio del Clock
     clock = pygame.time.Clock()
-
+    quit_alert = None
+    
     while True:
 
         #time.sleep(.01)
@@ -528,14 +523,14 @@ def main_menu():
         Selezione1 = Button(image=None, pos=(GLOB.screen_width/2 - alert.get_width()/2 + Selezione_TEXT.get_width()/2 + 15*GLOB.MULT, GLOB.screen_height/2 - alert.get_height()/2 + 60*GLOB.MULT), 
                     text_input="si'", font=get_font(4*int(GLOB.MULT)), base_color="White", hovering_color="Yellow", scale=2)
         
-        Selezione2 = Button(image=None, pos=(GLOB.screen_width/2 - alert.get_width()/2 + Selezione_TEXT.get_width()/2 + 75*GLOB.MULT, GLOB.screen_height/2 - alert.get_height()/2 + 60*GLOB.MULT), 
+        Selezione2 = Button(image=None, pos=(GLOB.screen_width/2 - alert.get_width()/2 + Selezione_TEXT.get_width()/2 + 65*GLOB.MULT, GLOB.screen_height/2 - alert.get_height()/2 + 60*GLOB.MULT), 
                     text_input="no", font=get_font(4*int(GLOB.MULT)), base_color="White", hovering_color="Yellow", scale=2)
         
         
         Selezione3 = Button(image=None, pos=(GLOB.screen_width/2 - alert.get_width()/2 + alert.get_width(), GLOB.screen_height/2 - alert.get_height()/2), 
-                text_input="X", font=get_font(3*int(GLOB.MULT)), base_color="White", hovering_color="Red", scale=2)
+                text_input="X", font=get_font(6*int(GLOB.MULT)), base_color="White", hovering_color="Red", scale=2)
         
-       
+        
         for button in [PLAY_BUTTON, OPTIONS_BUTTON, QUIT_BUTTON]:
             button.changeColor(MENU_MOUSE_POS)
             button.changeScale(MENU_MOUSE_POS, 1.1)
@@ -543,12 +538,11 @@ def main_menu():
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                GLOB.Quit()
                 
             if event.type == pygame.KEYDOWN:
     
-                if event.key == pygame.K_F2:
+                if event.key == pygame.K_ESCAPE:
                     mixer.music.stop()
                     intro()
                 
@@ -570,8 +564,7 @@ def main_menu():
                     button_sound.play()
                     options()
                 if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    pygame.quit()
-                    sys.exit()
+                    quit_alert = Alert("Vuoi uscire?", (lambda: GLOB.Quit(), lambda: "", lambda: ""))
                     
                 if GLOB.playbutton:
                     if Selezione1.checkForInput(MENU_MOUSE_POS):
@@ -587,6 +580,11 @@ def main_menu():
                     if Selezione3.checkForInput(MENU_MOUSE_POS):
                         button_sound.play()
                         GLOB.playbutton = False
+                        
+        if quit_alert != None:
+
+            if quit_alert.Print() >= 1:
+                quit_alert = None
 
         # TUONO evento randomico
         if random.randint(0, (100 * GLOB.FPS)) >= (98 * GLOB.FPS):
@@ -652,8 +650,7 @@ def intro():
         for event in pygame.event.get():
             
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                GLOB.Quit()
             
             if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
                 SetVideoToFalse()
