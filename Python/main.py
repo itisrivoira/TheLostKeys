@@ -823,7 +823,7 @@ def pausa():
             cord1, cord2 = 190, 230
             
             SAVE_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, cord1*GLOB.MULT), 
-                        text_input="SAVE GAME", font=menu.get_font(8*int(GLOB.MULT)), base_color="#d7fcd4" if not AlreadySaved else "#f3ff69", hovering_color="White", scale=2)
+                        text_input="SAVE GAME" if not AlreadySaved else "GAME SAVED!", font=menu.get_font(8*int(GLOB.MULT)), base_color="#d7fcd4" if not AlreadySaved else "#f3ff69", hovering_color="White", scale=2)
             
             SAVE_BUTTON.changeColor(MENU_MOUSE_POS)
             SAVE_BUTTON.update(GLOB.screen)
