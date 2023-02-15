@@ -21,7 +21,7 @@ class Rain():
             # The bigger the raindrop, the faster it moves.
             velocity = raindropscale * self.speed/10.0
             pic = pygame.Surface((w, h), pygame.SRCALPHA, 32).convert_alpha()
-            colorinterval = float(self.color[3] * raindropscale)/h
+            colorinterval = float(self.color[3] * raindropscale)/(h+1)
             r, g, b = self.color[:3]
             for j in range(h):
                 # The smaller the raindrop, the dimmer it is.

@@ -143,7 +143,7 @@ def inizializza():
     Gui = GUI()
 
     # Messaggio visualizzabile a schermo
-    messaggio_a_schermo = Risultato(text = "Esempio", color = "White", size = 12, delay_scomparsa = 1)
+    messaggio_a_schermo = Risultato(text = "Esempio", color = "White", size = 10, delay_scomparsa = 1)
 
     timer = Timer(minutes = GLOB.TimerMin, seconds = GLOB.TimerSec, molt_sec = 1, event = game_over)
     animazione = Transizione(vel = 0.01)
@@ -672,22 +672,22 @@ def pausa():
         # Ottengo la posizione corrente del cursore del mouse
         MENU_MOUSE_POS = pygame.mouse.get_pos()
 
-        PAUSE_TEXT = menu.get_font(10*int(GLOB.MULT)).render("MENU DI PAUSA", True, "#e9eef7")
+        PAUSE_TEXT = menu.get_font(8*int(GLOB.MULT+0.9)).render("MENU DI PAUSA", True, "#e9eef7")
         PAUSE_RECT = PAUSE_TEXT.get_rect(center=(GLOB.screen_width/2, 50*GLOB.MULT))
 
 
         PLAY_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, 110*GLOB.MULT), 
-                            text_input="PLAY", font=menu.get_font(8*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=2)
+                            text_input="PLAY", font=menu.get_font(6*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=2)
         
         OPTIONS_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, 150*GLOB.MULT), 
-                            text_input="AUDIO SETTINGS", font=menu.get_font(8*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=2)
+                            text_input="AUDIO SETTINGS", font=menu.get_font(6*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=2)
         
         
         if animazione.iFinished:
             cord1, cord2 = 190, 230
             
             SAVE_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, cord1*GLOB.MULT), 
-                        text_input="SAVE GAME" if not AlreadySaved else "GAME SAVED!", font=menu.get_font((8 if not AlreadySaved else 12)*int(GLOB.MULT)), base_color="#d7fcd4" if not AlreadySaved else "#f3ff69", hovering_color="White", scale=2)
+                        text_input="SAVE GAME" if not AlreadySaved else "GAME SAVED!", font=menu.get_font((6 if not AlreadySaved else 10)*int(GLOB.MULT+0.9)), base_color="#d7fcd4" if not AlreadySaved else "#f3ff69", hovering_color="White", scale=2)
             
             SAVE_BUTTON.changeColor(MENU_MOUSE_POS) if not AlreadySaved else ""
             SAVE_BUTTON.update(GLOB.screen)
@@ -697,7 +697,7 @@ def pausa():
             cord1, cord2 = 0, 190
         
         QUIT_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, cord2*GLOB.MULT), 
-                            text_input="BACK TO MENU", font=menu.get_font(8*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=2)
+                            text_input="BACK TO MENU", font=menu.get_font(6*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=2)
 		
         for button in [PLAY_BUTTON, OPTIONS_BUTTON, QUIT_BUTTON]:
             button.changeColor(MENU_MOUSE_POS)
@@ -783,13 +783,13 @@ def options_audio():
         # Ottengo la posizione corrente del cursore del mouse
         MENU_MOUSE_POS = pygame.mouse.get_pos()
 
-        PAUSE_TEXT = menu.get_font(12*int(GLOB.MULT)).render("AUDIO SETTINGS", True, "#e9eef7")
+        PAUSE_TEXT = menu.get_font(10*int(GLOB.MULT+0.9)).render("AUDIO SETTINGS", True, "#e9eef7")
         PAUSE_RECT = PAUSE_TEXT.get_rect(center=(GLOB.screen_width/2, 50*GLOB.MULT))
 
-        AUDIO_TEXT = menu.get_font(10*int(GLOB.MULT)).render("EFFETTI SONORI: ", True, "#e9eef7")
+        AUDIO_TEXT = menu.get_font(8*int(GLOB.MULT+0.9)).render("EFFETTI SONORI: ", True, "#e9eef7")
         AUDIO_RECT = AUDIO_TEXT.get_rect(center=(GLOB.screen_width/2, 90*GLOB.MULT))
 
-        MUSICA_TEXT = menu.get_font(10*int(GLOB.MULT)).render("MUSICA: ", True, "#e9eef7")
+        MUSICA_TEXT = menu.get_font(8*int(GLOB.MULT+0.9)).render("MUSICA: ", True, "#e9eef7")
         MUSICA_RECT = MUSICA_TEXT.get_rect(center=(GLOB.screen_width/2, 130*GLOB.MULT))
 
         #BARRA AUDIO
@@ -803,19 +803,19 @@ def options_audio():
 
 
         AUDIOPLUS_BUTTON = Button(image=None, pos=(GLOB.screen_width/2+20*GLOB.MULT, 110*GLOB.MULT), 
-                            text_input="+", font=menu.get_font(8*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=1)
+                            text_input="+", font=menu.get_font(6*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=1)
 
         AUDIOLESS_BUTTON = Button(image=None, pos=(GLOB.screen_width/2-20*GLOB.MULT, 110*GLOB.MULT), 
-                            text_input="-", font=menu.get_font(8*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=1)
+                            text_input="-", font=menu.get_font(6*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=1)
 
         MUSICPLUS_BUTTON = Button(image=None, pos=(GLOB.screen_width/2+20*GLOB.MULT, 150*GLOB.MULT), 
-                            text_input="+", font=menu.get_font(8*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=1)
+                            text_input="+", font=menu.get_font(6*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=1)
 
         MUSICLESS_BUTTON = Button(image=None, pos=(GLOB.screen_width/2-20*GLOB.MULT, 150*GLOB.MULT), 
-                            text_input="-", font=menu.get_font(8*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=1)
+                            text_input="-", font=menu.get_font(6*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=1)
 
         QUIT_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, 190*GLOB.MULT), 
-                            text_input="BACK", font=menu.get_font(8*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=2)
+                            text_input="BACK", font=menu.get_font(6*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=2)
 		
         for button in [AUDIOPLUS_BUTTON, AUDIOLESS_BUTTON, MUSICPLUS_BUTTON, MUSICLESS_BUTTON, QUIT_BUTTON]:
             button.changeColor(MENU_MOUSE_POS)
@@ -977,10 +977,10 @@ def game_over():
 
 
         PLAY_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, posy * GLOB.MULT), 
-            text_input="RESTART", font=menu.get_font(8*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=2)
+            text_input="RESTART", font=menu.get_font(6*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=2)
         
         QUIT_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, (posy + distanza_riga) * GLOB.MULT), 
-                            text_input="BACK TO MENU", font=menu.get_font(8*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=2)
+                            text_input="BACK TO MENU", font=menu.get_font(6*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=2)
 
         for event in pygame.event.get():
             keys_pressed = pygame.key.get_pressed()
@@ -1001,22 +1001,22 @@ def game_over():
 
 
         altezza = 6 * GLOB.MULT
-        size = 20
+        size = 18
 
         distanza = 40 * GLOB.MULT
         distanza_riga = 20 * GLOB.MULT
 
     
-        GAME_TEXT = get_font(size*int(GLOB.MULT)).render(t1, True, "Yellow")
+        GAME_TEXT = get_font(size*int(GLOB.MULT+0.9)).render(t1, True, "Yellow")
         GAME_POS = (GLOB.screen_width/2 - GAME_TEXT.get_width()/2, GLOB.screen_height/3 - GAME_TEXT.get_height()/2 + distanza)
 
-        CGAME_TEXT = get_font(size*int(GLOB.MULT)).render(t1, True, "Black")
+        CGAME_TEXT = get_font(size*int(GLOB.MULT+0.9)).render(t1, True, "Black")
         CGAME_POS = (GLOB.screen_width/2 - CGAME_TEXT.get_width()/2, GLOB.screen_height/3 - CGAME_TEXT.get_height()/2 + distanza + altezza)
 
-        OVER_TEXT = get_font(size*int(GLOB.MULT)).render(t2, True, "Red")
+        OVER_TEXT = get_font(size*int(GLOB.MULT+0.9)).render(t2, True, "Red")
         OVER_POS = (GLOB.screen_width/2 - OVER_TEXT.get_width()/2, GLOB.screen_height/3 - OVER_TEXT.get_height()/2 + distanza + distanza_riga)
 
-        COVER_TEXT = get_font(size*int(GLOB.MULT)).render(t2, True, "Black")
+        COVER_TEXT = get_font(size*int(GLOB.MULT+0.9)).render(t2, True, "Black")
         COVER_POS = (GLOB.screen_width/2 - COVER_TEXT.get_width()/2, GLOB.screen_height/3 - COVER_TEXT.get_height()/2 + distanza + distanza_riga + altezza)
 
         GLOB.screen.blit(CGAME_TEXT, CGAME_POS)
@@ -1086,10 +1086,10 @@ def game_win():
 
 
         PLAY_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, posy * GLOB.MULT), 
-            text_input="RESTART", font=menu.get_font(8*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=2)
+            text_input="RESTART", font=menu.get_font(6*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=2)
         
         QUIT_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, (posy + distanza_riga) * GLOB.MULT), 
-                            text_input="BACK TO MENU", font=menu.get_font(8*int(GLOB.MULT)), base_color="#d7fcd4", hovering_color="White", scale=2)
+                            text_input="BACK TO MENU", font=menu.get_font(6*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=2)
 
         for event in pygame.event.get():
             keys_pressed = pygame.key.get_pressed()
@@ -1110,33 +1110,33 @@ def game_win():
 
 
         altezza = 5 * GLOB.MULT
-        size = 20
+        size = 18
 
         distanza = 40 * GLOB.MULT
         distanza_riga = 20 * GLOB.MULT
 
         starty = 25 * GLOB.MULT
 
-        SCORE_TEXT = get_font(7*int(GLOB.MULT)).render("score: "+str(GLOB.score), True, "White")
+        SCORE_TEXT = get_font(5*int(GLOB.MULT+0.9)).render("score: "+str(GLOB.score), True, "White")
         SCORE_POS = (GLOB.screen_width/2 - SCORE_TEXT.get_width()/2, starty + 90 * GLOB.MULT)
 
-        RECORD_TEXT = get_font(7*int(GLOB.MULT)).render("record: "+str(GLOB.Record), True, "White")
+        RECORD_TEXT = get_font(5*int(GLOB.MULT+0.9)).render("record: "+str(GLOB.Record), True, "White")
         RECORD_POS = (GLOB.screen_width/2 - RECORD_TEXT.get_width()/2, starty + 100 * GLOB.MULT)
 
         GLOB.screen.blit(SCORE_TEXT, SCORE_POS)
         GLOB.screen.blit(RECORD_TEXT, RECORD_POS)
 
     
-        GAME_TEXT = get_font(size*int(GLOB.MULT)).render("HAI", True, "White")
+        GAME_TEXT = get_font(size*int(GLOB.MULT+0.9)).render("HAI", True, "White")
         GAME_POS = (GLOB.screen_width/2 - GAME_TEXT.get_width()/2, starty + distanza)
 
-        CGAME_TEXT = get_font(size*int(GLOB.MULT)).render("HAI", True, "Black")
+        CGAME_TEXT = get_font(size*int(GLOB.MULT+0.9)).render("HAI", True, "Black")
         CGAME_POS = (GLOB.screen_width/2 - CGAME_TEXT.get_width()/2, starty + distanza + altezza)
 
-        OVER_TEXT = get_font(size*int(GLOB.MULT)).render("VINTO", True, "Gray")
+        OVER_TEXT = get_font(size*int(GLOB.MULT+0.9)).render("VINTO", True, "Gray")
         OVER_POS = (GLOB.screen_width/2 - OVER_TEXT.get_width()/2, starty + distanza + distanza_riga)
 
-        COVER_TEXT = get_font(size*int(GLOB.MULT)).render("VINTO", True, "Black")
+        COVER_TEXT = get_font(size*int(GLOB.MULT+0.9)).render("VINTO", True, "Black")
         COVER_POS = (GLOB.screen_width/2 - COVER_TEXT.get_width()/2, starty + distanza + distanza_riga + altezza)
 
         GLOB.screen.blit(CGAME_TEXT, CGAME_POS)

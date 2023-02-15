@@ -138,17 +138,15 @@ DF_width = MAX_width // 4
 DF_height = MAX_height // 4
 
 
-MULT_INCREMENT = (1920 / MAX_width + 1080 / MAX_height)/2
-
-MULT *= MULT_INCREMENT
-print(MULT)
+Percentage =  (2 - (1920 / MAX_width + 1080 / MAX_height) / 2)
+MULT_INCREMENT = Percentage + (0 if Percentage % 1 == 1 else (1 - Percentage) * 0.2)
+MULT = DF_MULT * MULT_INCREMENT
 RESOLUTION = DF_MULT
 
 screen_width = DF_width * RESOLUTION
 screen_height = DF_height * RESOLUTION
 
 # Configurazione Schermo
-
 def Quit():
     pygame.quit()
     sys.exit()
@@ -158,11 +156,7 @@ def setScreenSize(wh, flag = None):
     
     pos_x = MAX_width / 2 - screen_width / 2
     pos_y = MAX_height / 2 - screen_height / 2
-    
-    if MULT == 4 or Fullscreen:
-        os.environ['SDL_VIDEO_WINDOW_POS'] = '%d,%d' % (0,0)
-    else:
-        os.environ['SDL_VIDEO_WINDOW_POS'] = '%d,%d' % (pos_x,pos_y)
+    os.environ['SDL_VIDEO_WINDOW_POS'] = '%d,%d' % (pos_x,pos_y)
     
     if flag != None:
         screen = pygame.display.set_mode(wh, flag)
