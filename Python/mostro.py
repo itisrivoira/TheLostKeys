@@ -436,6 +436,184 @@ class Keeper():
             self.flag_CanStartAttack = True
             self.aggr = True
             self.IAttacking = True
+            
+            
+        if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning and GLOB.Stanza != GLOB.MonsterActualRoom:
+           if GLOB.FlagSecRand:    
+            GLOB.Val_sec = random.randint(0, abs(int((main.timer.getSeconds() - GLOB.SecondDiffPos + 1))))
+            GLOB.FlagSecRand = False
+        
+        if int(main.timer.getSeconds()) == GLOB.Val_sec and not self.IseePlayer and not self.aggr:
+            valuex, valuey = 220, 68
+            flag_stanza = False
+            
+            prec_piano = GLOB.MonsterActualFloor
+            
+            if GLOB.MonsterActualFloor == "1-PianoTerra":
+                
+                if "Corridoio" in GLOB.MonsterActualRoom:
+                    flag_stanza = True
+                    GLOB.MonsterActualRoom = random.choice(["Fisica", "Archivio", "Chimica", "Corridoio2"])
+                    
+                if GLOB.MonsterActualRoom == "Fisica":
+                    valuex, valuey = 322, 20
+                    self.monster_ai_brain = 3
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 574, 232
+                    
+                if GLOB.MonsterActualRoom == "Archivio":
+                    valuex, valuey = 8, 166
+                    self.monster_ai_brain = 1
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 408, 238
+                    
+                if GLOB.MonsterActualRoom == "Chimica":
+                    valuex, valuey = 610, 20
+                    self.monster_ai_brain = 1
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 620, 210
+                        
+                if GLOB.MonsterActualRoom == "Corridoio2":
+                    GLOB.MonsterActualFloor = "2-PrimoPiano"
+                    valuex, valuey = 428, 170
+                    self.monster_ai_brain = 0
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 228, 86
+                        self.monster_ai_brain = 4
+                
+            if GLOB.MonsterActualFloor == "2-PrimoPiano":
+                
+                if "Corridoio" in GLOB.MonsterActualRoom:
+                    flag_stanza = True
+                    GLOB.MonsterActualRoom = random.choice(["AulaProfessori", "AulaMagna", "1D", "WC-Maschi", "LabInfo", "Corridoio3", "Corridoio1"])
+                
+                if GLOB.MonsterActualRoom == "AulaProfessori":
+                    valuex, valuey = 516, 70
+                    self.monster_ai_brain = 2
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 164, 162
+                    
+                if GLOB.MonsterActualRoom == "WC-Femmine":
+                    valuex, valuey = 516, 142
+                    self.monster_ai_brain = 2
+                    
+                if GLOB.MonsterActualRoom == "AulaMagna":
+                    valuex, valuey = 360, 168
+                    self.monster_ai_brain = 4
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 598, 260
+                    
+                if GLOB.MonsterActualRoom == "1A":
+                    valuex, valuey = 250, 168
+                    self.monster_ai_brain = 4
+                
+                if GLOB.MonsterActualRoom == "1D":
+                    valuex, valuey = 180, 168
+                    self.monster_ai_brain = 4
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 528, 164
+                    
+                if GLOB.MonsterActualRoom == "WC-Maschi":
+                    valuex, valuey = 32, 168
+                    self.monster_ai_brain = 4
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 526, 240
+                    
+                if GLOB.MonsterActualRoom == "LabInfo":
+                    valuex, valuey = 10, 90
+                    self.monster_ai_brain = 1
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 288, 216
+                        
+                if GLOB.MonsterActualRoom == "Corridoio1":
+                    GLOB.MonsterActualFloor = "1-PianoTerra"
+                    valuex, valuey = 46, 10
+                    self.monster_ai_brain = 1
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 200, 96
+                        self.monster_ai_brain = 3
+                        
+                if GLOB.MonsterActualRoom == "Corridoio3":
+                    GLOB.MonsterActualFloor = "3-SecondoPiano"
+                    valuex, valuey = 454, 98
+                    self.monster_ai_brain = 3
+                    self.monster_ai_brain = 0
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 454, 154
+                        self.monster_ai_brain = 4
+                    
+            if GLOB.MonsterActualFloor == "3-SecondoPiano":
+                
+                if "Corridoio" in GLOB.MonsterActualRoom:
+                    flag_stanza = True
+                    GLOB.MonsterActualRoom = random.choice(["AulaVideo", "4A", "LabInformatica", "Corridoio2"])
+                
+                if GLOB.MonsterActualRoom == "AulaVideo":
+                    valuex, valuey = 506, 46
+                    self.monster_ai_brain = 2
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 18, 262
+                    
+                if GLOB.MonsterActualRoom == "4A":
+                    valuex, valuey = 176, 148
+                    self.monster_ai_brain = 4
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 584, 54
+                    
+                if GLOB.MonsterActualRoom == "LabInformatica":
+                    valuex, valuey = 52, 148
+                    self.monster_ai_brain = 4
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 408, 234
+                    
+                if GLOB.MonsterActualRoom == "Ripostiglio":
+                    valuex, valuey = 56, 18
+                    self.monster_ai_brain = 1
+                    
+                if GLOB.MonsterActualRoom == "Corridoio2":
+                    GLOB.MonsterActualFloor = "2-PrimoPiano"
+                    valuex, valuey = 100, 90
+                    self.monster_ai_brain = 0
+                    
+                    if GLOB.MonsterActualRoom == GLOB.Stanza:
+                        valuex, valuey = 428, 174
+                        self.monster_ai_brain = 4
+                    
+            GLOB.MonsterHasChangedRoom = True
+            
+            if not flag_stanza:
+                GLOB.MonsterActualRoom = "Corridoio" + str(GLOB.MonsterActualFloor[0])
+            
+            self.x = valuex * GLOB.MULT
+            self.y = valuey * GLOB.MULT
+            self.IseePlayer = False
+            self.aggr = False
+            self.IAttacking = False
+            self.contatore_collisioni = 0
+            self.delayInteract.ReStart()
+            self.character_update(0)
+            self.flag_interact = False
+            GLOB.FlagSecRand = True
+            
+            if GLOB.Debug:
+                print(GLOB.MonsterActualRoom, GLOB.MonsterActualFloor)
+            
+            if GLOB.Stanza == GLOB.MonsterActualRoom and prec_piano == GLOB.MonsterActualFloor:
+                main.Gui.door_sound.play()
                 
 
     def update(self):
@@ -454,7 +632,6 @@ class Keeper():
 
 
         end_line1 = round(self.x + self.width/2 + distanza[0] - rot_vector1.x + main.cam.getPositionX()), round(self.y - rot_vector1.y + main.cam.getPositionY() + distanza[1])
-        
         
         if not GLOB.isPaused:
         
@@ -784,14 +961,14 @@ class Keeper():
                     GLOB.MonsterActualRoom = f"Corridoio{i}"
                     self.evento = None
                     
-                if GLOB.MonsterActualRoom == "Corridoio1":
-                    GLOB.MonsterActualFloor = "1-PianoTerra"
-                elif GLOB.MonsterActualRoom == "Corridoio2":
-                    GLOB.MonsterActualFloor = "2-PrimoPiano"
-                elif GLOB.MonsterActualRoom == "Corridoio3":
-                    GLOB.MonsterActualFloor = "3-TerzoPiano"
-                elif GLOB.MonsterActualRoom == "Corridoio0":
-                    GLOB.MonsterActualFloor = "0-PianoSegreto"
-                    GLOB.MonsterActualRoom = "StanzaSegreta"
+            if GLOB.MonsterActualRoom == "Corridoio1":
+                GLOB.MonsterActualFloor = "1-PianoTerra"
+            elif GLOB.MonsterActualRoom == "Corridoio2":
+                GLOB.MonsterActualFloor = "2-PrimoPiano"
+            elif GLOB.MonsterActualRoom == "Corridoio3":
+                GLOB.MonsterActualFloor = "3-SecondoPiano"
+            elif GLOB.MonsterActualRoom == "Corridoio0":
+                GLOB.MonsterActualFloor = "0-PianoSegreto"
+                GLOB.MonsterActualRoom = "StanzaSegreta"
                 
             self.flag_interact = False

@@ -101,11 +101,9 @@ def ChangeDeltaTime(f):
     if f:
         GLOB.Delta_Time = 1
         GLOB.FPS = 30 * GLOB.Delta_Time
-        timer.Pause()
     else:
         GLOB.Delta_Time = GLOB.Default_DeltaTime
         GLOB.FPS = 30 * GLOB.Delta_Time
-        timer.DePause()
         
     SetPlayer_sprite()
     SetPlayer_speed()
@@ -207,182 +205,7 @@ def controllo_condizioni():
     
     if GLOB.Stanza in GLOB.stanze_da_visitare and not GLOB.Stanza in GLOB.stanze_visitate:
         GLOB.stanze_da_visitare.remove(GLOB.Stanza)
-        GLOB.stanze_visitate.append(GLOB.Stanza)
-    
-    if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning and GLOB.Stanza != GLOB.MonsterActualRoom:
-        if GLOB.FlagSecRand:    
-            GLOB.Val_sec = random.randint(0, abs(int((timer.getSeconds() - GLOB.SecondDiffPos + 1))))
-            GLOB.FlagSecRand = False
-        
-        if int(timer.getSeconds()) == GLOB.Val_sec and not mostro.IseePlayer and not mostro.aggr:
-            valuex, valuey = 220, 68
-            flag_stanza = False
-            
-            prec_piano = GLOB.MonsterActualFloor
-            
-            if GLOB.MonsterActualFloor == "1-PianoTerra":
-                
-                if "Corridoio" in GLOB.MonsterActualRoom:
-                    flag_stanza = True
-                    GLOB.MonsterActualRoom = random.choice(["Fisica", "Archivio", "Chimica", "Corridoio2"])
-                    
-                if GLOB.MonsterActualRoom == "Fisica":
-                    valuex, valuey = 322, 20
-                    mostro.monster_ai_brain = 3
-                    
-                    if GLOB.MonsterActualRoom == GLOB.Stanza:
-                        valuex, valuey = 574, 232
-                    
-                if GLOB.MonsterActualRoom == "Archivio":
-                    valuex, valuey = 8, 166
-                    mostro.monster_ai_brain = 1
-                    
-                    if GLOB.MonsterActualRoom == GLOB.Stanza:
-                        valuex, valuey = 408, 238
-                    
-                if GLOB.MonsterActualRoom == "Chimica":
-                    valuex, valuey = 610, 20
-                    mostro.monster_ai_brain = 1
-                    
-                    if GLOB.MonsterActualRoom == GLOB.Stanza:
-                        valuex, valuey = 620, 210
-                        
-                if GLOB.MonsterActualRoom == "Corridoio2":
-                    GLOB.MonsterActualFloor = "2-PrimoPiano"
-                    valuex, valuey = 428, 170
-                    mostro.monster_ai_brain = 0
-                    
-                    if GLOB.MonsterActualRoom == GLOB.Stanza:
-                        valuex, valuey = 228, 86
-                        mostro.monster_ai_brain = 4
-                
-            if GLOB.MonsterActualFloor == "2-PrimoPiano":
-                
-                if "Corridoio" in GLOB.MonsterActualRoom:
-                    flag_stanza = True
-                    GLOB.MonsterActualRoom = random.choice(["AulaProfessori", "AulaMagna", "1D", "WC-Maschi", "LabInfo", "Corridoio3", "Corridoio1"])
-                
-                if GLOB.MonsterActualRoom == "AulaProfessori":
-                    valuex, valuey = 516, 70
-                    mostro.monster_ai_brain = 2
-                    
-                    if GLOB.MonsterActualRoom == GLOB.Stanza:
-                        valuex, valuey = 164, 162
-                    
-                if GLOB.MonsterActualRoom == "WC-Femmine":
-                    valuex, valuey = 516, 142
-                    mostro.monster_ai_brain = 2
-                    
-                if GLOB.MonsterActualRoom == "AulaMagna":
-                    valuex, valuey = 360, 168
-                    mostro.monster_ai_brain = 4
-                    
-                    if GLOB.MonsterActualRoom == GLOB.Stanza:
-                        valuex, valuey = 598, 260
-                    
-                if GLOB.MonsterActualRoom == "1A":
-                    valuex, valuey = 250, 168
-                    mostro.monster_ai_brain = 4
-                       
-                if GLOB.MonsterActualRoom == "1D":
-                    valuex, valuey = 180, 168
-                    mostro.monster_ai_brain = 4
-                    
-                    if GLOB.MonsterActualRoom == GLOB.Stanza:
-                        valuex, valuey = 528, 164
-                    
-                if GLOB.MonsterActualRoom == "WC-Maschi":
-                    valuex, valuey = 32, 168
-                    mostro.monster_ai_brain = 4
-                    
-                    if GLOB.MonsterActualRoom == GLOB.Stanza:
-                        valuex, valuey = 526, 240
-                    
-                if GLOB.MonsterActualRoom == "LabInfo":
-                    valuex, valuey = 10, 90
-                    mostro.monster_ai_brain = 1
-                    
-                    if GLOB.MonsterActualRoom == GLOB.Stanza:
-                        valuex, valuey = 288, 216
-                        
-                if GLOB.MonsterActualRoom == "Corridoio1":
-                    GLOB.MonsterActualFloor = "1-PianoTerra"
-                    valuex, valuey = 46, 10
-                    mostro.monster_ai_brain = 1
-                    
-                    if GLOB.MonsterActualRoom == GLOB.Stanza:
-                        valuex, valuey = 200, 96
-                        mostro.monster_ai_brain = 3
-                        
-                if GLOB.MonsterActualRoom == "Corridoio3":
-                    GLOB.MonsterActualFloor = "3-SecondoPiano"
-                    valuex, valuey = 454, 98
-                    mostro.monster_ai_brain = 3
-                    mostro.monster_ai_brain = 0
-                    
-                    if GLOB.MonsterActualRoom == GLOB.Stanza:
-                        valuex, valuey = 454, 154
-                        mostro.monster_ai_brain = 4
-                    
-            if GLOB.MonsterActualFloor == "3-SecondoPiano":
-                
-                if "Corridoio" in GLOB.MonsterActualRoom:
-                    flag_stanza = True
-                    GLOB.MonsterActualRoom = random.choice(["AulaVideo", "4A", "LabInformatica", "Corridoio2"])
-                
-                if GLOB.MonsterActualRoom == "AulaVideo":
-                    valuex, valuey = 506, 46
-                    mostro.monster_ai_brain = 2
-                    
-                    if GLOB.MonsterActualRoom == GLOB.Stanza:
-                        valuex, valuey = 18, 262
-                    
-                if GLOB.MonsterActualRoom == "4A":
-                    valuex, valuey = 176, 148
-                    mostro.monster_ai_brain = 4
-                    
-                    if GLOB.MonsterActualRoom == GLOB.Stanza:
-                        valuex, valuey = 584, 54
-                    
-                if GLOB.MonsterActualRoom == "LabInformatica":
-                    valuex, valuey = 52, 148
-                    mostro.monster_ai_brain = 4
-                    
-                    if GLOB.MonsterActualRoom == GLOB.Stanza:
-                        valuex, valuey = 408, 234
-                    
-                if GLOB.MonsterActualRoom == "Ripostiglio":
-                    valuex, valuey = 56, 18
-                    mostro.monster_ai_brain = 1
-                    
-                if GLOB.MonsterActualRoom == "Corridoio2":
-                    GLOB.MonsterActualFloor = "2-PrimoPiano"
-                    valuex, valuey = 100, 90
-                    mostro.monster_ai_brain = 0
-                    
-                    if GLOB.MonsterActualRoom == GLOB.Stanza:
-                        valuex, valuey = 428, 174
-                        mostro.monster_ai_brain = 4
-                    
-            GLOB.MonsterHasChangedRoom = True
-            
-            if not flag_stanza:
-                GLOB.MonsterActualRoom = "Corridoio" + str(GLOB.MonsterActualFloor[0])
-            
-            mostro.x = valuex * GLOB.MULT
-            mostro.y = valuey * GLOB.MULT
-            mostro.IseePlayer = False
-            mostro.aggr = False
-            mostro.IAttacking = False
-            mostro.contatore_collisioni = 0
-            mostro.delayInteract.ReStart()
-            mostro.character_update(0)
-            mostro.flag_interact = False
-            GLOB.FlagSecRand = True
-            
-            if GLOB.Stanza == GLOB.MonsterActualRoom and prec_piano == GLOB.MonsterActualFloor:
-                Gui.door_sound.play()
-    
+        GLOB.stanze_visitate.append(GLOB.Stanza)    
     
     if len(GLOB.enigmi_risolti) > 0 and GLOB.MonsterIntro and animazione.iFinished and not animazione.flag_caricamento:
         
@@ -515,10 +338,10 @@ def disegna():
     if not GLOB.PlayerIsHidden:
         player.update()
 
-    if animazione.iFinished and GLOB.MonsterCanSpawn and animazione.iFinished and GLOB.MonsterSpawning:
+    if animazione.iFinished and GLOB.MonsterCanSpawn and GLOB.MonsterSpawning:
         mostro.check_condition()
 
-    if animazione.iFinished and GLOB.MonsterCanSpawn and animazione.iFinished and GLOB.MonsterSpawning and GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
+    if animazione.iFinished and GLOB.MonsterCanSpawn and GLOB.MonsterSpawning and GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
         mostro.update()
 
     collisions.render_objects((0,0))
@@ -528,7 +351,7 @@ def disegna():
     if not GLOB.PlayerIsHidden:
         player.load_playerSurface()
 
-    if animazione.iFinished and GLOB.MonsterCanSpawn and animazione.iFinished and GLOB.MonsterSpawning and GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
+    if animazione.iFinished and GLOB.MonsterCanSpawn and GLOB.MonsterSpawning and GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
         mostro.load_monsterSurface()
         
     collisions.render_walls((0,0))
@@ -545,8 +368,7 @@ def disegna():
     Gui.show()
 
     # MOSTRO IL TIMER
-    if not GLOB.Debug:
-        timer.Show()
+    timer.Show()
 
     if not GLOB.PlayerCanRun:
         SetPlayer_speed()
@@ -1063,10 +885,6 @@ def SetVideoToFalse():
     global VideoFinito, video
     VideoFinito = True
     video.close()
-    
-    sound = mixer.Sound("suoni/gameover.wav")
-    sound.set_volume(0.1 * GLOB.AU)
-    sound.play()
 
 def jump_scare():
     global VideoFinito, video
@@ -1113,7 +931,7 @@ def game_over():
 
     pygame.mouse.set_visible(True)
     
-    global i, testo1, t1, z, testo2, t2, suono
+    global i, testo1, t1, z, testo2, t2
     i = -1
     z = -1
     
@@ -1126,30 +944,28 @@ def game_over():
     suono = mixer.Sound("suoni/char-sound.wav")
     suono.set_volume(0.02 * GLOB.AU)
     
+    gameover_sound = mixer.Sound("suoni/gameover.wav")
+    gameover_sound.set_volume(0.1 * GLOB.AU)
     
     def stampa():
-        global i, testo1, t1, z, testo2, t2, suono
-        flag = False
+        global i, testo1, t1, z, testo2, t2
         
         if i < len(testo1) - 1:
             i += 1
             t1 += testo1[i]
-            flag = True
             
         if i == len(testo1) - 1:
             if z < len(testo2) - 1:
                 z += 1
                 t2 += testo2[z]
-                flag = True
-        
-        if flag:
-            suono.play()
 
     delay = Delay(0.4, stampa)
-
+    delay1 = Delay(0.9, gameover_sound.play)
+    
     while not restarta and VideoFinito:  
 
         delay.Infinite()
+        delay1.Start()
         
 
         # Ottengo la posizione corrente del cursore del mouse

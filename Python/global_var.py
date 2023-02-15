@@ -14,6 +14,7 @@ FPS = 30 * Delta_Time
 
 # rapporto di proporzione allo schermo NON INFERIORE AD 1
 MULT = 2
+DF_MULT = MULT
 
 # rapporto offset telecamera dello schermo MAX 40
 Moff = 30
@@ -63,6 +64,7 @@ else:
 
 Drop_Frames = False
 
+Accurate_Velocity = False
 Player_speed = 2 * MULT / Delta_Time
 PlayerRun_speed = 3
 PlayerReset = False
@@ -99,26 +101,26 @@ MonsterIdle = []
 
 # STATISTICHE
 #  Chimica - Storia - Inglese - Fisica - Matematica - Informatica - Italiano - Sistemi - TPSIT
-
-Senex_Evaluations = [ 8, 6, 7, 3, 6, 6, 5, 4, 10 ]
-Seima_Evaluations = [ 8, 10, 8, 9, 10, 10, 8, 10, 10 ]
-Aleks_Evaluations = [ 10, 10, 6, 2, 7, 8, 10, 7, 2 ]
-Beppe_Evaluations = [ 2, 8, 4, 2, 6, 6, 5, 9, 7 ]
-Dark_Evaluations = [ 8, 7, 9, 10, 8, 6, 7, 6, 2 ]
-
-# Max = 13
-# Senex_Stat = [ int(Max - (sum(Senex_Evaluations))/len(Senex_Evaluations)) ] + Senex_Evaluations
-# Seima_Stat = [ int(Max - (sum(Seima_Evaluations))/len(Seima_Evaluations)) ] + Seima_Evaluations
-# Aleks_Stat = [ int(Max - (sum(Aleks_Evaluations))/len(Aleks_Evaluations)) ] + Aleks_Evaluations
-# Beppe_Stat = [ int(Max - (sum(Beppe_Evaluations))/len(Beppe_Evaluations)) ] + Beppe_Evaluations
-# Dark_Stat = [ int(Max - (sum(Dark_Evaluations))/len(Dark_Evaluations)) ] + Dark_Evaluations
+Senex_Evaluations = [  8,  6,  7,  3,  6,  6,  5,  4, 10 ]
+Seima_Evaluations = [  8, 10,  8,  9, 10, 10,  8, 10, 10 ]
+Aleks_Evaluations = [ 10, 10,  6,  2,  7,  8, 10,  7,  2 ]
+Beppe_Evaluations = [  2,  8,  4,  2,  6,  6,  5,  9,  7 ]
+Dark_Evaluations  = [  8,  7,  9, 10,  8,  6,  7,  6,  2 ]
 
 # Vel
-Senex_Stat = [ 5 ] + Senex_Evaluations
+Senex_Stat = [ 6 ] + Senex_Evaluations
 Seima_Stat = [ 2 ] + Seima_Evaluations
 Aleks_Stat = [ 5 ] + Aleks_Evaluations
-Beppe_Stat = [ 6 ] + Beppe_Evaluations
+Beppe_Stat = [ 7 ] + Beppe_Evaluations
 Dark_Stat  = [ 3 ] + Dark_Evaluations
+
+if Accurate_Velocity:
+    Max = 13
+    Senex_Stat = [ int(Max - (sum(Senex_Evaluations))/len(Senex_Evaluations)) ] + Senex_Evaluations
+    Seima_Stat = [ int(Max - (sum(Seima_Evaluations))/len(Seima_Evaluations)) ] + Seima_Evaluations
+    Aleks_Stat = [ int(Max - (sum(Aleks_Evaluations))/len(Aleks_Evaluations)) ] + Aleks_Evaluations
+    Beppe_Stat = [ int(Max - (sum(Beppe_Evaluations))/len(Beppe_Evaluations)) ] + Beppe_Evaluations
+    Dark_Stat =  [ int(Max - (sum(Dark_Evaluations))/len(Dark_Evaluations))   ] + Dark_Evaluations
 
 Stats = ( Senex_Stat, Seima_Stat, Aleks_Stat, Beppe_Stat, Dark_Stat )
 
@@ -135,8 +137,15 @@ MAX_height = pygame.display.Info().current_h
 DF_width = MAX_width // 4
 DF_height = MAX_height // 4
 
-screen_width = DF_width * MULT
-screen_height = DF_height * MULT
+
+MULT_INCREMENT = (1920 / MAX_width + 1080 / MAX_height)/2
+
+MULT *= MULT_INCREMENT
+print(MULT)
+RESOLUTION = DF_MULT
+
+screen_width = DF_width * RESOLUTION
+screen_height = DF_height * RESOLUTION
 
 # Configurazione Schermo
 
@@ -146,6 +155,7 @@ def Quit():
 
 def setScreenSize(wh, flag = None):
     global screen, Fullscreen
+    
     pos_x = MAX_width / 2 - screen_width / 2
     pos_y = MAX_height / 2 - screen_height / 2
     
@@ -553,7 +563,7 @@ def LoadGame(flag):
             MonsterSpawning, MonsterHasSeenPlayer, MonsterAggr, MonsterIsAttacking = ast.literal_eval(cont(26)), ast.literal_eval(cont(27)), ast.literal_eval(cont(28)), ast.literal_eval(cont(29))
             MonsterXSpawn, MonsterYSpawn = float(cont(30)) * MULT, float(cont(31)) * MULT
             
-            TimerMin, TimerSec = int(cont(35)), float(cont(36))
+            TimerMin, TimerSec = int(cont(35)), float(cont(36)) if float(cont(36)) <= 59 else 59
             
             score = int(cont(39))
             ShowCodice = ast.literal_eval(cont(40))

@@ -16,7 +16,7 @@ class Rain():
 
         for i in range(self.numdrops):
             # Randomize the size of the raindrop.
-            raindropscale = random.randint(5*GLOB.MULT, 15*GLOB.MULT) / 100.0
+            raindropscale = random.randint(int(5*GLOB.MULT), int(15*GLOB.MULT)) / 100.0
             w, h = 3, int(raindropscale * self.height)
             # The bigger the raindrop, the faster it moves.
             velocity = raindropscale * self.speed/10.0
@@ -26,8 +26,17 @@ class Rain():
             for j in range(h):
                 # The smaller the raindrop, the dimmer it is.
                 a = int(colorinterval * j)
-                pic.fill( (r, g, b, a), (1, j, w-2, 1) )
-                pygame.draw.circle(pic, (r, g, b, a), (1, h-2), 2)
+                pic.fill( 
+                            (r if r <= 255 else 255, g if g <= 255 else 255, b if b <= 255 else 255, a if a <= 255 else 255), 
+                            (1, j, w-2, 1) 
+                        )
+                
+                pygame.draw.circle  (   pic, 
+                                        (r if r <= 255 else 255, g if g <= 255 else 255, b if b <= 255 else 255, a if a <= 255 else 255), 
+                                        (1, h-2), 
+                                        2
+                                    )
+                
             drop = Rain.Drop(self.speed, velocity, pic)
             self.drops.append(drop)
 
@@ -67,7 +76,7 @@ class Rain():
             self.pic = pic
             self.size = pic.get_size()
             self.SetSpeed(speed)
-            self.pos = [random.random() * GLOB.screen_width + GLOB.screen_width/3, -random.randint(-GLOB.screen_height, GLOB.screen_height) + 80 * GLOB.MULT]
+            self.pos = [random.random() * GLOB.screen_width + GLOB.screen_width/3, -random.randint(-int(GLOB.screen_height), int(GLOB.screen_height)) + 80 * int(GLOB.MULT)]
             self.currentspeed = speed
 
         def SetSpeed(self, speed):

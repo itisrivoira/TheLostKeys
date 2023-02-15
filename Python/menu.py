@@ -188,13 +188,13 @@ def options():
 
 
         Rchange = Button(image=None, pos=(GLOB.screen_width/2+50*GLOB.MULT, GLOB.screen_height/2+15*GLOB.MULT), 
-                            text_input=">", font=get_font(20*int(GLOB.MULT)), base_color="White", hovering_color="red", scale=2)
+                            text_input=">", font=get_font(20*int(GLOB.MULT)), base_color="White", hovering_color="#414141", scale=2)
 
         Rchange.changeColor(OPTIONS_MOUSE_POS)
         Rchange.update(screen)
 
         Lchange = Button(image=None, pos=(GLOB.screen_width/2-50*GLOB.MULT, GLOB.screen_height/2+15*GLOB.MULT), 
-                            text_input="<", font=get_font(20*int(GLOB.MULT)), base_color="White", hovering_color="red", scale=2)
+                            text_input="<", font=get_font(20*int(GLOB.MULT)), base_color="White", hovering_color="#414141", scale=2)
 
         Lchange.changeColor(OPTIONS_MOUSE_POS)
         Lchange.update(screen)
@@ -247,26 +247,26 @@ def options():
 
 
         Screen_960x540 = Button(image=pygame.image.load("assets/Select Rect.png").convert_alpha(), pos=(50*GLOB.MULT, GLOB.screen_height/2+75*GLOB.MULT), 
-                    text_input="960 x 540", font=get_font(4*int(GLOB.MULT)), base_color="White", hovering_color="#2f3131", scale=4)
+                    text_input=f"{GLOB.DF_width*2} x {GLOB.DF_height*2}", font=get_font(4*int(GLOB.MULT)), base_color="White", hovering_color="#2f3131", scale=4)
 
         Screen_960x540.changeColor(OPTIONS_MOUSE_POS)
         Screen_960x540.update(screen)
 
         Screen_1440x810 = Button(image=pygame.image.load("assets/Select Rect.png").convert_alpha(), pos=(110*GLOB.MULT, GLOB.screen_height/2+75*GLOB.MULT), 
-                    text_input="1440 x 810", font=get_font(4*int(GLOB.MULT)), base_color="White", hovering_color="#2f3131", scale=4)
+                    text_input=f"{GLOB.DF_width*3} x {GLOB.DF_height*3}", font=get_font(4*int(GLOB.MULT)), base_color="White", hovering_color="#2f3131", scale=4)
 
         Screen_1440x810.changeColor(OPTIONS_MOUSE_POS)
         Screen_1440x810.update(screen)
 
         Screen_1920x1080 = Button(image=pygame.image.load("assets/Select Rect.png").convert_alpha(), pos=(50*GLOB.MULT, GLOB.screen_height/2+90*GLOB.MULT), 
-                    text_input="1920 x 1080", font=get_font(4*int(GLOB.MULT)), base_color="White", hovering_color="#2f3131", scale=4)
+                    text_input=f"{GLOB.DF_width*4} x {GLOB.DF_height*4}", font=get_font(4*int(GLOB.MULT)), base_color="White", hovering_color="#2f3131", scale=4)
 
         Screen_1920x1080.changeColor(OPTIONS_MOUSE_POS)
         Screen_1920x1080.update(screen)
 
 
         Screen_3840x2160 = Button(image=pygame.image.load("assets/Select Rect.png").convert_alpha(), pos=(110*GLOB.MULT, GLOB.screen_height/2+90*GLOB.MULT), 
-                    text_input="3840 x 2160", font=get_font(4*int(GLOB.MULT)), base_color="White", hovering_color="#2f3131", scale=4)
+                    text_input=f"{GLOB.DF_width*8} x {GLOB.DF_height*8}", font=get_font(4*int(GLOB.MULT)), base_color="White", hovering_color="#2f3131", scale=4)
 
         Screen_3840x2160.changeColor(OPTIONS_MOUSE_POS)
         Screen_3840x2160.update(screen)
@@ -351,22 +351,22 @@ def options():
 
                 if Screen_960x540.checkForInput(OPTIONS_MOUSE_POS):
                     GLOB.Fullscreen = False
-                    GLOB.MULT=2
+                    GLOB.MULT = 2 * GLOB.MULT_INCREMENT
                     flag_screen = True
 
                 if Screen_1440x810.checkForInput(OPTIONS_MOUSE_POS):
                     GLOB.Fullscreen = False
-                    GLOB.MULT=3
+                    GLOB.MULT = 3 * GLOB.MULT_INCREMENT
                     flag_screen = True
 
                 if Screen_1920x1080.checkForInput(OPTIONS_MOUSE_POS):
                     GLOB.Fullscreen = False
-                    GLOB.MULT=4
+                    GLOB.MULT = 4 * GLOB.MULT_INCREMENT
                     flag_screen = True
 
                 if Screen_3840x2160.checkForInput(OPTIONS_MOUSE_POS):
                     GLOB.Fullscreen = False
-                    GLOB.MULT=5
+                    GLOB.MULT = 8 * GLOB.MULT_INCREMENT
                     flag_screen = True
                 
                 if Screen_FULL.checkForInput(OPTIONS_MOUSE_POS):
@@ -387,8 +387,11 @@ def options():
 
             if flag_screen:
                 global rain
-                GLOB.screen_width = GLOB.DF_width * GLOB.MULT
-                GLOB.screen_height = GLOB.DF_height * GLOB.MULT
+                
+                GLOB.RESOLUTION = GLOB.MULT / GLOB.MULT_INCREMENT
+                
+                GLOB.screen_width = GLOB.DF_width * GLOB.RESOLUTION
+                GLOB.screen_height = GLOB.DF_height * GLOB.RESOLUTION
                 
                 if (GLOB.screen_width, GLOB.screen_height) >= (GLOB.MAX_width, GLOB.MAX_height):
                     GLOB.MULT = GLOB.MAX_width // GLOB.DF_width

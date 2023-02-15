@@ -163,7 +163,7 @@ class Map():
                             chiavetta = GLOB.chiavette.get(GLOB.enigmi_risolti[i], [-1])
                             if chiavetta[0] == var and chiavetta[1] and not "chiavetta-"+str(chiavetta[0] - GLOB.chiavetta_start + 1) in GLOB.inventario.keys():
                                 self.check_objects = True
-                                GLOB.screen.blit(GLOB.chiavette[GLOB.enigmi_risolti[i]][2], (x * GLOB.MULT + main.cam.getPositionX() + self.tiles_risoluzione, y * GLOB.MULT + main.cam.getPositionY() + self.valore_fluttua * GLOB.MULT))
+                                GLOB.screen.blit(GLOB.chiavette[GLOB.enigmi_risolti[i]][2], (x * GLOB.MULT + main.cam.getPositionX() + self.tiles_risoluzione/2, y * GLOB.MULT + main.cam.getPositionY() + self.valore_fluttua * GLOB.MULT))
                                 main.player.HasInteraction(chunck_render, collisione_t, var)
                                 
                         if self.check_objects:
