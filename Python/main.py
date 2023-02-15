@@ -1,4 +1,4 @@
-import pandas as pd
+import csv
 import pygame, os, sys, random
 
 #Importo i vari file e classi necessarie
@@ -16,6 +16,41 @@ import global_var as GLOB
 def get_font(size):
     return pygame.font.Font("font/font.ttf", size)
 
+def QuitSave():
+    SaveCurrentGame()
+    GLOB.Quit()
+
+def SaveCurrentGame():
+    if animazione.iFinished:
+        button_sound = mixer.Sound("suoni/Save.wav")
+        button_sound.set_volume(0.05 * GLOB.AU)
+        button_sound.play()
+        
+        chiavi = list(GLOB.inventario.keys())
+        
+        for i in range(len(chiavi)):
+            
+            try:
+                if not chiavi[i] in GLOB.Inventory_support[i][0]:
+                    GLOB.Inventory_support[i] = ((chiavi[i], GLOB.inventario[chiavi[i]][1], GLOB.inventario[chiavi[i]][2]))
+                    
+                if chiavi[i] in GLOB.Inventory_support[i][0] and GLOB.inventario[chiavi[i]][1] and not GLOB.Inventory_support[i][1]:
+                    GLOB.Inventory_support[i] = ((chiavi[i], GLOB.inventario[chiavi[i]][1], GLOB.inventario[chiavi[i]][2]))
+            
+            except KeyError:
+                GLOB.Inventory_support[i] = ((chiavi[i], GLOB.inventario[chiavi[i]][1], GLOB.inventario[chiavi[i]][2]))
+                
+        
+        GLOB.TimerMin, GLOB.TimerSec = timer.getMinutes(), timer.getSeconds()
+        GLOB.PlayerXSpawn, GLOB.PlayerYSpawn = player.x / GLOB.MULT, player.y / GLOB.MULT
+        GLOB.CamXSpawn, GLOB.CamYSpawn = cam.x / GLOB.MULT, cam.y / GLOB.MULT
+        GLOB.MonsterXSpawn, GLOB.MonsterYSpawn = mostro.x / GLOB.MULT, mostro.y / GLOB.MULT
+        
+        GLOB.MonsterHasSeenPlayer = mostro.IseePlayer
+        GLOB.MonsterAggr = mostro.aggr
+        GLOB.MonsterIsAttacking = mostro.IAttacking
+        
+        GLOB.SaveGame()
 
 def SetPlayer_speed():
     GLOB.setCharacter()
@@ -28,6 +63,7 @@ def SetPlayer_sprite():
     Folder_walkO = 'Characters'+GLOB.scelta_rep+'/WalkOrizontal'
     Folder_walkVD = 'Characters'+GLOB.scelta_rep+'/WalkVerticalD'
     Folder_walkVU = 'Characters'+GLOB.scelta_rep+'/WalkVerticalU'
+    Folder_idle = 'Characters'+GLOB.scelta_rep+'/Idle'
 
     # estrapolo tutti i file (sprite/immagini) dalla cartella selezionata
     def riempi(percorso):
@@ -47,12 +83,17 @@ def SetPlayer_sprite():
             if percorso == Folder_walkVU:
                 # print("Trovato Percorso WVU")
                 GLOB.PlayerWalkingVU.append(filename)
+                
+            if percorso == Folder_idle:
+                # print("Trovato Percorso Idle")
+                GLOB.PlayerIdle.append(filename)
 
             # print("File name:"+filename+"\n\n")
 
     riempi(Folder_walkO)
     riempi(Folder_walkVD)
     riempi(Folder_walkVU)
+    riempi(Folder_idle)
     
     
 def ChangeDeltaTime(f):
@@ -84,7 +125,7 @@ def inizializza():
     SetPlayer_sprite()
 
     # Inizializzazione Tupla di animazioni
-    character_image = (GLOB.PlayerWalkingVD,GLOB.PlayerWalkingVU,GLOB.PlayerWalkingO)
+    character_image = (GLOB.PlayerWalkingVD,GLOB.PlayerWalkingVU,GLOB.PlayerWalkingO,GLOB.PlayerIdle)
     
     GLOB.Default_Character = 'Characters'+GLOB.scelta_rep+'/WalkVerticalD/Walk0.png'
 
@@ -105,7 +146,6 @@ def inizializza():
 
     # Messaggio visualizzabile a schermo
     messaggio_a_schermo = Risultato(text = "Esempio", color = "White", size = 12, delay_scomparsa = 1)
-    messaggio_a_schermo.Stop()
 
     timer = Timer(minutes = GLOB.TimerMin, seconds = GLOB.TimerSec, molt_sec = 1, event = game_over)
     animazione = Transizione(vel = 0.01)
@@ -124,31 +164,43 @@ def inizializza():
 def load_collisions(path):
 
     def CaricaLista(file):
-        csv = pd.read_csv(GLOB.Default_path+"/"+ GLOB.Piano +"/"+ GLOB.Stanza +"/csv/"+file, header = None)
-        csv = list(csv.values)
+        
+        with open(GLOB.Default_path+"/"+ GLOB.Piano +"/"+ GLOB.Stanza +"/csv/"+file, "r") as fp:
+            file_csv = list(csv.reader(fp))
 
+        l = []
+        for row in file_csv:
+            l.append([int(x) for x in row])
+        
+        file_csv = l
+        
         lista_valori = []
 
-        for value in range(len(csv)):
-            for val in csv[value]:
+        for value in range(len(file_csv)):
+            for val in file_csv[value]:
                 if val not in lista_valori and val != -1:
                     lista_valori.append(val)
         
         lista_valori.sort()
+        
+        CanCollide = []
+        m = max(lista_valori)
+        for i in lista_valori:
+            if i >= 0 and i < 56:
+                CanCollide.append(True)
+            elif i >= 56 and i < m:
+                CanCollide.append(False)
+            else:
+                CanCollide.append(False)
 
-        tupla = (csv, lista_valori)
-        return tupla
+        return (file_csv, lista_valori, CanCollide)
 
     if GLOB.LoadCollisions:
         GLOB.Mappa = CaricaLista(path)
         GLOB.LoadCollisions = False
 
-    for i in GLOB.Mappa[1]:
-        if i >= 0 and i < 56:
-            CanCollide = True
-        elif i >= 56 and i < 125:
-            CanCollide = False
-        collisions.render(lista = GLOB.Mappa[0], var = i, hitbox = CanCollide)
+    for i, collisione in enumerate(GLOB.Mappa[1]):
+        collisions.render(var = collisione, hitbox = GLOB.Mappa[2][i])
 
 
 def controllo_condizioni():
@@ -157,7 +209,7 @@ def controllo_condizioni():
         GLOB.stanze_da_visitare.remove(GLOB.Stanza)
         GLOB.stanze_visitate.append(GLOB.Stanza)
     
-    if GLOB.MonsterCanSpawn and GLOB.Stanza != GLOB.MonsterActualRoom:
+    if GLOB.MonsterCanSpawn and GLOB.MonsterSpawning and GLOB.Stanza != GLOB.MonsterActualRoom:
         if GLOB.FlagSecRand:    
             GLOB.Val_sec = random.randint(0, abs(int((timer.getSeconds() - GLOB.SecondDiffPos + 1))))
             GLOB.FlagSecRand = False
@@ -331,9 +383,6 @@ def controllo_condizioni():
             if GLOB.Stanza == GLOB.MonsterActualRoom and prec_piano == GLOB.MonsterActualFloor:
                 Gui.door_sound.play()
     
-    if not GLOB.PlayerHasPressedButton:
-        player.setAllkeys(False)
-        player.finish()
     
     if len(GLOB.enigmi_risolti) > 0 and GLOB.MonsterIntro and animazione.iFinished and not animazione.flag_caricamento:
         
@@ -466,6 +515,9 @@ def disegna():
     if not GLOB.PlayerIsHidden:
         player.update()
 
+    if animazione.iFinished and GLOB.MonsterCanSpawn and animazione.iFinished and GLOB.MonsterSpawning:
+        mostro.check_condition()
+
     if animazione.iFinished and GLOB.MonsterCanSpawn and animazione.iFinished and GLOB.MonsterSpawning and GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.Piano == GLOB.MonsterActualFloor:
         mostro.update()
 
@@ -481,6 +533,9 @@ def disegna():
         
     collisions.render_walls((0,0))
     
+    
+
+
 
     animazione.disegna()
 
@@ -500,16 +555,20 @@ def disegna():
 def enigma():
     global enigma_file
     
-    try:
-        enigma_file = pd.read_csv(GLOB.Default_path+'/'+GLOB.Piano+'/'+GLOB.Stanza+'/enigmi/Enigmi'+GLOB.Stanza+'.csv')
-    except FileNotFoundError:
-        enigma_file = pd.read_csv(GLOB.Default_path+'/1-PianoTerra/Fisica/enigmi/EnigmiFisica.csv')
+    path = GLOB.Default_path+'/'+GLOB.Piano+'/'+GLOB.Stanza+'/enigmi/Enigmi'+GLOB.Stanza+'.csv'
+    
+    if not os.path.exists(path):
+        path = GLOB.Default_path+'/1-PianoTerra/Fisica/enigmi/EnigmiFisica.csv'
+    
+    with open(path, "r") as fp:
+        enigma_file = list(csv.DictReader(fp))
 
     SetPlayer_speed()
 
 def dialoghi():
     global df
-    df = pd.read_csv('Dialoghi/dialogo.csv')
+    with open('Dialoghi/dialogo.csv', "r") as fp:
+        df = csv.DictReader(fp)
 
 def Interazioni_DialoghiEnigmi():
     if GLOB.Dialogo:
@@ -536,17 +595,18 @@ def Interazioni_DialoghiEnigmi():
         enigma()
 
         row = 0
+        list_values = list(enigma_file[row].values())
         Enigma = Dialoghi_Interattivi(
             
-            tipo_enigma = str(enigma_file.values[row][0]), 
-            personaggio = str(enigma_file.values[row][1]), 
+            tipo_enigma = str(list_values[0]), 
+            personaggio = str(list_values[1]), 
             oggetto = "Documento", 
-            descrizione =  str(enigma_file.values[row][2]), 
-            suggerimento =  str(enigma_file.values[row][3]), 
-            risposte = (str(enigma_file.values[row][4]), str(enigma_file.values[row][5]), str(enigma_file.values[row][6]), str(enigma_file.values[row][7])), 
-            soluzione = int(enigma_file.values[row][8]), 
-            difficolta = str(enigma_file.values[row][9]), 
-            malus = (int(enigma_file.values[row][10]), int(enigma_file.values[row][11]), int(enigma_file.values[row][12]), int(enigma_file.values[row][13]), int(enigma_file.values[row][14])), 
+            descrizione =  str(list_values[2]), 
+            suggerimento =  str(list_values[3]), 
+            risposte = (str(list_values[4]), str(list_values[5]), str(list_values[6]), str(list_values[7])), 
+            soluzione = int(list_values[8]), 
+            difficolta = str(list_values[9]), 
+            malus = (int(list_values[10]), int(list_values[11]), int(list_values[12]), int(list_values[13]), int(list_values[14])), 
             text_speed = 4
                                         
         )
@@ -560,21 +620,16 @@ def Interazioni_DialoghiEnigmi():
 #funzione principale
 def main():
 
-    mixer.music.load("suoni/mix.wav")
-    mixer.music.set_volume(0.02*GLOB.MU)
-    mixer.music.play(-1)	# La setto a -1 che indica un loop quindi a infinito
-
     # Setto il messaggio a schermo a false
     messaggio_a_schermo.Stop()
 
     # Setto il cursore del mouse a non visibile
     pygame.mouse.set_visible(False)
-   
+    
     run = True # funzione mainloop() principale
 
     SetPlayer_speed()
 
-    
     # Funzione che controlla se il tasto è stato premuto
     def key_pressed(event, IsPressed):
         global UP, DOWN, LEFT, RIGHT
@@ -672,17 +727,17 @@ def main():
             GLOB.PlayerHasPressedButton = False
             
 
-    # SETTO ENIGMI - DIALOGHI
-    dialoghi()
+    # SETTO ENIGMI
     enigma()
 
-    # print(df[df['Personaggi']])
+    mixer.music.load("suoni/mix.wav")
+    mixer.music.set_volume(0.02*GLOB.MU)
+    mixer.music.play(-1)
 
     while run:
         keys_pressed = pygame.key.get_pressed()
 
         for event in pygame.event.get():
-            keys_pressed = pygame.key.get_pressed()
 
             if event.type == pygame.KEYDOWN:
                 GLOB.KeyPressed = pygame.key.name(event.key)
@@ -715,14 +770,7 @@ def main():
                         MiniMap().update()
                         
                     if event.key == pygame.K_g:
-                        
-                        if GLOB.MonsterCanAttack:
-                            GLOB.MonsterCanAttack = False
-                            mostro.IAttacking = False
-                            mostro.IseePlayer = False
-                            mostro.aggr = False
-                        else:
-                            GLOB.MonsterCanAttack = True
+                            GLOB.MonsterCanAttack = not GLOB.MonsterCanAttack
 
                 if event.key == pygame.K_TAB and animazione.iFinished and not animazione.flag_caricamento:
                     GLOB.ShowInventory = not GLOB.ShowInventory
@@ -745,11 +793,6 @@ def main():
 
                 if keys_pressed[pygame.K_l]:
                     animazione.iFinished = False
-
-                if keys_pressed[pygame.K_k]:
-                        
-                    if not GLOB.Dialogo:
-                        GLOB.Dialogo = True
 
                 if keys_pressed[pygame.K_n]:
 
@@ -776,16 +819,15 @@ def main():
         pygame.display.flip()
         clock.tick(GLOB.FPS)
     
-    pygame.quit()
-    sys.exit()
+    QuitSave()
 
 # Funzione Gioco in Pausa
 def pausa():
-    mixer.music.stop()
     timer.Pause()
     # Setto visibile il cursore del mouse
     pygame.mouse.set_visible(True)
-
+    mixer.music.pause()
+    
     ricominciamo = False
 
     BG_Seimi = pygame.image.load("assets/BG_semitransparent.png").convert_alpha()
@@ -823,9 +865,9 @@ def pausa():
             cord1, cord2 = 190, 230
             
             SAVE_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, cord1*GLOB.MULT), 
-                        text_input="SAVE GAME" if not AlreadySaved else "GAME SAVED!", font=menu.get_font(8*int(GLOB.MULT)), base_color="#d7fcd4" if not AlreadySaved else "#f3ff69", hovering_color="White", scale=2)
+                        text_input="SAVE GAME" if not AlreadySaved else "GAME SAVED!", font=menu.get_font((8 if not AlreadySaved else 12)*int(GLOB.MULT)), base_color="#d7fcd4" if not AlreadySaved else "#f3ff69", hovering_color="White", scale=2)
             
-            SAVE_BUTTON.changeColor(MENU_MOUSE_POS)
+            SAVE_BUTTON.changeColor(MENU_MOUSE_POS) if not AlreadySaved else ""
             SAVE_BUTTON.update(GLOB.screen)
             
             
@@ -839,19 +881,18 @@ def pausa():
             button.changeColor(MENU_MOUSE_POS)
             button.update(GLOB.screen)
 
+        keys_pressed = pygame.key.get_pressed()
         for event_pausa in pygame.event.get():
-			
-            keys_pressed = pygame.key.get_pressed()
 
             if keys_pressed[pygame.K_ESCAPE] or event_pausa.type == pygame.MOUSEBUTTONDOWN and PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
                 ricominciamo = True
                 GLOB.isPaused = False
                 player.finish()
                 timer.DePause()
-                main()
+                mixer.music.unpause()
                 
             if animazione.iFinished:
-                if event_pausa.type == pygame.MOUSEBUTTONDOWN and SAVE_BUTTON.checkForInput(MENU_MOUSE_POS):
+                if event_pausa.type == pygame.MOUSEBUTTONDOWN and SAVE_BUTTON.checkForInput(MENU_MOUSE_POS) and not AlreadySaved:
                     button_sound = mixer.Sound("suoni/Save.wav")
                     button_sound.set_volume(0.05 * GLOB.AU)
                     button_sound.play()
@@ -884,8 +925,7 @@ def pausa():
                 GLOB.SaveGame()
 
             if event_pausa.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()	# mi riapplica le variabili di default quindi è come se riavviassi il gioco
+                QuitSave()
 
             if event_pausa.type == pygame.MOUSEBUTTONDOWN:
 
@@ -904,13 +944,14 @@ def pausa():
 def options_audio():
     # Setto visibile il cursore del mouse
     pygame.mouse.set_visible(True)
-
+    
     indietro = False
 
     BG_Seimi = pygame.image.load("assets/BG_semitransparent.png").convert_alpha()
     BG_Seimi = pygame.transform.scale(BG_Seimi, (GLOB.screen_width, GLOB.screen_height))
 
     while not indietro:
+        mixer.music.set_volume(0.02*GLOB.MU)
 
         disegna()
 
@@ -961,7 +1002,6 @@ def options_audio():
         for event_pausa in pygame.event.get():
 
             button_sound = mixer.Sound("suoni/option-sound.wav")
-            keys_pressed = pygame.key.get_pressed()
 
             if event_pausa.type == pygame.MOUSEBUTTONDOWN and AUDIOPLUS_BUTTON.checkForInput(MENU_MOUSE_POS):
                 GLOB.AU += 1
@@ -990,6 +1030,7 @@ def options_audio():
                 button_sound.set_volume(0.16*GLOB.MU)
                 button_sound.play()
 
+
             if event_pausa.type == pygame.MOUSEBUTTONDOWN and MUSICLESS_BUTTON.checkForInput(MENU_MOUSE_POS):
                 GLOB.MU -= 1
 
@@ -1000,15 +1041,12 @@ def options_audio():
                 button_sound.play()
 
             if event_pausa.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()	# mi riapplica le variabili di default quindi è come se riavviassi il gioco
-
+                QuitSave()
             
             if event_pausa.type == pygame.MOUSEBUTTONDOWN:
 
                 if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
                     indietro = True
-                    pausa()
 
         GLOB.screen.blit(PAUSE_TEXT, PAUSE_RECT)
         GLOB.screen.blit(AUDIO_TEXT, AUDIO_RECT)
@@ -1025,6 +1063,10 @@ def SetVideoToFalse():
     global VideoFinito, video
     VideoFinito = True
     video.close()
+    
+    sound = mixer.Sound("suoni/gameover.wav")
+    sound.set_volume(0.1 * GLOB.AU)
+    sound.play()
 
 def jump_scare():
     global VideoFinito, video
@@ -1040,8 +1082,7 @@ def jump_scare():
         for event in pygame.event.get():
             
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                QuitSave()
             
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -1064,7 +1105,7 @@ def game_over():
         GLOB.CaricaPartita = False
     else:
         GLOB.CaricaPartita = True
-
+    
 
     jump_scare()
 
@@ -1129,8 +1170,7 @@ def game_over():
             keys_pressed = pygame.key.get_pressed()
             
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                QuitSave()
 
             if keys_pressed[pygame.K_ESCAPE] or (event.type == pygame.MOUSEBUTTONDOWN and QUIT_BUTTON.checkForInput(MENU_MOUSE_POS)):
                 GLOB.isGameRunning = False
@@ -1189,6 +1229,10 @@ def game_win():
         GLOB.AlertSalva = False
         os.remove("dati.txt")
     
+    sound = mixer.Sound("suoni/victory.wav")
+    sound.set_volume(0.2 * GLOB.AU)
+    sound.play()
+    
     sfondo = pygame.image.load("assets/victory.png").convert()
     sfondo = pygame.transform.scale(sfondo, (sfondo.get_width() * GLOB.MULT, sfondo.get_height() * GLOB.MULT))
 
@@ -1235,8 +1279,7 @@ def game_win():
             keys_pressed = pygame.key.get_pressed()
             
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                QuitSave()
 
             if keys_pressed[pygame.K_ESCAPE] or (event.type == pygame.MOUSEBUTTONDOWN and QUIT_BUTTON.checkForInput(MENU_MOUSE_POS)):
                 GLOB.isGameRunning = False

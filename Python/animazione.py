@@ -52,7 +52,7 @@ class Transizione():
                 GLOB.SecondDiffPos = round((GLOB.SecondDiffPos + 2), 2)
                 main.mostro.aggr = True
             
-            if main.mostro.aggr and GLOB.PlayerHasChangedRoom and GLOB.SecondDiffPos < 7.5:
+            if main.mostro.aggr and GLOB.PlayerHasChangedRoom and GLOB.SecondDiffPos < 12:
                 
                 i = 1
                 s = ""
@@ -126,6 +126,7 @@ class Transizione():
                 main.mostro.IseePlayer = False
                 main.mostro.IAttacking = False
                 main.mostro.aggr = False
+                main.mostro.finish()
                 
             GLOB.PlayerHasChangedRoom = False
             GLOB.MonsterHasChangedRoom = False

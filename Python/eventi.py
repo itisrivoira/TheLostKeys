@@ -119,8 +119,18 @@ def testa():
 
     def Blocca():
         main.Gui.door_sound_locked.play()
+        risposte = ["la porta sembra chiusa", "non si apre", "è bloccata!", "purtroppo non si apre", "Niente... non riesco ad aprirla"]
+        
+        if "Corridoio1" in GLOB.Stanza and main.player.evento == "piano-4":
+            risposte = ["Amico... Stai giocando ad un gioco, giocalo!", "Non posso scappare ora!!", "Devo completare il mio compito... Non me ne posso andare ora", "Anche se ho paura devo comunque riuscire a farcela", "Bene a sto punto \"Utente\" facevi prima a non giocare ad un gioco horror", "Ehhh! Sarebbe facile la vita.", "Non sono un codardo", "Non sono un codardo. Te invece a quanto pare si'"]
+
+        if "Corridoio2" in GLOB.Stanza:
+            risposte = ["Sembra chiusa a chiave", "La porta sembra chiusa a chiave", "Il bagno a quanto pare non accetta piu' personale", "Sembra il bagno maschile... Ma purtroppo è chiuso. Adesso come faccio?!?!", "Sembra il bagno maschile... Ma purtroppo è chiuso. Eh nulla mi tocca tenermela"]
+            if GLOB.scelta_char == "Aleks":
+                risposte = ["Sembra chiusa a chiave", "La porta sembra chiusa a chiave", "Il bagno a quanto pare non accetta piu' personale", "Magari da qualche parte c'è una chiave!?!", "E' il bagno maschile. Per ora grazie ma non mi scappa! E poi c'è anche il bagno femminile che direi sia meglio."]
+        
         main.player.evento = "porta-99"
-        risposte = ["la porta sembra chiusa", "non si apre", "è bloccata"]
+        
         main.player.finish()
         main.player.setAllkeys(False)
         GLOB.PlayerIsRunning = False
@@ -223,7 +233,7 @@ def testa():
         testo = "Default"
         
         if GLOB.Stanza == "Chimica":
-            testo = "Ho trovato un appunto del quale dice che ci sia una chiavetta nascosta all'interno della cella frigorifero...|Mmmm... mi potrebbe essere utile."
+            testo = "Ho trovato un appunto che dice che ci sia una chiavetta nascosta all'interno della cella frigorifero...|Mmmm... mi potrebbe essere utile."
             
             if GLOB.Stanza != GLOB.MonsterActualRoom:
                 GLOB.MonsterActualRoom = "Chimica"
@@ -830,7 +840,7 @@ def testa():
 
 
     def NonTrovato():
-        risposte = ["Non ho trovato nulla", "Sembrerebbe che non ci sia nulla", "Niente.", "Qua non c'è nulla."]
+        risposte = ["Non ho trovato nulla", "Sembrerebbe che non ci sia nulla", "Niente.", "Qua non c'è nulla.", "Vuoto.", "Bello! Non c'è nulla", "Ho trovato... Eh volevi!"]
         
         d = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 4)
         d.stampa()
@@ -846,7 +856,9 @@ def testa():
 
 
     if main.player.evento == "cerca-T":
-        main.Gui.inventory_sound.play()
+        main.Gui.searching_sound.set_volume(0.3*GLOB.AU)
+        main.Gui.searching_sound.play()
+        
         GLOB.PlayerReset = True
         oggetto = "Default"
         descrizione = "Default"
@@ -926,7 +938,8 @@ def testa():
 
 
     if main.player.evento == "cerca-F":
-        main.Gui.inventory_sound.play()
+        main.Gui.searching_sound.set_volume(0.3*GLOB.AU)
+        main.Gui.searching_sound.play()
         NonTrovato()
         GLOB.PlayerReset = True
 

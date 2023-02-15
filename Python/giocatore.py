@@ -20,6 +20,7 @@ class Player():
         self.Name_animationWO = 'Characters'+self.Player_selected+"/WalkOrizontal"
         self.Name_animationWVD = 'Characters'+self.Player_selected+"/WalkVerticalD"
         self.Name_animationWVU = 'Characters'+self.Player_selected+"/WalkVerticalU"
+        self.Name_animationIdle = 'Characters'+self.Player_selected+"/Idle"
 
         self.ombra = pygame.image.load("assets/ombra.png").convert_alpha()
         self.ombra = pygame.transform.scale(self.ombra, (self.ombra.get_width()*GLOB.MULT/GLOB.Player_proportion,self.ombra.get_height()*GLOB.MULT/GLOB.Player_proportion))
@@ -45,6 +46,7 @@ class Player():
         self.Last_keyPressed = "Null"
 
         self.collision_state = {'top': False, 'bottom': False, 'left': False, 'right': False}
+        self.movement_state = {'up': False, 'down': False, 'left': False, 'right': False,}
 
         #hitbox del player
         self.setHitbox()
@@ -68,11 +70,14 @@ class Player():
         self.animationWVD = char_image[0]
         self.current_spriteWVD = 0.9
 
-        self.animationWVU = char_image[0]
+        self.animationWVU = char_image[1]
         self.current_spriteWVU = 0.9
         
+        self.animationIdle = char_image[3]
+        self.current_spriteIdle = 0
+        
         # setta l'immagine di animazione attuale di walking
-        self.image = self.animationWVD[0]
+        self.image = self.animationIdle[0]
 
         # Evento Interazione Oggetti
         self.evento = None
@@ -81,6 +86,9 @@ class Player():
         
         self.flag_delay = True
         self.setDelay(0.3)
+        
+        self.__normal_speed = 0.4
+        self.__animation_speed = self.__normal_speed
         
 
 # ---------- self.set() ----------
@@ -193,7 +201,6 @@ class Player():
 
             if l and not r:
                 self.current_spriteWOL += self.getAnimationSpeed() / GLOB.Delta_Time
- 
                 if self.current_spriteWOL >= len(self.animationWO) or self.getRightPress():
                     self.current_spriteWOL = 0.9
 
@@ -243,6 +250,7 @@ class Player():
                 immagine = pygame.image.load(
                 os.path.join(self.Name_animationWO,self.image)).convert_alpha()
                 self.character = pygame.transform.flip(immagine, True, False)
+                
 
     def HasCollision(self, object):
 
@@ -382,7 +390,7 @@ class Player():
                 
                 
             if var == 132:
-                GLOB.PlayerTextInteract = "Nasconditi"
+                GLOB.PlayerTextInteract = "Nasconditi" if not GLOB.PlayerIsHidden else "Esci"
                 
                 
             if var == 133:
@@ -473,6 +481,8 @@ class Player():
 
     def update(self):
         
+        self.movement_state = {'up': self.getUpPress(), 'down': self.getDownPress(), 'left': self.getLeftPress(), 'right': self.getRightPress()}
+        
         self.setIsRunning(GLOB.PlayerIsRunning)
 
         self.setVelocitaX(0)
@@ -499,7 +509,7 @@ class Player():
         condition_4 = getRight and getDown and not(getLeft and getUp)
 
         slow = 0.15
-        normal = 0.4
+        normal = self.__normal_speed
         run = 1.35
 
         if self.getIsRunning():
@@ -560,13 +570,26 @@ class Player():
             self.setIsWalking(True)
             self.character_update(0)
 
-        if (getLeft and getRight) or (getUp and getDown):
+        if (getLeft and getRight) or (getUp and getDown) or list(self.movement_state.values()).count(True) > 2:
             self.finish()
             
-        if self.getIsWalking() or self.getIsRunning() and (GLOB.PLayerMovement["up"] or GLOB.PLayerMovement["down"] or GLOB.PLayerMovement["right"] or GLOB.PLayerMovement["left"]):
+        if list(self.movement_state.values()).count(True) > 0 and (self.getIsWalking() or self.getIsRunning() and (GLOB.PLayerMovement["up"] or GLOB.PLayerMovement["down"] or GLOB.PLayerMovement["right"] or GLOB.PLayerMovement["left"])):
             self.delay_sound.Infinite()
         else:
             self.delay_sound.Stop()
+            
+            
+        if not GLOB.PlayerIsMoving and list(self.movement_state.values()).count(True) == 0:
+            self.current_spriteIdle += (self.getAnimationSpeed() / 2.4) / GLOB.Delta_Time
+        
+            if self.current_spriteIdle >= len(self.animationIdle):
+                    self.current_spriteIdle = 0
+                    
+            self.image = self.animationIdle[int(self.current_spriteIdle)]
+            
+            self.character = pygame.image.load(
+                os.path.join(self.Name_animationIdle,self.image)).convert_alpha()
+        
 
         self.x += self.getVelocitaX()
         self.y += self.getVelocitaY()
@@ -578,7 +601,10 @@ class Player():
         GLOB.screen.blit(self.ombra, (self.x , self.y-2.5*GLOB.MULT/GLOB.Player_proportion))
         GLOB.screen.blit(self.character, (self.x , self.y))
         self.setHitbox()
-
+        
+        self.movement_state = {'up': self.getUpPress(), 'down': self.getDownPress(), 'left': self.getLeftPress(), 'right': self.getRightPress()}
+        
+        GLOB.PlayerIsMoving = list(self.movement_state.values()).count(True) > 0 and (self.getVelocitaX() != 0 or self.getVelocitaY() != 0)
     def setHitbox(self):
         self.hitbox = (self.x + 20 * GLOB.MULT /GLOB.Player_proportion, self.y + 35 * GLOB.MULT /GLOB.Player_proportion, 15 * GLOB.MULT /GLOB.Player_proportion, 10 * GLOB.MULT /GLOB.Player_proportion)
 
@@ -587,11 +613,15 @@ class Player():
 
     def finish(self):
         self.setIsWalking(False)
+        self.setVelocitaX(0)
+        self.setVelocitaY(0)
+        
+        GLOB.PlayerIsMoving = False
         self.current_spriteWOL = 0.9
         self.current_spriteWOR = 0.9
         self.current_spriteWVD = 0.9
         self.current_spriteWVU = 0.9
-
+        
         self.character = pygame.image.load(str(self.Name_animationWVD)+"/Walk0.png").convert_alpha()
         self.character = pygame.transform.scale(self.character, (self.width, self.height))
 

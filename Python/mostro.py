@@ -72,7 +72,7 @@ class Keeper():
 
         self.flag_CanStartAttack = False
 
-        self.valore_distanza = 300 * GLOB.MULT
+        self.valore_distanza = 260 * GLOB.MULT
         self.setHitbox()
 
         self.__left_pressed = False
@@ -80,7 +80,7 @@ class Keeper():
         self.__up_pressed = False
         self.__down_pressed = False
 
-        self.superfice = pygame.Surface((GLOB.screen_width, GLOB.screen_height))        
+        self.superfice = pygame.Surface((GLOB.screen_width, GLOB.screen_height))
         
         self.start_valueAnimation = 0.7
         self.current_spriteI = self.start_valueAnimation
@@ -112,6 +112,7 @@ class Keeper():
         self.value_surface = 45 * GLOB.MULT
         self.transparenza = 40
         
+        self.surface = pygame.Surface((self.char_w, self.value_surface), pygame.SRCALPHA)  
         
         self.ICollide = False
 
@@ -420,8 +421,7 @@ class Keeper():
             self.setUpPress(False)
             
     def load_monsterSurface(self):
-        self.surface = pygame.Surface((self.char_w, self.value_surface), pygame.SRCALPHA)
-
+        self.surface.fill(pygame.SRCALPHA)
         self.surface.blit(self.image, (0, 0))
         GLOB.screen.blit(self.surface, (self.x + main.cam.getPositionX(), self.y + main.cam.getPositionY()))
 
@@ -431,6 +431,12 @@ class Keeper():
         if GLOB.Debug:
             pygame.draw.rect(GLOB.screen, "Green", self.mesh, GLOB.MULT)
 
+    def check_condition(self):
+        if GLOB.Stanza != GLOB.MonsterActualRoom and not self.flag_CanStartAttack and self.IseePlayer:
+            self.flag_CanStartAttack = True
+            self.aggr = True
+            self.IAttacking = True
+                
 
     def update(self):
         radius = 360
@@ -459,12 +465,11 @@ class Keeper():
                 self.flag_CanStartAttack = False
                 self.IAttacking = False
                 
-                
             if not self.IseePlayer:
                 self.delayInteract.Infinite()
                 
-                
-            self.superfice.fill(pygame.SRCALPHA)
+            if GLOB.Debug:
+                self.superfice.fill(pygame.SRCALPHA)
             
             # CALCOLO VELOCITA TILES DI GIOCATORE - KEEPER
             self.velocitaTilesM = round(((24 * GLOB.MULT) / GLOB.Monster_speed) / GLOB.FPS, 2)
@@ -474,14 +479,14 @@ class Keeper():
             self.lung = round((abs(main.player.mesh.centerx - self.mesh.centerx) + abs(main.player.mesh.centery - self.mesh.centery))/2, 6)
             self.diff = round(((self.lung / GLOB.MULT / GLOB.Monster_speed) / (7 / GLOB.MULT)), 2)
             
-            self.inspector_area = pygame.draw.circle(self.superfice, "Orange", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza/2, 0)    
-            self.proximity_area = pygame.draw.circle(self.superfice, "Yellow", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza/5, 0)    
+            self.inspector_area = pygame.draw.circle(self.superfice, "#ffa94d", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza/2, 0)    
+            self.proximity_area = pygame.draw.circle(self.superfice, "#ffeb3b", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza/5, 0)    
             
-            
+
             if self.inspector_area.colliderect(main.player.mesh) and GLOB.PlayerIsRunning and GLOB.PlayerIsMoving and GLOB.PlayerCanRun and not self.IseePlayer and not GLOB.PlayerIsHidden and GLOB.MonsterCanAttack:
                 self.IseePlayer = True
                 
-            if self.proximity_area.colliderect(main.player.mesh) and not self.IseePlayer and not self.IseePlayer and not GLOB.PlayerIsHidden and GLOB.MonsterCanAttack:
+            if self.proximity_area.colliderect(main.player.mesh) and not self.IseePlayer and not GLOB.PlayerIsHidden and GLOB.MonsterCanAttack:
                 self.IseePlayer = True
                 self.aggr = True
                 self.IAttacking = True
@@ -513,16 +518,20 @@ class Keeper():
                     
             
             if not GLOB.MonsterCanAttack:
+                self.IseePlayer = False
+                self.IAttacking = False
+                self.flag_CanStartAttack = False
                 self.aggr = False
+                self.current_spriteAngry = self.start_valueAnimation
 
             # STAMPA VISUALE PERIFERICA
-            self.triangle = pygame.draw.polygon(surface=self.superfice, color=(255, 0, 0), points=[end_line, end_line1, start_line], width=0)
+            self.triangle = pygame.draw.polygon(surface=self.superfice, color="#92ffb2", points=[end_line, end_line1, start_line], width=0)
             
             if self.IseePlayer and GLOB.MonsterCanAttack:
-                self.circle = pygame.draw.circle(self.superfice, "Red", (self.x + self.image.get_width()/2 + main.cam.getPositionX() + distanza[0], self.y + self.image.get_height()/2 + main.cam.getPositionY() + distanza[1]), self.valore_distanza, 0)    
+                self.circle = pygame.draw.circle(self.superfice, "#e26868", (self.x + self.image.get_width()/2 + main.cam.getPositionX() + distanza[0], self.y + self.image.get_height()/2 + main.cam.getPositionY() + distanza[1]), self.valore_distanza, 0)    
             
             # STAMPA DISTANZA GIOCATORE <--> MOSTRO
-            self.line = pygame.draw.line(self.superfice, "#2a9df4", (self.mesh.centerx, self.mesh.centery), (main.player.mesh.centerx, main.player.mesh.centery), GLOB.MULT)
+            self.line = pygame.draw.line(self.superfice, "#98039a", (self.mesh.centerx, self.mesh.centery), (main.player.mesh.centerx, main.player.mesh.centery), GLOB.MULT)
 
             self.superfice.set_alpha(self.transparenza)
             

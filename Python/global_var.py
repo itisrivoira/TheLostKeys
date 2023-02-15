@@ -22,7 +22,7 @@ Moff = 30
 AU = 5
 
 # rapporto musica del gioco
-MU = 0
+MU = 2
 
 CaricaPartita = True
 
@@ -49,6 +49,7 @@ PlayerHasPressedButton = False
 
 Dialogo = False
 Enigma = False
+ImInEnigmaMode = False
 
 PlayerHasChangedRoom = False
 MonsterHasChangedRoom = False
@@ -88,6 +89,7 @@ ShowComand = False
 PlayerWalkingO = []
 PlayerWalkingVD = []
 PlayerWalkingVU = []
+PlayerIdle = []
 
 MonsterWO = []
 MonsterWVD = []
@@ -456,7 +458,7 @@ def SaveGame():
         
     - Timer:
         Minuti = |""" + str(TimerMin) + """|
-        Secondi = |""" + str(TimerSec) + """|
+        Secondi = |""" + str(TimerSec if TimerSec <= 59 else 59) + """|
         
     - Score:
         ActualScore = |""" + str(score) + """|

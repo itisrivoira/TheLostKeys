@@ -11,7 +11,6 @@ def setPosition(posP, posC):
 
 def inizializza():
     setToDefault()
-
     setPosition((152, 122), (130, -118))
 
 def setToDefault():
@@ -361,8 +360,8 @@ def caricaStanza():
     
 
     if not main.animazione.iFinished:
-        main.collisions.load_map(GLOB.Default_Map)
         GLOB.LoadCollisions = True
+        main.collisions.load_map(GLOB.Default_Map)
 
         if GLOB.Default_object != None:
             main.collisions.load_objects(GLOB.Default_object)

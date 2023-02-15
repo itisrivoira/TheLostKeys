@@ -363,7 +363,7 @@ class Dialoghi():
     		
 			self.__effetto_testo()
 			
-			if GLOB.Muri_Immagine != None:
+			if GLOB.Muri_Immagine != None and not GLOB.ImInEnigmaMode:
 				GLOB.screen.blit(GLOB.Muri_Immagine, (GLOB.CamPosX, GLOB.CamPosY))
     
 			GLOB.screen.blit(self.sfondo, (0, GLOB.screen_height-self.sfondo.get_height()))
@@ -748,7 +748,7 @@ class Dialoghi_Interattivi():
 		clock = pygame.time.Clock()
 		
 		possoIniziare = False
-
+		GLOB.ImInEnigmaMode = True
 		while not possoIniziare:
     		
 			self.__effetto_testo()
@@ -886,20 +886,20 @@ class Dialoghi_Interattivi():
 				self.__check_score()
 				self.class_sfoca.disegna()
 
+			keys_pressed = pygame.key.get_pressed()
 			for event in pygame.event.get():
-				keys_pressed = pygame.key.get_pressed()
     
 				if event.type == pygame.QUIT:
 					GLOB.Quit()
 
+				if event.type == pygame.KEYDOWN:
+					if event.key == pygame.K_ESCAPE or event.key == pygame.K_e:
+						possoIniziare = True
+						GLOB.ImInEnigmaMode = False
+
 
 				if keys_pressed[pygame.K_i] and self.isFinished:
 					self.suggerimento = True
-
-    				
-				if keys_pressed[pygame.K_ESCAPE]:
-					possoIniziare = True
-
 
 				if keys_pressed[pygame.K_SPACE] and not self.isFinished:
 					if self.CanIplay_sound:
@@ -907,14 +907,14 @@ class Dialoghi_Interattivi():
 						self.CanIplay_sound = False
 						self.isFinished = True
 
-				if keys_pressed[pygame.K_DOWN] or keys_pressed[pygame.K_RIGHT]:
+				if keys_pressed[pygame.K_DOWN] or keys_pressed[pygame.K_RIGHT] or keys_pressed[pygame.K_s] or keys_pressed[pygame.K_d]:
 					self.number_selection += 1
 
 					if self.number_selection > len(self.risposte) - 1:
 						self.number_selection = 0
 
 
-				if keys_pressed[pygame.K_UP] or keys_pressed[pygame.K_LEFT]:
+				if keys_pressed[pygame.K_UP] or keys_pressed[pygame.K_LEFT] or keys_pressed[pygame.K_w] or keys_pressed[pygame.K_a]:
 					self.number_selection -= 1
 
 					if self.number_selection < 0:
@@ -1264,6 +1264,8 @@ class GUI():
   
 		self.inventory_sound = mixer.Sound("suoni/backpack.wav")
 		self.inventory_sound_off = mixer.Sound("suoni/Zip.wav")
+		self.searching_sound = mixer.Sound("suoni/search-sound.wav")
+  
 		self.inventory_flag = False
   
 		self.door_sound = mixer.Sound("suoni/door.wav")
@@ -1553,6 +1555,10 @@ class GUI():
     			
 			for event in pygame.event.get():
 				keys_pressed = pygame.key.get_pressed()
+    
+				if event.type == pygame.QUIT:
+					GLOB.Quit()
+         
 				if event.type == pygame.KEYDOWN:
 					
 					if event.key == pygame.K_TAB or event.key == pygame.K_ESCAPE:
@@ -1653,14 +1659,15 @@ class MiniMap():
 
 		while not possoIniziare:
 			for event in pygame.event.get():
-				keys_pressed = pygame.key.get_pressed()
     
 				if event.type == pygame.QUIT:
 					GLOB.Quit()
-
-				if keys_pressed[pygame.K_ESCAPE] or keys_pressed[pygame.K_e]:
-					GLOB.PlayerReset = True
-					possoIniziare = True
+     
+				if event.type == pygame.KEYDOWN:
+   
+					if event.key == pygame.K_ESCAPE or event.key == pygame.K_e:
+						GLOB.PlayerReset = True
+						possoIniziare = True
 
 			GLOB.screen.blit(self.image, (0, 0))
    
@@ -1921,34 +1928,34 @@ class Code():
 
                     if self.CanClick:
 
-                        if event.key == pygame.K_1:
+                        if event.key == pygame.K_1 or event.key == pygame.K_KP1:
                             self.tastierino[1].click()
 
-                        if event.key == pygame.K_2:
+                        if event.key == pygame.K_2 or event.key == pygame.K_KP2:
                             self.tastierino[2].click()
 
-                        if event.key == pygame.K_3:
+                        if event.key == pygame.K_3 or event.key == pygame.K_KP3:
                             self.tastierino[3].click()
 
-                        if event.key == pygame.K_4:
+                        if event.key == pygame.K_4 or event.key == pygame.K_KP4:
                             self.tastierino[4].click()
 
-                        if event.key == pygame.K_5:
+                        if event.key == pygame.K_5 or event.key == pygame.K_KP5:
                             self.tastierino[5].click()
 
-                        if event.key == pygame.K_6:
+                        if event.key == pygame.K_6 or event.key == pygame.K_KP6:
                             self.tastierino[6].click()
 
-                        if event.key == pygame.K_7:
+                        if event.key == pygame.K_7 or event.key == pygame.K_KP7:
                             self.tastierino[7].click()
 
-                        if event.key == pygame.K_8:
+                        if event.key == pygame.K_8 or event.key == pygame.K_KP8:
                             self.tastierino[8].click()
 
-                        if event.key == pygame.K_9:
+                        if event.key == pygame.K_9 or event.key == pygame.K_KP9:
                             self.tastierino[9].click()
 
-                        if event.key == pygame.K_0:
+                        if event.key == pygame.K_0 or event.key == pygame.K_KP0:
                             self.tastierino[0].click()
 
                         if event.key == pygame.K_BACKSPACE:
