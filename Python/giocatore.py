@@ -578,17 +578,17 @@ class Player():
         else:
             self.delay_sound.Stop()
             
+        if not GLOB.isPaused:
+            if not GLOB.PlayerIsMoving and list(self.movement_state.values()).count(True) == 0:
+                self.current_spriteIdle += (self.getAnimationSpeed() / 2.4) / GLOB.Delta_Time
             
-        if not GLOB.PlayerIsMoving and list(self.movement_state.values()).count(True) == 0:
-            self.current_spriteIdle += (self.getAnimationSpeed() / 2.4) / GLOB.Delta_Time
-        
-            if self.current_spriteIdle >= len(self.animationIdle):
-                    self.current_spriteIdle = 0
-                    
-            self.image = self.animationIdle[int(self.current_spriteIdle)]
-            
-            self.character = pygame.image.load(
-                os.path.join(self.Name_animationIdle,self.image)).convert_alpha()
+                if self.current_spriteIdle >= len(self.animationIdle):
+                        self.current_spriteIdle = 0
+                        
+                self.image = self.animationIdle[int(self.current_spriteIdle)]
+                
+                self.character = pygame.image.load(
+                    os.path.join(self.Name_animationIdle,self.image)).convert_alpha()
         
 
         self.x += self.getVelocitaX()

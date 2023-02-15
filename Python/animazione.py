@@ -1,4 +1,5 @@
 import pygame, sys
+from pygame import mixer
 import global_var as GLOB
 from components import Delay
 import main
@@ -52,59 +53,41 @@ class Transizione():
                 GLOB.SecondDiffPos = round((GLOB.SecondDiffPos + 2), 2)
                 main.mostro.aggr = True
             
-            if main.mostro.aggr and GLOB.PlayerHasChangedRoom and GLOB.SecondDiffPos < 12:
-                
-                i = 1
-                s = ""
-                
-                for c in GLOB.Stanza:
-                    
-                    if i < len(GLOB.Stanza):
-                        s += c
-                    
-                    i += 1
-                
-                
-                if GLOB.Piano == GLOB.MonsterActualFloor and not s in GLOB.MonsterActualRoom:
+            if main.mostro.aggr and GLOB.PlayerHasChangedRoom and GLOB.SecondDiffPos < 12:            
+                testo = "Default - Move"
+                if GLOB.Piano == GLOB.MonsterActualFloor and not GLOB.Stanza[:-1] in GLOB.MonsterActualRoom:
+                    testo = "Ti inseguo"
                     main.mostro.aggr = True
                     main.mostro.IAttacking = True
-                    
-                if GLOB.Piano != GLOB.MonsterActualFloor and not s in GLOB.MonsterActualRoom:
-                    GLOB.MonsterHasChangedRoom = False
-                    
-                    main.mostro.IseePlayer = False
-                    main.mostro.IAttacking = False
-                    main.mostro.aggr = False
-                    
-                    GLOB.MonsterActualFloor = GLOB.Piano
-                    GLOB.MonsterActualRoom = "Default"
-                    main.mostro.evento = "porta"
-                    main.mostro.character_update(0)
-                    
-                    
 
                     if GLOB.PlayerIsHidden:
-                        main.mostro.IseePlayer = False
-                        main.mostro.IAttacking = False
-                        main.mostro.aggr = False
-                        
-                        
-                if not "Corridoio" in GLOB.Stanza and GLOB.MonsterActualRoom != GLOB.Stanza and not "Corridoio" in GLOB.MonsterActualRoom and GLOB.MonsterActualFloor == GLOB.Piano:
-                    main.mostro.IseePlayer = False
-                    main.mostro.IAttacking = False
-                    main.mostro.aggr = False
-                    
-                    GLOB.MonsterActualFloor = GLOB.Piano
-                    GLOB.MonsterActualRoom = "Default"
-                    main.mostro.evento = "porta"
-                    main.mostro.character_update(0)
-                    
-                if (GLOB.MonsterActualFloor == "1-PianoTerra" and GLOB.Piano == "3-SecondoPiano") or (GLOB.Piano == "1-PianoTerra" and GLOB.MonsterActualFloor == "3-SecondoPiano"):
-                    main.mostro.IseePlayer = False
-                    main.mostro.IAttacking = False
-                    main.mostro.aggr = False
+                        main.mostro.character_update(0) 
                 
-                if main.mostro.IseePlayer:
+                if ((GLOB.MonsterActualFloor == "1-PianoTerra" and GLOB.Piano == "3-SecondoPiano") or GLOB.Piano == "1-PianoTerra" and GLOB.MonsterActualFloor == "3-SecondoPiano") or (
+                    not GLOB.Stanza[:-1] in GLOB.MonsterActualRoom and GLOB.MonsterActualFloor != GLOB.Piano) or (
+                    not "Corridoio" in GLOB.MonsterActualRoom and not "Corridoio" in GLOB.Stanza and GLOB.MonsterActualFloor == GLOB.Piano):
+                    
+                    testo = "Perso di vista"
+                    GLOB.MonsterHasChangedRoom = True
+                    main.mostro.IseePlayer = False
+                    main.mostro.aggr = False
+                    main.mostro.IAttacking = False
+                    
+                    door_sound = mixer.Sound("suoni/door.wav")
+                    door_sound.set_volume(0.05 * GLOB.AU)
+                    
+                    if ((GLOB.MonsterActualFloor == "1-PianoTerra" and GLOB.Piano == "3-SecondoPiano") or 
+                        (GLOB.Piano == "1-PianoTerra" and GLOB.MonsterActualFloor == "3-SecondoPiano")):
+                        GLOB.MonsterActualFloor = "2-PrimoPiano"
+                    else:
+                        GLOB.MonsterActualFloor = GLOB.Piano
+                        door_sound.play()
+                    
+                    GLOB.MonsterActualRoom = "Default"
+                    main.mostro.character_update(0)
+                
+                elif main.mostro.IseePlayer:
+                    testo = "Ho visto giocatore spawn porta"
                     main.mostro.x = main.stanze.pos_portaP[0] * GLOB.MULT - main.stanze.pos_portaC[0] * GLOB.MULT
                     main.mostro.y = main.stanze.pos_portaP[1] * GLOB.MULT - main.stanze.pos_portaC[1] * GLOB.MULT
                     
@@ -123,10 +106,14 @@ class Transizione():
                     main.mostro.IseePlayer = False
                     
             else:
+                testo = "Ti ho perso"
                 main.mostro.IseePlayer = False
                 main.mostro.IAttacking = False
                 main.mostro.aggr = False
                 main.mostro.finish()
+            
+            if GLOB.Debug:
+                print(testo)
                 
             GLOB.PlayerHasChangedRoom = False
             GLOB.MonsterHasChangedRoom = False
@@ -270,31 +257,36 @@ class Transizione():
         GLOB.screen.blit(VALUE_TEXT, VALUE_RECT)
 
     def disegna(self):
+        if not GLOB.isPaused:
+            self.delay_monsterRoom.Start()
+            
+            if GLOB.MonsterActualRoom == "Default":
+                main.mostro.evento = "porta"
         
-        self.delay_monsterRoom.Start()
-        
-        if self.flag_caricamento:
-            self.Start()
-            if self.iFinished:
-                self.flag_caricamento = False
-            else:
-                self.__caricamento()
+        if not GLOB.isPaused and not self.iFinished:
+            
+            if self.flag_caricamento:
+                self.Start()
+                if self.iFinished:
+                    self.flag_caricamento = False
+                else:
+                    self.__caricamento()
 
-        if not self.iFinished and not self.flag_caricamento:
+            if not self.iFinished and not self.flag_caricamento:
 
-            self.schermo.fill((0,0,0))
+                self.schermo.fill((0,0,0))
 
-            self.Start()
-            self.schermo.blit(self.mappa, (-self.val_sgrana * GLOB.MULT + main.cam.getPositionX() + GLOB.MULT, -self.val_sgrana * GLOB.MULT + main.cam.getPositionY() + GLOB.MULT))
+                self.Start()
+                self.schermo.blit(self.mappa, (-self.val_sgrana * GLOB.MULT + main.cam.getPositionX() + GLOB.MULT, -self.val_sgrana * GLOB.MULT + main.cam.getPositionY() + GLOB.MULT))
 
-            self.schermo.blit(self.ombra, (main.player.getPositionX() -self.val_sgrana * GLOB.MULT + GLOB.MULT, main.player.getPositionY()-2.5*GLOB.MULT/GLOB.Player_proportion -self.val_sgrana * GLOB.MULT + GLOB.MULT))
-            self.schermo.blit(self.immagine, (main.player.getPositionX() -self.val_sgrana * GLOB.MULT + GLOB.MULT, main.player.getPositionY() -self.val_sgrana * GLOB.MULT + GLOB.MULT))
+                self.schermo.blit(self.ombra, (main.player.getPositionX() -self.val_sgrana * GLOB.MULT + GLOB.MULT, main.player.getPositionY()-2.5*GLOB.MULT/GLOB.Player_proportion -self.val_sgrana * GLOB.MULT + GLOB.MULT))
+                self.schermo.blit(self.immagine, (main.player.getPositionX() -self.val_sgrana * GLOB.MULT + GLOB.MULT, main.player.getPositionY() -self.val_sgrana * GLOB.MULT + GLOB.MULT))
 
-            if GLOB.Default_walls != None:
-                self.schermo.blit(self.oggetti, (-self.val_sgrana * GLOB.MULT + main.cam.getPositionX() + GLOB.MULT, -self.val_sgrana * GLOB.MULT + main.cam.getPositionY() + GLOB.MULT))
+                if GLOB.Default_walls != None:
+                    self.schermo.blit(self.oggetti, (-self.val_sgrana * GLOB.MULT + main.cam.getPositionX() + GLOB.MULT, -self.val_sgrana * GLOB.MULT + main.cam.getPositionY() + GLOB.MULT))
 
-            self.schermo.blit(self.superficie, (0, 0))
-            GLOB.screen.blit(self.schermo, (0, 0))
+                self.schermo.blit(self.superficie, (0, 0))
+                GLOB.screen.blit(self.schermo, (0, 0))
 
 
 

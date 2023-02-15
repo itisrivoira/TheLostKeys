@@ -17,7 +17,8 @@ def get_font(size):
     return pygame.font.Font("font/font.ttf", size)
 
 def QuitSave():
-    SaveCurrentGame()
+    if GLOB.MonsterActualRoom != GLOB.Stanza and not mostro.IseePlayer:
+        SaveCurrentGame()
     GLOB.Quit()
 
 def SaveCurrentGame():
@@ -355,12 +356,6 @@ def disegna():
         mostro.load_monsterSurface()
         
     collisions.render_walls((0,0))
-    
-    
-
-
-
-    animazione.disegna()
 
     Stampa_messaggio()
 
@@ -369,6 +364,11 @@ def disegna():
 
     # MOSTRO IL TIMER
     timer.Show()
+    
+    # Debugging
+    console.log()
+    
+    animazione.disegna()
 
     if not GLOB.PlayerCanRun:
         SetPlayer_speed()
@@ -570,8 +570,8 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
 
-            if keys_pressed[pygame.K_ESCAPE]:
-                if not animazione.flag_caricamento:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE and not animazione.flag_caricamento:
                     pausa()
 
 
@@ -608,8 +608,9 @@ def main():
                 GLOB.Debug = not GLOB.Debug
                 GLOB.Cam_visible = not GLOB.Cam_visible
 
-                GLOB.ShowCodice = GLOB.Debug              
+                GLOB.ShowCodice = GLOB.Debug      
                 ChangeDeltaTime(GLOB.Debug)
+                pygame.mouse.set_visible(GLOB.Debug)
 
             if GLOB.Debug:
 
@@ -635,9 +636,6 @@ def main():
         disegna()
         Interazioni_DialoghiEnigmi()
 
-        # Debugging
-        console.log()
-
         pygame.display.flip()
         clock.tick(GLOB.FPS)
     
@@ -646,9 +644,10 @@ def main():
 # Funzione Gioco in Pausa
 def pausa():
     timer.Pause()
+    mixer.music.pause()
+    
     # Setto visibile il cursore del mouse
     pygame.mouse.set_visible(True)
-    mixer.music.pause()
     
     ricominciamo = False
 
@@ -672,22 +671,22 @@ def pausa():
         # Ottengo la posizione corrente del cursore del mouse
         MENU_MOUSE_POS = pygame.mouse.get_pos()
 
-        PAUSE_TEXT = menu.get_font(8*int(GLOB.MULT+0.9)).render("MENU DI PAUSA", True, "#e9eef7")
+        PAUSE_TEXT = menu.get_font(9*int(GLOB.MULT+0.9)).render("MENU DI PAUSA", True, "#e9eef7")
         PAUSE_RECT = PAUSE_TEXT.get_rect(center=(GLOB.screen_width/2, 50*GLOB.MULT))
 
 
         PLAY_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, 110*GLOB.MULT), 
-                            text_input="PLAY", font=menu.get_font(6*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=2)
+                            text_input="PLAY", font=menu.get_font(7*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=2)
         
         OPTIONS_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, 150*GLOB.MULT), 
-                            text_input="AUDIO SETTINGS", font=menu.get_font(6*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=2)
+                            text_input="AUDIO SETTINGS", font=menu.get_font(7*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=2)
         
         
         if animazione.iFinished:
             cord1, cord2 = 190, 230
             
             SAVE_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, cord1*GLOB.MULT), 
-                        text_input="SAVE GAME" if not AlreadySaved else "GAME SAVED!", font=menu.get_font((6 if not AlreadySaved else 10)*int(GLOB.MULT+0.9)), base_color="#d7fcd4" if not AlreadySaved else "#f3ff69", hovering_color="White", scale=2)
+                        text_input="SAVE GAME" if not AlreadySaved else "GAME SAVED!", font=menu.get_font((7 if not AlreadySaved else 11)*int(GLOB.MULT+0.9)), base_color="#d7fcd4" if not AlreadySaved else "#f3ff69", hovering_color="White", scale=2)
             
             SAVE_BUTTON.changeColor(MENU_MOUSE_POS) if not AlreadySaved else ""
             SAVE_BUTTON.update(GLOB.screen)
@@ -697,16 +696,23 @@ def pausa():
             cord1, cord2 = 0, 190
         
         QUIT_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, cord2*GLOB.MULT), 
-                            text_input="BACK TO MENU", font=menu.get_font(6*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=2)
+                            text_input="BACK TO MENU", font=menu.get_font(8*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=2)
 		
         for button in [PLAY_BUTTON, OPTIONS_BUTTON, QUIT_BUTTON]:
             button.changeColor(MENU_MOUSE_POS)
             button.update(GLOB.screen)
 
-        keys_pressed = pygame.key.get_pressed()
-        for event_pausa in pygame.event.get():
-
-            if keys_pressed[pygame.K_ESCAPE] or event_pausa.type == pygame.MOUSEBUTTONDOWN and PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
+        for event_pausa in pygame.event.get():            
+            
+            if event_pausa.type == pygame.KEYDOWN:
+                if event_pausa.key == pygame.K_ESCAPE:
+                    ricominciamo = True
+                    GLOB.isPaused = False
+                    player.finish()
+                    timer.DePause()
+                    mixer.music.unpause()
+                    
+            if event_pausa.type == pygame.MOUSEBUTTONDOWN and PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
                 ricominciamo = True
                 GLOB.isPaused = False
                 player.finish()
@@ -761,12 +767,11 @@ def pausa():
 
         pygame.display.flip()
         clock.tick(GLOB.FPS) # setto i FramesPerSecond
+        
+    pygame.mouse.set_visible(False)
 
 #Funzione Volume e Audio del gioco
-def options_audio():
-    # Setto visibile il cursore del mouse
-    pygame.mouse.set_visible(True)
-    
+def options_audio():    
     indietro = False
 
     BG_Seimi = pygame.image.load("assets/BG_semitransparent.png").convert_alpha()
@@ -803,19 +808,19 @@ def options_audio():
 
 
         AUDIOPLUS_BUTTON = Button(image=None, pos=(GLOB.screen_width/2+20*GLOB.MULT, 110*GLOB.MULT), 
-                            text_input="+", font=menu.get_font(6*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=1)
+                            text_input="+", font=menu.get_font(7*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=1)
 
         AUDIOLESS_BUTTON = Button(image=None, pos=(GLOB.screen_width/2-20*GLOB.MULT, 110*GLOB.MULT), 
-                            text_input="-", font=menu.get_font(6*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=1)
+                            text_input="-", font=menu.get_font(7*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=1)
 
         MUSICPLUS_BUTTON = Button(image=None, pos=(GLOB.screen_width/2+20*GLOB.MULT, 150*GLOB.MULT), 
-                            text_input="+", font=menu.get_font(6*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=1)
+                            text_input="+", font=menu.get_font(7*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=1)
 
         MUSICLESS_BUTTON = Button(image=None, pos=(GLOB.screen_width/2-20*GLOB.MULT, 150*GLOB.MULT), 
-                            text_input="-", font=menu.get_font(6*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=1)
+                            text_input="-", font=menu.get_font(7*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=1)
 
         QUIT_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, 190*GLOB.MULT), 
-                            text_input="BACK", font=menu.get_font(6*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=2)
+                            text_input="BACK", font=menu.get_font(9*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=2)
 		
         for button in [AUDIOPLUS_BUTTON, AUDIOLESS_BUTTON, MUSICPLUS_BUTTON, MUSICLESS_BUTTON, QUIT_BUTTON]:
             button.changeColor(MENU_MOUSE_POS)
@@ -977,10 +982,10 @@ def game_over():
 
 
         PLAY_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, posy * GLOB.MULT), 
-            text_input="RESTART", font=menu.get_font(6*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=2)
+            text_input="RESTART", font=menu.get_font(7*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=2)
         
         QUIT_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, (posy + distanza_riga) * GLOB.MULT), 
-                            text_input="BACK TO MENU", font=menu.get_font(6*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=2)
+                            text_input="BACK TO MENU", font=menu.get_font(7*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=2)
 
         for event in pygame.event.get():
             keys_pressed = pygame.key.get_pressed()
@@ -1049,6 +1054,7 @@ def game_win():
     sound.set_volume(0.2 * GLOB.AU)
     sound.play()
     
+    inizializza()
     sfondo = pygame.image.load("assets/victory.png").convert()
     sfondo = pygame.transform.scale(sfondo, (sfondo.get_width() * GLOB.MULT, sfondo.get_height() * GLOB.MULT))
 
@@ -1086,10 +1092,10 @@ def game_win():
 
 
         PLAY_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, posy * GLOB.MULT), 
-            text_input="RESTART", font=menu.get_font(6*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=2)
+            text_input="RESTART", font=menu.get_font(7*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=2)
         
         QUIT_BUTTON = Button(image=None, pos=(GLOB.screen_width/2, (posy + distanza_riga) * GLOB.MULT), 
-                            text_input="BACK TO MENU", font=menu.get_font(6*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=2)
+                            text_input="BACK TO MENU", font=menu.get_font(7*int(GLOB.MULT+0.9)), base_color="#d7fcd4", hovering_color="White", scale=2)
 
         for event in pygame.event.get():
             keys_pressed = pygame.key.get_pressed()

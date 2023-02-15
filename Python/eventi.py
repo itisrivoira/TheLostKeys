@@ -416,6 +416,11 @@ def testa():
 
     def porte():
         
+        if main.mostro.evento != None:
+            if "porta" in main.mostro.evento:
+                main.Gui.door_sound.play()
+
+        
         if not "Corridoio" in GLOB.MonsterActualRoom:
             
             valuex, valuey = 0, 0
@@ -436,18 +441,12 @@ def testa():
                     
                     main.mostro.x = valuex * GLOB.MULT
                     main.mostro.y = valuey * GLOB.MULT
-                    
-                    if GLOB.Stanza == GLOB.MonsterActualRoom:
-                        main.Gui.door_sound.play()
                         
-                    GLOB.SecondDiffPos = 10
+                    GLOB.SecondDiffPos = 0
                     
-                try:
-                    if "porta-" in main.mostro.evento:
-                        GLOB.FlagSecRand = True
-                
-                except TypeError:
-                    pass
+                if GLOB.Stanza != GLOB.MonsterActualRoom and main.mostro.evento == None:
+                    GLOB.FlagSecRand = True
+            
                     
         
         if main.mostro.evento == "porta-0":
@@ -461,8 +460,9 @@ def testa():
                     
                     main.mostro.x = 344 * GLOB.MULT
                     main.mostro.y = 188 * GLOB.MULT
-                    
-            main.Gui.door_sound.play()
+            
+            else:
+                main.Gui.door_sound_locked.play()
             
             
         if main.mostro.evento == "porta-2":
@@ -479,7 +479,8 @@ def testa():
                     
                     main.mostro.monster_ai_brain = 2
                     
-            main.Gui.door_sound.play()
+            else:
+                main.Gui.door_sound_locked.play()
             
             
         if main.mostro.evento == "porta-5":
@@ -494,7 +495,8 @@ def testa():
                     main.mostro.x = 376 * GLOB.MULT
                     main.mostro.y = 202 * GLOB.MULT
                     
-            main.Gui.door_sound.play()
+            else:
+                main.Gui.door_sound_locked.play()
             
         if main.mostro.evento == "porta-7":
             main.mostro.evento = None
@@ -508,7 +510,8 @@ def testa():
                     main.mostro.x = 180 * GLOB.MULT
                     main.mostro.y = 32 * GLOB.MULT
                     
-            main.Gui.door_sound.play()
+            else:
+                main.Gui.door_sound_locked.play()
             
         
         if main.mostro.evento == "porta-8":
@@ -523,7 +526,8 @@ def testa():
                     main.mostro.x = 392 * GLOB.MULT
                     main.mostro.y = 236 * GLOB.MULT
                     
-            main.Gui.door_sound.play()
+            else:
+                main.Gui.door_sound_locked.play()
             
             
             
@@ -539,7 +543,8 @@ def testa():
                     main.mostro.x = 460 * GLOB.MULT
                     main.mostro.y = 160 * GLOB.MULT
                     
-            main.Gui.door_sound.play()
+            else:
+                main.Gui.door_sound_locked.play()
             
             
         if main.mostro.evento == "porta-12":
@@ -556,7 +561,8 @@ def testa():
                     
                     main.mostro.monster_ai_brain = 2
                     
-            main.Gui.door_sound.play()
+            else:
+                main.Gui.door_sound_locked.play()
                     
                     
         if main.mostro.evento == "porta-11":
@@ -571,7 +577,8 @@ def testa():
                     main.mostro.x = 338 * GLOB.MULT
                     main.mostro.y = 152 * GLOB.MULT
                     
-            main.Gui.door_sound.play()
+            else:
+                main.Gui.door_sound_locked.play()
         
     
         if main.player.evento == "porta-0":

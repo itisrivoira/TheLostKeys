@@ -305,6 +305,7 @@ def options():
 
         def setFullScreen():
             
+            GLOB.MULT = 4 * GLOB.MULT_INCREMENT
             GLOB.setScreenSize((0, 0), pygame.FULLSCREEN | pygame.DOUBLEBUF)
             GLOB.Fullscreen = not GLOB.Fullscreen
 

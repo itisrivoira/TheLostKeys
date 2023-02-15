@@ -9,11 +9,8 @@ import global_var as GLOB
 
 class Debug():
     def log(self):
-
-        pygame.mouse.set_visible(GLOB.Debug)
         
         if GLOB.Debug:
-
             GLOB.ShowRecord = False
             GLOB.ShowFps = True
             GLOB.ShowDropFrames = True
@@ -82,17 +79,27 @@ class Debug():
 
             main.cam.ShowCam()
             
+            
+            DIFF_TEXT = main.get_font(3*int(GLOB.MULT+0.9)).render("Secondi: "+str(GLOB.SecondDiffPos), True, "#fffb23")
+            DIFF_RECT = DIFF_TEXT.get_rect(center=(50*GLOB.MULT, 50*GLOB.MULT))
+            
+            SEC_TEXT = main.get_font(3*int(GLOB.MULT+0.9)).render("Secondi Rit: "+str(GLOB.Val_sec), True, "#23fff4")
+            SEC_RECT = SEC_TEXT.get_rect(center=(110*GLOB.MULT, 50*GLOB.MULT))
+
+            GLOB.screen.blit(DIFF_TEXT, DIFF_RECT)
+            GLOB.screen.blit(SEC_TEXT, SEC_RECT)
+            
         else:
             GLOB.ShowRecord = True
 
         if GLOB.ShowScore:
-            SCORE_TEXT = main.get_font(4*int(GLOB.MULT+0.9)).render("score: "+str(GLOB.score), True, "white")
+            SCORE_TEXT = main.get_font(6*int(GLOB.MULT+0.9)).render("score: "+str(GLOB.score), True, "white")
             SCORE_RECT = SCORE_TEXT.get_rect(center=(50*GLOB.MULT, 20*GLOB.MULT))
 
             GLOB.screen.blit(SCORE_TEXT, SCORE_RECT)
 
         if GLOB.ShowRecord:
-            RECORD_TEXT = main.get_font(4*int(GLOB.MULT+0.9)).render("Record: "+str(GLOB.Record), True, "white")
+            RECORD_TEXT = main.get_font(6*int(GLOB.MULT+0.9)).render("Record: "+str(GLOB.Record), True, "white")
             RECORD_RECT = RECORD_TEXT.get_rect(center=(140*GLOB.MULT, 20*GLOB.MULT))
 
             GLOB.screen.blit(RECORD_TEXT, RECORD_RECT)

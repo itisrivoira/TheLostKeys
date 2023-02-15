@@ -78,7 +78,7 @@ ShowMonsterRange = False
 MonsterCanAttack = True
 
 
-SecondDiffPos = 10
+SecondDiffPos = 3
 CounterChecker = 0
 FlagSecRand = True
 Val_sec = 59
@@ -461,7 +461,7 @@ def SaveGame():
         
         
     - Timer:
-        Minuti = |""" + str(TimerMin) + """|
+        Minuti = |""" + str(int(TimerMin)) + """|
         Secondi = |""" + str(TimerSec if TimerSec <= 59 else 59) + """|
         
     - Score:
@@ -473,7 +473,7 @@ def SaveGame():
         MonsterIntro = |""" + str(MonsterIntro) + """|
         
     - USB Keys:
-       RandomKey = |""" + str(RandomKey) + """|
+    RandomKey = |""" + str(RandomKey) + """|
                     
             """)
         
@@ -568,3 +568,4 @@ def LoadGame(flag):
             RandomKey = cont(47)
             
         f.close()
+        
