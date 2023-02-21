@@ -18,7 +18,7 @@ class Video:
             self.frames = 0
             self.frame_delay = 1 / info["frame rate"]
             self.size = info["original size"]
-            self.image = pygame.Surface((0, 0))
+            self.image = pygame.Surface((0, 0)).convert_alpha()
                         
             self.active = True
         else:

@@ -137,6 +137,7 @@ class Bar():
 		screen.blit(self.image, self.rect)
 
 
+
 class Dialoghi():
 	def __init__(self, personaggio, descrizione, text_speed):
 		
@@ -187,7 +188,7 @@ class Dialoghi():
 		elif text_speed == 5:
 			self.text_speed = 1
 		else:
-			self.text_speed = 0.1
+			self.text_speed = 1
 
 		self.contatore = 0
 
@@ -197,10 +198,9 @@ class Dialoghi():
 		self.play_sound = False
 		self.cooldown_suono = 0
 		self.MaxCooldwon_suono = 0
-
+	
 		self.descr = [self.descr[i:i+1] for i in range(0, len(self.descr), 1)]
-		#print(self.descr)
-    		
+			
 		self.Nome_TEXT = get_font(7*int(GLOB.MULT+0.9)).render(self.personaggio, True, "Black")
 		self.Nome_RECT = self.Nome_TEXT.get_rect(center=(70*GLOB.MULT, GLOB.screen_height-10*GLOB.MULT))
 
@@ -212,17 +212,22 @@ class Dialoghi():
 
 		self.keySound = mixer.Sound("suoni/char-sound.wav")
 		self.keySound.set_volume(0.01*GLOB.AU)
-  
+
 		self.flag_skippa = True
 		self.iFinished = False
 
+		div = 2
+		self.__image_dark = pygame.image.load("assets/FalseTorcia.png").convert_alpha()
+		self.__image_dark = pygame.transform.scale(self.__image_dark, (
+		self.__image_dark.get_width() * GLOB.MULT / div, self.__image_dark.get_height() * GLOB.MULT / div))
+      
 	def __effetto_testo(self):
-    		
+			
 		self.condition0 = self.contatore < self.value
 		self.condition1 = self.contatore >= self.value and self.contatore < self.value * 2
 		self.condition2 = self.contatore >= self.value * 2 and self.contatore < self.value * 3
 		self.condition3 = self.contatore >= self.value * 3 and self.contatore < self.value * 4
-    		
+			
 		max = not int((self.delay+1)) > len(self.descr)
 
 		valuex, valuey = 70, 55
@@ -237,13 +242,13 @@ class Dialoghi():
 					#print("Trovato buco: ",value)
 					self.flag_capo = False
 					self.valore = value
-    		
+			
 
 		def ScriviTesto(val):
-    			
+				
 			font_size = 4 * int(GLOB.MULT+0.9)
 			if val == 1:
-				self.descrizione += self.descr[int(round(self.delay, 1))]
+				self.descrizione += self.descr[int(self.delay)]
 
 				self.Descrizione_TEXT = get_font(font_size).render(self.descrizione, True, "White")
 				self.Descrizione_RECT = self.Descrizione_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, GLOB.screen_height-(valuey)*GLOB.MULT))
@@ -251,21 +256,21 @@ class Dialoghi():
 				self.r0 = True
 
 			elif val == 2:
-				self.descrizione1 += self.descr[int(round(self.delay, 1))]
+				self.descrizione1 += self.descr[int(self.delay)]
 
 				self.Descrizione1_TEXT = get_font(font_size).render(self.descrizione1, True, "White")
 				self.Descrizione1_RECT = self.Descrizione1_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, GLOB.screen_height-(valuey-distanza_righe)*GLOB.MULT))
 
 				self.r1 = True
 			elif val == 3:
-				self.descrizione2 += self.descr[int(round(self.delay, 1))]
+				self.descrizione2 += self.descr[int(self.delay)]
 
 				self.Descrizione2_TEXT = get_font(font_size).render(self.descrizione2, True, "White")
 				self.Descrizione2_RECT = self.Descrizione2_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, GLOB.screen_height-(valuey-distanza_righe*2)*GLOB.MULT))
 
 				self.r2 = True
 			elif val == 4:
-				self.descrizione3 += self.descr[int(round(self.delay, 1))]
+				self.descrizione3 += self.descr[int(self.delay)]
 
 				self.Descrizione3_TEXT = get_font(font_size).render(self.descrizione3, True, "White")
 				self.Descrizione3_RECT = self.Descrizione3_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, GLOB.screen_height-(valuey-distanza_righe*3)*GLOB.MULT))
@@ -276,7 +281,7 @@ class Dialoghi():
 
 		if int(self.delay+0.1) == round(self.delay, 1) and max and self.ritardo == 0:
 
-			# CoolDown indicato per eseguire il suono		
+			# CoolDown indicato per eseguire il suono	
 			if self.MaxCooldwon_suono != 0:
 				if self.cooldown_suono >= 0 and self.cooldown_suono <= self.MaxCooldwon_suono:
 					self.cooldown_suono +=1
@@ -294,7 +299,7 @@ class Dialoghi():
 
 			if self.condition0:
 				if len(self.descr) >= self.value:
-        		
+				
 					Cerca(1)
 
 					if Condition(1):
@@ -310,7 +315,7 @@ class Dialoghi():
 			
 			elif self.condition1:
 				if len(self.descr) >= self.value*2:
-            		
+						
 					Cerca(2)
 
 					if Condition(2):
@@ -325,7 +330,7 @@ class Dialoghi():
 
 			elif self.condition2:
 				if len(self.descr) >= self.value*3:
-            		
+						
 					Cerca(3)
 
 					if Condition(3):
@@ -342,13 +347,13 @@ class Dialoghi():
 			self.contatore += 1
 
 		# Delay aggiuntivo per dei caratteri particolari indicati
-		if max and self.descr[int(round(self.delay, 1))] != "." and self.descr[int(round(self.delay, 1))] != "?" and self.descr[int(round(self.delay, 1))] != "!" or self.ritardo == 1:
+		if max and self.descr[int(self.delay)] != "." and self.descr[int(self.delay)] != "?" and self.descr[int(self.delay)] != "!" or self.ritardo == 1:
 			self.delay += self.text_speed / GLOB.Delta_Time
 			self.ritardo = 0
 		else:
 			self.ritardo += self.text_speed / GLOB.Delta_Time
-   
-   
+	
+	
 		if self.contatore >= len(self.full_description):
 			self.iFinished = True
 			self.flag_skippa = False
@@ -362,13 +367,18 @@ class Dialoghi():
 		
 		possoIniziare = False
 
+		if not GLOB.ImInEnigmaMode:
+			if GLOB.Muri_Immagine != None and not GLOB.ImInDialogueMode:
+				GLOB.screen.blit(GLOB.Muri_Immagine, (GLOB.CamPosX, GLOB.CamPosY))
+
+			if not GLOB.Light and not GLOB.corrente and not GLOB.ImInDialogueMode:
+				GLOB.ImInDialogueMode = True
+				GLOB.screen.blit(self.__image_dark, (0, 0))
+
 		while not possoIniziare:
-    		
+			
 			self.__effetto_testo()
 			
-			if GLOB.Muri_Immagine != None and not GLOB.ImInEnigmaMode:
-				GLOB.screen.blit(GLOB.Muri_Immagine, (GLOB.CamPosX, GLOB.CamPosY))
-    
 			GLOB.screen.blit(self.sfondo, (0, GLOB.screen_height-self.sfondo.get_height()))
 			GLOB.screen.blit(self.vignetta, (42.5*GLOB.MULT, GLOB.screen_height-self.vignetta.get_height()-18*GLOB.MULT))
 			GLOB.screen.blit(self.Nome_TEXT, self.Nome_RECT)
@@ -399,15 +409,15 @@ class Dialoghi():
 				self.cooldown_interm = 0
 
 			for event in pygame.event.get():
-    
+	
 				if event.type == pygame.QUIT:
 					GLOB.Quit()
 
-    				
+					
 				if event.type == pygame.KEYDOWN:
-        
+		
 					if event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
-        
+		
 						if self.flag_skippa and not self.iFinished:
 							self.__init__(self.personaggio, self.full_description, 5)
 							self.flag_skippa = False
@@ -415,14 +425,15 @@ class Dialoghi():
 						
 						elif not self.flag_skippa and self.iFinished:
 							possoIniziare = True
-       
+		
 					if event.key == pygame.K_ESCAPE:
 						possoIniziare = True
 
 
-			pygame.display.flip() # ti permette di aggiornare una area dello schermo per evitare lag e fornire piu' ottimizzazione
-
-			clock.tick(GLOB.FPS) # setto i FramesPerSecond
+			pygame.display.flip()
+			clock.tick(GLOB.FPS)
+	
+		GLOB.ImInDialogueMode = False
 
 
 # risposte (risposta1, risposta2, risposta3)
@@ -471,13 +482,13 @@ class Dialoghi_Interattivi():
 		self.descr = "".join(self.descr)
 		self.difficolta = difficolta
 
-		self.descr = descrizione.split(" ")	
+		self.descr = descrizione.split(" ") 
 		for var in range(len(self.descr)):
 			if self.descr[var] == "VAR":
 				self.descr[var] = GLOB.scelta_char
 		self.descr = " ".join(self.descr)
 
-		self.sugg = suggerimento.split(" ")	
+		self.sugg = suggerimento.split(" ") 
 		for var in range(len(self.sugg)):
 			if self.sugg[var] == "VAR":
 				self.sugg[var] = GLOB.scelta_char
@@ -558,7 +569,7 @@ class Dialoghi_Interattivi():
 		self.class_sfoca = Sfoca(vel)
 		self.class_desfoca = Sfoca(val)
 		self.class_sfoca.val_scurisci = 0
-		self.suggerimento_sfondo = pygame.Surface((GLOB.screen_width, GLOB.screen_height))
+		self.suggerimento_sfondo = pygame.Surface((GLOB.screen_width, GLOB.screen_height)).convert()
 
 		try:
 
@@ -569,12 +580,12 @@ class Dialoghi_Interattivi():
 			self.tentativo = GLOB.tentativo["Fisica"]
 
 	def __effetto_testo(self):
-    		
+			
 		self.condition0 = self.contatore < self.value
 		self.condition1 = self.contatore >= self.value and self.contatore < self.value * 2
 		self.condition2 = self.contatore >= self.value * 2 and self.contatore < self.value * 3
 		self.condition3 = self.contatore >= self.value * 3 and self.contatore < self.value * 4
-    		
+			
 		max = not int((self.delay+1)) > len(self.descr)
 
 		valuex, valuey = 45, 55
@@ -589,10 +600,10 @@ class Dialoghi_Interattivi():
 					#print("Trovato buco: ",value)
 					self.flag_capo = False
 					self.valore = value
-    		
+			
 
 		def ScriviTesto(val):
-    		
+			
 			font_size = 4 * int(GLOB.MULT+0.9)
 			if val == 1:
 				self.descrizione += self.descr[int(round(self.delay, 1))]
@@ -629,7 +640,7 @@ class Dialoghi_Interattivi():
 
 		if int(self.delay+0.1) == round(self.delay, 1) and max and self.ritardo == 0:
 
-			# CoolDown indicato per eseguire il suono		
+			# CoolDown indicato per eseguire il suono	
 			if self.MaxCooldwon_suono != 0:
 				if self.cooldown_suono >= 0 and self.cooldown_suono <= self.MaxCooldwon_suono:
 					self.cooldown_suono +=1
@@ -647,7 +658,7 @@ class Dialoghi_Interattivi():
 
 			if self.condition0:
 				if len(self.descr) >= self.value:
-        		
+				
 					Cerca(1)
 
 					if Condition(1):
@@ -663,7 +674,7 @@ class Dialoghi_Interattivi():
 			
 			elif self.condition1:
 				if len(self.descr) >= self.value*2:
-            		
+						
 					Cerca(2)
 
 					if Condition(2):
@@ -678,7 +689,7 @@ class Dialoghi_Interattivi():
 
 			elif self.condition2:
 				if len(self.descr) >= self.value*3:
-            		
+						
 					Cerca(3)
 
 					if Condition(3):
@@ -726,12 +737,12 @@ class Dialoghi_Interattivi():
 
 		if self.BeenSuggested:
 			GLOB.score_seconds = self.malus[4]
-    			
+				
 
 		if self.risultato:
 	
 			if self.difficolta == "Facile" or self.difficolta == "Media" or self.difficolta == "Medio" or self.difficolta == "Difficile":
-    					
+						
 				if self.tentativo == 0:
 					GLOB.score += self.malus[0]
 				elif self.tentativo == 1:
@@ -739,9 +750,9 @@ class Dialoghi_Interattivi():
 				elif self.tentativo == 2:
 					GLOB.score += self.malus[2]
 		else:
-    		
+			
 			if self.difficolta == "Facile" or self.difficolta == "Media" or self.difficolta == "Medio" or self.difficolta == "Difficile":
-    			
+				
 				if self.tentativo >= 2:
 					GLOB.score_seconds = self.malus[3]
 			
@@ -754,7 +765,7 @@ class Dialoghi_Interattivi():
 		possoIniziare = False
 		GLOB.ImInEnigmaMode = True
 		while not possoIniziare:
-    		
+			
 			self.__effetto_testo()
 
 			if not self.class_sfoca.flag_reverse and not self.flag_Tabella:
@@ -890,46 +901,46 @@ class Dialoghi_Interattivi():
 				self.__check_score()
 				self.class_sfoca.disegna()
 
-			keys_pressed = pygame.key.get_pressed()
 			for event in pygame.event.get():
-    
+	
 				if event.type == pygame.QUIT:
 					GLOB.Quit()
 
 				if event.type == pygame.KEYDOWN:
+					
+					UP = event.key == pygame.K_w or event.key == pygame.K_a or event.key == pygame.K_UP or event.key == pygame.K_LEFT
+					DOWN = event.key == pygame.K_s or event.key == pygame.K_d or event.key == pygame.K_DOWN or event.key == pygame.K_RIGHT
+
 					if event.key == pygame.K_ESCAPE or event.key == pygame.K_e:
 						possoIniziare = True
-						GLOB.ImInEnigmaMode = False
 
 
-				if keys_pressed[pygame.K_i] and self.isFinished:
-					self.suggerimento = True
+					if event.key == pygame.K_i and self.isFinished:
+						self.suggerimento = True
 
-				if keys_pressed[pygame.K_SPACE] and not self.isFinished:
-					if self.CanIplay_sound:
-						self.__init__(self.tipo, "Prof. "+self.personaggio, self.oggetto, self.full_description, self.full_suggeriment, self.risposte, self.number_solution + 1, self.difficolta, self.malus, 5)
-						self.CanIplay_sound = False
-						self.isFinished = True
+					if event.key == pygame.K_SPACE and not self.isFinished:
+						if self.CanIplay_sound:
+							self.__init__(self.tipo, "Prof. "+self.personaggio, self.oggetto, self.full_description, self.full_suggeriment, self.risposte, self.number_solution + 1, self.difficolta, self.malus, 5)
+							self.CanIplay_sound = False
+							self.isFinished = True
 
-				if keys_pressed[pygame.K_DOWN] or keys_pressed[pygame.K_RIGHT] or keys_pressed[pygame.K_s] or keys_pressed[pygame.K_d]:
-					self.number_selection += 1
+					if DOWN:
+						self.number_selection += 1
 
-					if self.number_selection > len(self.risposte) - 1:
-						self.number_selection = 0
-
-
-				if keys_pressed[pygame.K_UP] or keys_pressed[pygame.K_LEFT] or keys_pressed[pygame.K_w] or keys_pressed[pygame.K_a]:
-					self.number_selection -= 1
-
-					if self.number_selection < 0:
-						self.number_selection = len(self.risposte) - 1
+						if self.number_selection > len(self.risposte) - 1:
+							self.number_selection = 0
 
 
-				if keys_pressed[pygame.K_RETURN] and self.isFinished:
-					self.number_selected = self.number_selection
-					# print(GLOB.tentativo)
+					if UP:
+						self.number_selection -= 1
 
-					try:
+						if self.number_selection < 0:
+							self.number_selection = len(self.risposte) - 1
+
+
+					if event.key == pygame.K_RETURN and self.isFinished:
+						self.number_selected = self.number_selection
+						# print(GLOB.tentativo)
 
 						if self.number_selected == self.number_solution:
 							# print("Risposta Esatta!!")
@@ -940,28 +951,21 @@ class Dialoghi_Interattivi():
 							# print("-- Risposta Errata --")
 							self.risultato = False
 							self.__check_score()
-							GLOB.tentativo[GLOB.Stanza] += 1
+							if GLOB.Stanza in GLOB.tentativo:
+								GLOB.tentativo[GLOB.Stanza] += 1
 
-					except KeyError:
-						pass
+						possoIniziare = True
 
-					possoIniziare = True
-					
+			pygame.display.flip()
+			clock.tick(GLOB.FPS)
 
-				#delay.ActualState()
-
-
-			pygame.display.flip() # ti permette di aggiornare una area dello schermo per evitare lag e fornire piu' ottimizzazione
-
-			clock.tick(GLOB.FPS) # setto i FramesPerSecond
-
-class Timer():	
+class Timer(): 
 	def __init__(self, minutes, seconds, molt_sec, event):
 		self.__max = minutes
 		self.__minimal = 0
 		self.__minutes = minutes
 		self.__seconds = seconds * (GLOB.FPS / GLOB.Delta_Time)
-		self.__decrement = molt_sec / GLOB.Delta_Time
+		self.__decrement = molt_sec
 		self.__function = event
 		self.__flag = True
 		self.__color = "Black"
@@ -969,11 +973,13 @@ class Timer():
 		self.__testo1 = ""
 		self.__testo2 = ":"
 
-    #print(self.min, self.max, self.increment, self.function)
+	#print(self.min, self.max, self.increment, self.function)
 
 	def Start(self):
 		if self.__flag:
-			self.__seconds -= self.__decrement
+			GLOB.TimerMin, GLOB.TimerSec = self.getMinutes(), self.getSeconds()
+
+			self.__seconds -= self.__decrement / GLOB.Delta_Time
 
 			if self.__seconds <= 0:
 				self.__seconds = 60 * (GLOB.FPS / GLOB.Delta_Time)
@@ -1040,8 +1046,8 @@ class Timer():
 		self.__color = v
 
 	def getSeconds(self):
-		return self.__seconds / GLOB.FPS
-    	
+		return self.__seconds / (GLOB.FPS / GLOB.Delta_Time)
+		
 	def getMinutes(self):
 		return self.__minutes
 
@@ -1051,98 +1057,98 @@ class Timer():
 
 
 class Delay():
-    def __init__(self, sec, event):
-        self.__min = 0
-        self.__max = sec * GLOB.FPS
-        self.__increment = 1
-        self.__function = event
-        self.__flag = True
-        self.__times = 0
-        self.isFinished = False
+	def __init__(self, sec, event):
+		self.__min = 0
+		self.__max = sec * GLOB.FPS
+		self.__increment = 1
+		self.__function = event
+		self.__flag = True
+		self.__times = 0
+		self.isFinished = False
 
-    # | Avvia il delay -> Poi si interromperà |
-    def Start(self):
-        if self.__flag:
-            self.__min += self.__increment
+	# | Avvia il delay -> Poi si interromperà |
+	def Start(self):
+		if self.__flag:
+				self.__min += self.__increment
 
-            if int(self.__min) >= self.__max:
-                self.__function()
-                self.__flag = False
-                self.isFinished = True
+				if int(self.__min) >= self.__max:
+					self.__function()
+					self.__flag = False
+					self.isFinished = True
 
-    # | Restarta il delay |
-    def ReStart(self):
-        if not self.__flag:
-            self.__min = 0
-            self.__flag = True
-            self.isFinished = False
-            
-    def Stop(self):
-        if self.__flag:
-            self.__flag = False
-            self.isFinished = True
-            self.__min = 0
+	# | Restarta il delay |
+	def ReStart(self):
+		if not self.__flag:
+				self.__min = 0
+				self.__flag = True
+				self.isFinished = False
+				
+	def Stop(self):
+		if self.__flag:
+				self.__flag = False
+				self.isFinished = True
+				self.__min = 0
 
-    # | Imposta il delay a infinito |
-    def Infinite(self):
-        self.ReStart()
-        self.Start()
+	# | Imposta il delay a infinito |
+	def Infinite(self):
+		self.ReStart()
+		self.Start()
 
-    def TotTimes(self, val):
-        if self.__times <= val:
-            self.ReStart()
-            self.Start()
-            self.__times += 1
+	def TotTimes(self, val):
+		if self.__times <= val:
+				self.ReStart()
+				self.Start()
+				self.__times += 1
 
-    # | Stampa lo stato attuale del delay |
-    def ActualState(self):
-        print("| Current Second: %.2f | Max Seconds: %.2f | Function: %s |" %(self.__min/GLOB.FPS, self.__max/GLOB.FPS, self.__function))
+	# | Stampa lo stato attuale del delay |
+	def ActualState(self):
+		print("| Current Second: %.2f | Max Seconds: %.2f | Function: %s |" %(self.__min/GLOB.FPS, self.__max/GLOB.FPS, self.__function))
 
 
 class Sfoca():
-    def __init__(self, vel):
-        self.flag_changeBg = True 
-        self.__vel = vel
-        self.__delay = Delay(sec = self.__vel, event = self.sgrana)
-        self.superficie = pygame.surface.Surface((GLOB.screen_width, GLOB.screen_height))
-        self.superficie.fill((255,255,255))
-        
-        self.val_scurisci = 0
+	def __init__(self, vel):
+		self.flag_changeBg = True 
+		self.__vel = vel
+		self.__delay = Delay(sec = self.__vel, event = self.sgrana)
+		self.superficie = pygame.surface.Surface((GLOB.screen_width, GLOB.screen_height)).convert_alpha()
+		self.superficie.fill((255,255,255))
+		
+		self.val_scurisci = 0
 
-        self.flag_reverse = False
-        self.iFinished = False
+		self.flag_reverse = False
+		self.iFinished = False
 
-    def Start(self):
-        self.__delay.Infinite()
+	def Start(self):
+		self.__delay.Infinite()
 
-    def sgrana(self):
+	def sgrana(self):
 
-        if not self.iFinished:
+		if not self.iFinished:
 
-            val_incremento = 5
-            val_max = 310
-            val_min = 50
+				val_incremento = 5
+				val_max = 310
+				val_min = 50
 
-            if not self.flag_reverse:
-                self.val_scurisci += val_incremento
-            else:
-                self.val_scurisci -= val_incremento
+				if not self.flag_reverse:
+					self.val_scurisci += val_incremento
+				else:
+					self.val_scurisci -= val_incremento
 
-            if self.val_scurisci >= val_max:
-                self.val_scurisci = val_max
-                self.flag_reverse = True
-            elif self.val_scurisci <= val_min and self.flag_reverse:
-                self.val_scurisci = val_min
-                self.flag_reverse = False
-                self.iFinished = True
+				if self.val_scurisci >= val_max:
+					self.val_scurisci = val_max
+					self.flag_reverse = True
+				elif self.val_scurisci <= val_min and self.flag_reverse:
+					self.val_scurisci = val_min
+					self.flag_reverse = False
+					self.iFinished = True
 
-            self.superficie.set_alpha(self.val_scurisci)
+				self.superficie.set_alpha(self.val_scurisci)
 
 
-    def disegna(self):
-    
-        self.Start()
-        GLOB.screen.blit(self.superficie, (0, 0))
+	def disegna(self):
+	
+		self.Start()
+		GLOB.screen.blit(self.superficie, (0, 0))
 
 class Risultato():
 	def __init__(self, text, color, size, delay_scomparsa):
@@ -1156,13 +1162,14 @@ class Risultato():
 		self.isFinished = False
 		transparenza = 180
 
-		self.surface = pygame.Surface((GLOB.screen_width, GLOB.screen_height))
+		self.surface = pygame.Surface((GLOB.screen_width, GLOB.screen_height)).convert_alpha()
 		self.surface.set_alpha(transparenza)
 		self.surface.fill((0,0,0))
 
 	def Stop(self):
 		self.isFinished = True
 		self.show = False
+		GLOB.ImInEnigmaMode = False
 
 	def Start(self):
 		self.delay.Start()
@@ -1272,9 +1279,9 @@ class GUI():
 		self.door_sound_locked = mixer.Sound("suoni/door-locked.wav")
 
 	def __stamina_calculation(self):
-    		
+			
 		flag = True
-    		
+			
 		self.speed = GLOB.PlayerRun_speed
 
 		if not (GLOB.PLayerMovement["up"] or GLOB.PLayerMovement["down"] or GLOB.PLayerMovement["right"] or GLOB.PLayerMovement["left"]):
@@ -1288,7 +1295,7 @@ class GUI():
 		if GLOB.PlayerIsHidden:
 			val = 7
 			self.max -=  (self.speed / val) * GLOB.MULT / GLOB.Delta_Time
-   
+	
 		else:
 
 			if GLOB.PlayerIsRunning and flag:
@@ -1319,7 +1326,7 @@ class GUI():
 	def __calcolaOggetti(self):
 	
 		def Cerca(event):
-    
+	
 			for value in range(len(self.descrizione)):
 				var = self.char_limit * event - 1 - value
 				
@@ -1362,10 +1369,10 @@ class GUI():
 
 			if l < self.char_limit * 4 - Cerca(4) and l < self.char_limit * 4 and l > self.char_limit * 3 - Cerca(3) - 1:
 				d += char
-    
+	
 			if l < self.char_limit * 5 - Cerca(5) and l < self.char_limit * 5 and l > self.char_limit * 4 - Cerca(4) - 1:
 				e += char
-    
+	
 			if l < self.char_limit * 6 - Cerca(6) and l < self.char_limit * 6 and l > self.char_limit * 5 - Cerca(5) - 1:
 				e += char
 			
@@ -1405,12 +1412,12 @@ class GUI():
 			self.val_obj -= self.val_obj_incr
 
 	def show(self):
-     
+	
 		self.inventory_sound.set_volume(0.5*GLOB.AU)
 		self.inventory_sound_off.set_volume(0.5*GLOB.AU)
 		self.door_sound.set_volume(0.4*GLOB.AU)
 		self.door_sound_locked.set_volume(0.4*GLOB.AU)
-    		
+			
 		if not GLOB.isPaused and GLOB.PlayerCanMove:
 			self.__stamina_calculation()
 
@@ -1429,27 +1436,27 @@ class GUI():
 
 
 		def disegna():
-    		
+			
 			GLOB.screen.blit(self.first, (0, GLOB.screen_height - self.first.get_height()))
 			GLOB.screen.blit(self.player, (33.6 * GLOB.MULT / self.divisor, GLOB.screen_height - 65 * GLOB.MULT / self.divisor))
 			GLOB.screen.blit(self.third, (22 * GLOB.MULT / self.divisor, GLOB.screen_height - 75 * GLOB.MULT / self.divisor))
-   
+	
 			if GLOB.PlayerCanInteract and not GLOB.ShowInventory:
 				
 				pos_x = 224
 				pos_y = 14
-    
+	
 				if GLOB.PlayerTextInteract == "Nasconditi" or GLOB.PlayerTextInteract == "Ispeziona" or GLOB.PlayerTextInteract == "Analizza":
 					pos_x = 232
-    
+	
 				HINT_TEXT = get_font(4 * int(GLOB.MULT+0.9)).render(GLOB.PlayerTextInteract, False, "White")
 				HINT_RECT = HINT_TEXT.get_rect(center=(pos_x * GLOB.MULT, GLOB.screen_height - pos_y *int(GLOB.MULT+0.99)))
-    
+	
 				CONT_TEXT = get_font(4 * int(GLOB.MULT+0.9)).render(GLOB.PlayerTextInteract, False, "Black")
 				CONT_RECT = HINT_TEXT.get_rect(center=(pos_x * GLOB.MULT, GLOB.screen_height - (pos_y - 0.8) *int(GLOB.MULT+0.99)))
 
 				GLOB.screen.blit(self.button_interact, (180 * GLOB.MULT, GLOB.screen_height - 25 *int(GLOB.MULT+0.99)))
-    
+	
 				GLOB.screen.blit(CONT_TEXT, CONT_RECT)
 				GLOB.screen.blit(HINT_TEXT, HINT_RECT)
 		
@@ -1460,10 +1467,10 @@ class GUI():
 			CNAME_POS = ((posx + 2 *int(GLOB.MULT+0.99))/ self.divisor, GLOB.screen_height - 20 * GLOB.MULT / self.divisor + altezza)
 
 			pygame.draw.rect(GLOB.screen, self.color_bar, self.barra_stamina)
-   
+	
 			if self.max <= 0:
 				pygame.draw.rect(GLOB.screen, "#ad5a5a", self.barra_esaurita)
-    
+	
 			GLOB.screen.blit(self.bar, (84 * GLOB.MULT/ self.divisor, GLOB.screen_height - 22 * GLOB.MULT/ self.divisor))
 
 			GLOB.screen.blit(CNAME_TEXT, CNAME_POS)
@@ -1498,7 +1505,7 @@ class GUI():
 		def inventario():
 			if self.contenuto and not self.flag_descrizione:
 				self.flag_descrizione = True
-    
+	
 			GLOB.screen.blit(self.inventory, (0, 0))
 
 			INVENTARIO_TEXT = get_font(9*int(GLOB.MULT+0.9)).render("- Inventario -", True, "White")
@@ -1517,7 +1524,7 @@ class GUI():
 
 			i = 0
 			for oggetto in GLOB.inventario:
-    				
+					
 				if not oggetto in GLOB.inventario:
 					self.contenuto = False
 				else:
@@ -1541,9 +1548,9 @@ class GUI():
 					GLOB.screen.blit(self.DESCR3_TEXT, self.DESCR3_POS)
 
 					GLOB.screen.blit(self.DESCR4_TEXT, self.DESCR4_POS)
-     
+	
 					GLOB.screen.blit(self.DESCR5_TEXT, self.DESCR5_POS)
-     
+	
 					GLOB.screen.blit(self.DESCR6_TEXT, self.DESCR6_POS)
 
 				i += 1
@@ -1556,10 +1563,10 @@ class GUI():
 		while GLOB.ShowInventory and not GLOB.isPaused:
 			for event in pygame.event.get():
 				keys_pressed = pygame.key.get_pressed()
-   
+	
 				if event.type == pygame.QUIT:
 					GLOB.Quit()
-         
+			
 				if event.type == pygame.KEYDOWN:
 					
 					if event.key == pygame.K_TAB or event.key == pygame.K_ESCAPE:
@@ -1580,7 +1587,7 @@ class GUI():
 					if keys_pressed[pygame.K_DOWN]or keys_pressed[pygame.K_LEFT] or keys_pressed[pygame.K_s]or keys_pressed[pygame.K_d]:
 						self.selection += 1
 						controlla(self.selection)
-      
+		
 			disegna()
 			inventario()
 
@@ -1629,24 +1636,24 @@ class MiniMap():
 		r = 1.5
   
 		def Stanza(nome, pos, size, colore):
-      
+		
 			if nome in GLOB.stanze_visitate:
 				ret = pygame.Rect((pos[0] * GLOB.MULT, pos[1] * GLOB.MULT, pos[2] * GLOB.MULT, pos[3] *int(GLOB.MULT+0.99)))
 				pygame.draw.rect(GLOB.screen, colore, ret)
 
 				if "Aula" in nome or "Informatica" in nome:
-        
+		
 					if "Aula" in nome:
 						testo = nome.split("Aula")[1]
-      
+		
 						TEXT0 = get_font(size).render("Aula", True, "White")
 						TEXT1 = get_font(size).render(testo, True, "White")
-      
+		
 					elif "Informatica" in nome:
-      
+		
 						TEXT0 = get_font(size).render("Lab", True, "White")
 						TEXT1 = get_font(size).render("Informatica", True, "White")
-     
+	
 					distanza = 4 * GLOB.MULT
 					
 					GLOB.screen.blit(TEXT0, (ret.centerx - TEXT0.get_width() /2, ret.centery - TEXT0.get_height() /2 - distanza))
@@ -1654,38 +1661,38 @@ class MiniMap():
 
 				else:
 				
-					TEXT = get_font(size).render(nome, True, "White")	
+					TEXT = get_font(size).render(nome, True, "White")  
 					GLOB.screen.blit(TEXT, (ret.centerx - TEXT.get_width() /2, ret.centery - TEXT.get_height() /2))
 			
 
 		while not possoIniziare:
 			for event in pygame.event.get():
-    
+	
 				if event.type == pygame.QUIT:
 					GLOB.Quit()
-     
+	
 				if event.type == pygame.KEYDOWN:
-   
+	
 					if event.key == pygame.K_ESCAPE or event.key == pygame.K_e:
 						GLOB.PlayerReset = True
 						possoIniziare = True
 
 			GLOB.screen.blit(self.image, (0, 0))
-   
+	
 
 			if GLOB.Piano == "1-PianoTerra":
-       
+		
 				s = 5 * int(GLOB.MULT+0.9)
-    
+	
 				Stanza("Chimica", (326, 54, 94, 50), s, (120, 213, 215))
 				Stanza("Fisica", (227, 54, 98, 50), s, (99, 210, 255))
 				Stanza("Archivio", (118, 163, 72, 57), s, (32, 129, 195))
-     
-     
+	
+	
 			if GLOB.Piano == "2-PrimoPiano":
-           
+			
 				s = 3 * int(GLOB.MULT+0.9)
-    
+	
 				Stanza("WC-Femmine", (348, 121, 41, 35), s, (247, 146, 86))
 				Stanza("AulaProfessori", (348, 62, 41, 58), s, (251, 209, 162))
 				Stanza("AulaMagna", (242, 157, 42, 33), s, (125, 207, 182))
@@ -1693,19 +1700,20 @@ class MiniMap():
 				Stanza("1A", (197, 157, 44, 33), s, (122, 158, 126))
 				Stanza("WC-Maschi", (106, 157, 49, 33), s, (119, 125, 167))
 				Stanza("LabInfo", (106, 99, 34, 57), s, (18, 148, 144))
-    
-    
+	
+	
 			if GLOB.Piano == "3-SecondoPiano":
-           
-				s = 2 * int(GLOB.MULT+0.9)
-    
-				Stanza("AulaVideo", (330, 86, 30, 46), s, (88, 114, 145))
+			
+				s = 3 * int(GLOB.MULT+0.9)
+				Stanza("AulaVideo", (330, 29, 30, 56), s, (88, 114, 145))
+				Stanza("Generatore", (330, 86, 30, 28), s, (99, 210, 255))
+				Stanza("Segreteria", (330, 112, 30, 52), s, (120, 213, 215))
 				Stanza("4A", (185, 165, 24, 33), s, (47, 151, 193))
 				Stanza("LabInformatica", (150, 165, 34, 33), s, (13, 31, 45))
 				Stanza("Ripostiglio", (164, 78, 31, 28), s, (77, 108, 250))
 					
 
-   
+	
 			pygame.draw.circle(GLOB.screen, "#496e55", (self.pos_player[0] + self.character.get_width()/2, self.pos_player[1] + self.character.get_height()/2), self.character.get_height() / r, 0)
 			GLOB.screen.blit(self.character, self.pos_player)
 
@@ -1714,311 +1722,311 @@ class MiniMap():
 
 
 class Key():
-    def __init__(self,text,width,height,pos,elevation):
+	def __init__(self,text,width,height,pos,elevation):
 		#Core attributes
-        self.pressed = False
-        self.elevation = elevation
-        self.dynamic_elecation = elevation
-        self.original_y_pos = pos[1]
+		self.pressed = False
+		self.elevation = elevation
+		self.dynamic_elecation = elevation
+		self.original_y_pos = pos[1]
 
 		# top rectangle 
-        self.top_rect = pygame.Rect(pos,(width,height))
-        self.top_color = '#23272b'
+		self.top_rect = pygame.Rect(pos,(width,height))
+		self.top_color = '#23272b'
 
 		# bottom rectangle 
-        self.bottom_rect = pygame.Rect(pos,(width,height))
-        self.bottom_color = '#6b7075'
+		self.bottom_rect = pygame.Rect(pos,(width,height))
+		self.bottom_color = '#6b7075'
 		#text
-        self.text = text
-        self.text_surf = get_font(16*int(GLOB.MULT+0.9)).render(text,True,'#FFFFFF')
-        self.text_rect = self.text_surf.get_rect(center = self.top_rect.center)
+		self.text = text
+		self.text_surf = get_font(16*int(GLOB.MULT+0.9)).render(text,True,'#FFFFFF')
+		self.text_rect = self.text_surf.get_rect(center = self.top_rect.center)
 
-        self.clicked = False
+		self.clicked = False
 
-        self.sec = 0.2
-        self.delay = Delay(self.sec, self.stop)
+		self.sec = 0.2
+		self.delay = Delay(self.sec, self.stop)
 
-        self.flag_val = False
-        
-        self.sound_button = mixer.Sound("suoni/KeySound.wav")
+		self.flag_val = False
+		
+		self.sound_button = mixer.Sound("suoni/KeySound.wav")
 
-    def click(self):
-        self.sound_button.set_volume(0.2 * GLOB.AU)
-        self.sound_button.play()
-        self.clicked = True
+	def click(self):
+		self.sound_button.set_volume(0.2 * GLOB.AU)
+		self.sound_button.play()
+		self.clicked = True
 
-    def stop(self):
-        self.clicked = False
+	def stop(self):
+		self.clicked = False
 
-    def draw(self):
+	def draw(self):
 		# elevation logic 
-        self.top_rect.y = self.original_y_pos - self.dynamic_elecation
-        self.text_rect.center = self.top_rect.center 
+		self.top_rect.y = self.original_y_pos - self.dynamic_elecation
+		self.text_rect.center = self.top_rect.center 
 
-        self.bottom_rect.midtop = self.top_rect.midtop
-        self.bottom_rect.height = self.top_rect.height + self.dynamic_elecation
+		self.bottom_rect.midtop = self.top_rect.midtop
+		self.bottom_rect.height = self.top_rect.height + self.dynamic_elecation
 
-        pygame.draw.rect(GLOB.screen,self.bottom_color, self.bottom_rect)
-        pygame.draw.rect(GLOB.screen,self.top_color, self.top_rect)
-        pygame.draw.rect(GLOB.screen, "#0d0e0f", self.top_rect,int(GLOB.MULT+0.99))
-        GLOB.screen.blit(self.text_surf, self.text_rect)
-        self.check_click()
+		pygame.draw.rect(GLOB.screen,self.bottom_color, self.bottom_rect)
+		pygame.draw.rect(GLOB.screen,self.top_color, self.top_rect)
+		pygame.draw.rect(GLOB.screen, "#0d0e0f", self.top_rect,int(GLOB.MULT+0.99))
+		GLOB.screen.blit(self.text_surf, self.text_rect)
+		self.check_click()
 
-    def check_click(self):
-        self.top_color = '#23272b'
-        if self.clicked:
-            self.delay.Start()
-            self.dynamic_elecation = 0
-            self.pressed = True
-        else:
-            self.delay.ReStart()
-            self.dynamic_elecation = self.elevation
-            if self.pressed == True:
-                self.pressed = False
-                self.flag_val = True
-                
+	def check_click(self):
+		self.top_color = '#23272b'
+		if self.clicked:
+				self.delay.Start()
+				self.dynamic_elecation = 0
+				self.pressed = True
+		else:
+				self.delay.ReStart()
+				self.dynamic_elecation = self.elevation
+				if self.pressed == True:
+					self.pressed = False
+					self.flag_val = True
+					
 
-    def return_value(self):
-        if self.flag_val:
-            self.flag_val = False
-            return self.text
-        else:
-            return ""
+	def return_value(self):
+		if self.flag_val:
+				self.flag_val = False
+				return self.text
+		else:
+				return ""
 
 class Code():
-    def __init__(self, code):
-        
-        self.len = len(code)
-        self.codeS = code
-        self.codeU = "ENTER CODE"
+	def __init__(self, code):
+		
+		self.len = len(code)
+		self.codeS = code
+		self.codeU = "ENTER CODE"
 
-        self.flag_cliccato = False
-        self.flag_stop = False
+		self.flag_cliccato = False
+		self.flag_stop = False
 
-        d = 40 * GLOB.MULT
-        startx = GLOB.screen_width/2 - d * 1.5
-        starty = GLOB.screen_height - d * 5.5
+		d = 40 * GLOB.MULT
+		startx = GLOB.screen_width/2 - d * 1.5
+		starty = GLOB.screen_height - d * 5.5
 
-        x1, x2, x3 = startx, startx + d, startx + d * 2
+		x1, x2, x3 = startx, startx + d, startx + d * 2
 
-        button1 = Key('1',d, d,(x1, starty + d * 0),5)
-        button2 = Key('2',d, d,(x2, starty + d * 0),5)
-        button3 = Key('3',d,d,(x3, starty + d * 0),5)
+		button1 = Key('1',d, d,(x1, starty + d * 0),5)
+		button2 = Key('2',d, d,(x2, starty + d * 0),5)
+		button3 = Key('3',d,d,(x3, starty + d * 0),5)
 
-        button4 = Key('4',d,d,(x1, starty + d * 1),5)
-        button5 = Key('5',d,d,(x2, starty + d * 1),5)
-        button6 = Key('6',d,d,(x3, starty + d * 1),5)
+		button4 = Key('4',d,d,(x1, starty + d * 1),5)
+		button5 = Key('5',d,d,(x2, starty + d * 1),5)
+		button6 = Key('6',d,d,(x3, starty + d * 1),5)
 
-        button7 = Key('7',d,d,(x1, starty + d * 2),5)
-        button8 = Key('8',d,d,(x2, starty + d * 2),5)
-        button9 = Key('9',d,d,(x3, starty + d * 2),5)
-
-
-        buttonC = Key('#',d,d,(x1, starty + d * 3),5)
-        button0 = Key('0',d,d,(x2, starty + d * 3),5)
-        buttonE = Key('C',d,d,(x3, starty + d * 3),5)
-
-        self.tastierino = {
-            
-            1 : button1, 
-            2 : button2, 
-            3 : button3, 
-            4 : button4, 
-            5 : button5, 
-            6 : button6, 
-            7 : button7, 
-            8 : button8, 
-            9 : button9, 
-            0 : button0, 
-            "C" : buttonC, 
-            "E" : buttonE
-            
-            
-        }
-
-        self.pulsanti = list(self.tastierino.values())
-
-        self.sec = 1
-        self.delay = Delay(1, self.__reset_code)
-
-        self.risolto = False
-
-        self.CanClick = True
-
-        self.corretto = "CONFERMATO"
-        self.errore = "ERRORE"
-        self.errore_default = self.errore
-        
-        self.sound_errorCode = mixer.Sound("suoni/errorSound_Code.wav")
-        self.sound_correctCode = mixer.Sound("suoni/correctSound_Code.wav")
-        
-        self.text_color = "#ff1919"
+		button7 = Key('7',d,d,(x1, starty + d * 2),5)
+		button8 = Key('8',d,d,(x2, starty + d * 2),5)
+		button9 = Key('9',d,d,(x3, starty + d * 2),5)
 
 
-    def __reset_code(self):
+		buttonC = Key('#',d,d,(x1, starty + d * 3),5)
+		button0 = Key('0',d,d,(x2, starty + d * 3),5)
+		buttonE = Key('C',d,d,(x3, starty + d * 3),5)
 
-        if self.codeU == self.corretto:
-            self.risolto = True
+		self.tastierino = {
+				
+				1 : button1, 
+				2 : button2, 
+				3 : button3, 
+				4 : button4, 
+				5 : button5, 
+				6 : button6, 
+				7 : button7, 
+				8 : button8, 
+				9 : button9, 
+				0 : button0, 
+				"C" : buttonC, 
+				"E" : buttonE
+				
+				
+		}
 
-        self.codeU = ""
-        self.CanClick = True
+		self.pulsanti = list(self.tastierino.values())
 
+		self.sec = 1
+		self.delay = Delay(1, self.__reset_code)
 
-    def __code_calculation(self):
+		self.risolto = False
 
-        if self.flag_cliccato and not self.flag_stop:
-            self.__reset_code()
-            self.flag_stop = True
+		self.CanClick = True
 
-        self.Code_text = get_font(16*int(GLOB.MULT+0.9)).render(self.codeU,True, self.text_color if not self.CanClick else "White")
-        self.Code_pos = ((GLOB.screen_width/2 - self.Code_text.get_width()/2, 10 *int(GLOB.MULT+0.99)))
-
-        self.Code_rect = pygame.Rect((GLOB.screen_width/2 - 100 * GLOB.MULT, 5 * GLOB.MULT, 200 * GLOB.MULT, 25 *int(GLOB.MULT+0.99)))
-
-        pygame.draw.rect(GLOB.screen, "#23272b", self.Code_rect)
-
-        GLOB.screen.blit(self.Code_text, self.Code_pos)
-
-        if self.codeU == self.errore or self.codeU == self.corretto:
-            self.delay.Infinite()
-
-        if str(self.codeU) == str(self.codeS) and len(self.codeU) == self.len:
-            self.text_color = "#11ff00"
-            self.sound_correctCode.set_volume(0.2 * GLOB.AU)
-            self.sound_correctCode.play()
-            self.CanClick = False
-            self.codeU = self.corretto
-
-        elif len(self.codeU) == self.len and self.codeU != self.codeS and self.codeU != self.corretto:
-            self.sound_errorCode.set_volume(0.2 * GLOB.AU)
-            self.sound_errorCode.play()
-            self.CanClick = False
-
-            self.errore = self.errore_default
-
-            if self.codeU == "1234":
-                self.errore = "Sicuramente"
-                
-            if self.codeU == "9876":
-                self.errore = "Originale"
-
-            if self.codeU == "0690" or self.codeU == "6969":
-                self.errore = random.choice([";-)", "<3"])
-
-            if self.codeU == "1492":
-                self.errore = "America"
-
-            if self.codeU == "0000" or self.codeU == "3333" or self.codeU == "0033":
-                self.errore = "Gesu'"
-                
-            if self.codeU == "0911":
-                self.errore = " 2001 "
-                
-            if self.codeU == "0804":
-                self.errore = "Creatore"
-                
-            if self.codeU == "0303":
-                self.errore = "E#R|0R€"
-                
-            if self.codeU == "0090":
-                self.errore = "La Paura"
-                
-            if self.codeU == "0018":
-                self.errore = "Venerdi'"
-                
-            if self.codeU == "2501":
-                self.errore = "@senex_0372"
-                
-            if self.codeU == "0502":
-                self.errore = "@Senex03"
-
-            self.codeU = self.errore
+		self.corretto = "CONFERMATO"
+		self.errore = "ERRORE"
+		self.errore_default = self.errore
+		
+		self.sound_errorCode = mixer.Sound("suoni/errorSound_Code.wav")
+		self.sound_correctCode = mixer.Sound("suoni/correctSound_Code.wav")
+		
+		self.text_color = "#ff1919"
 
 
-    def Show(self):
+	def __reset_code(self):
 
-        a = True
-        while a and not self.risolto:
-            keys_pressed = pygame.key.get_pressed()
+		if self.codeU == self.corretto:
+				self.risolto = True
 
-            for event in pygame.event.get():
-
-                if event.type == pygame.QUIT:
-                    a = False
-
-                if event.type == pygame.KEYDOWN:
-                    
-                    if event.key == pygame.K_ESCAPE:
-                        a = False
-
-                    if self.CanClick:
-
-                        if event.key == pygame.K_1 or event.key == pygame.K_KP1:
-                            self.tastierino[1].click()
-
-                        if event.key == pygame.K_2 or event.key == pygame.K_KP2:
-                            self.tastierino[2].click()
-
-                        if event.key == pygame.K_3 or event.key == pygame.K_KP3:
-                            self.tastierino[3].click()
-
-                        if event.key == pygame.K_4 or event.key == pygame.K_KP4:
-                            self.tastierino[4].click()
-
-                        if event.key == pygame.K_5 or event.key == pygame.K_KP5:
-                            self.tastierino[5].click()
-
-                        if event.key == pygame.K_6 or event.key == pygame.K_KP6:
-                            self.tastierino[6].click()
-
-                        if event.key == pygame.K_7 or event.key == pygame.K_KP7:
-                            self.tastierino[7].click()
-
-                        if event.key == pygame.K_8 or event.key == pygame.K_KP8:
-                            self.tastierino[8].click()
-
-                        if event.key == pygame.K_9 or event.key == pygame.K_KP9:
-                            self.tastierino[9].click()
-
-                        if event.key == pygame.K_0 or event.key == pygame.K_KP0:
-                            self.tastierino[0].click()
-
-                        if event.key == pygame.K_BACKSPACE:
-                            testo = ""
-
-                            self.tastierino["E"].click()
-
-                            i = 0
-                            for char in self.codeU:
-                                if i < len(self.codeU) - 1:
-                                    testo += char
-                                    
-                                i += 1
-                                
-                            self.codeU = testo
-                                
-                        if event.key == pygame.K_TAB:
-                            self.tastierino["E"].click()
-                            
-                            self.__init__(GLOB.codice)
+		self.codeU = ""
+		self.CanClick = True
 
 
-            GLOB.screen.fill('#DCDDD8')
+	def __code_calculation(self):
 
-            for key in keys_pressed:
-                if key:
-                    self.flag_cliccato = True
+		if self.flag_cliccato and not self.flag_stop:
+				self.__reset_code()
+				self.flag_stop = True
 
-            for button in self.pulsanti:
-                button.draw()
+		self.Code_text = get_font(16*int(GLOB.MULT+0.9)).render(self.codeU,True, self.text_color if not self.CanClick else "White")
+		self.Code_pos = ((GLOB.screen_width/2 - self.Code_text.get_width()/2, 10 *int(GLOB.MULT+0.99)))
 
-                if button.text != "C" and button.text != "E" and self.CanClick:
-                    self.codeU += button.return_value()
+		self.Code_rect = pygame.Rect((GLOB.screen_width/2 - 100 * GLOB.MULT, 5 * GLOB.MULT, 200 * GLOB.MULT, 25 *int(GLOB.MULT+0.99)))
 
-            self.__code_calculation()
+		pygame.draw.rect(GLOB.screen, "#23272b", self.Code_rect)
 
-            pygame.display.update()
-            pygame.time.Clock().tick(GLOB.FPS)
+		GLOB.screen.blit(self.Code_text, self.Code_pos)
+
+		if self.codeU == self.errore or self.codeU == self.corretto:
+				self.delay.Infinite()
+
+		if str(self.codeU) == str(self.codeS) and len(self.codeU) == self.len:
+				self.text_color = "#11ff00"
+				self.sound_correctCode.set_volume(0.2 * GLOB.AU)
+				self.sound_correctCode.play()
+				self.CanClick = False
+				self.codeU = self.corretto
+
+		elif len(self.codeU) == self.len and self.codeU != self.codeS and self.codeU != self.corretto:
+				self.sound_errorCode.set_volume(0.2 * GLOB.AU)
+				self.sound_errorCode.play()
+				self.CanClick = False
+
+				self.errore = self.errore_default
+
+				if self.codeU == "1234":
+					self.errore = "Sicuramente"
+					
+				if self.codeU == "9876":
+					self.errore = "Originale"
+
+				if self.codeU == "0690" or self.codeU == "6969":
+					self.errore = random.choice([";-)", "<3"])
+
+				if self.codeU == "1492":
+					self.errore = "America"
+
+				if self.codeU == "0000" or self.codeU == "3333" or self.codeU == "0033":
+					self.errore = "Gesu'"
+					
+				if self.codeU == "0911":
+					self.errore = " 2001 "
+					
+				if self.codeU == "0804":
+					self.errore = "Creatore"
+					
+				if self.codeU == "0303":
+					self.errore = "E#R|0R€"
+					
+				if self.codeU == "0090":
+					self.errore = "La Paura"
+					
+				if self.codeU == "0018":
+					self.errore = "Venerdi'"
+					
+				if self.codeU == "2501":
+					self.errore = "@senex_0372"
+					
+				if self.codeU == "0502":
+					self.errore = "@Senex03"
+
+				self.codeU = self.errore
+
+
+	def Show(self):
+
+		a = True
+		while a and not self.risolto:
+				keys_pressed = pygame.key.get_pressed()
+
+				for event in pygame.event.get():
+
+					if event.type == pygame.QUIT:
+						a = False
+
+					if event.type == pygame.KEYDOWN:
+						
+						if event.key == pygame.K_ESCAPE:
+								a = False
+
+						if self.CanClick:
+
+								if event.key == pygame.K_1 or event.key == pygame.K_KP1:
+									self.tastierino[1].click()
+
+								if event.key == pygame.K_2 or event.key == pygame.K_KP2:
+									self.tastierino[2].click()
+
+								if event.key == pygame.K_3 or event.key == pygame.K_KP3:
+									self.tastierino[3].click()
+
+								if event.key == pygame.K_4 or event.key == pygame.K_KP4:
+									self.tastierino[4].click()
+
+								if event.key == pygame.K_5 or event.key == pygame.K_KP5:
+									self.tastierino[5].click()
+
+								if event.key == pygame.K_6 or event.key == pygame.K_KP6:
+									self.tastierino[6].click()
+
+								if event.key == pygame.K_7 or event.key == pygame.K_KP7:
+									self.tastierino[7].click()
+
+								if event.key == pygame.K_8 or event.key == pygame.K_KP8:
+									self.tastierino[8].click()
+
+								if event.key == pygame.K_9 or event.key == pygame.K_KP9:
+									self.tastierino[9].click()
+
+								if event.key == pygame.K_0 or event.key == pygame.K_KP0:
+									self.tastierino[0].click()
+
+								if event.key == pygame.K_BACKSPACE:
+									testo = ""
+
+									self.tastierino["E"].click()
+
+									i = 0
+									for char in self.codeU:
+										if i < len(self.codeU) - 1:
+												testo += char
+												
+										i += 1
+										
+									self.codeU = testo
+										
+								if event.key == pygame.K_TAB:
+									self.tastierino["E"].click()
+									
+									self.__init__(GLOB.codice)
+
+
+				GLOB.screen.fill('#DCDDD8')
+
+				for key in keys_pressed:
+					if key:
+						self.flag_cliccato = True
+
+				for button in self.pulsanti:
+					button.draw()
+
+					if button.text != "C" and button.text != "E" and self.CanClick:
+						self.codeU += button.return_value()
+
+				self.__code_calculation()
+
+				pygame.display.update()
+				pygame.time.Clock().tick(GLOB.FPS)
 
 
 
@@ -2093,9 +2101,9 @@ class Pc():
 			if self.flag_sound:
 				self.on_sound.play()
 				self.flag_sound = False
-      
+		
 			GLOB.screen.blit(self.vignetta, (25 * GLOB.MULT, 10 *int(GLOB.MULT+0.99)))
-   
+	
 			i = 0
 			for oggetto in self.chiavette:
 				
@@ -2107,9 +2115,9 @@ class Pc():
 				# condizione1 = (int((oggetto[-1])) >= ls + 1 and (int((oggetto[-1])) <= lf))
 				
 				# condizione2 = (int((oggetto[-2] + oggetto[-1])) >= ls + 1 and (int((oggetto[-2] + oggetto[-1])) <= lf))
-    
+	
 				condizione1 = (self.selection) >= ls and (self.selection <= lf)
-    
+	
 				posy =  18 * GLOB.MULT + self.distanza_oggetti * (i - self.molt_riga_value)
 
 
@@ -2117,7 +2125,7 @@ class Pc():
 					NAME_TEXT = get_font(5*int(GLOB.MULT+0.9)).render("> "+ str(oggetto), True, imposta_colore(i))
 					if posy < 90 * GLOB.MULT and posy >= 18 * GLOB.MULT:
 						NAME_POS = (35 * GLOB.MULT, posy)
-						GLOB.screen.blit(NAME_TEXT, NAME_POS)					
+						GLOB.screen.blit(NAME_TEXT, NAME_POS)				
 				
 
 				i += 1
@@ -2166,7 +2174,7 @@ class Pc():
 			for frase in descrizione:
 				d = Dialoghi("pc", frase, 4)
 				d.stampa()
-    
+	
 			if flag:
 				c = Dialoghi(GLOB.scelta_char, "Ma aspetta... Questa e' la chiavetta per le macchinette, ecco perche' non funzionava", 3)
 				c.stampa()
@@ -2184,7 +2192,7 @@ class Pc():
 				d.stampa()
 
 	def show(self):
-     
+	
 		self.on_sound.set_volume(0.2 * GLOB.AU)
 		self.off_sound.set_volume(0.2 * GLOB.AU)
 

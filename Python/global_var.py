@@ -1,3 +1,4 @@
+from pygame.locals import *
 import pygame, os, sys, random, ast
 
 TITLE = "The Lost Keys"
@@ -32,14 +33,17 @@ Cam_visible = False
 
 OptionDebug = True
 Debug = False
-ShowGrid = False
+ShowGrid = True
 ShowFps = True
 ShowDropFrames = False
 ShowScore = True
 ShowRecord = True
-LoadCollisions = True
 
-Mappa = []
+LoadCollisions = True
+ReloadCollisions = False
+LoadImages = True
+
+Mappa = ([], [], [])
 
 isGameRunning = False
 isPaused = False
@@ -51,6 +55,7 @@ PlayerHasPressedButton = False
 Dialogo = False
 Enigma = False
 ImInEnigmaMode = False
+ImInDialogueMode = False
 
 PlayerHasChangedRoom = False
 MonsterHasChangedRoom = False
@@ -76,7 +81,7 @@ MonsterContRoom = 0
 MonsterCanSpawn = True
 ShowMonsterRange = False
 MonsterCanAttack = True
-
+MonsterCanKillMe = True
 
 SecondDiffPos = 3
 CounterChecker = 0
@@ -86,18 +91,6 @@ Val_sec = 59
 Player_default_speed = Player_speed
 
 ShowComand = False
-
-# Inizializzazione lista di animazione camminata
-PlayerWalkingO = []
-PlayerWalkingVD = []
-PlayerWalkingVU = []
-PlayerIdle = []
-
-MonsterWO = []
-MonsterWVD = []
-MonsterWVU = []
-MonsterAngry = []
-MonsterIdle = []
 
 # STATISTICHE
 #  Chimica - Storia - Inglese - Fisica - Matematica - Informatica - Italiano - Sistemi - TPSIT
@@ -131,6 +124,8 @@ Background_Color = (0, 0, 0)
 pygame.init()
 Fullscreen = False
 
+pygame.event.set_allowed([QUIT, KEYDOWN, KEYUP])
+
 MAX_width = pygame.display.Info().current_w
 MAX_height = pygame.display.Info().current_h
 
@@ -145,6 +140,23 @@ RESOLUTION = DF_MULT
 
 screen_width = DF_width * RESOLUTION
 screen_height = DF_height * RESOLUTION
+
+# Carica Sprites
+def load_images(path):
+    import re
+    global MULT, Player_proportion
+    FileNames = os.listdir(path)
+    
+    FileNames.sort(key=lambda f: int(re.sub('\D', '', f)))
+    sorted(FileNames)
+    
+    lista_immagini = []
+    for filename in FileNames:
+        image = pygame.image.load(path + "/" + filename).convert_alpha()
+        image = pygame.transform.scale(image, (image.get_width() * MULT / Player_proportion, image.get_height() * MULT / Player_proportion))
+        lista_immagini.append(image)
+    
+    return lista_immagini
 
 # Configurazione Schermo
 def Quit():
@@ -178,6 +190,9 @@ else:
     AlertSalva = True
     
 Default_path = 'Stanze'
+Piani = [var for var in sorted(os.listdir(Default_path), key = lambda x: x)]
+
+
 
 def setFPS():
     global Delta_Time, Default_DeltaTime, FPS, Performance
@@ -192,6 +207,7 @@ def setFPS():
 
 def setCharacter():
     global Player_speed, Player_default_speed, PlayerRun_speed, scelta_char, scelta_rep
+    global Default_characters_path, Default_Character
     Player_speed = 2 * MULT / Delta_Time / Player_proportion
     Player_default_speed = Player_speed
 
@@ -215,6 +231,8 @@ def setCharacter():
         PlayerRun_speed = 1 + Senex_Stat[0]/10
 
     scelta_rep = "/" + scelta_char
+    Default_characters_path = "Characters/"
+    Default_Character = 'Characters/'+scelta_char+'/Idle/Idle0.png'
 
 
 def setMonster():
@@ -234,16 +252,17 @@ def setResources():
     global inventario, Inventory_support
 
     global codice, codice_archivio, ShowCodice
+    global RandomMinLight, Flag_luce, corrente, Light, CanUseTorch, Torcia
 
     global enigmi_da_risolvere, enigmi_risolti
     global chiavette, chiavetta_start, chiavetta_end
     global RandomKey, RandomRoom
     global oggetti, oggetti_start, oggetti_end
 
-    global MonsterActualFloor, MonsterActualRoom, MonsterSpawning, MonsterIntro, MonsterCanChangeRoom
-    global MonsterHasSeenPlayer, MonsterAggr, MonsterIsAttacking
+    global MonsterActualFloor, MonsterPreviousRoom, MonsterActualRoom, MonsterSpawning, MonsterIntro, MonsterCanChangeRoom
+    global MonsterHasSeenPlayer, MonsterAggr, MonsterIsAttacking, MonsterCanSeePlayer
     
-    global Default_Character, PlayerCanInteract, PlayerInteract, PlayerTextInteract, PlayerCanMove, PlayerCanRun, PlayerCanHide, PlayerIsHidden, PlayerIsMoving, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
+    global PlayerCanInteract, PlayerInteract, PlayerTextInteract, PlayerCanMove, PlayerCanRun, PlayerCanHide, PlayerIsHidden, PlayerIsMoving, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
     global Piano, Stanza, Default_path, Default_Map, Default_object, Default_walls, Default_collisions
     
     global stanze_da_visitare, stanze_visitate
@@ -256,10 +275,16 @@ def setResources():
     global Mappa_Immagine, Muri_Immagine, Oggetti_Immagine
     
     global ShowIntro
+    global scelta_char
 
     # -- CODICI ---
     
     codice_archivio = False
+    
+    Light = True
+    corrente = True
+    Torcia = False
+    Flag_luce = True
     
     value_cod_max = 9999
     codice = str(random.randint(0, value_cod_max))
@@ -331,7 +356,7 @@ def setResources():
 
     #  -- STANZE --
     
-    stanze_da_visitare = ["Chimica", "Fisica", "Archivio", "1A", "1D", "AulaMagna", "AulaProfessori", "LabInfo", "WC-Femmine", "WC-Maschi", "4A", "AulaVideo", "LabInformatica", "Ripostiglio"]
+    stanze_da_visitare = ["Chimica", "Fisica", "Archivio", "1A", "1D", "AulaMagna", "AulaProfessori", "LabInfo", "WC-Femmine", "WC-Maschi", "4A", "AulaVideo", "LabInformatica", "Ripostiglio", "Generatore", "Segreteria"]
     stanze_visitate = []
 
 
@@ -341,7 +366,7 @@ def setResources():
     oggetti = {}
     oggetti_start = 154
     molt_oggetto = 2
-    oggetti_end = 4
+    oggetti_end = 5
 
     for i in range(oggetti_end):
         immagine = pygame.image.load("Collectibles/oggetto-" + str(i)+".png").convert_alpha()
@@ -358,8 +383,15 @@ def setResources():
 
     inventario = {}
     Inventory_support = {}
-        
-    Default_Character = 'Characters/Senex/WalkOrizontal/Walk0.png'
+    
+    tipo = 2
+    oggetto = "Torcia"
+    descrizione = "\"Illumina la via\"        Clicca \"R\" per usare. ".upper()
+    
+    if not oggetto in inventario:
+        inventario[oggetto] = (oggetti[tipo][2], True, descrizione)
+            
+    CanUseTorch = "Torcia" in inventario
 
     Piano = "1-PianoTerra"
     Stanza = "Corridoio1"
@@ -393,9 +425,11 @@ def setResources():
     
     MonsterActualFloor = "1-PianoTerra"
     MonsterActualRoom = "Corridoio1"
+    MonsterPreviousRoom = "Default"
     MonsterSpawning = False
     MonsterIntro = True
     MonsterCanChangeRoom = False
+    MonsterCanSeePlayer = corrente
     
     MonsterHasSeenPlayer = False
     MonsterAggr = False
@@ -412,6 +446,8 @@ def setResources():
     Mappa_Immagine = None
     Oggetti_Immagine = None
     Muri_Immagine = None
+    
+    RandomMinLight = random.randint(1, TimerMin)
 
 setResources()
 
@@ -451,6 +487,7 @@ def SaveGame():
     
     - Mostro:
         Mostro Piano = |""" + str(MonsterActualFloor) + """|
+        Mostro Stanza Precedente = |""" + str(MonsterPreviousRoom) + """|
         Mostro Stanza = |""" + str(MonsterActualRoom) + """|
         Mostro isSpawned = |""" + str(MonsterSpawning) + """|
         Mostro HasSeenPlayer = |""" + str(MonsterHasSeenPlayer) + """|
@@ -458,6 +495,7 @@ def SaveGame():
         Mostro IsAttacking = |""" + str(MonsterIsAttacking) + """|
         Mostro X = |""" + str(MonsterXSpawn) + """|
         Mostro Y = |""" + str(MonsterYSpawn) + """|
+        Differenza Secondi = |""" + str(SecondDiffPos) +"""|
         
         
     - Timer:
@@ -474,6 +512,11 @@ def SaveGame():
         
     - USB Keys:
     RandomKey = |""" + str(RandomKey) + """|
+    
+    - Corrente:
+        Corrente = |""" + str(corrente) + """|
+        Light = |""" + str(Light) + """|
+        RandomMinLight = |""" + str(RandomMinLight) +"""|
                     
             """)
         
@@ -490,10 +533,10 @@ def LoadGame(flag):
     global RandomKey, RandomRoom
     global oggetti, oggetti_start, oggetti_end
 
-    global MonsterActualFloor, MonsterActualRoom, MonsterSpawning, MonsterIntro, MonsterCanChangeRoom
-    global MonsterHasSeenPlayer, MonsterAggr, MonsterIsAttacking
+    global MonsterActualFloor, MonsterPreviousRoom, MonsterActualRoom, MonsterSpawning, MonsterIntro, MonsterCanChangeRoom
+    global MonsterHasSeenPlayer, MonsterAggr, MonsterIsAttacking, MonsterCanSeePlayer
     
-    global Default_Character, PlayerCanInteract, PlayerInteract, PlayerTextInteract, PlayerCanMove, PlayerCanRun, PlayerCanHide, PlayerIsHidden, PlayerIsMoving, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
+    global PlayerCanInteract, PlayerInteract, PlayerTextInteract, PlayerCanMove, PlayerCanRun, PlayerCanHide, PlayerIsHidden, PlayerIsMoving, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
     global Piano, Stanza, Default_Map, Default_object, Default_walls, Default_collisions
     
     global stanze_da_visitare, stanze_visitate
@@ -504,6 +547,8 @@ def LoadGame(flag):
     global MonsterXSpawn, MonsterYSpawn
     
     global Scelta, ShowIntro
+    
+    global RandomMinLight, corrente, Light, CanUseTorch, Torcia
     
     if flag and os.path.exists("dati.txt"):
         
@@ -541,31 +586,49 @@ def LoadGame(flag):
                         tipo = 0
                     elif "Libro" in Inventory_support[i][0]:
                         tipo = 1
-                    elif "Chiave" in Inventory_support[i][0]:
+                    elif "Torcia" in Inventory_support[i][0]:
+                        tipo = 2
+                    elif "Chiave WC" in Inventory_support[i][0]:
                         tipo = 3
+                    elif "Chiave Segreteria" in Inventory_support[i][0]:
+                        tipo = 4
                     
                     inventario[Inventory_support[i][0]] = (oggetti[tipo][2], Inventory_support[i][1], Inventory_support[i][2])
 
             
             
             Scelta = int(cont(15))
+            
             PlayerXSpawn, PlayerYSpawn = float(cont(16)) * MULT, float(cont(17)) * MULT
             
             CamXSpawn, CamYSpawn = float(cont(20)) * MULT, float(cont(21)) * MULT
             
-            MonsterActualFloor, MonsterActualRoom = cont(24), cont(25)
-            MonsterSpawning, MonsterHasSeenPlayer, MonsterAggr, MonsterIsAttacking = ast.literal_eval(cont(26)), ast.literal_eval(cont(27)), ast.literal_eval(cont(28)), ast.literal_eval(cont(29))
-            MonsterXSpawn, MonsterYSpawn = float(cont(30)) * MULT, float(cont(31)) * MULT
+            MonsterActualFloor, MonsterPreviousRoom, MonsterActualRoom = cont(24), cont(25), cont(26)
+            MonsterSpawning, MonsterHasSeenPlayer, MonsterAggr, MonsterIsAttacking = ast.literal_eval(cont(27)), ast.literal_eval(cont(28)), ast.literal_eval(cont(29)), ast.literal_eval(cont(30))
+            MonsterXSpawn, MonsterYSpawn = float(cont(31)) * MULT, float(cont(32)) * MULT
+            SecondDiffPos = float(cont(33))
             
-            TimerMin, TimerSec = int(cont(35)), float(cont(36)) if float(cont(36)) <= 59 else 59
+            TimerMin, TimerSec = int(cont(37)), float(cont(38))
             
-            score = int(cont(39))
-            ShowCodice = ast.literal_eval(cont(40))
+            score = int(cont(41))
+            ShowCodice = ast.literal_eval(cont(42))
             
-            ShowIntro = ast.literal_eval(cont(43))
-            MonsterIntro = ast.literal_eval(cont(44))
+            ShowIntro = ast.literal_eval(cont(45))
+            MonsterIntro = ast.literal_eval(cont(46))
             
-            RandomKey = cont(47)
+            RandomKey = cont(49)
+            
+            corrente = ast.literal_eval(cont(52))
+            
+            Light = ast.literal_eval(cont(53))
+            
+            RandomMinLight = int(cont(54))
+            
+            CanUseTorch = "Torcia" in inventario
+            Torcia = not corrente
+            MonsterCanSeePlayer = corrente
+            
+            setCharacter()
             
         f.close()
         

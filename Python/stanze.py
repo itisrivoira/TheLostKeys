@@ -10,6 +10,8 @@ def setPosition(posP, posC):
     pos_portaC = posC
 
 def inizializza():
+    GLOB.LoadCollisions = True
+    GLOB.LoadImages = True
     setToDefault()
     setPosition((152, 122), (130, -118))
 
@@ -21,8 +23,7 @@ def setToDefault():
         
         "Chimica" : False,
         "Fisica" : False,
-        "Archivio0" : False,
-        "Archivio1" : False,
+        "Archivio" : False,
         "Classe1A" : False,
         "AulaMagna" : False,
         "AulaProfessori" : False,
@@ -34,12 +35,14 @@ def setToDefault():
         "AulaVideo" : False,
         "LabInformatica" : False,
         "Ripostiglio" : False,
+        "Segreteria" : False,
+        "Generatore" : False,
         "StanzaSegreta": False,
-        "Corridoio" : False,
         "Corridoio1" : False,
         "Corridoio2" : False,
+        "Corridoio3" : False,
     
-     }
+    }
 
 def Chimica():
 
@@ -68,14 +71,14 @@ def Fisica():
     dizionario_flag["Fisica"] = False
 
 
-def Archivio0():
+def Archivio():
     
 
     last_floor = GLOB.Piano
     GLOB.Piano = "1-PianoTerra"
     GLOB.Stanza = "Archivio"
-    GLOB.Default_collisions = "ProvaArchivio_CollisioniStefano0.csv"
-    GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaArchivio0.png"
+    GLOB.Default_collisions = "ProvaArchivio_CollisioniStefano0.csv" if not GLOB.codice_archivio else "ProvaArchivio_CollisioniStefano1.csv"
+    GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +("/png/ProvaArchivio0.png" if not GLOB.codice_archivio else "/png/ProvaArchivio1.png")
     GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaArchivioOggetti.png"
     GLOB.Default_walls = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaArchivioMuri.png"
 
@@ -84,25 +87,7 @@ def Archivio0():
     else:
         setPosition((264, 120), (-160, -118))
 
-    dizionario_flag["Archivio0"] = False
-
-
-def Archivio1():
-    
-    last_floor = GLOB.Piano
-    GLOB.Piano = "1-PianoTerra"
-    GLOB.Stanza = "Archivio"
-    GLOB.Default_collisions = "ProvaArchivio_CollisioniStefano1.csv"
-    GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaArchivio1.png"
-    GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaArchivioOggetti.png"
-    GLOB.Default_walls = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/ProvaArchivioMuri.png"
-
-    if last_floor == "0-PianoSegreto":
-        main.stanze.setPosition((156, 80), (-22, -118))
-    else:
-        setPosition((264, 120), (-160, -118))
-
-    dizionario_flag["Archivio1"] = False
+    dizionario_flag["Archivio"] = False
 
 
 def Classe1A():
@@ -253,6 +238,36 @@ def Ripostiglio():
 
     setPosition((272, 118), (-100, -72))
     dizionario_flag["Ripostiglio"] = False
+    
+    
+def Segreteria():
+    
+    if GLOB.Stanza == "Generatore":
+        setPosition((270, 78), (20, 70))
+    else:
+        setPosition((152, 94), (118, -72))
+    
+
+    GLOB.Piano = "3-SecondoPiano"
+    GLOB.Stanza = "Segreteria"
+    GLOB.Default_collisions = "segreteria_CollisioniPY.csv"
+    GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +("/png/Segreteria.png" if not "Generatore" in GLOB.MonsterActualRoom else "/png/Segreteria1.png")
+    GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/SegreteriaOggetto.png"
+    GLOB.Default_walls = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/SegreteriaMuri.png"
+
+    dizionario_flag["Segreteria"] = False
+
+def Generatore():
+    
+    GLOB.Piano = "3-SecondoPiano"
+    GLOB.Stanza = "Generatore"
+    GLOB.Default_collisions = "generatore_CollisioniPY.csv"
+    GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/Generatore.png"
+    GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/GeneratoreOggetto.png"
+    GLOB.Default_walls = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/GeneratoreMuri.png"
+
+    setPosition((274, 106), (48, -72))
+    dizionario_flag["Generatore"] = False
 
 
 def StanzaSegreta():
@@ -262,12 +277,12 @@ def StanzaSegreta():
     GLOB.Default_collisions = "StanzaSegreta_collisioniStefano.csv"
     GLOB.Default_Map = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/StanzaSegreta.png"
     GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/StanzaSegretaOggetto.png"
-    GLOB.Default_walls = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/StanzaSegretaMuri.png"
+    GLOB.Default_walls = None
 
     setPosition((268, 84), (-186, -66))
     dizionario_flag["StanzaSegreta"] = False
 
-def Corridoio():
+def Corridoio1():
     
 
     if GLOB.Stanza == "Chimica":
@@ -286,10 +301,10 @@ def Corridoio():
     GLOB.Default_object = None
     GLOB.Default_walls = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/CorridoioMuri.png"
 
-    dizionario_flag["Corridoio"] = False
+    dizionario_flag["Corridoio1"] = False
 
 
-def Corridoio1():
+def Corridoio2():
     
 
     if GLOB.Stanza == "AulaMagna":
@@ -299,10 +314,10 @@ def Corridoio1():
         setPosition((270, 100), (-242, 30))
 
     elif GLOB.Stanza == "LabInfo":
-        setPosition((158, 104), (148, 10))
+        setPosition((158, 100), (148, 10))
 
     elif GLOB.Stanza == "1A":
-        setPosition((210, 90), (-38, -74))
+        setPosition((210, 100), (-38, -74))
 
     elif GLOB.Stanza == "WC-Femmine": 
         setPosition((270, 100), (-242, -40))
@@ -311,7 +326,7 @@ def Corridoio1():
         setPosition((180, 112), (146, -54))
         
     elif GLOB.Stanza == "1D": 
-        setPosition((216, 90), (40, -74))
+        setPosition((216, 100), (40, -74))
 
     GLOB.Piano = "2-PrimoPiano"
     GLOB.Stanza = "Corridoio2"
@@ -320,9 +335,9 @@ def Corridoio1():
     GLOB.Default_object = None
     GLOB.Default_walls =  percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/CorridoioMuri.png"
 
-    dizionario_flag["Corridoio1"] = False
+    dizionario_flag["Corridoio2"] = False
 
-def Corridoio2():
+def Corridoio3():
     
 
     if GLOB.Stanza == "4A":
@@ -336,6 +351,9 @@ def Corridoio2():
 
     elif GLOB.Stanza == "Ripostiglio":
         setPosition((206, 72), (150, 54))
+        
+    elif GLOB.Stanza == "Segreteria":
+        setPosition((268, 98), (-234, -22))
 
     GLOB.Piano = "3-SecondoPiano"
     GLOB.Stanza = "Corridoio3"
@@ -344,7 +362,7 @@ def Corridoio2():
     GLOB.Default_object = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/CorridoioOggetti.png"
     GLOB.Default_walls = percorso + GLOB.Piano +"/"+ GLOB.Stanza +"/png/CorridoioMuri.png"
 
-    dizionario_flag["Corridoio2"] = False
+    dizionario_flag["Corridoio3"] = False
 
 inizializza()
 
@@ -359,8 +377,7 @@ def CaricaElementi():
 def caricaStanza():
     
 
-    if not main.animazione.iFinished:
-        GLOB.LoadCollisions = True
+    if not main.animazione.iFinished and GLOB.LoadImages:
         main.collisions.load_map(GLOB.Default_Map)
 
         if GLOB.Default_object != None:
@@ -368,8 +385,10 @@ def caricaStanza():
             
         if GLOB.Default_walls != None:
             main.collisions.load_walls(GLOB.Default_walls)
+            
+        GLOB.LoadImages = False
 
-    if GLOB.Default_collisions != None:
+    if main.animazione.iFinished and GLOB.Default_collisions != None:
         main.load_collisions(GLOB.Default_collisions)
 
 
@@ -378,19 +397,19 @@ def caricaStanza():
         if dizionario_flag["StanzaSegreta"]:
             StanzaSegreta()
 
-        if dizionario_flag["Archivio1"]:
-            Archivio1()
+        if dizionario_flag["Archivio"]:
+            Archivio()
 
-    if GLOB.Piano == "1-PianoTerra":
+    elif GLOB.Piano == "1-PianoTerra":
 
         if dizionario_flag["Corridoio1"]:
             Corridoio1()
 
-        if dizionario_flag["Corridoio"]:
-            Corridoio()
-
         if dizionario_flag["Corridoio2"]:
             Corridoio2()
+        
+        if dizionario_flag["Corridoio3"]:
+            Corridoio3()
 
         if dizionario_flag["Chimica"]:
             Chimica()
@@ -398,26 +417,19 @@ def caricaStanza():
         if dizionario_flag["Fisica"]:
             Fisica()
 
-
-        if not GLOB.codice_archivio:
-        
-            if dizionario_flag["Archivio0"]:
-                Archivio0()
-        else:
-
-            if dizionario_flag["Archivio1"]:
-                Archivio1()
+        if dizionario_flag["Archivio"]:
+            Archivio()
 
     elif GLOB.Piano == "2-PrimoPiano":
     
         if dizionario_flag["Corridoio1"]:
             Corridoio1()
 
-        if dizionario_flag["Corridoio"]:
-            Corridoio()
-
         if dizionario_flag["Corridoio2"]:
             Corridoio2()
+        
+        if dizionario_flag["Corridoio3"]:
+            Corridoio3()
 
         if dizionario_flag["Classe1A"]:
             Classe1A()
@@ -445,9 +457,12 @@ def caricaStanza():
 
         if dizionario_flag["Corridoio1"]:
             Corridoio1()
-        
+
         if dizionario_flag["Corridoio2"]:
             Corridoio2()
+        
+        if dizionario_flag["Corridoio3"]:
+            Corridoio3()
 
         if dizionario_flag["Classe4A"]:
             Classe4A()
@@ -460,3 +475,10 @@ def caricaStanza():
 
         if dizionario_flag["Ripostiglio"]:
             Ripostiglio()
+            
+        if dizionario_flag["Segreteria"]:
+            Segreteria()
+            
+        if GLOB.Stanza == "Segreteria":
+            if dizionario_flag["Generatore"]:
+                Generatore()

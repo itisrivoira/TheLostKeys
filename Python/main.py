@@ -17,16 +17,12 @@ def get_font(size):
     return pygame.font.Font("font/font.ttf", size)
 
 def QuitSave():
-    if GLOB.MonsterActualRoom != GLOB.Stanza and not mostro.IseePlayer:
+    if GLOB.MonsterActualRoom != GLOB.Stanza and not mostro.IseePlayer and animazione.iFinished:
         SaveCurrentGame()
     GLOB.Quit()
 
 def SaveCurrentGame():
     if animazione.iFinished:
-        button_sound = mixer.Sound("suoni/Save.wav")
-        button_sound.set_volume(0.05 * GLOB.AU)
-        button_sound.play()
-        
         chiavi = list(GLOB.inventario.keys())
         
         for i in range(len(chiavi)):
@@ -56,46 +52,6 @@ def SaveCurrentGame():
 def SetPlayer_speed():
     GLOB.setCharacter()
     GLOB.setMonster()
-
-def SetPlayer_sprite():
-    global Folder_walkO, Folder_walkVD, Folder_walkVU
-    
-    #(0 => "/Senex" - 1 => "/Seima" - 2 => "/Alexandra" - 3 => "/XPeppoz" - 4 => "/Giulio" - Default => "/Senex")
-    Folder_walkO = 'Characters'+GLOB.scelta_rep+'/WalkOrizontal'
-    Folder_walkVD = 'Characters'+GLOB.scelta_rep+'/WalkVerticalD'
-    Folder_walkVU = 'Characters'+GLOB.scelta_rep+'/WalkVerticalU'
-    Folder_idle = 'Characters'+GLOB.scelta_rep+'/Idle'
-
-    # estrapolo tutti i file (sprite/immagini) dalla cartella selezionata
-    def riempi(percorso):
-        FileNames = os.listdir(percorso)
-
-        # Ordino i file e gli appendo ad una lista, in modo che le animazioni siano lineari e ordinate
-        FileNames.sort()
-        sorted(FileNames)
-
-        for filename in FileNames:
-            if percorso == Folder_walkO:
-                # print("Trovato Percorso WO")
-                GLOB.PlayerWalkingO.append(filename)
-            if percorso == Folder_walkVD:
-                # print("Trovato Percorso WVD")
-                GLOB.PlayerWalkingVD.append(filename)
-            if percorso == Folder_walkVU:
-                # print("Trovato Percorso WVU")
-                GLOB.PlayerWalkingVU.append(filename)
-                
-            if percorso == Folder_idle:
-                # print("Trovato Percorso Idle")
-                GLOB.PlayerIdle.append(filename)
-
-            # print("File name:"+filename+"\n\n")
-
-    riempi(Folder_walkO)
-    riempi(Folder_walkVD)
-    riempi(Folder_walkVU)
-    riempi(Folder_idle)
-    
     
 def ChangeDeltaTime(f):
     
@@ -106,12 +62,11 @@ def ChangeDeltaTime(f):
         GLOB.Delta_Time = GLOB.Default_DeltaTime
         GLOB.FPS = 30 * GLOB.Delta_Time
         
-    SetPlayer_sprite()
     SetPlayer_speed()
 
 #funzione di default
 def inizializza():
-    global console, player, cam, timer, clock, collisions, animazione, messaggio_a_schermo, Gui
+    global console, player, cam, timer, clock, collisions, animazione, messaggio_a_schermo, Gui, lum
 
     GLOB.isGameRunning = True
     GLOB.isPaused = False
@@ -121,22 +76,12 @@ def inizializza():
     GLOB.LoadGame(GLOB.CaricaPartita)
     
     SetPlayer_speed()
-    SetPlayer_sprite()
-
-    # Inizializzazione Tupla di animazioni
-    character_image = (GLOB.PlayerWalkingVD,GLOB.PlayerWalkingVU,GLOB.PlayerWalkingO,GLOB.PlayerIdle)
-    
-    GLOB.Default_Character = 'Characters'+GLOB.scelta_rep+'/WalkVerticalD/Walk0.png'
-
-    # Ottengo la larghezza e l'altezza che ha il giocatore nell'immagine ( questo per evitare di allungarla in modo sbagliato e non proporzionale )
-    Player_width = pygame.image.load(os.path.join(Folder_walkVD,character_image[0][0])).convert().get_width() * GLOB.MULT / GLOB.Player_proportion
-    Player_height = pygame.image.load(os.path.join(Folder_walkVD,character_image[0][0])).convert().get_height() * GLOB.MULT / GLOB.Player_proportion
 
     # Settaggio del Clock
     clock = pygame.time.Clock()
 
     # Fa Spawnare il giocatore e al centro dello schermo e con che velocità
-    player = giocatore.Player(GLOB.PlayerXSpawn, GLOB.PlayerYSpawn, GLOB.scelta_rep, Player_width, Player_height, character_image)
+    player = giocatore.Player()
 
     # Faccio nascere l'oggetto "cam"
     cam = camera.Cam(GLOB.CamXSpawn, GLOB.CamYSpawn)
@@ -153,11 +98,11 @@ def inizializza():
 
     console = debug.Debug()
 
-
-
     if GLOB.MonsterCanSpawn:
         global mostro
-        mostro = Keeper((GLOB.MonsterXSpawn, GLOB.MonsterYSpawn), (20 * GLOB.MULT, 0.45 * GLOB.MULT))
+        mostro = Keeper()
+
+    lum = camera.Corrente()
 
 
 def load_collisions(path):
@@ -173,18 +118,21 @@ def load_collisions(path):
         
         file_csv = l
         
-        lista_valori = []
+        dict_valori = {}
 
-        for value in range(len(file_csv)):
-            for val in file_csv[value]:
-                if val not in lista_valori and val != -1:
-                    lista_valori.append(val)
+        for y in range(len(file_csv)):
+            for x, val in enumerate(file_csv[y]):
+                if val != -1:
+                    if val in dict_valori:
+                        dict_valori[val].append((y, x))
+                    else:
+                        dict_valori[val] = [(y,x)]
+                                    
         
-        lista_valori.sort()
-        
+                
         CanCollide = []
-        m = max(lista_valori)
-        for i in lista_valori:
+        m = max(list(dict_valori))
+        for i in dict_valori:
             if i >= 0 and i < 56:
                 CanCollide.append(True)
             elif i >= 56 and i < m:
@@ -192,14 +140,14 @@ def load_collisions(path):
             else:
                 CanCollide.append(False)
 
-        return (file_csv, lista_valori, CanCollide)
+        return (dict_valori, CanCollide)
 
     if GLOB.LoadCollisions:
         GLOB.Mappa = CaricaLista(path)
         GLOB.LoadCollisions = False
 
-    for i, collisione in enumerate(GLOB.Mappa[1]):
-        collisions.render(var = collisione, hitbox = GLOB.Mappa[2][i])
+    for i, collisione in enumerate(GLOB.Mappa[0]):
+        collisions.render(id_var = collisione, hitbox = GLOB.Mappa[1][i])
 
 
 def controllo_condizioni():
@@ -256,7 +204,6 @@ def controllo_condizioni():
 
 
     if GLOB.PlayerReset:
-        SetPlayer_sprite()
         player.setAllkeys(False)
         player.finish()
         SetPlayer_speed()
@@ -273,6 +220,14 @@ def controllo_condizioni():
         player.setAllkeys(False)
         player.finish()
         SetPlayer_speed()
+
+    if timer.getMinutes() == 0 and timer.getSeconds() <= 30:
+        cam.screen_shake()
+        timer.ChangeColor("Red")
+    
+    if timer.getMinutes() < GLOB.RandomMinLight and GLOB.Flag_luce:
+        GLOB.corrente = False
+        GLOB.Flag_luce = False
 
 
 def Stampa_messaggio():
@@ -300,6 +255,9 @@ def Stampa_messaggio():
                         GLOB.enigmi_da_risolvere.pop(var)
                         player.evento = "enigma-risolto"
                         collisioni.eventi.testa()
+                        
+                    if GLOB.Stanza != GLOB.MonsterActualRoom:
+                        SaveCurrentGame()
 
                 else:
                     suono = mixer.Sound("suoni/failure.wav")
@@ -318,13 +276,8 @@ def Stampa_messaggio():
     
     except NameError:
         pass
-
-    if timer.getMinutes() == 0 and timer.getSeconds() <= 30:
-        cam.screen_shake()
-        timer.ChangeColor("Red")
-
+        
 def disegna():
-
     timer.Start()
 
     if GLOB.score_seconds:
@@ -347,8 +300,6 @@ def disegna():
 
     collisions.render_objects((0,0))
 
-    stanze.caricaStanza()
-
     if not GLOB.PlayerIsHidden:
         player.load_playerSurface()
 
@@ -356,19 +307,25 @@ def disegna():
         mostro.load_monsterSurface()
         
     collisions.render_walls((0,0))
-
-    Stampa_messaggio()
-
-    # MOSTRO LA GUI A SCHERMO
-    Gui.show()
-
-    # MOSTRO IL TIMER
-    timer.Show()
     
-    # Debugging
-    console.log()
+    stanze.caricaStanza()
     
     animazione.disegna()
+    
+    if not animazione.flag_caricamento:
+        lum.disegna()
+    
+    if animazione.iFinished:
+        Stampa_messaggio()
+
+        # MOSTRO LA GUI A SCHERMO
+        Gui.show()
+
+        # MOSTRO IL TIMER
+        timer.Show()
+        
+        # Debugging
+        console.log()
 
     if not GLOB.PlayerCanRun:
         SetPlayer_speed()
@@ -530,16 +487,12 @@ def main():
 
                 GLOB.PlayerIsWalking = False
                 GLOB.PlayerIsRunning = True
-
-                player.setIsRunning(GLOB.PlayerCanRun)
                 GLOB.Player_speed = GLOB.Player_speed * GLOB.PlayerRun_speed
             else:
 
                 GLOB.PlayerIsWalking = True
                 GLOB.PlayerIsRunning = False
                 player.flag_delay = True
-
-                player.setIsRunning(GLOB.PlayerCanRun)
                 GLOB.Player_speed = GLOB.Player_default_speed
                 
         elif INTERACT:
@@ -547,7 +500,6 @@ def main():
             
         else:
             GLOB.PlayerHasPressedButton = False
-            
 
     # SETTO ENIGMI
     enigma()
@@ -576,6 +528,14 @@ def main():
 
 
             if event.type == pygame.KEYDOWN:
+                
+
+                if event.key == pygame.K_r and GLOB.CanUseTorch:
+                    sound = mixer.Sound("suoni/torcia.wav")
+                    sound.set_volume(0.6 * GLOB.AU)
+                    sound.play()
+                    if not GLOB.corrente:
+                        GLOB.Torcia = not GLOB.Torcia
 
                 if GLOB.Debug:
                     if event.key == pygame.K_z:
@@ -615,12 +575,17 @@ def main():
             if GLOB.Debug:
 
                 if keys_pressed[pygame.K_l]:
+                    stanze.setToDefault()
+                    stanze.dizionario_flag[GLOB.Stanza] = True
                     animazione.iFinished = False
 
                 if keys_pressed[pygame.K_n]:
 
                     if not GLOB.Enigma:
                         GLOB.Enigma = True
+                        
+                if keys_pressed[pygame.K_c]:
+                    GLOB.MonsterCanKillMe = not GLOB.MonsterCanKillMe
                         
 
             if GLOB.PlayerCanMove:
@@ -721,36 +686,11 @@ def pausa():
                 
             if animazione.iFinished:
                 if event_pausa.type == pygame.MOUSEBUTTONDOWN and SAVE_BUTTON.checkForInput(MENU_MOUSE_POS) and not AlreadySaved:
+                    SaveCurrentGame()
                     button_sound = mixer.Sound("suoni/Save.wav")
                     button_sound.set_volume(0.05 * GLOB.AU)
                     button_sound.play()
                     AlreadySaved = True
-                    
-                    chiavi = list(GLOB.inventario.keys())
-                    
-                    for i in range(len(chiavi)):
-                        
-                        try:
-                            if not chiavi[i] in GLOB.Inventory_support[i][0]:
-                                GLOB.Inventory_support[i] = ((chiavi[i], GLOB.inventario[chiavi[i]][1], GLOB.inventario[chiavi[i]][2]))
-                                
-                            if chiavi[i] in GLOB.Inventory_support[i][0] and GLOB.inventario[chiavi[i]][1] and not GLOB.Inventory_support[i][1]:
-                                GLOB.Inventory_support[i] = ((chiavi[i], GLOB.inventario[chiavi[i]][1], GLOB.inventario[chiavi[i]][2]))
-                        
-                        except KeyError:
-                            GLOB.Inventory_support[i] = ((chiavi[i], GLOB.inventario[chiavi[i]][1], GLOB.inventario[chiavi[i]][2]))
-                        
-                
-                GLOB.TimerMin, GLOB.TimerSec = timer.getMinutes(), timer.getSeconds()
-                GLOB.PlayerXSpawn, GLOB.PlayerYSpawn = player.x / GLOB.MULT, player.y / GLOB.MULT
-                GLOB.CamXSpawn, GLOB.CamYSpawn = cam.x / GLOB.MULT, cam.y / GLOB.MULT
-                GLOB.MonsterXSpawn, GLOB.MonsterYSpawn = mostro.x / GLOB.MULT, mostro.y / GLOB.MULT
-                
-                GLOB.MonsterHasSeenPlayer = mostro.IseePlayer
-                GLOB.MonsterAggr = mostro.aggr
-                GLOB.MonsterIsAttacking = mostro.IAttacking
-                
-                GLOB.SaveGame()
 
             if event_pausa.type == pygame.QUIT:
                 QuitSave()
@@ -964,8 +904,8 @@ def game_over():
                 z += 1
                 t2 += testo2[z]
 
-    delay = Delay(0.4, stampa)
-    delay1 = Delay(0.9, gameover_sound.play)
+    delay = Delay(0.25, stampa)
+    delay1 = Delay(0.25, gameover_sound.play)
     
     while not restarta and VideoFinito:  
 

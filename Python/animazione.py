@@ -13,10 +13,10 @@ class Transizione():
 
         self.__vel = vel
         self.__delay = Delay(sec = self.__vel, event = self.sgrana)
-        self.superficie = pygame.surface.Surface((GLOB.screen_width, GLOB.screen_height))
+        self.superficie = pygame.surface.Surface((GLOB.screen_width, GLOB.screen_height)).convert()
         self.superficie.fill((0,0,0))        
         
-        self.schermo = pygame.surface.Surface((GLOB.screen_width, GLOB.screen_height))
+        self.schermo = pygame.surface.Surface((GLOB.screen_width, GLOB.screen_height)).convert()
         self.schermo.fill((0,0,0))
         
         self.val_scurisci = 300
@@ -34,6 +34,7 @@ class Transizione():
         
         self.setDelay()
         
+        GLOB.LoadCollisions = True
         
         
     def setDelay(self):
@@ -47,6 +48,7 @@ class Transizione():
             self.flag_room = False
             self.delay_monsterRoom.ReStart()
         
+        # -- MONSTER ROOMS MANAGER BEHAVIOUR --
         if main.mostro.IseePlayer and GLOB.MonsterCanSpawn and GLOB.MonsterSpawning and GLOB.MonsterCanChangeRoom and GLOB.Stanza != GLOB.MonsterActualRoom:
             
             if not main.mostro.aggr and main.mostro.IseePlayer:
@@ -60,12 +62,19 @@ class Transizione():
                     main.mostro.aggr = True
                     main.mostro.IAttacking = True
 
-                    if GLOB.PlayerIsHidden:
-                        main.mostro.character_update(0) 
+                    if GLOB.PlayerIsHidden or (not GLOB.Torcia and not GLOB.corrente):
+                        main.mostro.character_update(0)
+                        
+                    if GLOB.Stanza == "Segreteria":
+                        main.stanze.setToDefault()
+                        main.stanze.dizionario_flag["Segreteria"] = True
+                        main.stanze.caricaStanza()
+                        main.stanze.CaricaElementi()
                 
                 if ((GLOB.MonsterActualFloor == "1-PianoTerra" and GLOB.Piano == "3-SecondoPiano") or GLOB.Piano == "1-PianoTerra" and GLOB.MonsterActualFloor == "3-SecondoPiano") or (
                     not GLOB.Stanza[:-1] in GLOB.MonsterActualRoom and GLOB.MonsterActualFloor != GLOB.Piano) or (
-                    not "Corridoio" in GLOB.MonsterActualRoom and not "Corridoio" in GLOB.Stanza and GLOB.MonsterActualFloor == GLOB.Piano):
+                    (not "Corridoio" in GLOB.MonsterActualRoom and not "Corridoio" in GLOB.Stanza) and (
+                    not "Segreteria" in GLOB.MonsterActualRoom and not "Segreteria" in GLOB.Stanza) and GLOB.MonsterActualFloor == GLOB.Piano):
                     
                     testo = "Perso di vista"
                     GLOB.MonsterHasChangedRoom = True
@@ -101,6 +110,12 @@ class Transizione():
                     main.mostro.contatore_collisioni = 0
                     main.mostro.delayInteract.ReStart()
                     main.mostro.flag_interact = False
+                    
+                    if GLOB.Stanza == "Segreteria":
+                        main.stanze.setToDefault()
+                        main.stanze.dizionario_flag["Segreteria"] = True
+                        main.stanze.caricaStanza()
+                        main.stanze.CaricaElementi()
                     
                 if GLOB.PlayerIsHidden:
                     main.mostro.IseePlayer = False
@@ -257,13 +272,13 @@ class Transizione():
         GLOB.screen.blit(VALUE_TEXT, VALUE_RECT)
 
     def disegna(self):
-        if not GLOB.isPaused:
+        if not GLOB.isPaused and not self.flag_caricamento:
             self.delay_monsterRoom.Start()
             
             if GLOB.MonsterActualRoom == "Default":
                 main.mostro.evento = "porta"
         
-        if not GLOB.isPaused and not self.iFinished:
+        if not self.iFinished:
             
             if self.flag_caricamento:
                 self.Start()

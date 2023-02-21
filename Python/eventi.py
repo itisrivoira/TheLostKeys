@@ -128,6 +128,9 @@ def testa():
             risposte = ["Sembra chiusa a chiave", "La porta sembra chiusa a chiave", "Il bagno a quanto pare non accetta piu' personale", "Sembra il bagno maschile... Ma purtroppo è chiuso. Adesso come faccio?!?!", "Sembra il bagno maschile... Ma purtroppo è chiuso. Eh nulla mi tocca tenermela"]
             if GLOB.scelta_char == "Aleks":
                 risposte = ["Sembra chiusa a chiave", "La porta sembra chiusa a chiave", "Il bagno a quanto pare non accetta piu' personale", "Magari da qualche parte c'è una chiave!?!", "E' il bagno maschile. Per ora grazie ma non mi scappa! E poi c'è anche il bagno femminile che direi sia meglio."]
+
+        if "Segreteria" in GLOB.Stanza:
+            risposte = ["Sembra chiusa a chiave", "Chissa' dove posso trovare la chiave!", "Ah per poco! Il generatore e' proprio li'... Peccato che sia chiusa"]
         
         main.player.evento = "porta-99"
         
@@ -140,47 +143,22 @@ def testa():
 
 
     def Controlla(o):
-        try:
-            GLOB.inventario[o]
-            return False
-
-        except KeyError:
-            return True
-        
+        return o in GLOB.inventario
     
     def ControllaContenuto(o):
-        try:
-                        
-            # print(GLOB.inventario[o][1])
-            if GLOB.inventario[o][1]:
-                return False
-            else:
-                return True
-        except KeyError:
-            return True
+        if not Controlla(o):
+            return False
+        return GLOB.inventario[o][1]
 
 
-    def VerificaEnigmi():
-        var = GLOB.Stanza
-        # print(var)
+
+    def CheckEnigma(v = False):
+        var = v if v else GLOB.Stanza
 
         c = False
         for value in GLOB.enigmi_risolti:
             if var == value:
                 c = True
-
-        return c
-
-
-    def CheckEnimga(v):
-        var = v
-        # print(var)
-
-        c = False
-        for value in GLOB.enigmi_risolti:
-            if var == value:
-                c = True
-
         return c
 
 
@@ -199,11 +177,16 @@ def testa():
                 condizione = True
 
         
-        if GLOB.Stanza == "WC-Femmine" and Controlla("Ghiaccio"):
+        if GLOB.Stanza == "WC-Femmine" and not Controlla("Ghiaccio"):
             condizione = False
             
+            risposte = ["Certo! A questo punto faccio prima a non lavarmele... guarda te", "Grazie, ma non GRAZIE! Troppo sporca!", "Bleah! Che acqua putrida", "Non ne trovo l'utilita' adesso"]
+        
+            d = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 4)
+            d.stampa()
             
-        if ("Corridoio" in GLOB.Stanza and GLOB.Piano == "3-SecondoPiano" and ControllaContenuto("chiavetta-10")):
+            
+        if ("Corridoio" in GLOB.Stanza and GLOB.Piano == "3-SecondoPiano" and not ControllaContenuto("chiavetta-10")):
             condizione = False
             
             risposte = ["Sembra un distributore di merendine", "Cosa farei per un duplo", "Strano che non sia ancora stato distrutto, sarebbero state merendine gratis...", "Non so il perche', ma ho una certa fame..."]
@@ -212,7 +195,7 @@ def testa():
             d.stampa()
             
             
-        if GLOB.Stanza == "Archivio" and ControllaContenuto(GLOB.RandomKey):
+        if GLOB.Stanza == "Archivio" and not ControllaContenuto(GLOB.RandomKey):
             condizione = False
             
             testo = "Sembrano due vecchi telefoni..."
@@ -221,11 +204,7 @@ def testa():
             d.stampa()
             
 
-        if condizione:
-            GLOB.Enigma = True
-        else:
-            GLOB.Enigma = False
-            
+        GLOB.Enigma = condizione
         GLOB.PlayerReset = True
 
 
@@ -272,7 +251,7 @@ def testa():
         if GLOB.Stanza == "AulaProfessori":
             testo = "Interessante.|Ho trovato una chiave dietro al foglio, con su scritto \"WC\""
             
-            oggetto = "Chiave"
+            oggetto = "Chiave WC"
             descrizione = "Chiave del bagno Maschile"
             tipo = 3
             
@@ -331,6 +310,11 @@ def testa():
         main.SetPlayer_speed()
 
 
+    if main.player.evento != None:
+        if "porta" in main.player.evento or "piano" in main.player.evento:
+            GLOB.LoadCollisions = True
+            GLOB.LoadImages = True
+
     def piano():
         
         if main.mostro.evento == "piano-0":
@@ -380,17 +364,17 @@ def testa():
 
             if last_floor == "0-PianoSegreto":
                 GLOB.Piano = "0-PianoSegreto"
-                main.stanze.dizionario_flag["Archivio1"] = True
+                main.stanze.dizionario_flag["Archivio"] = True
             else:
                 main.stanze.setPosition((192, 72), (146, 62))
-                main.stanze.dizionario_flag["Corridoio"] = True
+                main.stanze.dizionario_flag["Corridoio1"] = True
 
         elif main.player.evento == "piano-2":
             last_floor = GLOB.Piano
             GLOB.Piano = "2-PrimoPiano"
             main.player.evento = None
             main.stanze.setToDefault()
-            main.stanze.dizionario_flag["Corridoio1"] = True
+            main.stanze.dizionario_flag["Corridoio2"] = True
 
             main.animazione.iFinished = False
 
@@ -405,7 +389,7 @@ def testa():
             GLOB.Piano = "3-SecondoPiano"
             main.player.evento = None
             main.stanze.setToDefault()
-            main.stanze.dizionario_flag["Corridoio2"] = True
+            main.stanze.dizionario_flag["Corridoio3"] = True
 
             main.animazione.iFinished = False
             main.stanze.setPosition((218, 94), (-236, -48))
@@ -438,14 +422,16 @@ def testa():
                     main.mostro.evento = None
                     GLOB.MonsterHasChangedRoom = True
                     GLOB.MonsterActualRoom = "Corridoio" + str(GLOB.MonsterActualFloor[0])
+                    GLOB.MonsterPreviousRoom = GLOB.MonsterActualRoom
                     
                     main.mostro.x = valuex * GLOB.MULT
                     main.mostro.y = valuey * GLOB.MULT
                         
                     GLOB.SecondDiffPos = 0
                     
-                if GLOB.Stanza != GLOB.MonsterActualRoom and main.mostro.evento == None:
-                    GLOB.FlagSecRand = True
+        if main.mostro.evento != None:
+            if "porta" in main.mostro.evento:
+                GLOB.FlagSecRand = True
             
                     
         
@@ -457,9 +443,26 @@ def testa():
                 
                 if "Corridoio" in GLOB.MonsterActualRoom:
                     GLOB.MonsterActualRoom = "Fisica"
+                    GLOB.MonsterPreviousRoom = GLOB.MonsterActualRoom
                     
                     main.mostro.x = 344 * GLOB.MULT
                     main.mostro.y = 188 * GLOB.MULT
+                    
+            elif GLOB.MonsterActualFloor == "3-SecondoPiano":
+                
+                if "Generatore" in GLOB.MonsterActualRoom:
+                    GLOB.MonsterActualRoom = "Segreteria"
+                    GLOB.MonsterPreviousRoom = GLOB.MonsterActualRoom
+                    
+                    main.mostro.x = 226 * GLOB.MULT
+                    main.mostro.y = 174 * GLOB.MULT
+                    
+                elif "Segreteria" in GLOB.MonsterActualRoom:
+                    GLOB.MonsterActualRoom = "Generatore"
+                    GLOB.MonsterPreviousRoom = GLOB.MonsterActualRoom
+
+                    main.mostro.x = 250 * GLOB.MULT
+                    main.mostro.y = 20 * GLOB.MULT
             
             else:
                 main.Gui.door_sound_locked.play()
@@ -473,9 +476,29 @@ def testa():
                 
                 if "Corridoio" in GLOB.MonsterActualRoom:
                     GLOB.MonsterActualRoom = "Chimica"
+                    GLOB.MonsterPreviousRoom = GLOB.MonsterActualRoom
                     
                     main.mostro.x = 508 * GLOB.MULT
                     main.mostro.y = 137 * GLOB.MULT
+                    
+                    main.mostro.monster_ai_brain = 2
+                    
+            else:
+                main.Gui.door_sound_locked.play()
+                
+                
+        if main.mostro.evento == "porta-3":
+            main.mostro.evento = None
+            GLOB.MonsterHasChangedRoom = True
+            
+            if GLOB.MonsterActualFloor == "3-SecondoPiano":
+                
+                if "Corridoio" in GLOB.MonsterActualRoom:
+                    GLOB.MonsterActualRoom = "Segreteria"
+                    GLOB.MonsterPreviousRoom = GLOB.MonsterActualRoom
+                    
+                    main.mostro.x = 56 * GLOB.MULT
+                    main.mostro.y = 62 * GLOB.MULT
                     
                     main.mostro.monster_ai_brain = 2
                     
@@ -491,6 +514,7 @@ def testa():
                 
                 if "Corridoio" in GLOB.MonsterActualRoom:
                     GLOB.MonsterActualRoom = "1D"
+                    GLOB.MonsterPreviousRoom = GLOB.MonsterActualRoom
                     
                     main.mostro.x = 376 * GLOB.MULT
                     main.mostro.y = 202 * GLOB.MULT
@@ -506,6 +530,7 @@ def testa():
                 
                 if "Corridoio" in GLOB.MonsterActualRoom:
                     GLOB.MonsterActualRoom = "AulaVideo"
+                    GLOB.MonsterPreviousRoom = GLOB.MonsterActualRoom
                     
                     main.mostro.x = 180 * GLOB.MULT
                     main.mostro.y = 32 * GLOB.MULT
@@ -522,6 +547,7 @@ def testa():
                 
                 if "Corridoio" in GLOB.MonsterActualRoom:
                     GLOB.MonsterActualRoom = "Archivio"
+                    GLOB.MonsterPreviousRoom = GLOB.MonsterActualRoom
                     
                     main.mostro.x = 392 * GLOB.MULT
                     main.mostro.y = 236 * GLOB.MULT
@@ -539,6 +565,7 @@ def testa():
                 
                 if "Corridoio" in GLOB.MonsterActualRoom:
                     GLOB.MonsterActualRoom = "4A"
+                    GLOB.MonsterPreviousRoom = GLOB.MonsterActualRoom
                     
                     main.mostro.x = 460 * GLOB.MULT
                     main.mostro.y = 160 * GLOB.MULT
@@ -555,6 +582,7 @@ def testa():
                 
                 if "Corridoio" in GLOB.MonsterActualRoom:
                     GLOB.MonsterActualRoom = "Ripostiglio"
+                    GLOB.MonsterPreviousRoom = GLOB.MonsterActualRoom
                     
                     main.mostro.x = 271 * GLOB.MULT
                     main.mostro.y = 176 * GLOB.MULT
@@ -573,6 +601,7 @@ def testa():
                 
                 if "Corridoio" in GLOB.MonsterActualRoom:
                     GLOB.MonsterActualRoom = "AulaProfessori"
+                    GLOB.MonsterPreviousRoom = GLOB.MonsterActualRoom
                     
                     main.mostro.x = 338 * GLOB.MULT
                     main.mostro.y = 152 * GLOB.MULT
@@ -591,7 +620,7 @@ def testa():
                     main.stanze.dizionario_flag["Fisica"] = True
 
                 if GLOB.Stanza == "Fisica":
-                    main.stanze.dizionario_flag["Corridoio"] = True
+                    main.stanze.dizionario_flag["Corridoio1"] = True
 
             elif GLOB.Piano == "2-PrimoPiano":
                         
@@ -599,7 +628,15 @@ def testa():
                     main.stanze.dizionario_flag["LabInfo"] = True
 
                 if GLOB.Stanza == "LabInfo":
-                    main.stanze.dizionario_flag["Corridoio1"] = True
+                    main.stanze.dizionario_flag["Corridoio2"] = True
+                    
+            elif GLOB.Piano == "3-SecondoPiano" and Controlla("Chiave Segreteria"):
+                
+                if GLOB.Stanza == "Segreteria":
+                    main.stanze.dizionario_flag["Generatore"] = True
+                    
+                if GLOB.Stanza == "Generatore":
+                    main.stanze.dizionario_flag["Segreteria"] = True
 
             else:
                 Blocca()
@@ -612,14 +649,13 @@ def testa():
             main.player.evento = None
             main.stanze.setToDefault()
 
-
-            if GLOB.Piano == "2-PrimoPiano" and not Controlla("Chiave"):
+            if GLOB.Piano == "2-PrimoPiano" and Controlla("Chiave WC"):
                 
                 if "Corridoio" in GLOB.Stanza:
                     main.stanze.dizionario_flag["WCmaschi"] = True
 
                 if GLOB.Stanza == "WC-Maschi":
-                    main.stanze.dizionario_flag["Corridoio1"] = True
+                    main.stanze.dizionario_flag["Corridoio2"] = True
 
             else:
                 Blocca()
@@ -641,7 +677,27 @@ def testa():
                     main.stanze.dizionario_flag["Chimica"] = True
 
                 if GLOB.Stanza == "Chimica":
-                    main.stanze.dizionario_flag["Corridoio"] = True
+                    main.stanze.dizionario_flag["Corridoio1"] = True
+
+            else:
+                Blocca()
+                return False
+
+            main.Gui.door_sound.play()
+            main.animazione.iFinished = False
+            
+            
+        elif main.player.evento == "porta-3":
+            main.player.evento = None
+            main.stanze.setToDefault()
+                    
+            if GLOB.Piano == "3-SecondoPiano":
+                
+                if "Corridoio" in GLOB.Stanza:
+                    main.stanze.dizionario_flag["Segreteria"] = True
+
+                if GLOB.Stanza == "Segreteria":
+                    main.stanze.dizionario_flag["Corridoio3"] = True
 
             else:
                 Blocca()
@@ -661,7 +717,7 @@ def testa():
                     main.stanze.dizionario_flag["Classe1D"] = True
 
                 if GLOB.Stanza == "1D":
-                    main.stanze.dizionario_flag["Corridoio1"] = True
+                    main.stanze.dizionario_flag["Corridoio2"] = True
                     
             else:
                 Blocca()
@@ -681,7 +737,7 @@ def testa():
                     main.stanze.dizionario_flag["Classe1A"] = True
 
                 if GLOB.Stanza == "1A":
-                    main.stanze.dizionario_flag["Corridoio1"] = True
+                    main.stanze.dizionario_flag["Corridoio2"] = True
 
             elif GLOB.Piano == "3-SecondoPiano":
                         
@@ -699,7 +755,7 @@ def testa():
                         pass
 
                 if GLOB.Stanza == "AulaVideo":
-                    main.stanze.dizionario_flag["Corridoio2"] = True
+                    main.stanze.dizionario_flag["Corridoio3"] = True
 
             else:
                 Blocca()
@@ -716,13 +772,10 @@ def testa():
             if GLOB.Piano == "1-PianoTerra":
             
                 if "Corridoio" in GLOB.Stanza:
-                    if not GLOB.codice_archivio:
-                        main.stanze.dizionario_flag["Archivio0"] = True
-                    else:
-                        main.stanze.dizionario_flag["Archivio1"] = True
+                        main.stanze.dizionario_flag["Archivio"] = True
 
                 if GLOB.Stanza == "Archivio":
-                    main.stanze.dizionario_flag["Corridoio"] = True
+                    main.stanze.dizionario_flag["Corridoio1"] = True
 
 
             elif GLOB.Piano == "2-PrimoPiano":
@@ -731,7 +784,7 @@ def testa():
                     main.stanze.dizionario_flag["AulaMagna"] = True
 
                 if GLOB.Stanza == "AulaMagna":
-                    main.stanze.dizionario_flag["Corridoio1"] = True
+                    main.stanze.dizionario_flag["Corridoio2"] = True
 
             else:
                 Blocca()
@@ -752,7 +805,7 @@ def testa():
                     main.stanze.dizionario_flag["Classe4A"] = True
 
                 if GLOB.Stanza == "4A":
-                    main.stanze.dizionario_flag["Corridoio2"] = True
+                    main.stanze.dizionario_flag["Corridoio3"] = True
 
             else:
                 Blocca()
@@ -773,7 +826,7 @@ def testa():
                     main.stanze.dizionario_flag["WCfemmine"] = True
 
                 if GLOB.Stanza == "WC-Femmine":
-                    main.stanze.dizionario_flag["Corridoio1"] = True
+                    main.stanze.dizionario_flag["Corridoio2"] = True
 
 
             else:
@@ -794,7 +847,7 @@ def testa():
                     main.stanze.dizionario_flag["AulaProfessori"] = True
 
                 if GLOB.Stanza == "AulaProfessori":
-                    main.stanze.dizionario_flag["Corridoio1"] = True
+                    main.stanze.dizionario_flag["Corridoio2"] = True
 
 
             elif GLOB.Piano == "3-SecondoPiano":
@@ -803,7 +856,7 @@ def testa():
                     main.stanze.dizionario_flag["LabInformatica"] = True
 
                 if GLOB.Stanza == "LabInformatica":
-                    main.stanze.dizionario_flag["Corridoio2"] = True
+                    main.stanze.dizionario_flag["Corridoio3"] = True
 
             else:
                 Blocca()
@@ -824,7 +877,7 @@ def testa():
                     main.stanze.dizionario_flag["Ripostiglio"] = True
 
                 if GLOB.Stanza == "Ripostiglio":
-                    main.stanze.dizionario_flag["Corridoio2"] = True
+                    main.stanze.dizionario_flag["Corridoio3"] = True
 
             else:
                 Blocca()
@@ -832,10 +885,6 @@ def testa():
 
             main.Gui.door_sound.play()
             main.animazione.iFinished = False
-
-        if main.player.evento == "porta-3" or main.player.evento == "porta-4" or main.player.evento == "porta-6" or main.player.evento == "porta-13" or main.player.evento == "porta-14":
-            Blocca()
-            return False
         
 
     if piano() == False or porte() == False:
@@ -869,22 +918,27 @@ def testa():
         GLOB.PlayerReset = True
         oggetto = "Default"
         descrizione = "Default"
+        tipo = -1
 
-        if GLOB.Stanza == "Chimica" and VerificaEnigmi():
+        if GLOB.Stanza == "Chimica" and CheckEnigma():
             tipo = 0
             oggetto = "Ghiaccio"
             descrizione = "All'interno si intravede uno strano elemento"
-
 
         if GLOB.Stanza == "AulaProfessori":
             tipo = 1
             oggetto = "Libro Karl Marx"
             descrizione = "All'interno c'e' uno strano post-it con su scritto: \"E' stato bello finche\' e' durato stare in questa scuola 02/02/2018\""
 
-        if GLOB.Stanza == "AulaMagna" and VerificaEnigmi():
+        if GLOB.Stanza == "WC-Maschi":
+            tipo = 4
+            oggetto = "Chiave Segreteria"
+            descrizione = "Chiave che apre la porta della segreteria situata  al terzo piano..."
+
+        if GLOB.Stanza == "AulaMagna" and CheckEnigma():
             oggetto = "chiavetta-4"
 
-            if Controlla(oggetto):
+            if not Controlla(oggetto):
                 main.player.evento = oggetto
                 AggiungiChiavetta()
                 Trovato(oggetto)
@@ -893,10 +947,10 @@ def testa():
 
             return
 
-        if GLOB.Stanza == "1A" and VerificaEnigmi():
+        if GLOB.Stanza == "1A" and CheckEnigma():
             oggetto = "chiavetta-2"
 
-            if Controlla(oggetto):
+            if not Controlla(oggetto):
                 main.player.evento = oggetto
                 AggiungiChiavetta()
                 Trovato(oggetto)
@@ -907,10 +961,10 @@ def testa():
 
 
 
-        if GLOB.Stanza == "Archivio" and CheckEnimga("AulaVideo"):
+        if GLOB.Stanza == "Archivio" and CheckEnigma("AulaVideo"):
             oggetto = "chiavetta-8"
 
-            if Controlla(oggetto):
+            if not Controlla(oggetto):
                 main.player.evento = oggetto
                 AggiungiChiavetta()
                 Trovato(oggetto)
@@ -919,10 +973,10 @@ def testa():
 
             return
 
-        if GLOB.Stanza == "LabInfo" and CheckEnimga("LabInfo"):
+        if GLOB.Stanza == "LabInfo" and CheckEnigma("LabInfo"):
             oggetto = "chiavetta-6"
 
-            if Controlla(oggetto):
+            if not Controlla(oggetto):
                 main.player.evento = oggetto
                 AggiungiChiavetta()
                 Trovato(oggetto)
@@ -931,16 +985,16 @@ def testa():
 
             return
 
-        if Controlla(oggetto):
-            try:
-                GLOB.inventario[oggetto] = (GLOB.oggetti[tipo][2], True, descrizione)
-            except UnboundLocalError:
-                NonTrovato()
-                return
-        else:
+        if Controlla(oggetto):            
             NonTrovato()
             return
 
+        if tipo == -1:
+            NonTrovato()
+            return
+        else:
+            GLOB.inventario[oggetto] = (GLOB.oggetti[tipo][2], True, descrizione)
+            
         Trovato(oggetto)
 
 
@@ -960,7 +1014,7 @@ def testa():
 
             if codice.risolto:
                 main.stanze.setToDefault()
-                main.stanze.dizionario_flag["Archivio1"] = True
+                main.stanze.dizionario_flag["Archivio"] = True
                 main.stanze.caricaStanza()
                 main.stanze.CaricaElementi()
 
@@ -1011,6 +1065,21 @@ def testa():
                 
             if GLOB.Stanza == "WC-Femmine":
                 testo = "Bleah! Di certo l'igiene non era una cosa fondamentale in questa scuola"
+                
+        if GLOB.Piano == "3-SecondoPiano":
+                
+            if GLOB.Stanza == "Segreteria":
+                testo = "Chissa' da quanto tempo è abbandonata...| All'interno intravedo un generatore|Forse grazie a quello mi sara' possibile riattivare di nuovo la corrente!!"
+                
+            if GLOB.Stanza == "Generatore":
+                GLOB.corrente = not GLOB.corrente
+                sound = main.mixer.Sound("suoni/"+str(GLOB.corrente)+"corrente.wav")
+                sound.set_volume(0.5 * GLOB.AU)
+                sound.fadeout(900)
+                sound.play()
+
+                testo = "Ho " + ("attivato" if GLOB.corrente else "disattivato") + " la corrente!"
+                
                 
         if testo != "Default":  
             testo = testo.split("|")
