@@ -416,7 +416,7 @@ def setResources():
     PlayerInteract = False
     PlayerCanInteract = False
     PlayerTextInteract = "Interagisci"
-    PlayerHasPressedButton = False
+    PlayerHasPressedButton = True
     PlayerFoundKey = False
 
     PlayerIsWalking = True

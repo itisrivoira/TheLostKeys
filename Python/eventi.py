@@ -1082,10 +1082,6 @@ def testa():
                 
             if GLOB.Stanza == "Generatore":
                 GLOB.corrente = not GLOB.corrente
-                sound = main.mixer.Sound("suoni/"+str(GLOB.corrente)+"corrente.wav")
-                sound.set_volume(0.5 * GLOB.AU)
-                sound.fadeout(900)
-                sound.play()
                 GLOB.PlayerHasPressedButton = GLOB.corrente
 
                 testo = "Ho " + ("attivato" if GLOB.corrente else "disattivato") + " la corrente!"
@@ -1098,3 +1094,10 @@ def testa():
                 
                 d = main.Dialoghi(GLOB.scelta_char, frase, 4)
                 d.stampa()
+                
+        if GLOB.Piano == "3-SecondoPiano":
+            if GLOB.Stanza == "Generatore":
+                sound = main.mixer.Sound("suoni/"+str(GLOB.corrente)+"corrente.wav")
+                sound.set_volume(0.5 * GLOB.AU)
+                sound.fadeout(900)
+                sound.play()

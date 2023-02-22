@@ -91,7 +91,7 @@ def inizializza():
     # Messaggio visualizzabile a schermo
     messaggio_a_schermo = Risultato(text = "Esempio", color = "White", size = 10, delay_scomparsa = 1)
 
-    timer = Timer(minutes = GLOB.TimerMin, seconds = GLOB.TimerSec, molt_sec = 3, event = game_over)
+    timer = Timer(minutes = GLOB.TimerMin, seconds = GLOB.TimerSec, molt_sec = 1, event = game_over)
     animazione = Transizione(vel = 0.01)
 
     collisions = collisioni.Map(risoluzione = 24, path = GLOB.Default_path+"/"+ GLOB.Piano +"/")
