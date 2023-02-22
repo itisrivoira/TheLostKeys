@@ -261,14 +261,15 @@ class Transizione():
         LOAD_TEXT = main.get_font(12*int(GLOB.MULT)).render("Caricamento", True, "white")
         LOAD_RECT = LOAD_TEXT.get_rect(center=(GLOB.screen_width/2, GLOB.screen_height/2 - LOAD_TEXT.get_height()/2 - 10*GLOB.MULT))
 
-        VALUE_TEXT = main.get_font(6*int(GLOB.MULT)).render(str(int(self.val_caricamento*10))+"%", True, "Gray")
-        VALUE_RECT = LOAD_TEXT.get_rect(center=(GLOB.screen_width/2 + 7 * GLOB.MULT * molt - VALUE_TEXT.get_width()/2, GLOB.screen_height/2 - LOAD_TEXT.get_height()/2 + 14 * GLOB.MULT))
+        rect = pygame.Rect(GLOB.screen_width/2 - (5 * GLOB.MULT * molt), GLOB.screen_height/2, 10 * GLOB.MULT * molt, 10 * GLOB.MULT)
+        VALUE_TEXT = main.get_font(6*int(GLOB.MULT)).render(str(int(self.val_caricamento*10))+"%", True, "#2c2c2c")
+        VALUE_RECT = (rect.x + rect.width/2 - VALUE_TEXT.get_width()/4, rect.y + rect.height/2 - VALUE_TEXT.get_height()/2)
 
         GLOB.screen.fill((0,0,0))
         GLOB.screen.blit(LOAD_TEXT, LOAD_RECT)
-        pygame.draw.rect(GLOB.screen, "White", pygame.Rect(GLOB.screen_width/2 - (5 * GLOB.MULT * molt), GLOB.screen_height/2, 10 * GLOB.MULT * molt, 10 * GLOB.MULT))
-        pygame.draw.rect(GLOB.screen, "Gray", pygame.Rect(GLOB.screen_width/2 - (5 * GLOB.MULT * molt), GLOB.screen_height/2, 10 * GLOB.MULT * molt, 10 * GLOB.MULT), int(GLOB.MULT))
-        pygame.draw.rect(GLOB.screen, "Green", pygame.Rect(GLOB.screen_width/2 - (5 * GLOB.MULT * molt) + GLOB.MULT, GLOB.screen_height/2 + GLOB.MULT, self.val_caricamento * GLOB.MULT * molt - 2 * GLOB.MULT, 8 * GLOB.MULT))
+        pygame.draw.rect(GLOB.screen, "#f5f5f5", rect)
+        pygame.draw.rect(GLOB.screen, "#676767", rect, int(GLOB.MULT))
+        pygame.draw.rect(GLOB.screen, "#41e141", pygame.Rect(GLOB.screen_width/2 - (5 * GLOB.MULT * molt) + GLOB.MULT, GLOB.screen_height/2 + GLOB.MULT, self.val_caricamento * GLOB.MULT * molt - 2 * GLOB.MULT, 8 * GLOB.MULT))
         GLOB.screen.blit(VALUE_TEXT, VALUE_RECT)
 
     def disegna(self):

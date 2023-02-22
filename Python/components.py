@@ -12,24 +12,24 @@ class Alert():
 		self.functions = functions
 		
 		alert = pygame.image.load("assets/selezione.png").convert_alpha()
-		self.__alert = pygame.transform.scale(alert, (alert.get_width() * GLOB.MULT, alert.get_height() *int(GLOB.MULT+0.99)))
+		self.__alert = pygame.transform.scale(alert, (alert.get_width() * GLOB.MULT, alert.get_height() *int(GLOB.MULT)))
 		
-		self.__text = get_font(4*int(GLOB.MULT+0.9)).render(self.text, True, "#e9eef7")
-		self.__rect = self.__text.get_rect(center=(GLOB.screen_width/2, GLOB.screen_height/2 - 15 *int(GLOB.MULT+0.99)))
+		self.__text = get_font(4*int(GLOB.MULT)).render(self.text, True, "#e9eef7")
+		self.__rect = self.__text.get_rect(center=(GLOB.screen_width/2, GLOB.screen_height/2 - 15 *int(GLOB.MULT)))
 		
 		distance = 35
 		altezza = 20
 		self.__selections = [
 			
-									Button(image=None, pos=(GLOB.screen_width/2 - distance * GLOB.MULT, GLOB.screen_height/2 + altezza *int(GLOB.MULT+0.99)), 
-									text_input="si'", font=get_font(4*int(GLOB.MULT+0.9)), base_color="White", hovering_color="Yellow", scale=2),
+									Button(image=None, pos=(GLOB.screen_width/2 - distance * GLOB.MULT, GLOB.screen_height/2 + altezza *int(GLOB.MULT)), 
+									text_input="si'", font=get_font(4*int(GLOB.MULT)), base_color="White", hovering_color="Yellow", scale=2),
 				
-									Button(image=None, pos=(GLOB.screen_width/2 + distance * GLOB.MULT, GLOB.screen_height/2 + altezza *int(GLOB.MULT+0.99)), 
-									text_input="no", font=get_font(4*int(GLOB.MULT+0.9)), base_color="White", hovering_color="Yellow", scale=2),
+									Button(image=None, pos=(GLOB.screen_width/2 + distance * GLOB.MULT, GLOB.screen_height/2 + altezza *int(GLOB.MULT)), 
+									text_input="no", font=get_font(4*int(GLOB.MULT)), base_color="White", hovering_color="Yellow", scale=2),
 				
 				
 									Button(image=None, pos=(GLOB.screen_width/2 + self.__alert.get_width()/2, GLOB.screen_height/2 - self.__alert.get_height()/2), 
-									text_input="X", font=get_font(6*int(GLOB.MULT+0.9)), base_color="White", hovering_color="Red", scale=2)
+									text_input="X", font=get_font(6*int(GLOB.MULT)), base_color="White", hovering_color="Red", scale=2)
 								]
 	def Print(self):
 		MENU_MOUSE_POS = pygame.mouse.get_pos()
@@ -201,7 +201,7 @@ class Dialoghi():
 	
 		self.descr = [self.descr[i:i+1] for i in range(0, len(self.descr), 1)]
 			
-		self.Nome_TEXT = get_font(7*int(GLOB.MULT+0.9)).render(self.personaggio, True, "Black")
+		self.Nome_TEXT = get_font(7*int(GLOB.MULT)).render(self.personaggio, True, "Black")
 		self.Nome_RECT = self.Nome_TEXT.get_rect(center=(70*GLOB.MULT, GLOB.screen_height-10*GLOB.MULT))
 
 		self.vignetta = pygame.image.load("Dialoghi/Characters/"+self.personaggio+".png").convert_alpha()
@@ -246,7 +246,7 @@ class Dialoghi():
 
 		def ScriviTesto(val):
 				
-			font_size = 4 * int(GLOB.MULT+0.9)
+			font_size = 4 * int(GLOB.MULT)
 			if val == 1:
 				self.descrizione += self.descr[int(self.delay)]
 
@@ -469,7 +469,7 @@ class Dialoghi_Interattivi():
 		try:
 
 			self.enigma_image = pygame.image.load(GLOB.Default_path+"/"+GLOB.Piano+"/"+GLOB.Stanza+"/enigmi/png/immagine.png").convert_alpha()
-			self.enigma_image = pygame.transform.scale(self.enigma_image, (self.enigma_image.get_width() * GLOB.MULT, self.enigma_image.get_height() *int(GLOB.MULT+0.99)))
+			self.enigma_image = pygame.transform.scale(self.enigma_image, (self.enigma_image.get_width() * GLOB.MULT, self.enigma_image.get_height() *int(GLOB.MULT)))
 
 			self.flag_Tabella = True
 
@@ -604,7 +604,7 @@ class Dialoghi_Interattivi():
 
 		def ScriviTesto(val):
 			
-			font_size = 4 * int(GLOB.MULT+0.9)
+			font_size = 4 * int(GLOB.MULT)
 			if val == 1:
 				self.descrizione += self.descr[int(round(self.delay, 1))]
 
@@ -823,7 +823,7 @@ class Dialoghi_Interattivi():
 				self.class_sfoca.val_scurisci = 0
 				self.suggerimento = False
 				
-			TRY_TEXT = get_font(4*int(GLOB.MULT+0.9)).render(str(self.tentativo+1)+"° tentativo", True, "white")
+			TRY_TEXT = get_font(4*int(GLOB.MULT)).render(str(self.tentativo+1)+"° tentativo", True, "white")
 			TRY_RECT = TRY_TEXT.get_rect(center=(50*GLOB.MULT, 20*GLOB.MULT))
 
 			GLOB.screen.blit(TRY_TEXT, TRY_RECT)
@@ -847,8 +847,8 @@ class Dialoghi_Interattivi():
 			if self.isFinished:
 				GLOB.Enigma = False
 				
-				if not self.suggerimento:
-					GLOB.screen.blit(self.scelte, (280*GLOB.MULT, 12 *int(GLOB.MULT+0.99)))
+				if not self.class_sfoca.flag_reverse:
+					GLOB.screen.blit(self.scelte, (280*GLOB.MULT, 12 *int(GLOB.MULT)))
 					
 				distanza_righe = 23
 				valuex, valuey = 138, 30
@@ -866,16 +866,16 @@ class Dialoghi_Interattivi():
 						return default_color
 
 
-				self.RISPOSTA_TEXT = get_font(font_size*int(GLOB.MULT+0.9)).render(self.risposte[0], True, imposta_colore(0))
+				self.RISPOSTA_TEXT = get_font(font_size*int(GLOB.MULT)).render(self.risposte[0], True, imposta_colore(0))
 				self.RISPOSTA_RECT = self.RISPOSTA_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, (valuey+distanza_righe)*GLOB.MULT))
 
-				self.RISPOSTA1_TEXT = get_font(font_size*int(GLOB.MULT+0.9)).render(self.risposte[1], True, imposta_colore(1))
+				self.RISPOSTA1_TEXT = get_font(font_size*int(GLOB.MULT)).render(self.risposte[1], True, imposta_colore(1))
 				self.RISPOSTA1_RECT = self.RISPOSTA1_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, (valuey+distanza_righe*2)*GLOB.MULT))
 
-				self.RISPOSTA2_TEXT = get_font(font_size*int(GLOB.MULT+0.9)).render(self.risposte[2], True, imposta_colore(2))
+				self.RISPOSTA2_TEXT = get_font(font_size*int(GLOB.MULT)).render(self.risposte[2], True, imposta_colore(2))
 				self.RISPOSTA2_RECT = self.RISPOSTA2_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, (valuey+distanza_righe*3)*GLOB.MULT))
 
-				self.RISPOSTA3_TEXT = get_font(font_size*int(GLOB.MULT+0.9)).render(self.risposte[3], True, imposta_colore(3))
+				self.RISPOSTA3_TEXT = get_font(font_size*int(GLOB.MULT)).render(self.risposte[3], True, imposta_colore(3))
 				self.RISPOSTA3_RECT = self.RISPOSTA3_TEXT.get_rect(center=(GLOB.screen_width/2+valuex*GLOB.MULT, (valuey+distanza_righe*4)*GLOB.MULT))
 
 				GLOB.screen.blit(self.RISPOSTA_TEXT, self.RISPOSTA_RECT)
@@ -884,7 +884,7 @@ class Dialoghi_Interattivi():
 				GLOB.screen.blit(self.RISPOSTA3_TEXT, self.RISPOSTA3_RECT)
 
 			avanza = Button(image=pygame.image.load("assets/tasello.png").convert(), pos=(80*GLOB.MULT,  GLOB.screen_height-12*GLOB.MULT), 
-								text_input="", font=pygame.font.Font("font/font.ttf", (8*int(GLOB.MULT+0.9))), base_color="White", hovering_color="#d7fcd4", scale=1.8)
+								text_input="", font=pygame.font.Font("font/font.ttf", (8*int(GLOB.MULT))), base_color="White", hovering_color="#d7fcd4", scale=1.8)
 
 			if self.interm == 0 or self.cooldown_interm != GLOB.FPS / 10:
 				avanza.update(GLOB.screen)
@@ -1039,8 +1039,8 @@ class Timer():
 		self.__init__(self.__max_sec, self.__molt_sec, self.__function)
 
 	def Show(self):
-		testo = get_font(7*int(GLOB.MULT+0.9)).render((self.__testo1+str(int(self.__minutes))+str(self.__testo2)+str(int(self.__seconds/(GLOB.FPS / GLOB.Delta_Time)))), True, self.__color)
-		GLOB.screen.blit(testo, (GLOB.screen_width/2 - testo.get_width()/2, 35 *int(GLOB.MULT+0.99)))
+		testo = get_font(7*int(GLOB.MULT)).render((self.__testo1+str(int(self.__minutes))+str(self.__testo2)+str(int(self.__seconds/(GLOB.FPS / GLOB.Delta_Time)))), True, self.__color)
+		GLOB.screen.blit(testo, (GLOB.screen_width/2 - testo.get_width()/2, 35 *int(GLOB.MULT)))
   
 	def ChangeColor(self, v):
 		self.__color = v
@@ -1190,11 +1190,11 @@ class Risultato():
 
 			GLOB.screen.blit(self.surface, (0,0))
 
-			RISULTATO_TEXT = get_font(self.size*int(GLOB.MULT+0.9)).render(self.text, True, self.color)
+			RISULTATO_TEXT = get_font(self.size*int(GLOB.MULT)).render(self.text, True, self.color)
 			RISULTATO_POS = (GLOB.screen_width/2 - RISULTATO_TEXT.get_width()/2, GLOB.screen_height/3 - RISULTATO_TEXT.get_height()/2)
 
-			CONTORNO_TEXT = get_font(self.size*int(GLOB.MULT+0.9)).render(self.text, True, "Black")
-			CONTORNO_POS = (GLOB.screen_width/2 - CONTORNO_TEXT.get_width()/2, GLOB.screen_height/3 - CONTORNO_TEXT.get_height()/2 + altezza *int(GLOB.MULT+0.99))
+			CONTORNO_TEXT = get_font(self.size*int(GLOB.MULT)).render(self.text, True, "Black")
+			CONTORNO_POS = (GLOB.screen_width/2 - CONTORNO_TEXT.get_width()/2, GLOB.screen_height/3 - CONTORNO_TEXT.get_height()/2 + altezza *int(GLOB.MULT))
 
 			GLOB.screen.blit(CONTORNO_TEXT, CONTORNO_POS)
 			GLOB.screen.blit(RISULTATO_TEXT, RISULTATO_POS)
@@ -1206,31 +1206,31 @@ class GUI():
 
 		val = 1.1
 		self.first = pygame.image.load("assets/gui-1.png").convert_alpha()
-		self.first = pygame.transform.scale(self.first, (self.first.get_width()/val * GLOB.MULT, self.first.get_height()/val *int(GLOB.MULT+0.99)))
+		self.first = pygame.transform.scale(self.first, (self.first.get_width()/val * GLOB.MULT, self.first.get_height()/val *int(GLOB.MULT)))
 
 		self.third = pygame.image.load("assets/gui-3.png").convert_alpha()
-		self.third = pygame.transform.scale(self.third, (self.third.get_width()/val * GLOB.MULT, self.third.get_height()/val *int(GLOB.MULT+0.99)))
+		self.third = pygame.transform.scale(self.third, (self.third.get_width()/val * GLOB.MULT, self.third.get_height()/val *int(GLOB.MULT)))
 
 		self.bar = pygame.image.load("assets/gui-4.png").convert_alpha()
-		self.bar = pygame.transform.scale(self.bar, (self.bar.get_width()/val * GLOB.MULT, self.bar.get_height()/val *int(GLOB.MULT+0.99)))
+		self.bar = pygame.transform.scale(self.bar, (self.bar.get_width()/val * GLOB.MULT, self.bar.get_height()/val *int(GLOB.MULT)))
 
 		val_timer = 1.8
 
 		self.timer = pygame.image.load("assets/gui-6.png").convert_alpha()
-		self.timer = pygame.transform.scale(self.timer, (self.timer.get_width() / val_timer * GLOB.MULT, self.timer.get_height() / val_timer *int(GLOB.MULT+0.99)))
+		self.timer = pygame.transform.scale(self.timer, (self.timer.get_width() / val_timer * GLOB.MULT, self.timer.get_height() / val_timer *int(GLOB.MULT)))
 
 		val_player = 1.8
 
 		self.player = pygame.image.load("Dialoghi/Characters/"+GLOB.scelta_char+".png").convert_alpha()
-		self.player = pygame.transform.scale(self.player, (self.player.get_width() * val_player / val * GLOB.MULT, self.player.get_height() * val_player / val *int(GLOB.MULT+0.99)))
+		self.player = pygame.transform.scale(self.player, (self.player.get_width() * val_player / val * GLOB.MULT, self.player.get_height() * val_player / val *int(GLOB.MULT)))
 
 		self.divisor = val
 
 		self.inventory = pygame.image.load("assets/inventario-1.png").convert()
-		self.inventory = pygame.transform.scale(self.inventory, (self.inventory.get_width() * GLOB.MULT, self.inventory.get_height() *int(GLOB.MULT+0.99)))
+		self.inventory = pygame.transform.scale(self.inventory, (self.inventory.get_width() * GLOB.MULT, self.inventory.get_height() *int(GLOB.MULT)))
 
 		self.descr = pygame.image.load("assets/inventario-2.png").convert()
-		self.descr = pygame.transform.scale(self.descr, (self.descr.get_width() * GLOB.MULT, self.descr.get_height() *int(GLOB.MULT+0.99)))
+		self.descr = pygame.transform.scale(self.descr, (self.descr.get_width() * GLOB.MULT, self.descr.get_height() *int(GLOB.MULT)))
   
   
 		div = 6
@@ -1266,8 +1266,8 @@ class GUI():
 		self.val_obj_incr = 0.05 * GLOB.MULT
 		self.obj_flag = False
 
-		self.DESCR1_TEXT = get_font(2*int(GLOB.MULT+0.9)).render("Default", True, "White")
-		self.DESCR1_POS = (self.inventory.get_width() + 10 * GLOB.MULT, 120 *int(GLOB.MULT+0.99))
+		self.DESCR1_TEXT = get_font(2*int(GLOB.MULT)).render("Default", True, "White")
+		self.DESCR1_POS = (self.inventory.get_width() + 10 * GLOB.MULT, 120 *int(GLOB.MULT))
   
 		self.inventory_sound = mixer.Sound("suoni/backpack.wav")
 		self.inventory_sound_off = mixer.Sound("suoni/Zip.wav")
@@ -1380,22 +1380,22 @@ class GUI():
 			l += 1
 		
 		font_size = 3
-		self.DESCR1_TEXT = get_font(font_size*int(GLOB.MULT+0.9)).render(a, True, "White")
-		self.DESCR1_POS = (self.inventory.get_width() + 10 * GLOB.MULT, 120 *int(GLOB.MULT+0.99))
+		self.DESCR1_TEXT = get_font(font_size*int(GLOB.MULT)).render(a, True, "White")
+		self.DESCR1_POS = (self.inventory.get_width() + 10 * GLOB.MULT, 120 *int(GLOB.MULT))
 
-		self.DESCR2_TEXT = get_font(font_size*int(GLOB.MULT+0.9)).render(b, True, "White")
+		self.DESCR2_TEXT = get_font(font_size*int(GLOB.MULT)).render(b, True, "White")
 		self.DESCR2_POS = (self.inventory.get_width() + 10 * GLOB.MULT, 120 * GLOB.MULT + self.distanza_riga)
 
-		self.DESCR3_TEXT = get_font(font_size*int(GLOB.MULT+0.9)).render(c, True, "White")
+		self.DESCR3_TEXT = get_font(font_size*int(GLOB.MULT)).render(c, True, "White")
 		self.DESCR3_POS = (self.inventory.get_width() + 10 * GLOB.MULT, 120 * GLOB.MULT + self.distanza_riga * 2)
 
-		self.DESCR4_TEXT = get_font(font_size*int(GLOB.MULT+0.9)).render(d, True, "White")
+		self.DESCR4_TEXT = get_font(font_size*int(GLOB.MULT)).render(d, True, "White")
 		self.DESCR4_POS = (self.inventory.get_width() + 10 * GLOB.MULT, 120 * GLOB.MULT + self.distanza_riga * 3)
   
-		self.DESCR5_TEXT = get_font(font_size*int(GLOB.MULT+0.9)).render(e, True, "White")
+		self.DESCR5_TEXT = get_font(font_size*int(GLOB.MULT)).render(e, True, "White")
 		self.DESCR5_POS = (self.inventory.get_width() + 10 * GLOB.MULT, 120 * GLOB.MULT + self.distanza_riga * 4)
   
-		self.DESCR6_TEXT = get_font(font_size*int(GLOB.MULT+0.9)).render(f, True, "White")
+		self.DESCR6_TEXT = get_font(font_size*int(GLOB.MULT)).render(f, True, "White")
 		self.DESCR6_POS = (self.inventory.get_width() + 10 * GLOB.MULT, 120 * GLOB.MULT + self.distanza_riga * 5)
 
 	def __effettoOggetto(self):
@@ -1449,22 +1449,22 @@ class GUI():
 				if GLOB.PlayerTextInteract == "Nasconditi" or GLOB.PlayerTextInteract == "Ispeziona" or GLOB.PlayerTextInteract == "Analizza":
 					pos_x = 232
 	
-				HINT_TEXT = get_font(4 * int(GLOB.MULT+0.9)).render(GLOB.PlayerTextInteract, False, "White")
-				HINT_RECT = HINT_TEXT.get_rect(center=(pos_x * GLOB.MULT, GLOB.screen_height - pos_y *int(GLOB.MULT+0.99)))
+				HINT_TEXT = get_font(4 * int(GLOB.MULT)).render(GLOB.PlayerTextInteract, False, "White")
+				HINT_RECT = HINT_TEXT.get_rect(center=(pos_x * GLOB.MULT, GLOB.screen_height - pos_y *int(GLOB.MULT)))
 	
-				CONT_TEXT = get_font(4 * int(GLOB.MULT+0.9)).render(GLOB.PlayerTextInteract, False, "Black")
-				CONT_RECT = HINT_TEXT.get_rect(center=(pos_x * GLOB.MULT, GLOB.screen_height - (pos_y - 0.8) *int(GLOB.MULT+0.99)))
+				CONT_TEXT = get_font(4 * int(GLOB.MULT)).render(GLOB.PlayerTextInteract, False, "Black")
+				CONT_RECT = HINT_TEXT.get_rect(center=(pos_x * GLOB.MULT, GLOB.screen_height - (pos_y - 0.8) *int(GLOB.MULT)))
 
-				GLOB.screen.blit(self.button_interact, (180 * GLOB.MULT, GLOB.screen_height - 25 *int(GLOB.MULT+0.99)))
+				GLOB.screen.blit(self.button_interact, (180 * GLOB.MULT, GLOB.screen_height - 25 *int(GLOB.MULT)))
 	
 				GLOB.screen.blit(CONT_TEXT, CONT_RECT)
 				GLOB.screen.blit(HINT_TEXT, HINT_RECT)
 		
-			NAME_TEXT = get_font(size*int(GLOB.MULT+0.9)).render(name, True, "White")
-			NAME_POS = ((posx + 2 *int(GLOB.MULT+0.99)) / self.divisor, GLOB.screen_height - 20 * GLOB.MULT / self.divisor)
+			NAME_TEXT = get_font(size*int(GLOB.MULT)).render(name, True, "White")
+			NAME_POS = ((posx + 2 *int(GLOB.MULT)) / self.divisor, GLOB.screen_height - 20 * GLOB.MULT / self.divisor)
 
-			CNAME_TEXT = get_font(size*int(GLOB.MULT+0.9)).render(name, True, "Black")
-			CNAME_POS = ((posx + 2 *int(GLOB.MULT+0.99))/ self.divisor, GLOB.screen_height - 20 * GLOB.MULT / self.divisor + altezza)
+			CNAME_TEXT = get_font(size*int(GLOB.MULT)).render(name, True, "Black")
+			CNAME_POS = ((posx + 2 *int(GLOB.MULT))/ self.divisor, GLOB.screen_height - 20 * GLOB.MULT / self.divisor + altezza)
 
 			pygame.draw.rect(GLOB.screen, self.color_bar, self.barra_stamina)
 	
@@ -1499,7 +1499,7 @@ class GUI():
 				return default_color
 
 		disegna()
-		GLOB.screen.blit(self.timer, (GLOB.screen_width/2 - self.timer.get_width()/2, 26 *int(GLOB.MULT+0.99)))
+		GLOB.screen.blit(self.timer, (GLOB.screen_width/2 - self.timer.get_width()/2, 26 *int(GLOB.MULT)))
 
 
 		def inventario():
@@ -1508,8 +1508,8 @@ class GUI():
 	
 			GLOB.screen.blit(self.inventory, (0, 0))
 
-			INVENTARIO_TEXT = get_font(9*int(GLOB.MULT+0.9)).render("- Inventario -", True, "White")
-			INVENTARIO_POS = (self.inventory.get_width()/2 - INVENTARIO_TEXT.get_width()/2, 20 *int(GLOB.MULT+0.99))
+			INVENTARIO_TEXT = get_font(9*int(GLOB.MULT)).render("- Inventario -", True, "White")
+			INVENTARIO_POS = (self.inventory.get_width()/2 - INVENTARIO_TEXT.get_width()/2, 20 *int(GLOB.MULT))
 
 			GLOB.screen.blit(INVENTARIO_TEXT, INVENTARIO_POS)
 
@@ -1518,7 +1518,7 @@ class GUI():
 
 
 			if not self.contenuto:
-				NAME_TEXT = get_font(5*int(GLOB.MULT+0.9)).render("- Inventario Vuoto -", True, "White")
+				NAME_TEXT = get_font(5*int(GLOB.MULT)).render("- Inventario Vuoto -", True, "White")
 				NAME_POS = (self.inventory.get_width()/2 - NAME_TEXT.get_width()/2, self.inventory.get_height()/2 - NAME_TEXT.get_height()/2)
 				GLOB.screen.blit(NAME_TEXT, NAME_POS)
 
@@ -1530,7 +1530,7 @@ class GUI():
 				else:
 					self.contenuto = True
 
-				NAME_TEXT = get_font(4*int(GLOB.MULT+0.9)).render("- "+ str(oggetto), True, imposta_colore(i))
+				NAME_TEXT = get_font(4*int(GLOB.MULT)).render("- "+ str(oggetto), True, imposta_colore(i))
 				NAME_POS = (22 * GLOB.MULT, 65 * GLOB.MULT + self.distanza_oggetti * i)
 				GLOB.screen.blit(NAME_TEXT, NAME_POS)
 
@@ -1623,7 +1623,7 @@ class MiniMap():
 
 
 		self.image = pygame.image.load(self.path_floor + self.path_image + ".png").convert_alpha()
-		self.image = pygame.transform.scale(self.image, (self.image.get_width() * GLOB.MULT, self.image.get_height() *int(GLOB.MULT+0.99)))
+		self.image = pygame.transform.scale(self.image, (self.image.get_width() * GLOB.MULT, self.image.get_height() *int(GLOB.MULT)))
 
 		
 		value = 1
@@ -1638,7 +1638,7 @@ class MiniMap():
 		def Stanza(nome, pos, size, colore):
 		
 			if nome in GLOB.stanze_visitate:
-				ret = pygame.Rect((pos[0] * GLOB.MULT, pos[1] * GLOB.MULT, pos[2] * GLOB.MULT, pos[3] *int(GLOB.MULT+0.99)))
+				ret = pygame.Rect((pos[0] * GLOB.MULT, pos[1] * GLOB.MULT, pos[2] * GLOB.MULT, pos[3] *int(GLOB.MULT)))
 				pygame.draw.rect(GLOB.screen, colore, ret)
 
 				if "Aula" in nome or "Informatica" in nome:
@@ -1682,7 +1682,7 @@ class MiniMap():
 
 			if GLOB.Piano == "1-PianoTerra":
 		
-				s = 5 * int(GLOB.MULT+0.9)
+				s = 5 * int(GLOB.MULT)
 	
 				Stanza("Chimica", (326, 54, 94, 50), s, (120, 213, 215))
 				Stanza("Fisica", (227, 54, 98, 50), s, (99, 210, 255))
@@ -1691,7 +1691,7 @@ class MiniMap():
 	
 			if GLOB.Piano == "2-PrimoPiano":
 			
-				s = 3 * int(GLOB.MULT+0.9)
+				s = 3 * int(GLOB.MULT)
 	
 				Stanza("WC-Femmine", (348, 121, 41, 35), s, (247, 146, 86))
 				Stanza("AulaProfessori", (348, 62, 41, 58), s, (251, 209, 162))
@@ -1704,7 +1704,7 @@ class MiniMap():
 	
 			if GLOB.Piano == "3-SecondoPiano":
 			
-				s = 3 * int(GLOB.MULT+0.9)
+				s = 3 * int(GLOB.MULT)
 				Stanza("AulaVideo", (330, 29, 30, 56), s, (88, 114, 145))
 				Stanza("Generatore", (330, 86, 30, 28), s, (99, 210, 255))
 				Stanza("Segreteria", (330, 112, 30, 52), s, (120, 213, 215))
@@ -1738,7 +1738,7 @@ class Key():
 		self.bottom_color = '#6b7075'
 		#text
 		self.text = text
-		self.text_surf = get_font(16*int(GLOB.MULT+0.9)).render(text,True,'#FFFFFF')
+		self.text_surf = get_font(16*int(GLOB.MULT)).render(text,True,'#FFFFFF')
 		self.text_rect = self.text_surf.get_rect(center = self.top_rect.center)
 
 		self.clicked = False
@@ -1768,7 +1768,7 @@ class Key():
 
 		pygame.draw.rect(GLOB.screen,self.bottom_color, self.bottom_rect)
 		pygame.draw.rect(GLOB.screen,self.top_color, self.top_rect)
-		pygame.draw.rect(GLOB.screen, "#0d0e0f", self.top_rect,int(GLOB.MULT+0.99))
+		pygame.draw.rect(GLOB.screen, "#0d0e0f", self.top_rect,int(GLOB.MULT))
 		GLOB.screen.blit(self.text_surf, self.text_rect)
 		self.check_click()
 
@@ -1878,10 +1878,10 @@ class Code():
 				self.__reset_code()
 				self.flag_stop = True
 
-		self.Code_text = get_font(16*int(GLOB.MULT+0.9)).render(self.codeU,True, self.text_color if not self.CanClick else "White")
-		self.Code_pos = ((GLOB.screen_width/2 - self.Code_text.get_width()/2, 10 *int(GLOB.MULT+0.99)))
+		self.Code_text = get_font(16*int(GLOB.MULT)).render(self.codeU,True, self.text_color if not self.CanClick else "White")
+		self.Code_pos = ((GLOB.screen_width/2 - self.Code_text.get_width()/2, 10 *int(GLOB.MULT)))
 
-		self.Code_rect = pygame.Rect((GLOB.screen_width/2 - 100 * GLOB.MULT, 5 * GLOB.MULT, 200 * GLOB.MULT, 25 *int(GLOB.MULT+0.99)))
+		self.Code_rect = pygame.Rect((GLOB.screen_width/2 - 100 * GLOB.MULT, 5 * GLOB.MULT, 200 * GLOB.MULT, 25 *int(GLOB.MULT)))
 
 		pygame.draw.rect(GLOB.screen, "#23272b", self.Code_rect)
 
@@ -1896,6 +1896,7 @@ class Code():
 				self.sound_correctCode.play()
 				self.CanClick = False
 				self.codeU = self.corretto
+				GLOB.LoadCollisions = True
 
 		elif len(self.codeU) == self.len and self.codeU != self.codeS and self.codeU != self.corretto:
 				self.sound_errorCode.set_volume(0.2 * GLOB.AU)
@@ -2102,7 +2103,7 @@ class Pc():
 				self.on_sound.play()
 				self.flag_sound = False
 		
-			GLOB.screen.blit(self.vignetta, (25 * GLOB.MULT, 10 *int(GLOB.MULT+0.99)))
+			GLOB.screen.blit(self.vignetta, (25 * GLOB.MULT, 10 *int(GLOB.MULT)))
 	
 			i = 0
 			for oggetto in self.chiavette:
@@ -2122,7 +2123,7 @@ class Pc():
 
 
 				if condizione1:
-					NAME_TEXT = get_font(5*int(GLOB.MULT+0.9)).render("> "+ str(oggetto), True, imposta_colore(i))
+					NAME_TEXT = get_font(5*int(GLOB.MULT)).render("> "+ str(oggetto), True, imposta_colore(i))
 					if posy < 90 * GLOB.MULT and posy >= 18 * GLOB.MULT:
 						NAME_POS = (35 * GLOB.MULT, posy)
 						GLOB.screen.blit(NAME_TEXT, NAME_POS)				

@@ -1069,7 +1069,10 @@ def testa():
         if GLOB.Piano == "3-SecondoPiano":
                 
             if GLOB.Stanza == "Segreteria":
-                testo = "Chissa' da quanto tempo è abbandonata...| All'interno intravedo un generatore|Forse grazie a quello mi sara' possibile riattivare di nuovo la corrente!!"
+                testo = "Chissa' da quanto tempo è abbandonata...| All'interno intravedo un generatore"
+                
+                if not GLOB.corrente:
+                    testo += "|Forse grazie a quello mi sara' possibile riattivare di nuovo la corrente!!"
                 
             if GLOB.Stanza == "Generatore":
                 GLOB.corrente = not GLOB.corrente

@@ -138,6 +138,15 @@ MULT_INCREMENT = Percentage + (0 if Percentage % 1 == 1 else (1 - Percentage) * 
 MULT = DF_MULT * MULT_INCREMENT
 RESOLUTION = DF_MULT
 
+NormalResolution = True
+
+if MULT != int(MULT):
+    NormalResolution = False
+
+if not NormalResolution:
+    print(f"\nAttenzione stai giocando con una risoluzione dello schermo non prevista!\nStandard --> (1920x1080) La tua --> ({int(DF_width*MULT)}x{int(DF_height*MULT)})")
+
+
 screen_width = DF_width * RESOLUTION
 screen_height = DF_height * RESOLUTION
 

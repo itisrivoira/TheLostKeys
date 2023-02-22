@@ -155,7 +155,7 @@ class Keeper():
         
 
     def setHitbox(self):
-        self.hitbox = (self.x + 20 * GLOB.MULT /GLOB.Player_proportion + main.cam.getPositionX(),  self.y + 35 * GLOB.MULT /GLOB.Player_proportion + main.cam.getPositionY(), 15 * GLOB.MULT, 10 * int(GLOB.MULT+0.99))
+        self.hitbox = (self.x + 20 * GLOB.MULT /GLOB.Player_proportion + main.cam.getPositionX(),  self.y + 35 * GLOB.MULT /GLOB.Player_proportion + main.cam.getPositionY(), 15 * GLOB.MULT, 10 * int(GLOB.MULT))
         self.mesh = pygame.Rect(self.hitbox)
 
     def __setBrain(self):
@@ -423,7 +423,7 @@ class Keeper():
             GLOB.screen.blit(self.luce_image, (self.x + main.cam.getPositionX(), self.y + main.cam.getPositionY()))
 
         if GLOB.Debug:
-            pygame.draw.rect(GLOB.screen, "Green", self.mesh, int(GLOB.MULT+0.99))
+            pygame.draw.rect(GLOB.screen, "Green", self.mesh, int(GLOB.MULT))
 
 
     def __creepy_sound(self):
@@ -768,7 +768,7 @@ class Keeper():
         rot_vector = self.line_vector.rotate(self.angle) * radius
         rot_vector1 = self.line_vector.rotate(self.angle + self.distanza) * radius
 
-        distanza = (17 * GLOB.MULT, 18 * int(GLOB.MULT+0.99))
+        distanza = (17 * GLOB.MULT, 18 * int(GLOB.MULT))
 
         self.AngleReference()
 
@@ -794,12 +794,12 @@ class Keeper():
                 self.superfice.fill(pygame.SRCALPHA)
             
             # CALCOLO VELOCITA TILES DI GIOCATORE - KEEPER
-            self.velocitaTilesM = round(((24 * int(GLOB.MULT+0.99)) / GLOB.Monster_speed) / GLOB.FPS, 2)
-            self.velocitaTilesG = round(((24 * int(GLOB.MULT+0.99)) / GLOB.Player_speed) / GLOB.FPS, 2)
+            self.velocitaTilesM = round(((24 * int(GLOB.MULT)) / GLOB.Monster_speed) / GLOB.FPS, 2)
+            self.velocitaTilesG = round(((24 * int(GLOB.MULT)) / GLOB.Player_speed) / GLOB.FPS, 2)
             
             # CALCOLO DISTANZA GIOCATORE <--> KEEPER
             self.lung = round((abs(main.player.mesh.centerx - self.mesh.centerx) + abs(main.player.mesh.centery - self.mesh.centery))/2, 6)
-            self.diff = round(((self.lung / GLOB.MULT / GLOB.Monster_speed) / (7 / int(GLOB.MULT+0.99))) / 1.6, 2)
+            self.diff = round(((self.lung / GLOB.MULT / GLOB.Monster_speed) / (7 / int(GLOB.MULT))) / 1.6, 2)
             
             self.inspector_area = pygame.draw.circle(self.superfice, "#ffa94d", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza/2, 0)    
             self.proximity_area = pygame.draw.circle(self.superfice, "#ffeb3b", (self.x + self.image.get_width()/2 + main.cam.getPositionX(), self.y + self.image.get_height()/2 + main.cam.getPositionY()), self.valore_distanza/5, 0)    
@@ -855,7 +855,7 @@ class Keeper():
                 self.circle = pygame.Rect((0,0,1,1))
             
             # STAMPA DISTANZA GIOCATORE <--> MOSTRO
-            self.line = pygame.draw.line(self.superfice, "#98039a", (self.mesh.centerx, self.mesh.centery), (main.player.mesh.centerx, main.player.mesh.centery), int(GLOB.MULT+0.99))
+            self.line = pygame.draw.line(self.superfice, "#98039a", (self.mesh.centerx, self.mesh.centery), (main.player.mesh.centerx, main.player.mesh.centery), int(GLOB.MULT))
 
             if GLOB.Debug:
                 self.superfice.set_alpha(self.transparenza)

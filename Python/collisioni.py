@@ -177,8 +177,11 @@ class Map():
                 pygame.draw.rect(GLOB.screen, (0,0,255), chunck_render_m, int(GLOB.MULT))
         
         
-        for i in range(len(GLOB.Mappa[0][id_var])):
-            dic = GLOB.Mappa[0][id_var]
+        for i in range(len(GLOB.Mappa[0].get(id_var, 1))):
+            dic = GLOB.Mappa[0].get(id_var)
+            
+            if dic == None:
+                return
             
             y = self.tiles_risoluzione * dic[i][0]
             x = self.tiles_risoluzione * dic[i][1]
