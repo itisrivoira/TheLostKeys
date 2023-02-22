@@ -198,9 +198,9 @@ def setFPS():
     global Delta_Time, Default_DeltaTime, FPS, Performance
     
     if Performance:
-        Delta_Time = 2
+        Delta_Time = Default_DeltaTime
     else:
-        Delta_Time = 1
+        Delta_Time = Default_DeltaTime / 2
         
     FPS = 30 * Delta_Time
     Default_DeltaTime = Delta_Time

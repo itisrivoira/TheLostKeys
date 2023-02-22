@@ -184,8 +184,8 @@ class Map():
             x = self.tiles_risoluzione * dic[i][1]
             
                 
-            if ((x * GLOB.MULT  >= -main.cam.getPositionX() + self.tiles_risoluzione * 10 and x * GLOB.MULT <= GLOB.screen_width - main.cam.getPositionX() - self.tiles_risoluzione * 10) and (
-                    y * GLOB.MULT  >= -main.cam.getPositionY() + self.tiles_risoluzione * 4 and y * GLOB.MULT <= GLOB.screen_height - main.cam.getPositionY() - self.tiles_risoluzione * 6)) or (
+            if ((x * GLOB.MULT  >= -main.cam.getPositionX() and x * GLOB.MULT <= GLOB.screen_width - main.cam.getPositionX()) and (
+                    y * GLOB.MULT  >= -main.cam.getPositionY() and y * GLOB.MULT <= GLOB.screen_height - main.cam.getPositionY())) or (
                     (GLOB.Stanza == GLOB.MonsterActualRoom and GLOB.MonsterSpawning) or id_var >= GLOB.chiavetta_start):
 
 
