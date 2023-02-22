@@ -271,7 +271,7 @@ def setResources():
     global MonsterActualFloor, MonsterPreviousRoom, MonsterActualRoom, MonsterSpawning, MonsterIntro, MonsterCanChangeRoom
     global MonsterHasSeenPlayer, MonsterAggr, MonsterIsAttacking, MonsterCanSeePlayer
     
-    global PlayerCanInteract, PlayerInteract, PlayerTextInteract, PlayerCanMove, PlayerCanRun, PlayerCanHide, PlayerIsHidden, PlayerIsMoving, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
+    global PlayerFoundKey, PlayerHasPressedButton, PlayerCanInteract, PlayerInteract, PlayerTextInteract, PlayerCanMove, PlayerCanRun, PlayerCanHide, PlayerIsHidden, PlayerIsMoving, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
     global Piano, Stanza, Default_path, Default_Map, Default_object, Default_walls, Default_collisions
     
     global stanze_da_visitare, stanze_visitate
@@ -416,6 +416,8 @@ def setResources():
     PlayerInteract = False
     PlayerCanInteract = False
     PlayerTextInteract = "Interagisci"
+    PlayerHasPressedButton = False
+    PlayerFoundKey = False
 
     PlayerIsWalking = True
     PlayerIsRunning = False
@@ -526,6 +528,7 @@ def SaveGame():
         Corrente = |""" + str(corrente) + """|
         Light = |""" + str(Light) + """|
         RandomMinLight = |""" + str(RandomMinLight) +"""|
+        Flag_Luce = |""" + str(Flag_luce) +"""|
                     
             """)
         
@@ -545,7 +548,7 @@ def LoadGame(flag):
     global MonsterActualFloor, MonsterPreviousRoom, MonsterActualRoom, MonsterSpawning, MonsterIntro, MonsterCanChangeRoom
     global MonsterHasSeenPlayer, MonsterAggr, MonsterIsAttacking, MonsterCanSeePlayer
     
-    global PlayerCanInteract, PlayerInteract, PlayerTextInteract, PlayerCanMove, PlayerCanRun, PlayerCanHide, PlayerIsHidden, PlayerIsMoving, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
+    global PlayerPressButton, PlayerCanInteract, PlayerInteract, PlayerTextInteract, PlayerCanMove, PlayerCanRun, PlayerCanHide, PlayerIsHidden, PlayerIsMoving, PLayerMovement, PlayerIsWalking, PlayerIsRunning, PlayerCanCollect
     global Piano, Stanza, Default_Map, Default_object, Default_walls, Default_collisions
     
     global stanze_da_visitare, stanze_visitate
@@ -553,11 +556,11 @@ def LoadGame(flag):
     global TimerMin, TimerSec
     global PlayerXSpawn, PlayerYSpawn
     global CamXSpawn, CamYSpawn
-    global MonsterXSpawn, MonsterYSpawn
+    global MonsterXSpawn, MonsterYSpawn, SecondDiffPos
     
     global Scelta, ShowIntro
     
-    global RandomMinLight, corrente, Light, CanUseTorch, Torcia
+    global Flag_luce, RandomMinLight, corrente, Light, CanUseTorch, Torcia
     
     if flag and os.path.exists("dati.txt"):
         
@@ -632,6 +635,7 @@ def LoadGame(flag):
             Light = ast.literal_eval(cont(53))
             
             RandomMinLight = int(cont(54))
+            Flag_luce = ast.literal_eval(cont(55))
             
             CanUseTorch = "Torcia" in inventario
             Torcia = not corrente

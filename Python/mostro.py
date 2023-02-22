@@ -470,16 +470,17 @@ class Keeper():
                 prec_piano = GLOB.MonsterActualFloor
                 
                 def CheckEnter(*randomRooms):
+                    if "Generatore" in GLOB.MonsterActualRoom and "Segreteria" in GLOB.Stanza:
+                        self.__first_room = "Segreteria"
+                    
                     if "Corridoio" in GLOB.MonsterActualRoom:
                         self.__first_room = GLOB.MonsterActualRoom
+                        
                         GLOB.MonsterActualRoom = random.choice(randomRooms)
-                    elif "Generatore" in GLOB.MonsterActualRoom and GLOB.Stanza == "Segreteria":
-                        self.__first_room = GLOB.MonsterActualRoom
-                        pass
                     else:
                         GLOB.MonsterActualRoom = self.__first_room
                         
-                        if "Corridoio" in GLOB.MonsterActualRoom:
+                        if "Corridoio" in GLOB.MonsterActualRoom :
                             GLOB.MonsterActualRoom = "Corridoio" + GLOB.MonsterActualFloor[0]
                         
                 
@@ -502,15 +503,6 @@ class Keeper():
                             c = UscitaStanza
                             var = monsterbrain3
                             
-                        if "Generatore" in stanza:
-                            c = UscitaStanza
-                            var = monsterbrain3
-                            GLOB.MonsterActualRoom = "Segreteria"
-                            
-                        if "Corridoio" in stanza:
-                            GLOB.MonsterActualRoom = "Corridoio" + stanza[-1]
-                            GLOB.MonsterActualFloor = GLOB.Piani[int(stanza[-1])]
-
                         self.__temp_pos = c
                         self.monster_ai_brain = var
                 
@@ -654,9 +646,10 @@ class Keeper():
                             
                         
                 elif GLOB.MonsterActualFloor == "3-SecondoPiano":
-                    
+                    prec_room = GLOB.MonsterActualRoom
                     CheckEnter("AulaVideo", "4A", "LabInformatica", "Segreteria", "Generatore", "Corridoio2")
-                                
+                    
+                    
                     SpawnRoomManager(
                                         stanza        =  "AulaVideo", 
                                         spawnStanza   =  (176, 248), 
@@ -697,26 +690,38 @@ class Keeper():
                                         monsterbrain3 =   3
                                     )
                             
-                    SpawnRoomManager(
-                                        stanza        =  "Segreteria", 
-                                        spawnStanza   =  (176, 4), 
-                                        EntrataStanza =  (30, 166), 
-                                        UscitaStanza  =  (502, 120),
-                                        monsterbrain1 =   0,
-                                        monsterbrain2 =   1,
-                                        monsterbrain3 =   2
-                                    )
-                        
+                    
+                    if not "Generatore" in prec_room:
+                        SpawnRoomManager(
+                                            stanza        =  "Segreteria", 
+                                            spawnStanza   =  (502, 120), 
+                                            EntrataStanza =  (30, 166), 
+                                            UscitaStanza  =  (502, 120),
+                                            monsterbrain1 =   2,
+                                            monsterbrain2 =   1,
+                                            monsterbrain3 =   2
+                                        )
+                    else:
+                        SpawnRoomManager(
+                                            stanza        =  "Segreteria", 
+                                            spawnStanza   =  (176, 4), 
+                                            EntrataStanza =  (250, 8), 
+                                            UscitaStanza  =  (502, 120),
+                                            monsterbrain1 =   0,
+                                            monsterbrain2 =   3,
+                                            monsterbrain3 =   2
+                                        )
+                    
                     SpawnRoomManager(
                                         stanza        =  "Generatore", 
                                         spawnStanza   =  (152, 190), 
                                         EntrataStanza =  (226, 178), 
-                                        UscitaStanza  =  (250, 8),
+                                        UscitaStanza  =  (226, 178),
                                         monsterbrain1 =   0,
                                         monsterbrain2 =   2,
-                                        monsterbrain3 =   3
+                                        monsterbrain3 =   2
                                     )
-                        
+                            
                     SpawnRoomManager(
                                         stanza        =  "Corridoio2", 
                                         spawnStanza   =  (208, 112), 
@@ -814,7 +819,7 @@ class Keeper():
                 self.IAttacking = True
 
             # SE IL FLAG DELL'ANIMAZIONE E' FALSE ALLORA AGGIORNA LA DIFFERENZA DI SECONDI
-            if main.animazione.iFinished:
+            if main.animazione.iFinished and not GLOB.PlayerFoundKey:
                 GLOB.SecondDiffPos = self.diff
                 
 
@@ -925,6 +930,13 @@ class Keeper():
 
             else:
                 GLOB.setMonster()
+                
+        if GLOB.PlayerFoundKey:
+            self.aggr = True
+            self.IseePlayer = True
+            self.IAttacking = True
+            GLOB.SecondDiffPos = 3 if GLOB.SecondDiffPos > 3 else self.diff
+            
         
         GLOB.screen.blit(self.ombra, (self.x - distanza[0] + 11.2 * GLOB.MULT + main.cam.getPositionX(), self.y-10*GLOB.MULT/GLOB.Player_proportion + main.cam.getPositionY()))
         GLOB.screen.blit(self.image, (self.x + main.cam.getPositionX(), self.y + main.cam.getPositionY()))

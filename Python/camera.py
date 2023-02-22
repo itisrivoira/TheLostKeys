@@ -145,7 +145,7 @@ class Corrente():
         self.__Start = True
         GLOB.Light = False
         
-        if self.__flag_dialogo:
+        if self.__flag_dialogo and not GLOB.PlayerHasPressedButton:
             frase = "Oh no! La corrente è saltata!|Per fortuna che mi sono portato una torcia nel mio zaino."
             
             for testo in frase.split("|"):

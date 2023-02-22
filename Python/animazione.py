@@ -97,8 +97,16 @@ class Transizione():
                 
                 elif main.mostro.IseePlayer:
                     testo = "Ho visto giocatore spawn porta"
-                    main.mostro.x = main.stanze.pos_portaP[0] * GLOB.MULT - main.stanze.pos_portaC[0] * GLOB.MULT
-                    main.mostro.y = main.stanze.pos_portaP[1] * GLOB.MULT - main.stanze.pos_portaC[1] * GLOB.MULT
+                    
+                    var1 = main.stanze.pos_portaP
+                    var2 = main.stanze.pos_portaC
+                    
+                    if "Segreteria" in GLOB.Stanza and "Generatore" in GLOB.MonsterActualRoom:
+                        var1 = (270, 78)
+                        var2 = (20, 70)
+                                        
+                    main.mostro.x = var1[0] * GLOB.MULT - var2[0] * GLOB.MULT
+                    main.mostro.y = var1[1] * GLOB.MULT - var2[1] * GLOB.MULT
                     
                     if GLOB.Piano == GLOB.MonsterActualFloor:
                         main.Gui.door_sound.play()

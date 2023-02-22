@@ -405,7 +405,7 @@ def testa():
                 main.Gui.door_sound.play()
 
         
-        if not "Corridoio" in GLOB.MonsterActualRoom:
+        if not "Corridoio" in GLOB.MonsterActualRoom and not "Segreteria" in GLOB.MonsterActualRoom:
             
             valuex, valuey = 0, 0
             
@@ -433,8 +433,7 @@ def testa():
             if "porta" in main.mostro.evento:
                 GLOB.FlagSecRand = True
             
-                    
-        
+            
         if main.mostro.evento == "porta-0":
             main.mostro.evento = None
             GLOB.MonsterHasChangedRoom = True
@@ -461,9 +460,16 @@ def testa():
                     GLOB.MonsterActualRoom = "Generatore"
                     GLOB.MonsterPreviousRoom = GLOB.MonsterActualRoom
 
-                    main.mostro.x = 250 * GLOB.MULT
-                    main.mostro.y = 20 * GLOB.MULT
-            
+                    main.mostro.x = 152 * GLOB.MULT
+                    main.mostro.y = 190 * GLOB.MULT
+                    main.mostro.monster_ai_brain = 0
+                    
+                if GLOB.Stanza == "Segreteria":
+                        main.stanze.setToDefault()
+                        main.stanze.dizionario_flag["Segreteria"] = True
+                        main.stanze.caricaStanza()
+                        main.stanze.CaricaElementi()
+                
             else:
                 main.Gui.door_sound_locked.play()
             
@@ -1080,6 +1086,7 @@ def testa():
                 sound.set_volume(0.5 * GLOB.AU)
                 sound.fadeout(900)
                 sound.play()
+                GLOB.PlayerHasPressedButton = GLOB.corrente
 
                 testo = "Ho " + ("attivato" if GLOB.corrente else "disattivato") + " la corrente!"
                 

@@ -91,7 +91,7 @@ def inizializza():
     # Messaggio visualizzabile a schermo
     messaggio_a_schermo = Risultato(text = "Esempio", color = "White", size = 10, delay_scomparsa = 1)
 
-    timer = Timer(minutes = GLOB.TimerMin, seconds = GLOB.TimerSec, molt_sec = 1, event = game_over)
+    timer = Timer(minutes = GLOB.TimerMin, seconds = GLOB.TimerSec, molt_sec = 3, event = game_over)
     animazione = Transizione(vel = 0.01)
 
     collisions = collisioni.Map(risoluzione = 24, path = GLOB.Default_path+"/"+ GLOB.Piano +"/")
@@ -228,6 +228,10 @@ def controllo_condizioni():
     if timer.getMinutes() < GLOB.RandomMinLight and GLOB.Flag_luce:
         GLOB.corrente = False
         GLOB.Flag_luce = False
+        
+    if GLOB.RandomKey in GLOB.inventario and not GLOB.PlayerFoundKey:
+        if GLOB.inventario[GLOB.RandomKey][1]:
+            GLOB.PlayerFoundKey = True
 
 
 def Stampa_messaggio():
@@ -553,6 +557,7 @@ def main():
                         
                     if event.key == pygame.K_g:
                             GLOB.MonsterCanAttack = not GLOB.MonsterCanAttack
+                            GLOB.MonsterCanKillMe = not GLOB.MonsterCanKillMe
 
                 if event.key == pygame.K_TAB and animazione.iFinished and not animazione.flag_caricamento:
                     GLOB.ShowInventory = not GLOB.ShowInventory
@@ -583,9 +588,6 @@ def main():
 
                     if not GLOB.Enigma:
                         GLOB.Enigma = True
-                        
-                if keys_pressed[pygame.K_c]:
-                    GLOB.MonsterCanKillMe = not GLOB.MonsterCanKillMe
                         
 
             if GLOB.PlayerCanMove:
