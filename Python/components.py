@@ -367,14 +367,6 @@ class Dialoghi():
 		
 		possoIniziare = False
 
-		if not GLOB.ImInEnigmaMode:
-			if GLOB.Muri_Immagine != None and not GLOB.ImInDialogueMode:
-				GLOB.screen.blit(GLOB.Muri_Immagine, (GLOB.CamPosX, GLOB.CamPosY))
-
-			if not GLOB.Light and not GLOB.corrente and not GLOB.ImInDialogueMode:
-				GLOB.ImInDialogueMode = True
-				GLOB.screen.blit(self.__image_dark, (0, 0))
-
 		while not possoIniziare:
 			
 			self.__effetto_testo()

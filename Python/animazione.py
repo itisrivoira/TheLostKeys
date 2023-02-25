@@ -8,7 +8,7 @@ import main
 class Transizione():
     def __init__(self, vel):
         self.flag_changeBg = True 
-        self.ImpostaSfondo()
+        self.UpdateBackground()
         self.__character = GLOB.Default_Character
 
         self.__vel = vel
@@ -145,7 +145,7 @@ class Transizione():
         if not GLOB.isPaused:
             self.__delay.Infinite()
 
-    def ImpostaSfondo(self):
+    def UpdateBackground(self):
         var = 2
         self.___mappa = GLOB.Default_Map
         self.mappa = pygame.image.load(self.___mappa).convert()
@@ -183,7 +183,7 @@ class Transizione():
                 self.val_scurisci -= 16
 
                 if self.___mappa != GLOB.Default_Map:
-                    self.ImpostaSfondo()
+                    self.UpdateBackground()
                     main.player.x = main.stanze.pos_portaP[0] * GLOB.MULT
                     main.player.y = main.stanze.pos_portaP[1] * GLOB.MULT
 
@@ -296,7 +296,7 @@ class Transizione():
                 else:
                     self.__caricamento()
 
-            if not self.iFinished and not self.flag_caricamento:
+            else:
 
                 self.schermo.fill((0,0,0))
 

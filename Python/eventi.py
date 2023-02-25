@@ -163,158 +163,6 @@ def testa():
 
 
 
-    if main.player.evento == "enigma":
-        condizione = False
-
-        for value in GLOB.enigmi_da_risolvere:
-    
-            if value != GLOB.Stanza:
-
-                GLOB.Enigma = False
-                main.player.evento = None
-            
-            else:
-                condizione = True
-
-        
-        if GLOB.Stanza == "WC-Femmine" and not Controlla("Ghiaccio"):
-            condizione = False
-            
-            risposte = ["Certo! A questo punto faccio prima a non lavarmele... guarda te", "Grazie, ma non GRAZIE! Troppo sporca!", "Bleah! Che acqua putrida", "Non ne trovo l'utilita' adesso"]
-        
-            d = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 4)
-            d.stampa()
-            
-            
-        if ("Corridoio" in GLOB.Stanza and GLOB.Piano == "3-SecondoPiano" and not ControllaContenuto("chiavetta-10")):
-            condizione = False
-            
-            risposte = ["Sembra un distributore di merendine", "Cosa farei per un duplo", "Strano che non sia ancora stato distrutto, sarebbero state merendine gratis...", "Non so il perche', ma ho una certa fame..."]
-            
-            d = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 4)
-            d.stampa()
-            
-            
-        if GLOB.Stanza == "Archivio" and not ControllaContenuto(GLOB.RandomKey):
-            condizione = False
-            
-            testo = "Sembrano due vecchi telefoni..."
-            
-            d = main.Dialoghi(GLOB.scelta_char, testo, 4)
-            d.stampa()
-            
-
-        GLOB.Enigma = condizione
-        GLOB.PlayerReset = True
-
-
-    if main.player.evento == "enigma-risolto":
-        testo = "Default"
-        
-        if GLOB.Stanza == "Chimica":
-            testo = "Ho trovato un appunto che dice che ci sia una chiavetta nascosta all'interno della cella frigorifero...|Mmmm... mi potrebbe essere utile."
-            
-            if GLOB.Stanza != GLOB.MonsterActualRoom:
-                GLOB.MonsterActualRoom = "Chimica"
-                GLOB.MonsterActualFloor = "1-PianoTerra"
-                main.mostro.evento = "porta"
-                GLOB.MonsterHasChangedRoom = True
-
-        if GLOB.Stanza == "WC-Femmine":
-            oggetto = "Ghiaccio"
-
-            if Cerca(oggetto):
-                GLOB.inventario.pop(oggetto)
-                main.player.evento = "chiavetta-3"
-                AggiungiChiavetta()
-
-                testo = "Wow!|Chi se lo sarebbe aspettato di trovare una chiavetta all'interno del ghiaccio|Magari potrei cercare un PC per vedere il suo contenuto."
-                
-                if GLOB.Stanza != GLOB.MonsterActualRoom:
-                    GLOB.MonsterActualRoom = "WC-Femmine"
-                    GLOB.MonsterActualFloor = "2-PrimoPiano"
-                    main.mostro.evento = "porta"
-                    GLOB.MonsterHasChangedRoom = True
-
-        if GLOB.Stanza == "AulaMagna":
-            testo = "Mmmm.|Forse la prossima chiavetta ha qualcosa a che fare con una sedia."
-
-            if GLOB.Stanza != GLOB.MonsterActualRoom and len(GLOB.enigmi_risolti) > 1:
-                GLOB.MonsterActualRoom = "AulaMagna"
-                GLOB.MonsterActualFloor = "2-PrimoPiano"
-                main.mostro.evento = "porta"
-                GLOB.MonsterHasChangedRoom = True
-
-        if GLOB.Stanza == "1A":
-            testo = "Pensavo piu' difficile...|Ad ogni modo che cos'e' quella strana cosa tra i gessetti della lavagna?!?"
-
-        if GLOB.Stanza == "AulaProfessori":
-            testo = "Interessante.|Ho trovato una chiave dietro al foglio, con su scritto \"WC\""
-            
-            oggetto = "Chiave WC"
-            descrizione = "Chiave del bagno Maschile"
-            tipo = 3
-            
-            GLOB.inventario[oggetto] = (GLOB.oggetti[tipo][2], True, descrizione)
-
-        if GLOB.Stanza == "AulaVideo":
-            testo = "Pascoli...|Chissa' se nella libreria della scuola ci potrebbe essere quello che sto cercando."
-            
-            if GLOB.Stanza != GLOB.MonsterActualRoom:
-                GLOB.MonsterActualRoom = "Chimica"
-                GLOB.MonsterActualFloor = "1-PianoTerra"
-                main.mostro.evento = "porta"
-                GLOB.MonsterHasChangedRoom = True
-
-        if GLOB.Stanza == "LabInfo":
-            testo = "Scratch... che ricordi, chissa' se tra questi pc ce ne sarà uno funzionante..."
-                
-        if "Corridoio" in GLOB.Stanza and GLOB.Piano == "3-SecondoPiano":
-            
-            if Cerca("chiavetta-10"):
-                main.player.evento = "chiavetta-12"
-                AggiungiChiavetta()
-            
-            
-            testo = "Si, evvai!!| Oltretutto inserendo il codice 4096 nella macchinetta, mi ha dato un'altra chiavetta!|Andiamo ad analizzarne il contenuto!"
-            
-            if GLOB.Stanza != GLOB.MonsterActualRoom:
-                GLOB.MonsterActualRoom = "Default"
-                GLOB.MonsterActualFloor = "2-PrimoPiano"
-                main.mostro.evento = "porta"
-                GLOB.MonsterHasChangedRoom = True
-                
-        if GLOB.Stanza == "Archivio":
-            testo = "Ce l'ho fatta!!|Oltretutto c'è pure uno strano codice dietro al foglio...|C'è scritto: '"+str(GLOB.codice)+"'"
-            
-            GLOB.ShowCodice = True
-            
-            if GLOB.Stanza != GLOB.MonsterActualRoom:
-                GLOB.MonsterActualRoom = "Corridoio"
-                GLOB.MonsterActualFloor = "1-PianoTerra"
-                main.mostro.evento = "porta-8"
-                main.mostro.IseePlayer = True
-        
-        if testo != "Default":
-            testo = testo.split("|")
-            for t in testo:
-                d = main.Dialoghi(GLOB.scelta_char, t, 4)
-                d.stampa()
-                
-        GLOB.PlayerReset = True
-
-
-    if main.player.evento == "mappa":
-        main.MiniMap().update()
-        main.player.setAllkeys(False)
-        main.SetPlayer_speed()
-
-
-    if main.player.evento != None:
-        if "porta" in main.player.evento or "piano" in main.player.evento:
-            GLOB.LoadCollisions = True
-            GLOB.LoadImages = True
-
     def piano():
         
         if main.mostro.evento == "piano-0":
@@ -731,6 +579,14 @@ def testa():
 
             main.Gui.door_sound.play()            
             main.animazione.iFinished = False
+            
+            
+        elif main.player.evento == "porta-6":
+            main.player.evento = None
+            main.stanze.setToDefault()
+
+            Blocca()
+            return False
 
 
         elif main.player.evento == "porta-7":
@@ -891,15 +747,6 @@ def testa():
 
             main.Gui.door_sound.play()
             main.animazione.iFinished = False
-        
-
-    if piano() == False or porte() == False:
-        return
-
-    # print(GLOB.PlayerCanCollect)
-    if GLOB.PlayerCanCollect:
-        AggiungiChiavetta()
-
 
     def NonTrovato():
         risposte = ["Non ho trovato nulla", "Sembrerebbe che non ci sia nulla", "Niente.", "Qua non c'è nulla.", "Vuoto.", "Bello! Non c'è nulla", "Ho trovato... Eh volevi!"]
@@ -916,6 +763,166 @@ def testa():
         GLOB.PlayerReset = True
         main.player.evento = None
 
+
+
+    if main.player.evento == "enigma":
+        condizione = False
+
+        for value in GLOB.enigmi_da_risolvere:
+    
+            if value != GLOB.Stanza:
+
+                GLOB.Enigma = False
+                main.player.evento = None
+            
+            else:
+                condizione = True
+
+        
+        if GLOB.Stanza == "WC-Femmine" and not Controlla("Ghiaccio"):
+            condizione = False
+            
+            risposte = ["Certo! A questo punto faccio prima a non lavarmele... guarda te", "Grazie, ma non GRAZIE! Troppo sporca!", "Bleah! Che acqua putrida", "Non ne trovo l'utilita' adesso"]
+        
+            d = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 4)
+            d.stampa()
+            
+            
+        if ("Corridoio" in GLOB.Stanza and GLOB.Piano == "3-SecondoPiano" and not ControllaContenuto("chiavetta-10")):
+            condizione = False
+            
+            risposte = ["Sembra un distributore di merendine", "Cosa farei per un duplo", "Strano che non sia ancora stato distrutto, sarebbero state merendine gratis...", "Non so il perche', ma ho una certa fame..."]
+            
+            d = main.Dialoghi(GLOB.scelta_char, random.choice(risposte), 4)
+            d.stampa()
+            
+            
+        if GLOB.Stanza == "Archivio" and not ControllaContenuto(GLOB.RandomKey):
+            condizione = False
+            
+            testo = "Sembrano due vecchi telefoni..."
+            
+            d = main.Dialoghi(GLOB.scelta_char, testo, 4)
+            d.stampa()
+            
+
+        GLOB.Enigma = condizione
+        GLOB.PlayerReset = True
+
+
+    if main.player.evento == "enigma-risolto":
+        testo = "Default"
+        
+        if GLOB.Stanza == "Chimica":
+            testo = "Ho trovato un appunto che dice che ci sia una chiavetta nascosta all'interno della cella frigorifero...|Mmmm... mi potrebbe essere utile."
+            
+            if GLOB.Stanza != GLOB.MonsterActualRoom:
+                GLOB.MonsterActualRoom = "Chimica"
+                GLOB.MonsterActualFloor = "1-PianoTerra"
+                main.mostro.evento = "porta"
+                GLOB.MonsterHasChangedRoom = True
+
+        if GLOB.Stanza == "WC-Femmine":
+            oggetto = "Ghiaccio"
+
+            if Cerca(oggetto):
+                GLOB.inventario.pop(oggetto)
+                main.player.evento = "chiavetta-3"
+                AggiungiChiavetta()
+
+                testo = "Wow!|Chi se lo sarebbe aspettato di trovare una chiavetta all'interno del ghiaccio|Magari potrei cercare un PC per vedere il suo contenuto."
+                
+                if GLOB.Stanza != GLOB.MonsterActualRoom:
+                    GLOB.MonsterActualRoom = "WC-Femmine"
+                    GLOB.MonsterActualFloor = "2-PrimoPiano"
+                    main.mostro.evento = "porta"
+                    GLOB.MonsterHasChangedRoom = True
+
+        if GLOB.Stanza == "AulaMagna":
+            testo = "Mmmm.|Forse la prossima chiavetta ha qualcosa a che fare con una sedia."
+
+            if GLOB.Stanza != GLOB.MonsterActualRoom and len(GLOB.enigmi_risolti) > 1:
+                GLOB.MonsterActualRoom = "AulaMagna"
+                GLOB.MonsterActualFloor = "2-PrimoPiano"
+                main.mostro.evento = "porta"
+                GLOB.MonsterHasChangedRoom = True
+
+        if GLOB.Stanza == "1A":
+            testo = "Pensavo piu' difficile...|Ad ogni modo che cos'e' quella strana cosa tra i gessetti della lavagna?!?"
+
+        if GLOB.Stanza == "AulaProfessori":
+            testo = "Interessante.|Ho trovato una chiave dietro al foglio, con su scritto \"WC\""
+            
+            oggetto = "Chiave WC"
+            descrizione = "Chiave del bagno Maschile"
+            tipo = 3
+            
+            GLOB.inventario[oggetto] = (GLOB.oggetti[tipo][2], True, descrizione)
+
+        if GLOB.Stanza == "AulaVideo":
+            testo = "Pascoli...|Chissa' se nella libreria della scuola ci potrebbe essere quello che sto cercando."
+            
+            if GLOB.Stanza != GLOB.MonsterActualRoom:
+                GLOB.MonsterActualRoom = "Chimica"
+                GLOB.MonsterActualFloor = "1-PianoTerra"
+                main.mostro.evento = "porta"
+                GLOB.MonsterHasChangedRoom = True
+
+        if GLOB.Stanza == "LabInfo":
+            testo = "Scratch... che ricordi, chissa' se tra questi pc ce ne sarà uno funzionante..."
+                
+        if "Corridoio" in GLOB.Stanza and GLOB.Piano == "3-SecondoPiano":
+            
+            if Cerca("chiavetta-10"):
+                main.player.evento = "chiavetta-12"
+                AggiungiChiavetta()
+            
+            
+            testo = "Si, evvai!!| Oltretutto inserendo il codice 4096 nella macchinetta, mi ha dato un'altra chiavetta!|Andiamo ad analizzarne il contenuto!"
+            
+            if GLOB.Stanza != GLOB.MonsterActualRoom:
+                GLOB.MonsterActualRoom = "Default"
+                GLOB.MonsterActualFloor = "2-PrimoPiano"
+                main.mostro.evento = "porta"
+                GLOB.MonsterHasChangedRoom = True
+                
+        if GLOB.Stanza == "Archivio":
+            testo = "Ce l'ho fatta!!|Oltretutto c'è pure uno strano codice dietro al foglio...|C'è scritto: '"+str(GLOB.codice)+"'"
+            
+            GLOB.ShowCodice = True
+            
+            if GLOB.Stanza != GLOB.MonsterActualRoom:
+                GLOB.MonsterActualRoom = "Corridoio"
+                GLOB.MonsterActualFloor = "1-PianoTerra"
+                main.mostro.evento = "porta-8"
+                main.mostro.IseePlayer = True
+        
+        if testo != "Default":
+            testo = testo.split("|")
+            for t in testo:
+                d = main.Dialoghi(GLOB.scelta_char, t, 4)
+                d.stampa()
+                
+        GLOB.PlayerReset = True
+
+
+    if main.player.evento == "mappa":
+        main.MiniMap().update()
+        main.player.setAllkeys(False)
+        main.SetPlayer_speed()
+
+
+    if main.player.evento != None:
+        if "porta" in main.player.evento or "piano" in main.player.evento:
+            GLOB.LoadCollisions = True
+            GLOB.LoadImages = True
+
+
+    if piano() == False or porte() == False:
+        return
+
+    if GLOB.PlayerCanCollect:
+        AggiungiChiavetta()
 
     if main.player.evento == "cerca-T":
         main.Gui.searching_sound.set_volume(0.3*GLOB.AU)
@@ -1082,7 +1089,7 @@ def testa():
                 
             if GLOB.Stanza == "Generatore":
                 GLOB.corrente = not GLOB.corrente
-                GLOB.PlayerHasPressedButton = GLOB.corrente
+                GLOB.PlayerHasPressedButton = True
 
                 testo = "Ho " + ("attivato" if GLOB.corrente else "disattivato") + " la corrente!"
                 
@@ -1101,3 +1108,4 @@ def testa():
                 sound.set_volume(0.5 * GLOB.AU)
                 sound.fadeout(900)
                 sound.play()
+                GLOB.PlayerHasPressedButton = False

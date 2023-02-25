@@ -52,15 +52,10 @@ class Debug():
             elif GLOB.Player_proportion >= 10:
                 GLOB.Player_proportion = 10
 
-            RUN_TEXT = main.get_font(2*int(GLOB.MULT)).render("V-A: "+str(round(GLOB.Player_speed, 1)), True, "white")
+            RUN_TEXT = main.get_font(3*int(GLOB.MULT)).render("V-A: "+str(round(main.player.getVelocitaX(), 1))+" | "+str(round(main.player.getVelocitaY(), 1)), True, "white")
             RUN_RECT = RUN_TEXT.get_rect(center=(295*GLOB.MULT, 20*GLOB.MULT))
 
             GLOB.screen.blit(RUN_TEXT, RUN_RECT)
-
-            STATUS_TEXT = main.get_font(2*int(GLOB.MULT)).render("Is Walking: "+str(GLOB.PlayerIsWalking)+" | Is Running: "+str(GLOB.PlayerIsRunning), True, "white")
-            STATUS_RECT = STATUS_TEXT.get_rect(center=(295*GLOB.MULT, 60*GLOB.MULT))
-
-            # GLOB.screen.blit(STATUS_TEXT, STATUS_RECT)
 
             POS_TEXT = main.get_font(5*int(GLOB.MULT)).render("x/y: "+str(int((main.player.getPositionX()-main.cam.getPositionX())/GLOB.MULT))+" | "+str(int((main.player.getPositionY()-main.cam.getPositionY())/GLOB.MULT)), True, "white")
             POS_RECT = POS_TEXT.get_rect(center=(200*GLOB.MULT, 20*GLOB.MULT))

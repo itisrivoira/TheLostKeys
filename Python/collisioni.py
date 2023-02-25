@@ -16,6 +16,11 @@ class Map():
         self.posY = 0
         self.divisore = 2
 
+        self.__collectible_room = None
+        self.__collectible_name = None
+        self.__collectible_img = None
+        self.__collectible_pos = None
+        self.__collectible_vis = False
         
         self.valore_fluttua = 0
         self.valore_fluttua_max = 1
@@ -142,6 +147,18 @@ class Map():
             
         if GLOB.Debug:
             print("Terzo layer (muri) "+testo+"!\n")
+            
+            
+    def collectible(self, room, name, img, pos, cond):
+        self.__collectible_room = room
+        self.__collectible_name = name
+        self.__collectible_img = img
+        self.__collectible_pos = pos
+        self.__collectible_vis = cond
+        
+    def BlitCollectible(self):
+        if self.__collectible_vis and self.__collectible_room == GLOB.Stanza and not self.__collectible_name in GLOB.inventario:
+            GLOB.screen.blit(self.__collectible_img, self.__collectible_pos)
 
     def render(self, id_var, hitbox):
         
@@ -202,12 +219,24 @@ class Map():
                         
                         for i in range(len(GLOB.enigmi_risolti)):
                             chiavetta = GLOB.chiavette.get(GLOB.enigmi_risolti[i], [-1])
-                            if chiavetta[0] == id_var and chiavetta[1] and not "chiavetta-"+str(chiavetta[0] - GLOB.chiavetta_start + 1) in GLOB.inventario.keys():
+                            
+                            key = "chiavetta-"+str(chiavetta[0] - GLOB.chiavetta_start + 1)
+                            cond = chiavetta[0] == id_var and chiavetta[1] and not key in GLOB.inventario.keys()
+                            
+                            if cond:
                                 self.check_objects = True
                                 
                                 animazione_fluttua()
-                                GLOB.screen.blit(GLOB.chiavette[GLOB.enigmi_risolti[i]][2], (x * GLOB.MULT + main.cam.getPositionX() + 7 * GLOB.MULT, y * GLOB.MULT + main.cam.getPositionY() + self.valore_fluttua * GLOB.MULT))
                                 main.player.HasInteraction(chunck_render, collisione_t, id_var)
+                                
+                                self.collectible(   
+                                                    GLOB.Stanza,
+                                                    key,
+                                                    GLOB.chiavette[GLOB.enigmi_risolti[i]][2], 
+                                                    (x * GLOB.MULT + main.cam.getPositionX() + 7 * GLOB.MULT, 
+                                                     y * GLOB.MULT + main.cam.getPositionY() + self.valore_fluttua * GLOB.MULT), 
+                                                    cond 
+                                                )
                                 
                         if self.check_objects:
                             GLOB.PlayerCanCollect = True

@@ -25,6 +25,8 @@ class Player():
         #indicazione velocità (dinamica)
         self.setVelocitaX(0)
         self.setVelocitaY(0)
+        
+        self.direction = pygame.math.Vector2()
 
         #pulsanti cliccati si/no
         self.setLeftPress(False)
@@ -228,79 +230,79 @@ class Player():
                 self.finish()
 
     def HasCollision(self, object):
+        if not GLOB.isPaused:
+            def Confronta(value):
 
-        def Confronta(value):
+                if value=="x":
 
-            if value=="x":
+                    if self.mesh.right >= object.right:
+                        self.x += 1
+                        self.setLeftPress(False)
+                        self.collision_state["right"] = True
+                    elif self.mesh.left <= object.left:
+                        self.x -= 1
+                        self.setRightPress(False)
+                        self.collision_state["left"] = True
 
-                if self.mesh.right >= object.right:
-                    self.x += GLOB.Player_speed
-                    self.setLeftPress(False)
-                    self.collision_state["right"] = True
-                elif self.mesh.left <= object.left:
-                    self.x -= GLOB.Player_speed
-                    self.setRightPress(False)
-                    self.collision_state["left"] = True
+                if value=="y":
 
-            if value=="y":
-
-                if self.mesh.bottom >= object.bottom:
-                    self.y += GLOB.Player_speed
-                    self.setUpPress(False)
-                    self.collision_state["bottom"] = True
-                elif self.mesh.top <= object.top:
-                    self.y -= GLOB.Player_speed
-                    self.setDownPress(False)
-                    self.collision_state["top"] = True
-            
-
-        if self.mesh.colliderect(object):
-
-            self.finish()
-            
-            w = (self.Last_keyPressed == "Up")
-            a = (self.Last_keyPressed == "Left")
-            
-            s = (self.Last_keyPressed == "Down")
-            d = (self.Last_keyPressed == "Right")
-
-            
-            a1 = (self.getRightPress() and w or self.getLeftPress() and w)
-            b1 =  (self.getLeftPress() and s or self.getRightPress() and s)
-
-            c1 =  (self.getUpPress() and a or self.getDownPress() and a)
-            d1 =  (self.getUpPress() and d or self.getDownPress() and d)
-
-
-            if self.Last_keyPressed != "Null":
-
-                if (a1 or b1) and (not c1 and not d1):
-
-                    Confronta("x")
-                    self.Last_keyPressed = "Null"
-
-                    
-                if (c1 or d1) and (not a1 and not b1):
-
-                    Confronta("y")
-                    self.Last_keyPressed = "Null"
-                    
-
-                if (self.getRightPress() or self.getLeftPress() or a or d) and (not w and not s):
-                    Confronta("x")
+                    if self.mesh.bottom >= object.bottom:
+                        self.y += 1
+                        self.setUpPress(False)
+                        self.collision_state["bottom"] = True
+                    elif self.mesh.top <= object.top:
+                        self.y -= 1
+                        self.setDownPress(False)
+                        self.collision_state["top"] = True
                 
-                if (self.getUpPress() or self.getDownPress() or w or s) and (not d and not a):
-                    Confronta("y")
-            else:
-                Confronta("y")
-                Confronta("x")
 
-        else:
-            if (self.current_spriteWOL or self.current_spriteWOR or self.current_spriteWVD or self.current_spriteWVU) > 0.9:
-                self.collision_state["top"] = False
-                self.collision_state["bottom"] = False
-                self.collision_state["left"] = False
-                self.collision_state["right"] = False
+            if self.mesh.colliderect(object):
+
+                self.finish()
+                
+                w = (self.Last_keyPressed == "Up")
+                a = (self.Last_keyPressed == "Left")
+                
+                s = (self.Last_keyPressed == "Down")
+                d = (self.Last_keyPressed == "Right")
+
+                
+                a1 = (self.getRightPress() and w or self.getLeftPress() and w)
+                b1 =  (self.getLeftPress() and s or self.getRightPress() and s)
+
+                c1 =  (self.getUpPress() and a or self.getDownPress() and a)
+                d1 =  (self.getUpPress() and d or self.getDownPress() and d)
+
+
+                if self.Last_keyPressed != "Null":
+
+                    if (a1 or b1) and (not c1 and not d1):
+
+                        Confronta("x")
+                        self.Last_keyPressed = "Null"
+
+                        
+                    if (c1 or d1) and (not a1 and not b1):
+
+                        Confronta("y")
+                        self.Last_keyPressed = "Null"
+                        
+
+                    if (self.getRightPress() or self.getLeftPress() or a or d) and (not w and not s):
+                        Confronta("x")
+                    
+                    if (self.getUpPress() or self.getDownPress() or w or s) and (not d and not a):
+                        Confronta("y")
+                else:
+                    Confronta("y")
+                    Confronta("x")
+
+            else:
+                if (self.current_spriteWOL or self.current_spriteWOR or self.current_spriteWVD or self.current_spriteWVU) > 0.9:
+                    self.collision_state["top"] = False
+                    self.collision_state["bottom"] = False
+                    self.collision_state["left"] = False
+                    self.collision_state["right"] = False
 
     def HasInteraction(self, chunk_render, object, var):
         
@@ -484,20 +486,38 @@ class Player():
             self.setIsWalking(True)
             self.character_update()
 
-        if (getLeft and not getRight):
-            self.setVelocitaX(-GLOB.Player_speed)
+        if getLeft:
+            self.direction.x = -1
+
+        elif getRight:
+            self.direction.x = 1
+
+        else:
+            self.direction.x = 0
+
         
-        if (getRight and not getLeft):
-            self.setVelocitaX(GLOB.Player_speed)
+        if getUp:
+            self.direction.y = -1
 
-        if (getUp and not getDown):
-            self.setVelocitaY(-GLOB.Player_speed)
-
-        if (getDown and not getUp):
-            self.setVelocitaY(GLOB.Player_speed)
+        elif getDown:
+            self.direction.y = 1
+        
+        else:
+            self.direction.y = 0
+            
 
         if (getLeft and getRight) or (getUp and getDown) or list(self.movement_state.values()).count(True) > 2:
             self.finish()
+            
+
+        if self.direction.magnitude() != 0:
+            self.direction = self.direction.normalize()
+        
+        self.setVelocitaX(self.direction.x * GLOB.Player_speed)
+        self.setVelocitaY(self.direction.y * GLOB.Player_speed)
+        
+        self.x += self.getVelocitaX()
+        self.y += self.getVelocitaY()
             
         if list(self.movement_state.values()).count(True) > 0 and (self.getIsWalking() or self.getIsRunning() and (GLOB.PLayerMovement["up"] or GLOB.PLayerMovement["down"] or GLOB.PLayerMovement["right"] or GLOB.PLayerMovement["left"])):
             self.delay_sound.Infinite()
@@ -514,10 +534,6 @@ class Player():
                 self.image = self.animationIdle[int(self.current_spriteIdle)]
                 
         self.character = self.image
-        
-
-        self.x += self.getVelocitaX()
-        self.y += self.getVelocitaY()
     
         GLOB.screen.blit(self.ombra, (self.x , self.y-2.5*GLOB.MULT/GLOB.Player_proportion))
         GLOB.screen.blit(self.character, (self.x , self.y))

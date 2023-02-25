@@ -94,12 +94,14 @@ class Corrente():
     def __init__(self):
         self.x, self.y = 0, 0
         self.flag_update = True
+        
+        self.brightness = 90
         self.__default_value = GLOB.Torcia
         self.__load_resources()
         
-        self.__Start = not GLOB.Light
+        self.__Start = not GLOB.PlayerHasPressedButton
         
-        self.__sound = main.mixer.Sound("suoni/"+str(GLOB.corrente)+"corrente.wav")
+        self.__sound = main.mixer.Sound("suoni/"+str(not GLOB.corrente)+"corrente.wav")
         self.__sound.set_volume(0.5 * GLOB.AU)
         self.__sound.fadeout(900)
         
@@ -139,11 +141,13 @@ class Corrente():
         self.__image = pygame.transform.scale(self.__image, (
             self.__image.get_width() * GLOB.MULT / div, self.__image.get_height() * GLOB.MULT / div))
         
+        if GLOB.corrente: self.__image.set_alpha(self.brightness)
         self.size = self.__image.get_size()
         
     def __CanStart(self):
         self.__Start = True
-        GLOB.Light = False
+        
+        self.__load_resources()
         
         if self.__flag_dialogo and not GLOB.PlayerHasPressedButton:
             frase = "Oh no! La corrente è saltata!|Per fortuna che mi sono portato una torcia nel mio zaino."
@@ -151,36 +155,33 @@ class Corrente():
             for testo in frase.split("|"):
                 dialogue = main.Dialoghi(GLOB.scelta_char, testo, 4)
                 dialogue.stampa()
+                
             self.__flag_dialogo = False
-
-            GLOB.CanUseTorch = True
             
             
     def disegna(self):
-        if not GLOB.isPaused:
-            
-            GLOB.MonsterCanSeePlayer = GLOB.corrente or len(GLOB.enigmi_risolti) > self.__num_min_enigmi
-            
-            if not self.__Start and not GLOB.corrente:
-                self.__delay_attivazione.Start()
-                self.__delay_sound.Start()
-            
-            if GLOB.corrente:
-                self.__Start = False
-                self.__delay_attivazione.ReStart()
-            
-            if not GLOB.corrente and self.__Start:
-                if self.__default_value != GLOB.Torcia:
-                    self.flag_update = True
-                    self.__default_value = GLOB.Torcia
+        GLOB.MonsterCanSeePlayer = GLOB.corrente or len(GLOB.enigmi_risolti) > self.__num_min_enigmi
+        
+        if GLOB.corrente:
+            self.__Start = False
+            self.__delay_attivazione.ReStart()
+        
+        if not GLOB.corrente and self.__Start:
+            if len(GLOB.enigmi_risolti) > self.__num_min_enigmi and GLOB.MonsterCanSpawn and GLOB.MonsterSpawning:
+                self.__update_triagle()
+                GLOB.MonsterCanSeePlayer = True
                 
-                if self.flag_update:
-                    self.__load_resources()
-                    self.flag_update = False
+        if self.__default_value != GLOB.Torcia:
+            self.flag_update = True
+            self.__default_value = GLOB.Torcia
+        
+        if self.flag_update:
+            self.__load_resources()
+            self.flag_update = False
                 
-                space = 7 * GLOB.MULT, 7 * GLOB.MULT
-                GLOB.screen.blit(self.__image, (main.player.hitbox[0] + space[0] - self.size[0]/2, main.player.hitbox[1] + space[1] - self.size[1]/2))
-                
-                if len(GLOB.enigmi_risolti) > self.__num_min_enigmi and GLOB.MonsterCanSpawn and GLOB.MonsterSpawning:
-                    self.__update_triagle()
-                    GLOB.MonsterCanSeePlayer = True
+        space = 7 * GLOB.MULT, 7 * GLOB.MULT
+        GLOB.screen.blit(self.__image, (main.player.hitbox[0] + space[0] - self.size[0]/2, main.player.hitbox[1] + space[1] - self.size[1]/2))
+        
+        if not self.__Start and not GLOB.corrente:
+            self.__delay_attivazione.Start()
+            self.__delay_sound.Start()

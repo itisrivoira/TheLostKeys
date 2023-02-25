@@ -11,7 +11,8 @@ Default_DeltaTime = Delta_Time
 Player_proportion = 1 # Divisore della grandezza del giocatore
 
 #FPS
-FPS = 30 * Delta_Time
+DF_FPS = 30
+FPS = DF_FPS * Delta_Time
 
 # rapporto di proporzione allo schermo NON INFERIORE AD 1
 MULT = 2
@@ -38,6 +39,7 @@ ShowFps = True
 ShowDropFrames = False
 ShowScore = True
 ShowRecord = True
+ChangeFPSinDebugMode = False
 
 LoadCollisions = True
 ReloadCollisions = False
@@ -50,7 +52,6 @@ isPaused = False
 ShowInventory = False
 
 KeyPressed = ""
-PlayerHasPressedButton = False
 
 Dialogo = False
 Enigma = False
@@ -204,14 +205,14 @@ Piani = [var for var in sorted(os.listdir(Default_path), key = lambda x: x)]
 
 
 def setFPS():
-    global Delta_Time, Default_DeltaTime, FPS, Performance
+    global Delta_Time, Default_DeltaTime, DF_FPS, FPS, Performance
     
     if Performance:
         Delta_Time = Default_DeltaTime
     else:
         Delta_Time = Default_DeltaTime / 2
         
-    FPS = 30 * Delta_Time
+    FPS = DF_FPS * Delta_Time
     Default_DeltaTime = Delta_Time
 
 def setCharacter():
@@ -261,7 +262,7 @@ def setResources():
     global inventario, Inventory_support
 
     global codice, codice_archivio, ShowCodice
-    global RandomMinLight, Flag_luce, corrente, Light, CanUseTorch, Torcia
+    global RandomMinLight, Flag_luce, corrente, CanUseTorch, Torcia
 
     global enigmi_da_risolvere, enigmi_risolti
     global chiavette, chiavetta_start, chiavetta_end
@@ -290,7 +291,6 @@ def setResources():
     
     codice_archivio = False
     
-    Light = True
     corrente = True
     Torcia = False
     Flag_luce = True
@@ -416,7 +416,7 @@ def setResources():
     PlayerInteract = False
     PlayerCanInteract = False
     PlayerTextInteract = "Interagisci"
-    PlayerHasPressedButton = True
+    PlayerHasPressedButton = False
     PlayerFoundKey = False
 
     PlayerIsWalking = True
@@ -526,7 +526,6 @@ def SaveGame():
     
     - Corrente:
         Corrente = |""" + str(corrente) + """|
-        Light = |""" + str(Light) + """|
         RandomMinLight = |""" + str(RandomMinLight) +"""|
         Flag_Luce = |""" + str(Flag_luce) +"""|
                     
@@ -560,7 +559,7 @@ def LoadGame(flag):
     
     global Scelta, ShowIntro
     
-    global Flag_luce, RandomMinLight, corrente, Light, CanUseTorch, Torcia
+    global Flag_luce, RandomMinLight, corrente, CanUseTorch, Torcia
     
     if flag and os.path.exists("dati.txt"):
         
@@ -632,10 +631,8 @@ def LoadGame(flag):
             
             corrente = ast.literal_eval(cont(52))
             
-            Light = ast.literal_eval(cont(53))
-            
-            RandomMinLight = int(cont(54))
-            Flag_luce = ast.literal_eval(cont(55))
+            RandomMinLight = int(cont(53))
+            Flag_luce = ast.literal_eval(cont(54))
             
             CanUseTorch = "Torcia" in inventario
             Torcia = not corrente

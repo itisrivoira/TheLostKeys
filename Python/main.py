@@ -210,7 +210,7 @@ def controllo_condizioni():
         GLOB.PlayerReset = False
 
     if animazione.flag_changeBg:
-        animazione.ImpostaSfondo()
+        animazione.UpdateBackground()
 
     if animazione.iFinished:
         GLOB.PlayerCanMove = True
@@ -312,12 +312,16 @@ def disegna():
         
     collisions.render_walls((0,0))
     
-    stanze.caricaStanza()
-    
     animazione.disegna()
+        
+    
+    collisions.BlitCollectible()
     
     if not animazione.flag_caricamento:
         lum.disegna()
+    
+    # Nel dialogo rimane sotto
+    stanze.caricaStanza()
     
     if animazione.iFinished:
         Stampa_messaggio()
@@ -538,8 +542,7 @@ def main():
                     sound = mixer.Sound("suoni/torcia.wav")
                     sound.set_volume(0.6 * GLOB.AU)
                     sound.play()
-                    if not GLOB.corrente:
-                        GLOB.Torcia = not GLOB.Torcia
+                    GLOB.Torcia = not GLOB.Torcia
 
                 if GLOB.Debug:
                     if event.key == pygame.K_z:
@@ -556,8 +559,21 @@ def main():
                         MiniMap().update()
                         
                     if event.key == pygame.K_g:
-                            GLOB.MonsterCanAttack = not GLOB.MonsterCanAttack
-                            GLOB.MonsterCanKillMe = not GLOB.MonsterCanKillMe
+                        GLOB.MonsterCanAttack = not GLOB.MonsterCanAttack
+                        GLOB.MonsterCanKillMe = not GLOB.MonsterCanKillMe
+                        
+                    if event.key == pygame.K_f:
+                        GLOB.MonsterCanKillMe = not GLOB.MonsterCanKillMe
+                        
+                    if event.key == pygame.K_l:
+                        stanze.setToDefault()
+                        stanze.dizionario_flag[GLOB.Stanza] = True
+                        animazione.iFinished = False
+
+                    if event.key == pygame.K_n:
+
+                        if not GLOB.Enigma:
+                            GLOB.Enigma = True
 
                 if event.key == pygame.K_TAB and animazione.iFinished and not animazione.flag_caricamento:
                     GLOB.ShowInventory = not GLOB.ShowInventory
@@ -573,22 +589,10 @@ def main():
                 GLOB.Debug = not GLOB.Debug
                 GLOB.Cam_visible = not GLOB.Cam_visible
 
-                GLOB.ShowCodice = GLOB.Debug      
-                ChangeDeltaTime(GLOB.Debug)
+                GLOB.ShowCodice = GLOB.Debug
+                if GLOB.ChangeFPSinDebugMode:
+                    ChangeDeltaTime(GLOB.Debug)
                 pygame.mouse.set_visible(GLOB.Debug)
-
-            if GLOB.Debug:
-
-                if keys_pressed[pygame.K_l]:
-                    stanze.setToDefault()
-                    stanze.dizionario_flag[GLOB.Stanza] = True
-                    animazione.iFinished = False
-
-                if keys_pressed[pygame.K_n]:
-
-                    if not GLOB.Enigma:
-                        GLOB.Enigma = True
-                        
 
             if GLOB.PlayerCanMove:
 
