@@ -915,7 +915,6 @@ class Keeper():
                 
             if self.flag_CanStartAttack and GLOB.MonsterCanAttack:
                 self.monster_ai_brain = 0
-                self.height = 0
                 self.aggr = True
                 self.IAttacking = True
                 self.flag_CanStartAttack = False

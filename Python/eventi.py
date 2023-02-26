@@ -1109,6 +1109,7 @@ def testa():
                 
         if GLOB.Piano == "3-SecondoPiano":
             if GLOB.Stanza == "Generatore":
+                main.lum.Reload()
                 sound = main.mixer.Sound("suoni/"+str(GLOB.corrente)+"corrente.wav")
                 sound.set_volume(0.5 * GLOB.AU)
                 sound.fadeout(900)

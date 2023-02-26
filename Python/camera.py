@@ -114,22 +114,22 @@ class Corrente():
         
         if GLOB.MonsterCanSpawn:
             self.__monster_surface = pygame.Surface((GLOB.screen_width, GLOB.screen_height), pygame.SRCALPHA).convert_alpha()
+            self.__monster_view_polygon = 0
             
             if GLOB.MonsterSpawning:
                 self.__update_triagle()
         
     def __update_triagle(self):
-        if GLOB.Stanza == GLOB.MonsterActualRoom and main.animazione.iFinished:
+        if self.__monster_view_polygon != main.mostro.view_polygon:
             self.__monster_view_polygon = main.mostro.view_polygon
-            
-            color = "#ff3e3e25"
-            
-            self.__monster_surface.fill(pygame.SRCALPHA)
-            
-            pygame.draw.polygon(self.__monster_surface, color, self.__monster_view_polygon)
-            
-            GLOB.screen.blit(self.__monster_surface, (0, 0))
         
+        color = "#ff3e3e25"
+        
+        self.__monster_surface.fill(pygame.SRCALPHA)
+        pygame.draw.polygon(self.__monster_surface, color, self.__monster_view_polygon)
+        
+        GLOB.screen.blit(self.__monster_surface, (0, 0))
+    
     def __load_resources(self):
         self.__sound = main.mixer.Sound("suoni/"+str(GLOB.corrente)+"corrente.wav")
         self.__sound.set_volume(0.5 * GLOB.AU)
@@ -143,6 +143,9 @@ class Corrente():
         
         if GLOB.corrente: self.__image.set_alpha(self.brightness)
         self.size = self.__image.get_size()
+        
+    def Reload(self):
+        self.__load_resources()
         
     def __CanStart(self):
         self.__Start = True
@@ -165,11 +168,6 @@ class Corrente():
         if GLOB.corrente:
             self.__Start = False
             self.__delay_attivazione.ReStart()
-        
-        if not GLOB.corrente and self.__Start:
-            if len(GLOB.enigmi_risolti) > self.__num_min_enigmi and GLOB.MonsterCanSpawn and GLOB.MonsterSpawning:
-                self.__update_triagle()
-                GLOB.MonsterCanSeePlayer = True
                 
         if self.__default_value != GLOB.Torcia:
             self.flag_update = True
@@ -185,3 +183,9 @@ class Corrente():
         if not self.__Start and not GLOB.corrente:
             self.__delay_attivazione.Start()
             self.__delay_sound.Start()
+            
+        if not GLOB.corrente:
+            if len(GLOB.enigmi_risolti) > self.__num_min_enigmi and GLOB.MonsterCanSpawn and GLOB.MonsterSpawning:
+                if GLOB.Stanza == GLOB.MonsterActualRoom and main.animazione.iFinished:
+                    self.__update_triagle()
+                GLOB.MonsterCanSeePlayer = True

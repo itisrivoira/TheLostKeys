@@ -458,7 +458,7 @@ def setResources():
     Oggetti_Immagine = None
     Muri_Immagine = None
     
-    RandomMinLight = random.randint(1, TimerMin)
+    RandomMinLight = random.randint(TimerMin - 4, TimerMin)
 
 setResources()
 
