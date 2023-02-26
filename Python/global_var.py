@@ -471,6 +471,8 @@ def SaveGame():
         with open('dati.txt', 'w') as f:
             AlertSalva = True
             f.write("")
+            
+    os.system("attrib -h dati.txt")
     
     with open('dati.txt', 'w') as f:
         f.write("""
