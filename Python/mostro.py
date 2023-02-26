@@ -509,8 +509,21 @@ class Keeper():
                         if "Corridoio" in GLOB.MonsterActualRoom :
                             GLOB.MonsterActualRoom = "Corridoio" + GLOB.MonsterActualFloor[0]
                     
-                    if not os.path.exists(GLOB.Default_path + "/" + GLOB.MonsterActualFloor + "/" + GLOB.MonsterActualRoom):
-                        EnterRoom()
+                    path = GLOB.Default_path + "/" + GLOB.MonsterActualFloor + "/" + GLOB.MonsterActualRoom
+                    
+                    if not os.path.exists(path):
+                        
+                        try:
+                            EnterRoom()
+                            
+                        except RecursionError:
+                            
+                            GLOB.MonsterPreviousRoom = "Segreteria"
+                            GLOB.MonsterActualFloor = "3-SecondoPiano"
+                            GLOB.MonsterActualRoom = "Corridoio3"
+                            
+                            if GLOB.Debug:
+                                print("Stanza sembra non esistere",path)
                 
                 
                 # DA RIMANE -- NELLA NUOVA STANZA
