@@ -1939,6 +1939,12 @@ class Code():
 	def Show(self):
 
 		a = True
+
+		if not GLOB.corrente:
+			a = False
+			risposte = ["Devo prima riattivare la corrente", "Devo prima riattivare la corrente", "Devo prima riattivare la corrente", "Niente corrente niente magia"]
+			Dialoghi(GLOB.scelta_char, random.choice(risposte), 4).stampa()
+
 		while a and not self.risolto:
 				keys_pressed = pygame.key.get_pressed()
 
@@ -2075,8 +2081,7 @@ class Pc():
 		self.chiavette.sort(key=lambda f: int(re.sub('\D', '', f)))
 					
 
-		if c == False:
-			self.CanIUse = False
+		self.CanIUse = c and GLOB.corrente
 
 	def __calcola_testo(self):
 
@@ -2124,7 +2129,11 @@ class Pc():
 				i += 1
 
 		else:
-			risposte = ["Credo di non avere le chiavette neccessarie richieste.", "Forse dovrei prima cercare altre chiavette", "Questa macchina ha Windows sopra... Meglio starne alla larga"]
+			if GLOB.corrente:
+				risposte = ["Credo di non avere le chiavette neccessarie richieste.", "Forse dovrei prima cercare altre chiavette", "Questa macchina ha Windows sopra... Meglio starne alla larga"]
+			else:		
+				risposte = ["Credo che debba prima riattivare la corrente", "Non funziona", "Manca la corrente!", "Devo prima riattivare la corrente", "Devo prima riattivare la corrente", "Devo prima riattivare la corrente", "Niente corrente niente magia"]
+			
 			d = Dialoghi(GLOB.scelta_char, random.choice(risposte), 4)
 			d.stampa()
 			self.ciclo = False
