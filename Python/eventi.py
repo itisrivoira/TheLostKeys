@@ -818,6 +818,7 @@ def testa():
             
             if GLOB.Stanza != GLOB.MonsterActualRoom:
                 GLOB.MonsterActualRoom = "Chimica"
+                GLOB.MonsterPreviousRoom = "Chimica"
                 GLOB.MonsterActualFloor = "1-PianoTerra"
                 main.mostro.evento = "porta"
                 GLOB.MonsterHasChangedRoom = True
@@ -832,8 +833,9 @@ def testa():
 
                 testo = "Wow!|Chi se lo sarebbe aspettato di trovare una chiavetta all'interno del ghiaccio|Magari potrei cercare un PC per vedere il suo contenuto."
                 
-                if GLOB.Stanza != GLOB.MonsterActualRoom:
+                if GLOB.Stanza != GLOB.MonsterActualRoom and not main.mostro.IseePlayer:
                     GLOB.MonsterActualRoom = "WC-Femmine"
+                    GLOB.MonsterPreviousRoom = "WC-Femmine"
                     GLOB.MonsterActualFloor = "2-PrimoPiano"
                     main.mostro.evento = "porta"
                     GLOB.MonsterHasChangedRoom = True
@@ -843,6 +845,7 @@ def testa():
 
             if GLOB.Stanza != GLOB.MonsterActualRoom and len(GLOB.enigmi_risolti) > 1:
                 GLOB.MonsterActualRoom = "AulaMagna"
+                GLOB.MonsterPreviousRoom = "Corridoio2"
                 GLOB.MonsterActualFloor = "2-PrimoPiano"
                 main.mostro.evento = "porta"
                 GLOB.MonsterHasChangedRoom = True
@@ -863,6 +866,7 @@ def testa():
             testo = "Pascoli...|Chissa' se nella libreria della scuola ci potrebbe essere quello che sto cercando."
             
             if GLOB.Stanza != GLOB.MonsterActualRoom:
+                GLOB.MonsterPreviousRoom = "Chimica"
                 GLOB.MonsterActualRoom = "Chimica"
                 GLOB.MonsterActualFloor = "1-PianoTerra"
                 main.mostro.evento = "porta"
@@ -881,6 +885,7 @@ def testa():
             testo = "Si, evvai!!| Oltretutto inserendo il codice 4096 nella macchinetta, mi ha dato un'altra chiavetta!|Andiamo ad analizzarne il contenuto!"
             
             if GLOB.Stanza != GLOB.MonsterActualRoom:
+                GLOB.MonsterPreviousRoom = "WC-Maschi"
                 GLOB.MonsterActualRoom = "Default"
                 GLOB.MonsterActualFloor = "2-PrimoPiano"
                 main.mostro.evento = "porta"
@@ -892,7 +897,7 @@ def testa():
             GLOB.ShowCodice = True
             
             if GLOB.Stanza != GLOB.MonsterActualRoom:
-                GLOB.MonsterActualRoom = "Corridoio"
+                GLOB.MonsterActualRoom = "Corridoio1"
                 GLOB.MonsterActualFloor = "1-PianoTerra"
                 main.mostro.evento = "porta-8"
                 main.mostro.IseePlayer = True

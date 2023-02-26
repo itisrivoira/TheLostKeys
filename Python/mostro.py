@@ -1,4 +1,4 @@
-import pygame, random
+import pygame, random, os
 from components import Delay
 import global_var as GLOB
 import main
@@ -104,7 +104,7 @@ class Keeper():
         self.delay_aggr = Delay(0.2, self.__setTraslazione)
         
         self.contatore_collisioni = 0
-        self.max_val_cont = 20
+        self.max_val_cont = 30
 
         self.diff = 1
         self.evento = None
@@ -500,6 +500,7 @@ class Keeper():
                     
                     if "Corridoio" in GLOB.MonsterActualRoom:
                         self.__first_room = GLOB.MonsterActualRoom
+                        GLOB.MonsterActualFloor = GLOB.Piani[int(GLOB.MonsterActualRoom[-1])]
                         
                         GLOB.MonsterActualRoom = random.choice(randomRooms)
                     else:
@@ -507,7 +508,9 @@ class Keeper():
                         
                         if "Corridoio" in GLOB.MonsterActualRoom :
                             GLOB.MonsterActualRoom = "Corridoio" + GLOB.MonsterActualFloor[0]
-                        
+                    
+                    if not os.path.exists(GLOB.Default_path + "/" + GLOB.MonsterActualFloor + "/" + GLOB.MonsterActualRoom):
+                        EnterRoom()
                 
                 
                 # DA RIMANE -- NELLA NUOVA STANZA
@@ -531,263 +534,266 @@ class Keeper():
                         self.__temp_pos = c
                         self.monster_ai_brain = var
                 
-                if GLOB.MonsterActualFloor == "1-PianoTerra":
-                    
-                    CheckEnter("Fisica", "Chimica", "Archivio", "Corridoio2")
-                                
-                    SpawnRoomManager(
-                                        stanza        =  "Fisica", 
-                                        spawnStanza   =  (200, 122), 
-                                        EntrataStanza =  (574, 232), 
-                                        UscitaStanza  =  (320, 8),
-                                        monsterbrain1 =   1,
-                                        monsterbrain2 =   2,
-                                        monsterbrain3 =   3
-                                    )
-                    
-                    SpawnRoomManager(
-                                        stanza        =  "Archivio", 
-                                        spawnStanza   =  (192, 200), 
-                                        EntrataStanza =  (408, 238), 
-                                        UscitaStanza  =  (18, 166),
-                                        monsterbrain1 =   0,
-                                        monsterbrain2 =   2,
-                                        monsterbrain3 =   1
-                                    )
-                    
-                    SpawnRoomManager(
-                                        stanza        =  "Chimica", 
-                                        spawnStanza   =  (462, 126), 
-                                        EntrataStanza =  (625, 210), 
-                                        UscitaStanza  =  (608, 12),
-                                        monsterbrain1 =   1,
-                                        monsterbrain2 =   2,
-                                        monsterbrain3 =   3
-                                    )
+                
+                def EnterRoom():
+                    if GLOB.MonsterActualFloor == "1-PianoTerra":
                         
-                    SpawnRoomManager(
-                                        stanza        =  "Corridoio2", 
-                                        spawnStanza   =  (228, 86), 
-                                        EntrataStanza =  (428, 170), 
-                                        UscitaStanza  =  (46, 12),
-                                        monsterbrain1 =   4,
-                                        monsterbrain2 =   4,
-                                        monsterbrain3 =   3
-                                    )
-                    
-                elif GLOB.MonsterActualFloor == "2-PrimoPiano":
-                    
-                    CheckEnter("AulaProfessori", "AulaMagna", "1D", "WC-Maschi", "LabInfo", "Corridoio3", "Corridoio1")
-                                
-                    SpawnRoomManager(
-                                        stanza        =  "AulaProfessori", 
-                                        spawnStanza   =  (536, 106), 
-                                        EntrataStanza =  (164, 162), 
-                                        UscitaStanza  =  (504, 70),
-                                        monsterbrain1 =   2,
-                                        monsterbrain2 =   1,
-                                        monsterbrain3 =   2
-                                    )
-
-                    SpawnRoomManager(
-                                        stanza        =  "WC-Femmine", 
-                                        spawnStanza   =  (310, 194), 
-                                        EntrataStanza =  (344, 106), 
-                                        UscitaStanza  =  (504, 140),
-                                        monsterbrain1 =   1,
-                                        monsterbrain2 =   3,
-                                        monsterbrain3 =   2
-                                    )
-                        
-                    SpawnRoomManager(
-                                        stanza        =  "AulaMagna", 
-                                        spawnStanza   =  (490, 116), 
-                                        EntrataStanza =  (598, 260), 
-                                        UscitaStanza  =  (368, 174),
-                                        monsterbrain1 =   3,
-                                        monsterbrain2 =   2,
-                                        monsterbrain3 =   4
-                                    )
-                        
-                    SpawnRoomManager(
-                                        stanza        =  "1A", 
-                                        spawnStanza   =  (516, 238), 
-                                        EntrataStanza =  (620, 260), 
-                                        UscitaStanza  =  (248, 174),
-                                        monsterbrain1 =   2,
-                                        monsterbrain2 =   2,
-                                        monsterbrain3 =   4
-                                    )
-                        
-                    SpawnRoomManager(
-                                        stanza        =  "1D", 
-                                        spawnStanza   =  (452, 120), 
-                                        EntrataStanza =  (548, 164), 
-                                        UscitaStanza  =  (176, 174),
-                                        monsterbrain1 =   4,
-                                        monsterbrain2 =   2,
-                                        monsterbrain3 =   4
-                                    )
-
-                    SpawnRoomManager(
-                                        stanza        =  "WC-Maschi", 
-                                        spawnStanza   =  (428, 240), 
-                                        EntrataStanza =  (546, 240), 
-                                        UscitaStanza  =  (32, 174),
-                                        monsterbrain1 =   1,
-                                        monsterbrain2 =   2,
-                                        monsterbrain3 =   4
-                                    )
-                        
-                    SpawnRoomManager(
-                                        stanza        =  "LabInfo", 
-                                        spawnStanza   =  (156, 60), 
-                                        EntrataStanza =  (310, 216), 
-                                        UscitaStanza  =  (18, 94),
-                                        monsterbrain1 =   3,
-                                        monsterbrain2 =   2,
-                                        monsterbrain3 =   1
-                                    )
-                        
-                    SpawnRoomManager(
-                                        stanza        =  "Corridoio1", 
-                                        spawnStanza   =  (200, 96), 
-                                        EntrataStanza =  (46, 10), 
-                                        UscitaStanza  =  (478, 178),
-                                        monsterbrain1 =   2,
-                                        monsterbrain2 =   3,
-                                        monsterbrain3 =   4
-                                    )
-
-                    SpawnRoomManager(
-                                        stanza        =  "Corridoio3", 
-                                        spawnStanza   =  (439, 20), 
-                                        EntrataStanza =  (454, 152), 
-                                        UscitaStanza  =  (430, 178),
-                                        monsterbrain1 =   0,
-                                        monsterbrain2 =   4,
-                                        monsterbrain3 =   4
-                                    )
-                            
-                        
-                elif GLOB.MonsterActualFloor == "3-SecondoPiano":
-                    prec_room = GLOB.MonsterActualRoom
-                    CheckEnter("AulaVideo", "4A", "LabInformatica", "Segreteria", "Generatore", "Corridoio2")
-                    
-                    
-                    SpawnRoomManager(
-                                        stanza        =  "AulaVideo", 
-                                        spawnStanza   =  (176, 248), 
-                                        EntrataStanza =  (18, 262), 
-                                        UscitaStanza  =  (504, 46),
-                                        monsterbrain1 =   4,
-                                        monsterbrain2 =   1,
-                                        monsterbrain3 =   2
-                                    )
-                        
-                    SpawnRoomManager(
-                                        stanza        =  "4A", 
-                                        spawnStanza   =  (152, 140), 
-                                        EntrataStanza =  (584, 38), 
-                                        UscitaStanza  =  (178, 150),
-                                        monsterbrain1 =   0,
-                                        monsterbrain2 =   3,
-                                        monsterbrain3 =   4
-                                    )
-                        
-                    SpawnRoomManager(
-                                        stanza        =  "LabInformatica", 
-                                        spawnStanza   =  (180, 164), 
-                                        EntrataStanza =  (420, 234), 
-                                        UscitaStanza  =  (56, 150),
-                                        monsterbrain1 =   1,
-                                        monsterbrain2 =   2,
-                                        monsterbrain3 =   4
-                                    )
-                        
-                    SpawnRoomManager(
-                                        stanza        =  "Ripostiglio", 
-                                        spawnStanza   =  (286, 186), 
-                                        EntrataStanza =  (376, 190), 
-                                        UscitaStanza  =  (56, 10),
-                                        monsterbrain1 =   1,
-                                        monsterbrain2 =   2,
-                                        monsterbrain3 =   3
-                                    )
-                            
-                    
-                    if not "Generatore" in prec_room:
+                        CheckEnter("Fisica", "Chimica", "Archivio", "Corridoio2")
+                                    
                         SpawnRoomManager(
-                                            stanza        =  "Segreteria", 
-                                            spawnStanza   =  (502, 120), 
-                                            EntrataStanza =  (30, 166), 
-                                            UscitaStanza  =  (502, 120),
+                                            stanza        =  "Fisica", 
+                                            spawnStanza   =  (200, 122), 
+                                            EntrataStanza =  (574, 232), 
+                                            UscitaStanza  =  (320, 8),
+                                            monsterbrain1 =   1,
+                                            monsterbrain2 =   2,
+                                            monsterbrain3 =   3
+                                        )
+                        
+                        SpawnRoomManager(
+                                            stanza        =  "Archivio", 
+                                            spawnStanza   =  (192, 200), 
+                                            EntrataStanza =  (408, 238), 
+                                            UscitaStanza  =  (18, 166),
+                                            monsterbrain1 =   0,
+                                            monsterbrain2 =   2,
+                                            monsterbrain3 =   1
+                                        )
+                        
+                        SpawnRoomManager(
+                                            stanza        =  "Chimica", 
+                                            spawnStanza   =  (462, 126), 
+                                            EntrataStanza =  (625, 210), 
+                                            UscitaStanza  =  (608, 12),
+                                            monsterbrain1 =   1,
+                                            monsterbrain2 =   2,
+                                            monsterbrain3 =   3
+                                        )
+                            
+                        SpawnRoomManager(
+                                            stanza        =  "Corridoio2", 
+                                            spawnStanza   =  (228, 86), 
+                                            EntrataStanza =  (428, 170), 
+                                            UscitaStanza  =  (46, 12),
+                                            monsterbrain1 =   4,
+                                            monsterbrain2 =   4,
+                                            monsterbrain3 =   3
+                                        )
+                        
+                    elif GLOB.MonsterActualFloor == "2-PrimoPiano":
+                        
+                        CheckEnter("AulaProfessori", "AulaMagna", "1D", "WC-Maschi", "LabInfo", "Corridoio3", "Corridoio1")
+                                    
+                        SpawnRoomManager(
+                                            stanza        =  "AulaProfessori", 
+                                            spawnStanza   =  (536, 106), 
+                                            EntrataStanza =  (164, 162), 
+                                            UscitaStanza  =  (504, 70),
                                             monsterbrain1 =   2,
                                             monsterbrain2 =   1,
                                             monsterbrain3 =   2
                                         )
-                    else:
+
                         SpawnRoomManager(
-                                            stanza        =  "Segreteria", 
-                                            spawnStanza   =  (176, 4), 
-                                            EntrataStanza =  (250, 8), 
-                                            UscitaStanza  =  (502, 120),
-                                            monsterbrain1 =   0,
+                                            stanza        =  "WC-Femmine", 
+                                            spawnStanza   =  (310, 194), 
+                                            EntrataStanza =  (344, 106), 
+                                            UscitaStanza  =  (504, 140),
+                                            monsterbrain1 =   1,
                                             monsterbrain2 =   3,
                                             monsterbrain3 =   2
                                         )
-                    
-                    SpawnRoomManager(
-                                        stanza        =  "Generatore", 
-                                        spawnStanza   =  (152, 190), 
-                                        EntrataStanza =  (226, 178), 
-                                        UscitaStanza  =  (226, 178),
-                                        monsterbrain1 =   0,
-                                        monsterbrain2 =   2,
-                                        monsterbrain3 =   2
-                                    )
                             
-                    SpawnRoomManager(
-                                        stanza        =  "Corridoio2", 
-                                        spawnStanza   =  (208, 112), 
-                                        EntrataStanza =  (428, 176), 
-                                        UscitaStanza  =  (454, 154),
-                                        monsterbrain1 =   0,
-                                        monsterbrain2 =   4,
-                                        monsterbrain3 =   4
-                                    )
+                        SpawnRoomManager(
+                                            stanza        =  "AulaMagna", 
+                                            spawnStanza   =  (490, 116), 
+                                            EntrataStanza =  (598, 260), 
+                                            UscitaStanza  =  (368, 174),
+                                            monsterbrain1 =   3,
+                                            monsterbrain2 =   2,
+                                            monsterbrain3 =   4
+                                        )
+                            
+                        SpawnRoomManager(
+                                            stanza        =  "1A", 
+                                            spawnStanza   =  (516, 238), 
+                                            EntrataStanza =  (620, 260), 
+                                            UscitaStanza  =  (248, 174),
+                                            monsterbrain1 =   2,
+                                            monsterbrain2 =   2,
+                                            monsterbrain3 =   4
+                                        )
+                            
+                        SpawnRoomManager(
+                                            stanza        =  "1D", 
+                                            spawnStanza   =  (452, 120), 
+                                            EntrataStanza =  (548, 164), 
+                                            UscitaStanza  =  (176, 174),
+                                            monsterbrain1 =   4,
+                                            monsterbrain2 =   2,
+                                            monsterbrain3 =   4
+                                        )
+
+                        SpawnRoomManager(
+                                            stanza        =  "WC-Maschi", 
+                                            spawnStanza   =  (428, 240), 
+                                            EntrataStanza =  (546, 240), 
+                                            UscitaStanza  =  (32, 174),
+                                            monsterbrain1 =   1,
+                                            monsterbrain2 =   2,
+                                            monsterbrain3 =   4
+                                        )
+                            
+                        SpawnRoomManager(
+                                            stanza        =  "LabInfo", 
+                                            spawnStanza   =  (156, 60), 
+                                            EntrataStanza =  (310, 216), 
+                                            UscitaStanza  =  (18, 94),
+                                            monsterbrain1 =   3,
+                                            monsterbrain2 =   2,
+                                            monsterbrain3 =   1
+                                        )
+                            
+                        SpawnRoomManager(
+                                            stanza        =  "Corridoio1", 
+                                            spawnStanza   =  (200, 96), 
+                                            EntrataStanza =  (46, 10), 
+                                            UscitaStanza  =  (478, 178),
+                                            monsterbrain1 =   2,
+                                            monsterbrain2 =   3,
+                                            monsterbrain3 =   4
+                                        )
+
+                        SpawnRoomManager(
+                                            stanza        =  "Corridoio3", 
+                                            spawnStanza   =  (439, 20), 
+                                            EntrataStanza =  (454, 152), 
+                                            UscitaStanza  =  (430, 178),
+                                            monsterbrain1 =   0,
+                                            monsterbrain2 =   4,
+                                            monsterbrain3 =   4
+                                        )
+                                
+                            
+                    elif GLOB.MonsterActualFloor == "3-SecondoPiano":
+                        prec_room = GLOB.MonsterActualRoom
+                        CheckEnter("AulaVideo", "4A", "LabInformatica", "Segreteria", "Generatore", "Corridoio2")
                         
-                GLOB.MonsterHasChangedRoom = True
-                
-                door_sound = mixer.Sound("suoni/door.wav")
-                door_sound.set_volume(0.05 * GLOB.AU)
-                
-                if prec_piano == GLOB.MonsterActualFloor and GLOB.Piano == GLOB.MonsterActualFloor:
-                    door_sound.play()
+                        
+                        SpawnRoomManager(
+                                            stanza        =  "AulaVideo", 
+                                            spawnStanza   =  (176, 248), 
+                                            EntrataStanza =  (18, 262), 
+                                            UscitaStanza  =  (504, 46),
+                                            monsterbrain1 =   4,
+                                            monsterbrain2 =   1,
+                                            monsterbrain3 =   2
+                                        )
+                            
+                        SpawnRoomManager(
+                                            stanza        =  "4A", 
+                                            spawnStanza   =  (152, 140), 
+                                            EntrataStanza =  (584, 38), 
+                                            UscitaStanza  =  (178, 150),
+                                            monsterbrain1 =   0,
+                                            monsterbrain2 =   3,
+                                            monsterbrain3 =   4
+                                        )
+                            
+                        SpawnRoomManager(
+                                            stanza        =  "LabInformatica", 
+                                            spawnStanza   =  (180, 164), 
+                                            EntrataStanza =  (420, 234), 
+                                            UscitaStanza  =  (56, 150),
+                                            monsterbrain1 =   1,
+                                            monsterbrain2 =   2,
+                                            monsterbrain3 =   4
+                                        )
+                            
+                        SpawnRoomManager(
+                                            stanza        =  "Ripostiglio", 
+                                            spawnStanza   =  (286, 186), 
+                                            EntrataStanza =  (376, 190), 
+                                            UscitaStanza  =  (56, 10),
+                                            monsterbrain1 =   1,
+                                            monsterbrain2 =   2,
+                                            monsterbrain3 =   3
+                                        )
+                                
+                        
+                        if not "Generatore" in prec_room:
+                            SpawnRoomManager(
+                                                stanza        =  "Segreteria", 
+                                                spawnStanza   =  (502, 120), 
+                                                EntrataStanza =  (30, 166), 
+                                                UscitaStanza  =  (502, 120),
+                                                monsterbrain1 =   2,
+                                                monsterbrain2 =   1,
+                                                monsterbrain3 =   2
+                                            )
+                        else:
+                            SpawnRoomManager(
+                                                stanza        =  "Segreteria", 
+                                                spawnStanza   =  (176, 4), 
+                                                EntrataStanza =  (250, 8), 
+                                                UscitaStanza  =  (502, 120),
+                                                monsterbrain1 =   0,
+                                                monsterbrain2 =   3,
+                                                monsterbrain3 =   2
+                                            )
+                        
+                        SpawnRoomManager(
+                                            stanza        =  "Generatore", 
+                                            spawnStanza   =  (152, 190), 
+                                            EntrataStanza =  (226, 178), 
+                                            UscitaStanza  =  (226, 178),
+                                            monsterbrain1 =   0,
+                                            monsterbrain2 =   2,
+                                            monsterbrain3 =   2
+                                        )
+                                
+                        SpawnRoomManager(
+                                            stanza        =  "Corridoio2", 
+                                            spawnStanza   =  (208, 112), 
+                                            EntrataStanza =  (428, 176), 
+                                            UscitaStanza  =  (454, 154),
+                                            monsterbrain1 =   0,
+                                            monsterbrain2 =   4,
+                                            monsterbrain3 =   4
+                                        )
+                            
+                    GLOB.MonsterHasChangedRoom = True
                     
-                if GLOB.Stanza == "Segreteria":
-                    main.stanze.setToDefault()
-                    main.stanze.dizionario_flag["Segreteria"] = True
-                    main.stanze.caricaStanza()
-                    main.stanze.CaricaElementi()
-            
-                self.x = self.__temp_pos[0] * GLOB.MULT
-                self.y = self.__temp_pos[1] * GLOB.MULT
-                self.IseePlayer = False
-                self.aggr = False
-                self.IAttacking = False
-                self.contatore_collisioni = 0
-                self.delayInteract.ReStart()
-                self.character_update(0)
-                self.flag_interact = False
-                GLOB.FlagSecRand = True
-            
-                if GLOB.Debug:
-                    print(GLOB.MonsterActualRoom, GLOB.MonsterActualFloor)
+                    door_sound = mixer.Sound("suoni/door.wav")
+                    door_sound.set_volume(0.05 * GLOB.AU)
+                    
+                    if prec_piano == GLOB.MonsterActualFloor and GLOB.Piano == GLOB.MonsterActualFloor:
+                        door_sound.play()
+                        
+                    if GLOB.Stanza == "Segreteria":
+                        main.stanze.setToDefault()
+                        main.stanze.dizionario_flag["Segreteria"] = True
+                        main.stanze.caricaStanza()
+                        main.stanze.CaricaElementi()
                 
-                if GLOB.Stanza == GLOB.MonsterActualRoom and prec_piano == GLOB.MonsterActualFloor:
-                    main.Gui.door_sound.play()
+                    self.x = self.__temp_pos[0] * GLOB.MULT
+                    self.y = self.__temp_pos[1] * GLOB.MULT
+                    self.IseePlayer = False
+                    self.aggr = False
+                    self.IAttacking = False
+                    self.contatore_collisioni = 0
+                    self.delayInteract.ReStart()
+                    self.character_update(0)
+                    self.flag_interact = False
+                    GLOB.FlagSecRand = True
                 
+                    if GLOB.Debug:
+                        print(GLOB.MonsterActualRoom, GLOB.MonsterActualFloor)
+                    
+                    if GLOB.Stanza == GLOB.MonsterActualRoom and prec_piano == GLOB.MonsterActualFloor:
+                        main.Gui.door_sound.play()
+                
+                EnterRoom()
 
     def update(self):
         radius = 360
@@ -937,17 +943,19 @@ class Keeper():
 
 
 
-            if self.contatore_collisioni >= self.max_val_cont and not self.IAttacking:
+            if self.contatore_collisioni >= self.max_val_cont and self.diff > 6:
                 self.flag_coll = True
                 self.__setBrain()
                 self.contatore_collisioni = 0
-            
-            
+                
             if self.aggr and self.circle.colliderect(main.player.hitbox):
                 
                 self.IAttacking = True
                 
-                self.trackMovement()
+                if self.flag_coll:
+                    self.randomMovement()
+                else:
+                    self.trackMovement()
 
             else:
                 GLOB.setMonster()
