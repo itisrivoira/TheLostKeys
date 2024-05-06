@@ -27,6 +27,7 @@ class Player():
         self.setVelocitaY(0)
         
         self.direction = pygame.math.Vector2()
+        
 
         #pulsanti cliccati si/no
         self.setLeftPress(False)

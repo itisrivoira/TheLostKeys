@@ -1,0 +1,301 @@
+{
+ "version": "auto-py-to-exe-configuration_v1",
+ "pyinstallerOptions": [
+  {
+   "optionDest": "noconfirm",
+   "value": true
+  },
+  {
+   "optionDest": "filenames",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/main.py"
+  },
+  {
+   "optionDest": "onefile",
+   "value": true
+  },
+  {
+   "optionDest": "console",
+   "value": false
+  },
+  {
+   "optionDest": "icon_file",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/assets/Icona.ico"
+  },
+  {
+   "optionDest": "name",
+   "value": "TheLostKeys"
+  },
+  {
+   "optionDest": "ascii",
+   "value": false
+  },
+  {
+   "optionDest": "clean_build",
+   "value": false
+  },
+  {
+   "optionDest": "loglevel",
+   "value": "DEBUG"
+  },
+  {
+   "optionDest": "debug",
+   "value": "all"
+  },
+  {
+   "optionDest": "strip",
+   "value": false
+  },
+  {
+   "optionDest": "noupx",
+   "value": false
+  },
+  {
+   "optionDest": "disable_windowed_traceback",
+   "value": false
+  },
+  {
+   "optionDest": "embed_manifest",
+   "value": true
+  },
+  {
+   "optionDest": "uac_admin",
+   "value": false
+  },
+  {
+   "optionDest": "uac_uiaccess",
+   "value": false
+  },
+  {
+   "optionDest": "win_private_assemblies",
+   "value": false
+  },
+  {
+   "optionDest": "win_no_prefer_redirects",
+   "value": false
+  },
+  {
+   "optionDest": "bootloader_ignore_signals",
+   "value": false
+  },
+  {
+   "optionDest": "argv_emulation",
+   "value": false
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/animazione.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/background.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/camera.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/collisioni.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/components.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/debug.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/eventi.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/giocatore.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/global_var.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/menu.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/mostro.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/pioggia.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/pyvidplayer.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/README.md;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/stanze.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/test.py;."
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "pygame"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "sys"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "re"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "os"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "random"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "pymediainfo"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "ffpyplayer"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "errno"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "csv"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "numpy"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "ast"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "time"
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/main.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/score.txt;."
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "os.system"
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/dati.txt;."
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "pygame.mixer"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "libmediainfo"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "MediaInfo"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "ffpyplayer.player"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "os.path"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "ENOENT"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "Pioggia"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "Rain"
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/assets;assets/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/Characters;Characters/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/Characters_Image;Characters_Image/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/Collectibles;Collectibles/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/Collisioni;Collisioni/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/Dialoghi;Dialoghi/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/font;font/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/Mappa;Mappa/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/Stanze;Stanze/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/suoni;suoni/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Windows/Documents/GitHub/Progetti - Videogiochi/Python2D/TheLostKeys/Python/video;video/"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "importlib._bootstrap"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "frozen importlib._bootstrap"
+  }
+ ],
+ "nonPyinstallerOptions": {
+  "increaseRecursionLimit": true,
+  "manualArguments": ""
+ }
+}

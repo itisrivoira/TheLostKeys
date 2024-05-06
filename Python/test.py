@@ -13,13 +13,11 @@ def riempi(percorso):
     FileNames = os.listdir(percorso)
 
     print(FileNames)
-
-    # Ordino i file e gli appendo ad una lista, in modo che le animazioni siano lineari e ordinate
     FileNames.sort()
-
+    
     for filename in FileNames:
-        if (filename[-3] == "p" and filename[-2] == "n" and filename[-1] == "g") and (filename[0] == "t" and filename[1] == "i" and filename[2] == "l" and filename[3] == "e"):
-                lista.append(filename)
+        if "tile" in filename and "png" in filename:
+            lista.append(filename)
 
 def caricaCollisione():
     global startx, starty, endx, endy, centerx, centery
@@ -29,12 +27,9 @@ def caricaCollisione():
         cubo = pygame.image.load(path+"/"+lista[value]).convert()
         centerx, centery = screen.get_width()/2 - molt * val, screen.get_height()/2 - molt * val
         # cubo1 = cubo.set_colorkey((249, 80, 6))
-
         # cubo1 = cubo.get_rect(center = (screen.get_width()/2, screen.get_height()/2))
 
         var = pygame.PixelArray(cubo)
-
-        #print(var)
 
         x, y = 0, 0
 
@@ -42,24 +37,17 @@ def caricaCollisione():
         endx, endy = 0, 0
 
         for colorey in var:
-            # print(colorey)
             x = 0
             for colorex in colorey:
                 if colorex == 65280:
                     startx, starty = x, y
-                    # print("X: ",x, startx ,endx)
-                    # print("Y: ", y, starty, endy)
 
                 if colorex == 16711680:
                     endx, endy = x - startx, y - starty
-                    # print("X: ",x, startx ,endx)
-                    # print("Y: ", y, starty, endy)
 
                 x += val
 
             y += val
-
-        # print(starty, startx, endy, endx)
 
         dizionario[value] = (centerx + starty, centery + startx, endy + val, endx + val)
         print(" | " + str(lista[value]) + " | collisione: " + str(dizionario[value]))

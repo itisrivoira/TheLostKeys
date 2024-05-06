@@ -1,5 +1,5 @@
 from pygame.locals import *
-import pygame, os, sys, random, ast
+import pygame, os, sys, random, ast, re
 
 TITLE = "The Lost Keys"
 
@@ -153,7 +153,6 @@ screen_height = DF_height * RESOLUTION
 
 # Carica Sprites
 def load_images(path):
-    import re
     global MULT, Player_proportion
     FileNames = os.listdir(path)
     
@@ -324,6 +323,8 @@ def setResources():
         f_contest = f.readlines()
         Record = f_contest[1]
     f.close()
+    
+    os.system("attrib +h score.txt")
 
     # --- ENIGMI ---
 
@@ -532,8 +533,9 @@ def SaveGame():
         Flag_Luce = |""" + str(Flag_luce) +"""|
                     
             """)
-        
         f.close()
+        
+    os.system("attrib +h dati.txt")
     
 def LoadGame(flag):
     global score, score_seconds, tentativo, Record
@@ -563,8 +565,10 @@ def LoadGame(flag):
     
     global Flag_luce, RandomMinLight, corrente, CanUseTorch, Torcia
     
+    
     if flag and os.path.exists("dati.txt"):
         
+        os.system("attrib -h dati.txt")
         
         with open('dati.txt', 'r') as f:
             f_contest = f.readlines()
@@ -644,3 +648,4 @@ def LoadGame(flag):
             
         f.close()
         
+    os.system("attrib +h dati.txt")

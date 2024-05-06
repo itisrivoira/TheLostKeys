@@ -4,7 +4,7 @@ from patchify import patchify, unpatchify
 
 path = ""
 risoluzione = 48
-img = cv2.imread(path+"Room_Builder_48x48.png")
+img = cv2.imread(path+"test.png")
 patches_img = patchify(img, (risoluzione, risoluzione, 3), step=risoluzione)  # patches_img.shape = (14, 18, 1, 224, 224, 3)
 
 for i in range(patches_img.shape[0]):
@@ -36,4 +36,4 @@ for i in range(patches.shape[0]):
         patches[i, j, 0, :, :, :] = single_patch_img.copy()  # Copy single path image to patches
 
 reconstructed_image = unpatchify(patches, img.shape)
-cv2.imwrite("ricomposizione.png", reconstructed_image)
+cv2.imwrite("test1.png", reconstructed_image)

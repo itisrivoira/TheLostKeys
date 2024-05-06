@@ -19,14 +19,18 @@ pygame.init()
 def get_font(size):
     return pygame.font.Font("font/font.ttf", size)
 
+
+def setPioggia():
+    global rain
+    rain = Rain(screen, height = int(60 * GLOB.MULT), speed = 6 * GLOB.MULT, color = (152, 164, 184, 255), numdrops = 270)
+
 def play():
     
     GLOB.playbutton = False
     mixer.music.stop()
     main.inizializza()
     main.main()
-        
-    
+
 def options():
     mixer.music.stop()
 
@@ -453,10 +457,6 @@ def options():
                 
         pygame.display.flip()
         pygame.display.update()
-
-def setPioggia():
-    global rain
-    rain = Rain(screen, height = int(60 * GLOB.MULT), speed = 6 * GLOB.MULT, color = (152, 164, 184, 255), numdrops = 270)
 
 def main_menu():
     pygame.mouse.set_visible(True)

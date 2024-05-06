@@ -239,7 +239,7 @@ class Dialoghi():
 		def Cerca(event):
 			for value in range(len(self.descr)):
 				if self.descr[self.value*event-1-value] == " " and self.flag_capo:
-					#print("Trovato buco: ",value)
+					#print("Trovato spazio: ",value)
 					self.flag_capo = False
 					self.valore = value
 			
@@ -1033,7 +1033,7 @@ class Timer():
 	def Show(self):
 		testo = get_font(7*int(GLOB.MULT)).render((self.__testo1+str(int(self.__minutes))+str(self.__testo2)+str(int(self.__seconds/(GLOB.FPS / GLOB.Delta_Time)))), True, self.__color)
 		GLOB.screen.blit(testo, (GLOB.screen_width/2 - testo.get_width()/2, 35 *int(GLOB.MULT)))
-  
+
 	def ChangeColor(self, v):
 		self.__color = v
 

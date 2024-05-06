@@ -243,6 +243,7 @@ def Stampa_messaggio():
         if Enigma.risultato != None:
             if Enigma.isFinished:
                 suono = mixer.Sound("suoni/success.wav")
+                
                 if Enigma.risultato:
                     messaggio_a_schermo.ChangeParamatrer(text = "ENIGMA RISOLTO!", color = "#70c73e", size = 12)
                     condizione = False
@@ -259,9 +260,6 @@ def Stampa_messaggio():
                         GLOB.enigmi_da_risolvere.pop(var)
                         player.evento = "enigma-risolto"
                         collisioni.eventi.testa()
-                        
-                    if GLOB.Stanza != GLOB.MonsterActualRoom:
-                        SaveCurrentGame()
 
                 else:
                     suono = mixer.Sound("suoni/failure.wav")

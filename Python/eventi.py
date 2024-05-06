@@ -909,6 +909,10 @@ def testa():
                 d.stampa()
                 
         GLOB.PlayerReset = True
+        main.player.evento = None
+        
+        if GLOB.Stanza != GLOB.MonsterActualRoom:
+            main.SaveCurrentGame()
 
 
     if main.player.evento == "mappa":
