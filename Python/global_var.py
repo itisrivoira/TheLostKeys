@@ -212,7 +212,6 @@ def setFPS():
         Delta_Time = Default_DeltaTime / 2
         
     FPS = DF_FPS * Delta_Time
-    Default_DeltaTime = Delta_Time
 
 def setCharacter():
     global Player_speed, Player_default_speed, PlayerRun_speed, scelta_char, scelta_rep
