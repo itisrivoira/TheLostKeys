@@ -1,8 +1,10 @@
 import pygame, sys, os
+import numpy as np
+from PIL import Image
 
 FPS = 30
 clock = pygame.time.Clock()
-screen = pygame.display.set_mode((1920,1080))
+screen = pygame.display.set_mode((1920/2,1080/2))
 
 lista = []
 dizionario = {}
@@ -24,38 +26,42 @@ def caricaCollisione():
     global lista
     molt = 12
     for value in range(len(lista)):
-        cubo = pygame.image.load(path+"/"+lista[value]).convert()
+        cubo = Image.open(path+"/"+lista[value])
         centerx, centery = screen.get_width()/2 - molt * val, screen.get_height()/2 - molt * val
         # cubo1 = cubo.set_colorkey((249, 80, 6))
         # cubo1 = cubo.get_rect(center = (screen.get_width()/2, screen.get_height()/2))
 
-        var = pygame.PixelArray(cubo)
+        var = np.array(cubo)
 
         x, y = 0, 0
 
         startx ,starty = 0, 0
         endx, endy = 0, 0
 
-        for colorey in var:
+        for valuey in var:
             x = 0
-            for colorex in colorey:
-                if colorex == 65280:
-                    startx, starty = x, y
 
-                if colorex == 16711680:
-                    endx, endy = x - startx, y - starty
+            for valuex in valuey:
 
-                x += val
+                print(cubo.getpixel((x,y)))
+                if cubo.getpixel((x,y)) == (0, 255, 0):
+                    startx, starty = y * val, x * val
 
-            y += val
+                if cubo.getpixel((x,y)) == (255, 0, 0):
+                    endx, endy = y * val - startx, x * val - starty
+
+                x += 1
+
+            y += 1
 
         dizionario[value] = (centerx + starty, centery + startx, endy + val, endx + val)
-        print(" | " + str(lista[value]) + " | collisione: " + str(dizionario[value]))
-
+        
 def caricaOggetti():
     global cubo, cubo1, cubo2
     cubo = pygame.image.load(path+"/"+lista[id_cubo]).convert()
+    print(cubo.map_rgb((0, 255, 0)), cubo.map_rgb((255, 0, 0)))
     cubo = pygame.transform.scale(cubo, (cubo.get_width() * val, cubo.get_height() * val))
+
 
     # 17, 13
     cubo2 = pygame.Rect(centerx, centery, cubo.get_width(), cubo.get_height())
@@ -77,7 +83,6 @@ caricaCollisione()
 id_cubo = 0
 
 caricaOggetti()
-
 
 def testa():
     global cubo, cubo1, cubo2

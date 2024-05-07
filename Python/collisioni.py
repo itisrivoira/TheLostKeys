@@ -2,6 +2,9 @@ import pygame, os
 import global_var as GLOB
 import main, eventi
 
+import numpy as np
+from PIL import Image
+
 class Map():
     def __init__(self, risoluzione, path):
         self.path = path
@@ -44,8 +47,8 @@ class Map():
         def caricaCollisione():
             for value in range(len(self.tiles_immagini)):
                 val = self.tiles_risoluzione / GLOB.MULT
-                rettangolo = pygame.image.load("Collisioni/"+self.tiles_immagini[value]).convert()
-                var = pygame.PixelArray(rettangolo)
+                cubo = Image.open("Collisioni/"+self.tiles_immagini[value])
+                var = np.array(cubo)
 
                 #print(var)
                 x, y = 0, 0
@@ -53,29 +56,25 @@ class Map():
                 startx ,starty = 0, 0
                 endx, endy = 0, 0
                 
-                colore_inizio = 65280
-                colore_fine = 16711680
+                colore_inizio = (0, 255, 0)
+                colore_fine = (255, 0, 0)
 
-                for colorey in var:
-                    # print(colorey)
+
+                for valuey in var:
                     x = 0
 
-                    # ------- VERDE ------- 
-                    for colorex in colorey:
-                        if colorex == colore_inizio:
-                            startx, starty = x, y
-                            # print("X: ",x, startx ,endx)
-                            # print("Y: ", y, starty, endy)
+                    for valuex in valuey:
 
-                        # ------- ROSSO ------- 
-                        if colorex == colore_fine:
-                            endx, endy = x - startx, y - starty
-                            # print("X: ",x, startx ,endx)
-                            # print("Y: ", y, starty, endy)
+                        if cubo.getpixel((x,y)) == colore_inizio:
+                            startx, starty = y * val, x * val
 
-                        x += val
+                        if cubo.getpixel((x,y)) == colore_fine:
+                            endx, endy = y * val - startx, x * val - starty
 
-                    y += val
+                        x += 1
+
+                    y += 1
+
 
                 val_res = 28.8
 
