@@ -595,7 +595,7 @@ def main_menu():
                 quit_alert = None
 
         # TUONO evento randomico
-        if random.randint(0, (100 * GLOB.FPS)) >= (98 * GLOB.FPS):
+        if random.randint(0, (100 * int(GLOB.FPS))) >= (98 * int(GLOB.FPS)):
             tuono = pygame.image.load("assets/tuono.png").convert()
             tuono = pygame.transform.scale(tuono, (tuono.get_width()*GLOB.MULT, tuono.get_height()*GLOB.MULT))
 
